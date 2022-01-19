@@ -1,0 +1,38 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - localnet
+      - devnet
+      - mainnet
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Run yarn install
+        run: yarn install
+
+      - name: Run linter
+        run: yarn run lint
+
+      - name: Run Typescript check
+        run: yarn run type:check
+
+      - name: Run unit tests
+        run: yarn run test:unit
