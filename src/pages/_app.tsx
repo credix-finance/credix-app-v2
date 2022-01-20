@@ -1,6 +1,6 @@
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import {WalletAdapterNetwork} from '@solana/wallet-adapter-base';
+import {ConnectionProvider, WalletProvider} from '@solana/wallet-adapter-react';
+import {WalletModalProvider} from '@solana/wallet-adapter-react-ui';
 import {
   LedgerWalletAdapter,
   PhantomWalletAdapter,
@@ -10,16 +10,16 @@ import {
   SolletWalletAdapter,
   TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-import { clusterApiUrl } from '@solana/web3.js';
-import { AppProps } from 'next/app';
-import { FC, useMemo } from 'react';
+import {clusterApiUrl} from '@solana/web3.js';
+import {AppProps} from 'next/app';
+import {FC, useMemo} from 'react';
 import Head from "next/head";
 
 // Use require instead of import since order matters
 require('@solana/wallet-adapter-react-ui/styles.css');
 require('../styles/globals.css');
 
-const CredixApp: FC<AppProps> = ({ Component, pageProps }) => {
+const CredixApp: FC<AppProps> = ({Component, pageProps}) => {
   // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
   const network = WalletAdapterNetwork.Mainnet;
 
@@ -30,24 +30,24 @@ const CredixApp: FC<AppProps> = ({ Component, pageProps }) => {
   // Only the wallets you configure here will be compiled into your application, and only the dependencies
   // of wallets that your users connect to will be loaded
   const wallets = useMemo(
-      () => [
-        new PhantomWalletAdapter(),
-        new SlopeWalletAdapter(),
-        new SolflareWalletAdapter(),
-        new TorusWalletAdapter(),
-        new LedgerWalletAdapter(),
-        new SolletWalletAdapter({ network }),
-        new SolletExtensionWalletAdapter({ network }),
-      ],
-      [network]
+    () => [
+      new PhantomWalletAdapter(),
+      new SlopeWalletAdapter(),
+      new SolflareWalletAdapter(),
+      new TorusWalletAdapter(),
+      new LedgerWalletAdapter(),
+      new SolletWalletAdapter({network}),
+      new SolletExtensionWalletAdapter({network}),
+    ],
+    [network]
   );
 
   return (
     <>
       <Head>
-          <title>Credix App</title>
-          <meta name="description" content="Credix App"/>
-          <link rel="icon" href="/favicon.ico"/>
+        <title>Credix App</title>
+        <meta name="description" content="Credix App"/>
+        <link rel="icon" href="/favicon.ico"/>
       </Head>
 
       <ConnectionProvider endpoint={endpoint}>
