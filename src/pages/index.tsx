@@ -3,9 +3,9 @@ import {
   WalletDisconnectButton,
   WalletMultiButton,
 } from '@solana/wallet-adapter-react-ui'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Overview.module.css'
 
-const Home: NextPage = () => <div className={styles.container}>
+const Overview: NextPage = () => <div className={styles.container}>
   <main className={styles.main}>
     <div className={styles.walletButtons}>
       <WalletMultiButton className="bg-white text-gray-900 hover:text-white"/>
@@ -14,4 +14,4 @@ const Home: NextPage = () => <div className={styles.container}>
   </main>
 </div>
 
-export default Home
+export default Overview
