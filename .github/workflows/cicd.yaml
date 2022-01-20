@@ -10,7 +10,6 @@ on:
 
 jobs:
   analyze:
-    name: CodeQL Analysis
     runs-on: ubuntu-latest
     if: (github.actor != 'dependabot[bot]')
     permissions:
