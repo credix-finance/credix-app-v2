@@ -104,20 +104,24 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.17
-      - uses: actions/cache@v2
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+      - name: Yarn Cache
+        uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-modules-
       - name: Run yarn install
         run: yarn install
 
-      # Export
-      - name: Export app
+      # Build
+      - name: Build app
         run: |
-          yarn build
-          NEXT_PUBLIC_BASE_PATH=/credix-app-v2-devnet yarn export
+          NEXT_PUBLIC_BASE_PATH=/credix-app-v2-devnet yarn build
+          yarn export
 
       - name: Checkout target repository
         uses: actions/checkout@v2
@@ -156,20 +160,24 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.17
-      - uses: actions/cache@v2
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+      - name: Yarn Cache
+        uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-modules-
       - name: Run yarn install
         run: yarn install
 
-      # Export
-      - name: Export app
+      # Build
+      - name: Build app
         run: |
-          yarn build
-          NEXT_PUBLIC_BASE_PATH=/credix-app-v2-mainnet yarn export
+          NEXT_PUBLIC_BASE_PATH=/credix-app-v2-mainnet yarn build
+          yarn export
 
       - name: Checkout target repository
         uses: actions/checkout@v2
