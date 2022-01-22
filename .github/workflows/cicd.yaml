@@ -115,7 +115,9 @@ jobs:
 
       # Export
       - name: Export app
-        run: NEXT_PUBLIC_BASE_PATH=/credix-app-v2-devnet yarn export
+        run: |
+          yarn build
+          NEXT_PUBLIC_BASE_PATH=/credix-app-v2-devnet yarn export
 
       - name: Checkout target repository
         uses: actions/checkout@v2
@@ -165,7 +167,9 @@ jobs:
 
       # Export
       - name: Export app
-        run: NEXT_PUBLIC_BASE_PATH=/credix-app-v2-mainnet yarn export
+        run: |
+          yarn build
+          NEXT_PUBLIC_BASE_PATH=/credix-app-v2-mainnet yarn export
 
       - name: Checkout target repository
         uses: actions/checkout@v2
