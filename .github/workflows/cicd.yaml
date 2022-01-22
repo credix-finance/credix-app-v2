@@ -118,9 +118,15 @@ jobs:
         run: yarn install
 
       # Build
+      - uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
         run: |
-          NEXT_PUBLIC_BASE_PATH=/credix-app-v2-devnet yarn build
+          NEXT_PUBLIC_BASE_PATH= yarn build
           yarn export
 
       - name: Checkout target repository
@@ -175,9 +181,15 @@ jobs:
         run: yarn install
 
       # Build
+      - uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
         run: |
-          NEXT_PUBLIC_BASE_PATH=/credix-app-v2-mainnet yarn build
+          NEXT_PUBLIC_BASE_PATH= yarn build
           yarn export
 
       - name: Checkout target repository
