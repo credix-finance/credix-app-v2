@@ -28,7 +28,7 @@ Maximum connection rate per 10 seconds per IP: 40
 Maximum amount of data per 30 second: 100 MB
 ```
 
-#### Testnet
+#### Mainnet
 
 Program address is `CRDx2YkdtYtGZXGHZ59wNv1EwKHQndnRc1gT4p8i2vPX`.
 
