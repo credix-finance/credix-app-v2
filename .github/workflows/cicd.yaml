@@ -141,6 +141,7 @@ jobs:
           cp -r out/* deploy
           cd deploy
           echo ${{ secrets.DEPLOY_URL }} > CNAME
+          touch .nojekyll
           git add .
           git commit -m $GITHUB_SHA
           git push
@@ -197,6 +198,7 @@ jobs:
           cp -r out/* deploy
           cd deploy
           echo ${{ secrets.DEPLOY_URL }} > CNAME
+          touch .nojekyll
           git add .
           git commit -m $GITHUB_SHA
           git push
