@@ -92,7 +92,6 @@ jobs:
 
   cd-devnet:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/configure-cd'
     needs: [ci]
     environment:
       name: devnet
