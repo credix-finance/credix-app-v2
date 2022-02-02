@@ -1,4 +1,5 @@
 import "../src/styles/globals.css";
+import "../src/styles/antd.less";
 import * as NextImage from "next/image";
 
 const OriginalNextImage = NextImage.default;

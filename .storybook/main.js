@@ -1,4 +1,5 @@
 const path = require("path");
+const lessOptions = require("../theme");
 
 module.exports = {
 	stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
@@ -37,6 +38,22 @@ module.exports = {
 		 * @see https://github.com/storybookjs/storybook/issues/12844#issuecomment-867544160
 		 */
 		config.resolve.roots = [path.resolve(__dirname, "../public"), "node_modules"];
+
+		// Less
+		config.module.rules.push({
+			test: /\.less$/,
+			include: [path.resolve(__dirname, "../src/styles")],
+			use: [
+				"style-loader",
+				"css-loader",
+				{
+					loader: "less-loader",
+					options: {
+						lessOptions,
+					},
+				},
+			],
+		});
 
 		return config;
 	},

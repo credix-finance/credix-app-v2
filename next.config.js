@@ -1,12 +1,10 @@
 const withLess = require("next-with-less");
+const lessOptions = require("./theme");
 
 module.exports = withLess({
 	// Less config
 	lessLoaderOptions: {
-		lessOptions: {
-			modifyVars: {},
-			javascriptEnabled: true,
-		},
+		lessOptions,
 	},
 	// NextJS config
 	reactStrictMode: true,
