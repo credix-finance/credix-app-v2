@@ -1,3 +1,5 @@
+const theme = require("./theme");
+
 module.exports = {
 	content: [
 		"./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -6,6 +8,7 @@ module.exports = {
 	],
 	theme: {
 		extend: {
+			colors: theme.colors,
 			fontFamily: {
 				mono: [
 					"'Jetbrains Mono'",

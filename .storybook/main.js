@@ -1,5 +1,5 @@
 const path = require("path");
-const lessOptions = require("../theme");
+const theme = require("../theme");
 
 module.exports = {
 	stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
@@ -49,7 +49,7 @@ module.exports = {
 				{
 					loader: "less-loader",
 					options: {
-						lessOptions,
+						lessOptions: theme.lessOptions,
 					},
 				},
 			],
