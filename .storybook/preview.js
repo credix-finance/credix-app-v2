@@ -27,15 +27,15 @@ export const parameters = {
 		values: [
 			{
 				name: "light",
-				value: theme.colors["credix-light"],
+				value: theme.colors["light"],
 			},
 			{
 				name: "dark",
-				value: theme.colors["credix-dark-blue"],
+				value: theme.colors["dark"],
 			},
 			{
 				name: "dark 2",
-				value: theme.colors["credix-dark-gray"],
+				value: theme.colors["darker"],
 			},
 		],
 	},
