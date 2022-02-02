@@ -1,6 +1,6 @@
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
 	LedgerWalletAdapter,
 	PhantomWalletAdapter,
@@ -9,23 +9,23 @@ import {
 	SolletExtensionWalletAdapter,
 	SolletWalletAdapter,
 	TorusWalletAdapter,
-} from '@solana/wallet-adapter-wallets'
-import { clusterApiUrl } from '@solana/web3.js'
-import { AppProps } from 'next/app'
-import { FC, useMemo } from 'react'
-import Head from 'next/head'
+} from "@solana/wallet-adapter-wallets";
+import { clusterApiUrl } from "@solana/web3.js";
+import { AppProps } from "next/app";
+import { FC, useMemo } from "react";
+import Head from "next/head";
 
 // Use require instead of import since order matters
-require('@solana/wallet-adapter-react-ui/styles.css')
-require('../styles/globals.css')
-require('../styles/antd.less')
+require("@solana/wallet-adapter-react-ui/styles.css");
+require("../styles/globals.css");
+require("../styles/antd.less");
 
 const CredixApp: FC<AppProps> = ({ Component, pageProps }) => {
 	// Can be set to 'devnet', 'testnet', or 'mainnet-beta'
-	const network = WalletAdapterNetwork.Mainnet
+	const network = WalletAdapterNetwork.Mainnet;
 
 	// You can also provide a custom RPC endpoint
-	const endpoint = useMemo(() => clusterApiUrl(network), [network])
+	const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
 	// @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
 	// Only the wallets you configure here will be compiled into your application, and only the dependencies
@@ -41,7 +41,7 @@ const CredixApp: FC<AppProps> = ({ Component, pageProps }) => {
 			new SolletExtensionWalletAdapter({ network }),
 		],
 		[network]
-	)
+	);
 
 	return (
 		<>
@@ -59,7 +59,7 @@ const CredixApp: FC<AppProps> = ({ Component, pageProps }) => {
 				</WalletProvider>
 			</ConnectionProvider>
 		</>
-	)
-}
+	);
+};
 
-export default CredixApp
+export default CredixApp;

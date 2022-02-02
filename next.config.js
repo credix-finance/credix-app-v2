@@ -1,4 +1,4 @@
-const withLess = require('next-with-less')
+const withLess = require("next-with-less");
 
 module.exports = withLess({
 	// Less config
@@ -12,4 +12,4 @@ module.exports = withLess({
 	reactStrictMode: true,
 	basePath: process.env.NEXT_PUBLIC_BASE_PATH,
 	assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH,
-})
+});
