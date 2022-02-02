@@ -1,4 +1,4 @@
-const primary = "##F1F1F1";
+const primary = "#F1F1F1";
 const secondary = "#D8DEDA";
 
 const actionHover = "#ADC9B7";
