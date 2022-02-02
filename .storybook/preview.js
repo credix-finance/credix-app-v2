@@ -1,3 +1,4 @@
+import React from "react";
 import "../src/styles/globals.css";
 import "../src/styles/antd.less";
 import * as NextImage from "next/image";
@@ -21,3 +22,11 @@ export const parameters = {
 		"storybook/docs/panel": { index: -1 },
 	},
 };
+
+export const decorators = [
+	(Story) => (
+		<div className="font-mono">
+			<Story />
+		</div>
+	),
+];
