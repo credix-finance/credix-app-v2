@@ -17,8 +17,8 @@ import Head from "next/head";
 
 // Use require instead of import since order matters
 require("@solana/wallet-adapter-react-ui/styles.css");
-require("../styles/globals.css");
 require("../styles/antd.less");
+require("../styles/globals.css");
 
 const CredixApp: FC<AppProps> = ({ Component, pageProps }) => {
 	// Can be set to 'devnet', 'testnet', or 'mainnet-beta'
