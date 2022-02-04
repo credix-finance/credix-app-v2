@@ -4,6 +4,19 @@ Repository containing the FE application of Credix. If you want to see the worki
 
 # Development
 
+#### Theme configuration
+
+This repository contains a `theme.js` file which is responsible for being the single source of truth when it comes to the Credix brand colors. It also includes the shared configuration code between the configuration files of NextJS, TailwindCSS and Storybook (`next.config.js`, `tailwind.config.js` and `.storybook/main.js` respectively).
+
+When referencing the brand colors in code make sure to use the custom tailwind varaibles that are found in `theme.js` as the `colors` object.
+For example:
+
+```html
+<div className="bg-credix-primary">Hello</div>
+```
+
+Dark mode is supported by using the tailwind `dark:` modifier. AntDesign does have a dark theme, but it's a separate `.less` file and does not support the prefers-color-scheme media feature out of the box.
+
 #### Localnet
 
 When using localnet, be sure to run
@@ -64,22 +77,23 @@ We use eslint and prettier to lint and format our codebase. An editorconfig file
 
 In the project directory, you can run:
 
-### `yarn start`
+### `yarn dev`
 
 Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits. You will also see any lint errors in the console.
 
-### `yarn test`
+### `yarn test:unit`
 
 Launches the test runner in the interactive watch mode.
 
-### `yarn run build`
+### `yarn build`
 
 Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes. Your app is ready to be deployed!
 
-### `yarn run storybook`
+### `yarn storybook`
 
 Runs storybook in development mode. Open [http://localhost:6006](http://localhost:6006) to view it in the browser.
+Components are located in `src/components` and stories can be found in `src/stories`.
