@@ -2,10 +2,10 @@ const primary = "#F1F1F1";
 const secondary = "#D8DEDA";
 
 const actionHover = "#ADC9B7";
-const actionPress = "#398D88";
-const actionDisable = "#003F3B";
+const actionPrimary = "#398D88";
+const actionDisable = "hsla(180, 9%, 74%, 0.51)";
 
-const neutral100 = "#1E1E1E";
+const neutral100 = "#1F1F1F";
 const neutral80 = "#0F0F0F";
 const neutral60 = "#444152";
 const neutral40 = "#9C99AE";
@@ -13,9 +13,8 @@ const neutral20 = "#718879";
 const neutral10 = "#D8DEDA";
 const neutral0 = "hsla(0, 100%, 100%, 0.58)";
 
-const light = "#F1F1F1";
-const dark = "#1F1F1F";
 const darker = "#151515";
+const disabled = "hsla(0, 0%, 8%, 0.4)";
 
 module.exports = {
 	colors: {
@@ -23,27 +22,34 @@ module.exports = {
 			primary: primary,
 			secondary: secondary,
 		},
-		light: light,
-		dark: dark,
+		light: primary,
+		dark: neutral100,
 		darker: darker,
 		action: {
+			primary: actionPrimary,
 			hover: actionHover,
-			press: actionPress,
 			disable: actionDisable,
 		},
+		disabled: disabled,
 		neutral: {
-			1000: neutral100,
-			800: neutral80,
-			600: neutral60,
-			400: neutral40,
-			200: neutral20,
-			100: neutral10,
+			100: neutral100,
+			80: neutral80,
+			60: neutral60,
+			40: neutral40,
+			20: neutral20,
+			10: neutral10,
 			0: neutral0,
 		},
 	},
 	lessOptions: {
 		modifyVars: {
-			"@primary-color": primary,
+			"@primary-color": actionPrimary,
+			"@btn-padding-horizontal-sm": "25px",
+			"@btn-padding-horizontal-base": "25px",
+			"@btn-padding-horizontal-lg": "25px",
+			"@height-sm": "40px",
+			"@height-base": "42px",
+			"@height-lg": "50px",
 		},
 		javascriptEnabled: true,
 	},
