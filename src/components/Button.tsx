@@ -9,7 +9,8 @@ interface ButtonProps extends AntdButtonProps {
 
 const buttonTypeStyles = {
 	primary: `
-				hover:bg-neutral-60 hover:border-neutral-60 hover:text-credix-primary
+				bg-action-primary border-action-primary text-credix-primary
+				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
 			`,
@@ -21,10 +22,10 @@ const buttonTypeStyles = {
 			`,
 };
 
-const buttonTextStyles = {
-	small: "text-sm font-semibold",
-	middle: "text-base font-medium",
-	large: "text-lg font-semibold",
+const buttonSizeStyles = {
+	small: "text-sm font-semibold h-10",
+	middle: "text-base font-medium h-[42px]",
+	large: "text-lg font-semibold h-[50px]",
 };
 
 export const Button = ({
@@ -36,7 +37,7 @@ export const Button = ({
 }: ButtonProps) => {
 	return (
 		<AntdButton
-			className={`rounded-[1px] text-shadow-none flex items-center gap-2 ${buttonTypeStyles[type]} ${buttonTextStyles[size]} ${className}`}
+			className={`rounded-[1px] text-shadow-none shadow-none flex items-center gap-2 px-[25px] ${buttonTypeStyles[type]} ${buttonSizeStyles[size]} ${className}`}
 			size={size}
 			type={type}
 			{...props}

@@ -42,15 +42,7 @@ module.exports = {
 		},
 	},
 	lessOptions: {
-		modifyVars: {
-			"@primary-color": actionPrimary,
-			"@btn-padding-horizontal-sm": "25px",
-			"@btn-padding-horizontal-base": "25px",
-			"@btn-padding-horizontal-lg": "25px",
-			"@height-sm": "40px",
-			"@height-base": "42px",
-			"@height-lg": "50px",
-		},
+		modifyVars: {},
 		javascriptEnabled: true,
 	},
 };
