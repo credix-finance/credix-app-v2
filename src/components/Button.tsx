@@ -1,10 +1,31 @@
 import React from "react";
 import { Button as AntdButton } from "antd";
-import { ButtonProps as AntdButtonProps } from "antd/lib/button";
+import { ButtonProps as AntButtonProps } from "antd/lib/button";
 
-interface ButtonProps extends AntdButtonProps {
-	type?: "primary" | "default";
-	size?: "small" | "middle" | "large";
+interface ButtonProps {
+	/**
+	 * Optional size of the button.
+	 */
+	size?: AntButtonProps["size"];
+	/**
+	 * Controls whether the button is disabled or not.
+	 */
+	disabled?: AntButtonProps["disabled"];
+	/**
+	 * Optional icon that is renderd at the start of the button.
+	 */
+	icon?: AntButtonProps["icon"];
+	/**
+	 * Controls whether a loading spinner is displayed at the start of the button.
+	 */
+	loading?: AntButtonProps["loading"];
+	onClick?: AntButtonProps["onClick"];
+	className?: AntButtonProps["className"];
+	children?: AntButtonProps["children"];
+	/**
+	 * The type of the button. Only "default" and "primary" are supported.
+	 */
+	type?: "default" | "primary";
 }
 
 const buttonTypeStyles = {
