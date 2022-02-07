@@ -33,6 +33,14 @@ PrimaryIcon.args = {
 	icon: <Icon name="bookmark" />,
 };
 
+export const PrimaryDisabled = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+PrimaryDisabled.args = {
+	...defaultArgs,
+	type: "primary",
+	disabled: true,
+};
+
 export const Outline = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Outline.args = {
@@ -46,4 +54,12 @@ OutlineIcon.args = {
 	...defaultArgs,
 	type: "default",
 	icon: <Icon name="bookmark" />,
+};
+
+export const OutlineDisabled = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+OutlineDisabled.args = {
+	...defaultArgs,
+	type: "default",
+	disabled: true,
 };
