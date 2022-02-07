@@ -7,9 +7,9 @@ interface IconProps {
 	className?: string;
 }
 
-export const Icon = ({ name, className }: IconProps) => {
+export const Icon = ({ name, className = "" }: IconProps) => {
 	const defaultClassNames = "w-4 h-4 fill-current";
-	className = `${defaultClassNames} ${className ? className : ""}`;
+	className = `${defaultClassNames} ${className}`;
 
 	switch (name) {
 		case "bookmark":
