@@ -13,13 +13,11 @@ export default {
 const Template: ComponentStory<typeof Icon> = (args) => <Icon {...args} />;
 
 export const Bookmark = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
 Bookmark.args = {
 	name: "bookmark",
 };
 
 export const Wallet = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
 Wallet.args = {
 	name: "wallet",
 };
