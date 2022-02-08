@@ -19,7 +19,7 @@ interface InputProps {
 	 * input that makes it look like an input.
 	 */
 	isDisplay?: boolean;
-	placeholder: AntInputProps["placeholder"];
+	placeholder?: AntInputProps["placeholder"];
 	onClick?: AntInputProps["onClick"];
 	className?: AntInputProps["className"];
 	children?: AntInputProps["children"];
