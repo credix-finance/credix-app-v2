@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Active tag 1`] = `
+<div
+  className="py-[2px] border rounded-full min-w-[88px] font-semibold w-min flex justify-center bg-neutral-60 border-neutral-60 text-credix-primary"
+>
+  Active
+</div>
+`;
+
+exports[`Ended tag 1`] = `
+<div
+  className="py-[2px] border rounded-full min-w-[88px] font-semibold w-min flex justify-center bg-credix-primary border-solid border-darker color-darker"
+>
+  Ended
+</div>
+`;
+
+exports[`Inactive tag 1`] = `
+<div
+  className="py-[2px] border rounded-full min-w-[88px] font-semibold w-min flex justify-center bg-neutral-10 border-neutral-10"
+>
+  Inactive
+</div>
+`;
+
+exports[`Pending tag 1`] = `
+<div
+  className="py-[2px] border rounded-full min-w-[88px] font-semibold w-min flex justify-center bg-neutral-40 border-neutral-40 text-credix-primary"
+>
+  Pending
+</div>
+`;
