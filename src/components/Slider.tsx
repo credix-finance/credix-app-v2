@@ -24,7 +24,7 @@ export const Slider = ({ value, fullLabel, max = 100, ...props }: SliderProps) =
 	return (
 		<div className="flex flex-col">
 			<div className="font-semibold">
-				{isFull ? <span>{fullLabel}</span> : <span>{value}%</span>}
+				{isFull && fullLabel ? <span>{fullLabel}</span> : <span>{value}%</span>}
 			</div>
 			<div className="block">
 				<AntdSlider
