@@ -35,3 +35,12 @@ yarn-error.log*
 
 # idea
 .idea
+
+# yarn NOT using Zero Install
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
