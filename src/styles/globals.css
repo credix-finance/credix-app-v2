@@ -24,3 +24,16 @@ a {
 * {
 	box-sizing: border-box;
 }
+
+.ant-slider {
+	@apply mt-0 ml-0 !important;
+}
+.ant-slider-track {
+	@apply bg-action-primary rounded-none !important;
+}
+.ant-slider-rail {
+	@apply bg-neutral-90 rounded-none !important;
+}
+.ant-slider-handle {
+	@apply bg-action-primary border-action-primary !important;
+}
