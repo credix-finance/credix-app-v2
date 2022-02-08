@@ -43,7 +43,7 @@ export const parameters = {
 
 export const decorators = [
 	(Story) => (
-		<div className="font-mono">
+		<div className="font-mono text-neutral-100">
 			<Story />
 		</div>
 	),

@@ -1,1 +1,9 @@
 @import "antd/dist/antd.less";
+
+.ant-btn,
+.ant-btn:active,
+.ant-btn:focus,
+.ant-btn:hover {
+	// Disable the default antd button background so it doesn't interfere with Tailwind css bg-* classes.
+	background: none;
+}
