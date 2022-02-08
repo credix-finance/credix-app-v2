@@ -11,7 +11,14 @@ test("Default slider", () => {
 });
 
 test("Full slider", () => {
-	const component = renderer.create(<Slider value={50} />);
+	const component = renderer.create(<Slider value={100} />);
+
+	const tree = component.toJSON();
+	expect(tree).toMatchSnapshot();
+});
+
+test("Overfull slider without fullLabel", () => {
+	const component = renderer.create(<Slider value={200} />);
 
 	const tree = component.toJSON();
 	expect(tree).toMatchSnapshot();

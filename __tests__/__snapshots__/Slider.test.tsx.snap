@@ -77,7 +77,81 @@ exports[`Full slider 1`] = `
   <div
     className="font-semibold"
   >
-    <span />
+    <span>
+      100
+      %
+    </span>
+  </div>
+  <div
+    className="block"
+  >
+    <div
+      className="ant-slider"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onMouseDown={[Function]}
+      onMouseUp={[Function]}
+      onTouchStart={[Function]}
+    >
+      <div
+        className="ant-slider-rail"
+        style={Object {}}
+      />
+      <div
+        className="ant-slider-track"
+        style={
+          Object {
+            "left": "0%",
+            "right": "auto",
+            "width": "100%",
+          }
+        }
+      />
+      <div
+        className="ant-slider-step"
+      />
+      <div
+        aria-disabled={false}
+        aria-valuemax={100}
+        aria-valuemin={0}
+        aria-valuenow={100}
+        className="ant-slider-handle"
+        onBlur={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        role="slider"
+        style={
+          Object {
+            "display": "none",
+            "left": "100%",
+            "right": "auto",
+            "transform": "translateX(-50%)",
+          }
+        }
+        tabIndex={0}
+      />
+      <div
+        className="ant-slider-mark"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Overfull slider without fullLabel 1`] = `
+<div
+  className="flex flex-col"
+>
+  <div
+    className="font-semibold"
+  >
+    <span>
+      200
+      %
+    </span>
   </div>
   <div
     className="block"
