@@ -20,6 +20,25 @@ body {
 	box-sizing: border-box;
 }
 
+/* Antdesign overrides */
+.ant-btn,
+.ant-btn:active,
+.ant-btn:focus,
+.ant-btn:hover {
+	/* Disable the default antd button background so it doesn't interfere with Tailwind css bg-* classes. */
+	background: none !important;
+}
+
+.ant-form-item-label > label {
+	/* Unset label color so it displays the correct color when disabled */
+	color: unset !important;
+}
+
+.anticon-close-circle {
+	/* Don't show error icon in input fields with validation errors */
+	display: none !important;
+}
+
 .ant-slider {
 	@apply mt-0 ml-0 cursor-default !important;
 }
