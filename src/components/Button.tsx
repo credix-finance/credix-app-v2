@@ -58,7 +58,7 @@ export const Button = ({
 }: ButtonProps) => {
 	return (
 		<AntdButton
-			className={`rounded-[1px] text-shadow-none shadow-none flex items-center gap-2 px-[25px] ${buttonTypeStyles[type]} ${buttonSizeStyles[size]} ${className}`}
+			className={`rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] ${buttonTypeStyles[type]} ${buttonSizeStyles[size]} ${className}`}
 			size={size}
 			type={type}
 			{...props}
