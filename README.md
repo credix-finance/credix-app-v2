@@ -85,7 +85,8 @@ The page will reload if you make edits. You will also see any lint errors in the
 
 ### `yarn test:unit`
 
-Launches the test runner in the interactive watch mode.
+Launches the test runner and runs all the tests.
+You can add the `--watch` flag to let the runner watch for changes.
 
 ### `yarn build`
 
