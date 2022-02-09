@@ -19,12 +19,13 @@ export default {
 } as ComponentMeta<typeof Input>;
 
 const defaultDecorators = (Story) => (
-	<Label value={defaultArgs.label}>
+	<Label value={defaultArgs.label} description={defaultArgs.description}>
 		<Story />
 	</Label>
 );
 const defaultArgs = {
 	label: "Borrower Key",
+	description: "",
 	placeholder: "key",
 	disabled: false,
 	isDisplay: false,
@@ -79,9 +80,16 @@ Disabled.args = {
 };
 
 export const WithDescription = Template.bind({});
-WithDescription.decorators = [defaultDecorators];
+WithDescription.decorators = [
+	(Story) => (
+		<Label
+			value={"This is a longer question with some more informations under it?"}
+			description={"This is a short information text that gives more details about the question."}
+		>
+			<Story />
+		</Label>
+	),
+];
 WithDescription.args = {
 	...defaultArgs,
-	label: "This is a longer question with some more informations under it?",
-	description: "This is a short information text that gives more details about the question.",
 };
