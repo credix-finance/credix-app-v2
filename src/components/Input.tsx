@@ -5,10 +5,6 @@ import { InputContext } from "./Label";
 
 interface InputProps {
 	/**
-	 * Controls whether the input is disabled or not.
-	 */
-	disabled?: AntInputProps["disabled"];
-	/**
 	 * Controls wheter the input can be interacted with or not.
 	 * This differs from setting `disabled` to `true` in that by
 	 * setting this option to true will remove any styling from the
@@ -26,11 +22,10 @@ export const Input = ({
 	children,
 	value,
 	className = "",
-	disabled = false,
 	isDisplay = false,
 	...props
 }: InputProps) => {
-	const { hasFeedback, validateStatus } = useContext(InputContext);
+	const { hasFeedback, validateStatus, disabled } = useContext(InputContext);
 
 	if (isDisplay) {
 		return <div className="font-medium text-base pt-2 pb-4">{value}</div>;
@@ -40,7 +35,6 @@ export const Input = ({
 		<AntdInput
 			disabled={disabled}
 			value={value}
-			suffix={null}
 			className={`
 				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
 				placeholder-neutral-100/70

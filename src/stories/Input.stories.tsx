@@ -27,7 +27,6 @@ const defaultArgs = {
 	label: "Borrower Key",
 	description: "",
 	placeholder: "key",
-	disabled: false,
 	isDisplay: false,
 	value: "USBDCKTVGBBK",
 };
@@ -69,14 +68,13 @@ Display.args = {
 export const Disabled = Template.bind({});
 Disabled.decorators = [
 	(Story) => (
-		<Label value={defaultArgs.label} disabled={Disabled.args.disabled}>
+		<Label value={defaultArgs.label} disabled={true}>
 			<Story />
 		</Label>
 	),
 ];
 Disabled.args = {
 	...defaultArgs,
-	disabled: true,
 };
 
 export const WithDescription = Template.bind({});

@@ -1,15 +1,18 @@
 import React, { createContext } from "react";
 import { Form } from "antd";
 import { FormItemProps } from "antd/lib/form";
+import { InputProps } from "antd/lib/input";
 
 export type InputContextType = {
 	hasFeedback: FormItemProps["hasFeedback"];
 	validateStatus: "error" | "";
+	disabled: InputProps["disabled"];
 };
 
 export const InputContext = createContext<InputContextType>({
 	hasFeedback: false,
 	validateStatus: "error",
+	disabled: false,
 });
 
 interface LabelProps {
@@ -59,7 +62,7 @@ export const Label = ({
 			{...props}
 		>
 			{description && <div className="font-normal text-sm mt-0 mb-[10px]">{description}</div>}
-			<InputContext.Provider value={{ hasFeedback, validateStatus }}>
+			<InputContext.Provider value={{ hasFeedback, validateStatus, disabled }}>
 				{children}
 			</InputContext.Provider>
 		</Form.Item>
