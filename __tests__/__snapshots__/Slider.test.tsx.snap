@@ -13,7 +13,7 @@ exports[`Default slider 1`] = `
     </span>
   </div>
   <div
-    className="block"
+    className="block cursor-default"
   >
     <div
       className="ant-slider"
@@ -83,7 +83,7 @@ exports[`Full slider 1`] = `
     </span>
   </div>
   <div
-    className="block"
+    className="block cursor-default"
   >
     <div
       className="ant-slider"
@@ -154,7 +154,7 @@ exports[`Overfull slider without fullLabel 1`] = `
     </span>
   </div>
   <div
-    className="block"
+    className="block cursor-default"
   >
     <div
       className="ant-slider"

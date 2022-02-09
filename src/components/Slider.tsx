@@ -26,10 +26,11 @@ export const Slider = ({ value, fullLabel, max = 100, ...props }: SliderProps) =
 			<div className="font-semibold">
 				{isFull && fullLabel ? <span>{fullLabel}</span> : <span>{value}%</span>}
 			</div>
-			<div className="block">
+			<div className="block cursor-default">
 				<AntdSlider
 					value={value}
 					max={max}
+					tooltipVisible={false}
 					handleStyle={isFull && { display: "none" }}
 					{...props}
 				/>

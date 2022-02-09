@@ -26,7 +26,7 @@ a {
 }
 
 .ant-slider {
-	@apply mt-0 ml-0 !important;
+	@apply mt-0 ml-0 cursor-default !important;
 }
 .ant-slider-track {
 	@apply bg-action-primary rounded-none !important;
@@ -35,5 +35,8 @@ a {
 	@apply bg-neutral-90 rounded-none !important;
 }
 .ant-slider-handle {
-	@apply bg-action-primary border-action-primary !important;
+	@apply bg-action-primary border-action-primary cursor-default !important;
+}
+.ant-slider-handle:focus {
+	@apply shadow-none !important;
 }
