@@ -52,13 +52,13 @@ export const Label = ({
 			hasFeedback={hasFeedback}
 			validateStatus={validateStatus}
 			className={`
-				font-bold
+				font-bold text-base
 				${disabled && "text-neutral-60/40"}
 				${hasFeedback && validateStatus === "error" && "border-error"}
 			`}
 			{...props}
 		>
-			{description && <div className="font-normal mt-2 mb-[10px]">{description}</div>}
+			{description && <div className="font-normal text-sm mt-0 mb-[10px]">{description}</div>}
 			<InputContext.Provider value={{ hasFeedback, validateStatus }}>
 				{children}
 			</InputContext.Provider>

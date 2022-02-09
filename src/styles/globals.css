@@ -32,6 +32,8 @@ body {
 .ant-form-item-label > label {
 	/* Unset label color so it displays the correct color when disabled */
 	color: unset !important;
+	/* Unset label font size so it displays the correct size that get set on the parent */
+	font-size: unset !important;
 }
 
 .anticon-close-circle {
