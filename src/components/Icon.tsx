@@ -1,4 +1,3 @@
-import tree from "antd/lib/tree";
 import React from "react";
 
 export type IconNames = "bookmark" | "wallet" | "chevron-left-square";
