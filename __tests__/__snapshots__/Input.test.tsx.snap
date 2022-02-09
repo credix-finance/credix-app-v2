@@ -8,7 +8,7 @@ exports[`Default input 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold
+				font-bold text-base
 				false
 				undefined
 			"
@@ -37,13 +37,12 @@ exports[`Default input 1`] = `
         >
           <input
             className="ant-input 
-				font-medium text-base bg-credix-primary
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
 				placeholder-neutral-100/70
 				border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-				text-base font-medium h-[42px]
 				
 			"
             disabled={false}
@@ -70,7 +69,7 @@ exports[`Disabled input 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold
+				font-bold text-base
 				false
 				undefined
 			"
@@ -99,13 +98,12 @@ exports[`Disabled input 1`] = `
         >
           <input
             className="ant-input ant-input-disabled 
-				font-medium text-base bg-credix-primary
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
 				placeholder-neutral-100/70
 				border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-				text-base font-medium h-[42px]
 				
 			"
             disabled={true}
@@ -132,7 +130,7 @@ exports[`Dispaly input 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold
+				font-bold text-base
 				false
 				undefined
 			"
@@ -179,7 +177,7 @@ exports[`Input with description 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold
+				font-bold text-base
 				false
 				undefined
 			"
@@ -207,19 +205,18 @@ exports[`Input with description 1`] = `
           className="ant-form-item-control-input-content"
         >
           <div
-            className="font-normal mt-2 mb-[10px]"
+            className="font-normal text-sm mt-0 mb-[10px]"
           >
             This is a short information text that gives more details about the question.
           </div>
           <input
             className="ant-input ant-input-disabled 
-				font-medium text-base bg-credix-primary
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
 				placeholder-neutral-100/70
 				border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-				text-base font-medium h-[42px]
 				
 			"
             disabled={true}
@@ -246,7 +243,7 @@ exports[`Input with error feedback 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold
+				font-bold text-base
 				false
 				border-error
 			 ant-form-item-has-feedback ant-form-item-has-error"
@@ -275,22 +272,23 @@ exports[`Input with error feedback 1`] = `
         >
           <input
             className="ant-input 
-				font-medium text-base bg-credix-primary
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
 				placeholder-neutral-100/70
 				border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-error focus:ring-error focus:border-error
-				text-base font-medium h-[42px]
 				
 			"
             disabled={false}
+            hasFeedback={true}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
             placeholder="key"
             type="text"
+            validateStatus="error"
             value="USBDCKTVGBBK"
           />
         </div>
@@ -331,7 +329,7 @@ exports[`Input with text 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold
+				font-bold text-base
 				false
 				undefined
 			"
@@ -360,13 +358,12 @@ exports[`Input with text 1`] = `
         >
           <input
             className="ant-input 
-				font-medium text-base bg-credix-primary
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
 				placeholder-neutral-100/70
 				border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-				text-base font-medium h-[42px]
 				
 			"
             disabled={false}
