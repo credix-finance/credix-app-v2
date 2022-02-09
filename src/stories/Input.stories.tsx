@@ -56,8 +56,6 @@ WithError.decorators = [
 ];
 WithError.args = {
 	...defaultArgs,
-	hasFeedback: true,
-	validateStatus: "error",
 };
 
 export const Display = Template.bind({});

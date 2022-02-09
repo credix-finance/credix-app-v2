@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Input as AntdInput } from "antd";
 import { InputProps as AntInputProps } from "antd/lib/input";
-import { FormItemProps } from "antd/lib/form";
+import { InputContext } from "./Label";
 
 interface InputProps {
 	/**
@@ -20,20 +20,18 @@ interface InputProps {
 	className?: AntInputProps["className"];
 	children?: AntInputProps["children"];
 	value?: AntInputProps["value"];
-	hasFeedback?: FormItemProps["hasFeedback"];
-	validateStatus?: "error" | "";
 }
 
 export const Input = ({
 	children,
 	value,
-	hasFeedback = false,
-	validateStatus = null,
 	className = "",
 	disabled = false,
 	isDisplay = false,
 	...props
 }: InputProps) => {
+	const { hasFeedback, validateStatus } = useContext(InputContext);
+
 	if (isDisplay) {
 		return <div className="font-medium text-base pt-2 pb-4">{value}</div>;
 	}

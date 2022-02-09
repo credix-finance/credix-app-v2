@@ -1,6 +1,16 @@
-import React from "react";
+import React, { createContext } from "react";
 import { Form } from "antd";
 import { FormItemProps } from "antd/lib/form";
+
+export type InputContextType = {
+	hasFeedback: FormItemProps["hasFeedback"];
+	validateStatus: "error" | "";
+};
+
+export const InputContext = createContext<InputContextType>({
+	hasFeedback: false,
+	validateStatus: "error",
+});
 
 interface LabelProps {
 	children?: FormItemProps["children"];
@@ -49,7 +59,9 @@ export const Label = ({
 			{...props}
 		>
 			{description && <div className="font-normal mt-2 mb-[10px]">{description}</div>}
-			{children}
+			<InputContext.Provider value={{ hasFeedback, validateStatus }}>
+				{children}
+			</InputContext.Provider>
 		</Form.Item>
 	);
 };
