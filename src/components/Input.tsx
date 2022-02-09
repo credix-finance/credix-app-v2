@@ -5,10 +5,6 @@ import { FormItemProps } from "antd/lib/form";
 
 interface InputProps {
 	/**
-	 * Optional size of the input.
-	 */
-	size?: AntInputProps["size"];
-	/**
 	 * Controls whether the input is disabled or not.
 	 */
 	disabled?: AntInputProps["disabled"];
@@ -28,12 +24,6 @@ interface InputProps {
 	validateStatus?: "error" | "";
 }
 
-const inputSizeStyles = {
-	small: "text-sm font-semibold h-10",
-	middle: "text-base font-medium h-[42px]",
-	large: "text-lg font-semibold h-[50px]",
-};
-
 export const Input = ({
 	children,
 	value,
@@ -42,7 +32,6 @@ export const Input = ({
 	className = "",
 	disabled = false,
 	isDisplay = false,
-	size = "middle",
 	...props
 }: InputProps) => {
 	if (isDisplay) {
@@ -51,12 +40,11 @@ export const Input = ({
 
 	return (
 		<AntdInput
-			size={size}
 			disabled={disabled}
 			value={value}
 			suffix={null}
 			className={`
-				font-medium text-base bg-credix-primary
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
 				placeholder-neutral-100/70
 				border-[0.5px] rounded-[1px]
 				focus:shadow-none
@@ -66,7 +54,6 @@ export const Input = ({
 						? "border-error focus:ring-error focus:border-error"
 						: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 "
 				}
-				${inputSizeStyles[size]}
 				${className}
 			`}
 			{...props}

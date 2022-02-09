@@ -24,7 +24,6 @@ const defaultDecorators = (Story) => (
 	</Label>
 );
 const defaultArgs = {
-	size: "middle",
 	label: "Borrower Key",
 	placeholder: "key",
 	disabled: false,
