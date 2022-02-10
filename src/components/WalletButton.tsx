@@ -1,8 +1,8 @@
-import { useWallet } from "@solana/wallet-adapter-react";
 import React, { useCallback, useMemo, useState } from "react";
-import { Button } from "@components/Button";
 import { useWalletModal, WalletIcon } from "@solana/wallet-adapter-react-ui";
-import { Icon } from "./Icon";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { Button } from "@components/Button";
+import { Icon } from "@components/Icon";
 
 export const WalletButton = () => {
 	const { wallet, publicKey, disconnect } = useWallet();
@@ -42,22 +42,26 @@ export const WalletButton = () => {
 				{address}
 			</Button>
 			<div
-				className={`absolute whitespace-nowrap right-0 bg-credix-primary rounded-sm ${
+				className={`absolute whitespace-nowrap right-0 grid grid-cols-1 bg-white rounded-sm w-56 border border-solid border-neutral-100 divide-y divide-neutral-100 ${
 					dropdownVisible ? "block" : "hidden"
 				}`}
 			>
-				<Button type="default" className="w-full" onClick={copyAddress}>
-					{/* TODO: add feedback when copied */}
-					Copy Address
-				</Button>
-				<div className="border-x border-solid border-y-0 border-x-neutral-100">
+				<div className="border-solid border-0">
+					<Button type="default" className="w-full border-none" onClick={copyAddress}>
+						{/* TODO: add feedback when copied */}
+						Copy Address
+					</Button>
+				</div>
+				<div className="border-solid border-0">
 					<Button type="default" className="w-full border-none" onClick={() => setVisible(true)}>
 						Change Wallet
 					</Button>
 				</div>
-				<Button type="default" className="w-full" onClick={disconnect}>
-					Disconnect
-				</Button>
+				<div className="border-solid border-0">
+					<Button type="default" className="w-full border-none" onClick={disconnect}>
+						Disconnect
+					</Button>
+				</div>
 			</div>
 		</div>
 	);
