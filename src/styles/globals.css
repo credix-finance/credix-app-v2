@@ -35,3 +35,6 @@ body {
 .ant-slider-handle:focus {
 	@apply shadow-none !important;
 }
+.wallet-adapter-button.main-menu-button {
+	@apply border border-current;
+}
