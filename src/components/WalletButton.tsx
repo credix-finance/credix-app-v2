@@ -10,6 +10,14 @@ export const WalletButton = () => {
 	const [dropdownVisible, setDropdownVisible] = useState(false);
 	const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
 
+	const address = useMemo(() => {
+		if (!wallet || !base58) {
+			return "Connecting";
+		}
+
+		return base58.slice(0, 4) + ".." + base58.slice(-4);
+	}, [wallet, base58]);
+
 	const copyAddress = useCallback(async () => {
 		if (base58) {
 			await navigator.clipboard.writeText(base58);
@@ -31,7 +39,7 @@ export const WalletButton = () => {
 				onClick={() => setDropdownVisible(!dropdownVisible)}
 				icon={<WalletIcon wallet={wallet} className="w-6" />}
 			>
-				Wallet
+				{address}
 			</Button>
 			<div
 				className={`absolute whitespace-nowrap right-0 bg-credix-primary rounded-sm ${
