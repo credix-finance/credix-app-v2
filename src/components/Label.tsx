@@ -11,7 +11,7 @@ export type InputContextType = {
 
 export const InputContext = createContext<InputContextType>({
 	hasFeedback: false,
-	validateStatus: "error",
+	validateStatus: "",
 	disabled: false,
 });
 
