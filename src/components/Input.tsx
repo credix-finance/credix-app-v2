@@ -36,9 +36,7 @@ export const Input = ({
 			disabled={disabled}
 			value={value}
 			className={`
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
-				placeholder-neutral-100/70
-				border-[0.5px] rounded-[1px]
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				${
