@@ -46,9 +46,7 @@ module.exports = {
 		},
 	},
 	lessOptions: {
-		modifyVars: {
-			"error-color": error,
-		},
+		modifyVars: {},
 		javascriptEnabled: true,
 	},
 };
