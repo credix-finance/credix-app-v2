@@ -37,9 +37,7 @@ exports[`Default input 1`] = `
         >
           <input
             className="ant-input 
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
-				placeholder-neutral-100/70
-				border-[0.5px] rounded-[1px]
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
@@ -98,9 +96,7 @@ exports[`Disabled input 1`] = `
         >
           <input
             className="ant-input ant-input-disabled 
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
-				placeholder-neutral-100/70
-				border-[0.5px] rounded-[1px]
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
@@ -211,9 +207,7 @@ exports[`Input with description 1`] = `
           </div>
           <input
             className="ant-input ant-input-disabled 
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
-				placeholder-neutral-100/70
-				border-[0.5px] rounded-[1px]
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
@@ -272,9 +266,7 @@ exports[`Input with error feedback 1`] = `
         >
           <input
             className="ant-input 
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
-				placeholder-neutral-100/70
-				border-[0.5px] rounded-[1px]
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-error focus:ring-error focus:border-error
@@ -358,9 +350,7 @@ exports[`Input with text 1`] = `
         >
           <input
             className="ant-input 
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary
-				placeholder-neutral-100/70
-				border-[0.5px] rounded-[1px]
+				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
