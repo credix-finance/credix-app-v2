@@ -76,6 +76,10 @@ body {
 	@apply shadow-none !important;
 }
 
+.ant-table-cell {
+	@apply bg-neutral-0 font-bold text-base !important;
+}
+
 .ant-table-pagination {
 	@apply gap-1 !important;
 }
@@ -87,4 +91,21 @@ body {
 .ant-pagination-item-active a,
 .ant-pagination-item-active {
 	@apply bg-neutral-100 text-credix-primary hover:text-credix-primary !important;
+}
+
+.ant-table-thead > tr > th {
+	@apply border-b-0 !important;
+}
+
+.ant-table-thead
+	> tr
+	> th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+	@apply hidden !important;
+}
+
+.ant-table-tbody > tr > td {
+	@apply border-b-0 !important;
+}
+.ant-table-tbody > tr > td {
+	box-shadow: inset 0px -1px 0px #d8deda !important;
 }
