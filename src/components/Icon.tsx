@@ -9,6 +9,9 @@ export const iconNames = [
 	"timeline",
 	"grid",
 	"user",
+	"chevron-left",
+	"chevron-right",
+	"ellipsis",
 ] as const;
 export type IconName = typeof iconNames[number];
 
@@ -118,6 +121,57 @@ export const Icon = ({ name, className = "" }: IconProps) => {
 						clipRule="evenodd"
 						d="M7.5 13.603a2.5 2.5 0 0 0-2.5 2.5c0 .46.373.834.833.834h8.333c.46 0 .834-.373.834-.834a2.5 2.5 0 0 0-2.5-2.5h-5Zm-4.167 2.5A4.167 4.167 0 0 1 7.5 11.937h5a4.167 4.167 0 0 1 4.166 4.166 2.5 2.5 0 0 1-2.5 2.5H5.833a2.5 2.5 0 0 1-2.5-2.5ZM10 3.603a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Zm-4.167 2.5a4.167 4.167 0 1 1 8.333 0 4.167 4.167 0 0 1-8.333 0Z"
 					/>
+				</svg>
+			);
+		case "chevron-left":
+			return (
+				<svg
+					width="20"
+					height="20"
+					viewBox="0 0 20 20"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M12.5 15L7.5 10L12.5 5"
+						stroke="#343A3F"
+						strokeWidth="1.6"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+				</svg>
+			);
+		case "chevron-right":
+			return (
+				<svg
+					width="20"
+					height="20"
+					viewBox="0 0 20 20"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M7.5 15L12.5 10L7.5 5"
+						stroke="#343A3F"
+						strokeWidth="1.6"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+				</svg>
+			);
+		case "ellipsis":
+			return (
+				<svg
+					className={className}
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				>
+					<circle cx="12" cy="12" r="1" />
+					<circle cx="19" cy="12" r="1" />
+					<circle cx="5" cy="12" r="1" />
 				</svg>
 			);
 		default:
