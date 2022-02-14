@@ -82,3 +82,29 @@ body {
 .ant-table-tbody > tr > td {
 	box-shadow: inset 0px -1px 0px #d8deda !important;
 }
+
+.ant-tabs-tab {
+	@apply bg-neutral-0  py-6 w-44 justify-center font-bold text-base !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+	@apply text-neutral-80 text-shadow-none !important;
+}
+
+.ant-tabs-ink-bar {
+	@apply h-[6px] bg-action-primary !important;
+}
+
+.ant-tabs-tab:hover,
+.ant-tabs-tab-btn:hover,
+.ant-tabs-tab-remove:hover,
+.ant-tabs-tab-btn:focus,
+.ant-tabs-tab-remove:focus,
+.ant-tabs-tab-btn:active,
+.ant-tabs-tab-remove:active {
+	@apply text-neutral-80 !important;
+}
+
+.ant-tabs-top > .ant-tabs-nav {
+	@apply m-0 !important;
+}
