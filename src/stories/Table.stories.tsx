@@ -2,6 +2,8 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Table } from "@components/Table";
 import { TableHeaderCell } from "@components/TableHeaderCell";
+import { Tabs } from "@components/Tabs";
+import { TabPane } from "@components/TabPane";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -141,6 +143,21 @@ WithPagination.args = {
 		},
 	],
 };
+
+export const WithTabs = Template.bind({});
+WithTabs.decorators = [
+	(Story) => (
+		<Tabs>
+			<TabPane tab="Investments 1" key="1">
+				<Story />
+			</TabPane>
+			<TabPane tab="Investments 2" key="2">
+				<Table dataSource={[]} columns={defaultArgs.columns} />
+			</TabPane>
+		</Tabs>
+	),
+];
+WithTabs.args = defaultArgs;
 
 export const Empty = Template.bind({});
 Empty.args = {
