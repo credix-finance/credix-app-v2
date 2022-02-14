@@ -48,3 +48,16 @@ body {
 .ant-slider-handle:focus {
 	@apply shadow-none !important;
 }
+
+.ant-table-pagination {
+	@apply gap-1 !important;
+}
+
+.ant-table-pagination > * {
+	@apply w-[39px] h-[36px] border-none m-0 rounded-none !important;
+}
+
+.ant-pagination-item-active a,
+.ant-pagination-item-active {
+	@apply bg-neutral-100 text-credix-primary hover:text-credix-primary !important;
+}
