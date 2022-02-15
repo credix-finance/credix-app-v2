@@ -68,7 +68,7 @@ exports[`Disabled input 1`] = `
   <div
     className="ant-row ant-form-item 
 				font-bold text-base
-				false
+				text-neutral-60/40
 				undefined
 			"
     style={Object {}}
@@ -206,14 +206,14 @@ exports[`Input with description 1`] = `
             This is a short information text that gives more details about the question.
           </div>
           <input
-            className="ant-input ant-input-disabled 
+            className="ant-input 
 				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
 				focus:shadow-none
 				disabled:border-neutral-60/40
 				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
 				
 			"
-            disabled={true}
+            disabled={false}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -273,14 +273,12 @@ exports[`Input with error feedback 1`] = `
 				
 			"
             disabled={false}
-            hasFeedback={true}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
             placeholder="key"
             type="text"
-            validateStatus="error"
             value="USBDCKTVGBBK"
           />
         </div>

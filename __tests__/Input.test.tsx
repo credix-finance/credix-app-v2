@@ -17,7 +17,7 @@ const defaultArgs = {
 test("Default input", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label value={defaultArgs.label}>
+			<Label label={defaultArgs.label}>
 				<Input placeholder={defaultArgs.placeholder} />
 			</Label>
 		</Form>
@@ -30,7 +30,7 @@ test("Default input", () => {
 test("Input with text", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label value={defaultArgs.label}>
+			<Label label={defaultArgs.label}>
 				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} />
 			</Label>
 		</Form>
@@ -43,13 +43,8 @@ test("Input with text", () => {
 test("Input with error feedback", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label value={defaultArgs.label} hasFeedback={true} validateStatus="error">
-				<Input
-					placeholder={defaultArgs.placeholder}
-					value={defaultArgs.value}
-					hasFeedback={true}
-					validateStatus="error"
-				/>
+			<Label label={defaultArgs.label} hasFeedback={true} validateStatus="error">
+				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} />
 			</Label>
 		</Form>
 	);
@@ -61,7 +56,7 @@ test("Input with error feedback", () => {
 test("Dispaly input", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label value={defaultArgs.label}>
+			<Label label={defaultArgs.label}>
 				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} isDisplay={true} />
 			</Label>
 		</Form>
@@ -74,8 +69,8 @@ test("Dispaly input", () => {
 test("Disabled input", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label value={defaultArgs.label}>
-				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} disabled={true} />
+			<Label label={defaultArgs.label} disabled={true}>
+				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} />
 			</Label>
 		</Form>
 	);
@@ -88,10 +83,10 @@ test("Input with description", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
 			<Label
-				value={"This is a longer question with some more informations under it?"}
+				label={"This is a longer question with some more informations under it?"}
 				description="This is a short information text that gives more details about the question."
 			>
-				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} disabled={true} />
+				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} />
 			</Label>
 		</Form>
 	);

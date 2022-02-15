@@ -8,7 +8,8 @@ import { Form } from "antd";
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
 	title: "Input",
-	component: Input,
+	component: Label,
+	subcomponents: { Input },
 	decorators: [
 		(Story) => (
 			<Form layout="vertical">
@@ -16,78 +17,77 @@ export default {
 			</Form>
 		),
 	],
-} as ComponentMeta<typeof Input>;
+} as ComponentMeta<typeof Label>;
 
-const defaultDecorators = (Story) => (
-	<Label value={defaultArgs.label} description={defaultArgs.description}>
-		<Story />
-	</Label>
-);
 const defaultArgs = {
 	label: "Borrower Key",
+	hasFeedback: false,
+	validateStatus: "",
+	disabled: false,
 	description: "",
+	help: "",
 	placeholder: "key",
 	isDisplay: false,
 	value: "USBDCKTVGBBK",
 };
+
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />;
+const Template: ComponentStory<any> = ({
+	disabled,
+	value,
+	hasFeedback,
+	validateStatus,
+	description,
+	help,
+	placeholder,
+	isDisplay,
+	label,
+}) => (
+	<Label
+		label={label}
+		description={description}
+		help={help}
+		disabled={disabled}
+		hasFeedback={hasFeedback}
+		validateStatus={validateStatus}
+	>
+		<Input value={value} placeholder={placeholder} isDisplay={isDisplay} />
+	</Label>
+);
 
 export const Default = Template.bind({});
-Default.decorators = [defaultDecorators];
 Default.args = {
 	...defaultArgs,
 	value: "",
 };
 
 export const WithText = Template.bind({});
-WithText.decorators = [defaultDecorators];
 WithText.args = {
 	...defaultArgs,
 };
 
 export const WithError = Template.bind({});
-WithError.decorators = [
-	(Story) => (
-		<Label value={defaultArgs.label} hasFeedback={true} validateStatus="error">
-			<Story />
-		</Label>
-	),
-];
 WithError.args = {
 	...defaultArgs,
+	hasFeedback: true,
+	validateStatus: "error",
 };
 
 export const Display = Template.bind({});
-Display.decorators = [defaultDecorators];
 Display.args = {
 	...defaultArgs,
 	isDisplay: true,
 };
 
 export const Disabled = Template.bind({});
-Disabled.decorators = [
-	(Story) => (
-		<Label value={defaultArgs.label} disabled={true}>
-			<Story />
-		</Label>
-	),
-];
 Disabled.args = {
 	...defaultArgs,
+	disabled: true,
 };
 
 export const WithDescription = Template.bind({});
-WithDescription.decorators = [
-	(Story) => (
-		<Label
-			value={"This is a longer question with some more informations under it?"}
-			description={"This is a short information text that gives more details about the question."}
-		>
-			<Story />
-		</Label>
-	),
-];
 WithDescription.args = {
 	...defaultArgs,
+	label: "This is a longer question with some more informations under it?",
+	description: "This is a short information text that gives more details about the question.",
 };

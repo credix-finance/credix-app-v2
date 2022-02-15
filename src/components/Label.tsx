@@ -33,7 +33,7 @@ interface LabelProps {
 	/**
 	 * Label text
 	 */
-	value: FormItemProps["label"];
+	label: FormItemProps["label"];
 	/**
 	 * The result of the validation rules
 	 */
@@ -41,7 +41,7 @@ interface LabelProps {
 }
 
 export const Label = ({
-	value,
+	label,
 	hasFeedback,
 	validateStatus,
 	children,
@@ -51,7 +51,7 @@ export const Label = ({
 }: LabelProps) => {
 	return (
 		<Form.Item
-			label={value}
+			label={label}
 			hasFeedback={hasFeedback}
 			validateStatus={validateStatus}
 			className={`
