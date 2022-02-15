@@ -3,7 +3,7 @@
 exports[`Outline button 1`] = `
 <button
   className="ant-btn rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] 
-				bg-transparent text-neutral-100 border-neutral-100
+				bg-credix-primary text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled
@@ -20,7 +20,7 @@ exports[`Outline button 1`] = `
 exports[`Outline button disabled 1`] = `
 <button
   className="ant-btn rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] 
-				bg-transparent text-neutral-100 border-neutral-100
+				bg-credix-primary text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled
@@ -38,7 +38,7 @@ exports[`Outline button disabled 1`] = `
 exports[`Outline button with icon 1`] = `
 <button
   className="ant-btn rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] 
-				bg-transparent text-neutral-100 border-neutral-100
+				bg-credix-primary text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled

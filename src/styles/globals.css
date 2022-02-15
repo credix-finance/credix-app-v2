@@ -21,14 +21,6 @@ body {
 }
 
 /* Antdesign overrides */
-.ant-btn,
-.ant-btn:active,
-.ant-btn:focus,
-.ant-btn:hover {
-	/* Disable the default antd button background so it doesn't interfere with Tailwind css bg-* classes. */
-	background: none !important;
-}
-
 .ant-form-item-label > label {
 	/* Unset label color so it displays the correct color when disabled */
 	color: unset !important;
