@@ -1,10 +1,10 @@
 import React from "react";
 import NextLink from "next/link";
-import { Icon, IconNames } from "./Icon";
+import { Icon, IconName } from "./Icon";
 
 interface LinkProps {
 	label?: string;
-	icon?: IconNames;
+	icon?: IconName;
 	to: string;
 	as?: string;
 	className?: string;

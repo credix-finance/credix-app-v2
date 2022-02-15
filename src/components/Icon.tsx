@@ -1,17 +1,19 @@
 import React from "react";
 
-export type IconNames =
-	| "bookmark"
-	| "wallet"
-	| "chevron-left-square"
-	| "line-chart"
-	| "coins"
-	| "timeline"
-	| "grid"
-	| "user";
+export const iconNames = [
+	"bookmark",
+	"wallet",
+	"chevron-left-square",
+	"line-chart",
+	"coins",
+	"timeline",
+	"grid",
+	"user",
+] as const;
+export type IconName = typeof iconNames[number];
 
 interface IconProps {
-	name: IconNames;
+	name: IconName;
 	className?: string;
 }
 
