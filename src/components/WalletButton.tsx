@@ -26,8 +26,12 @@ export const WalletButton = () => {
 
 	if (!wallet && !publicKey) {
 		return (
-			<Button onClick={() => setVisible(true)} icon={<Icon name="wallet" />}>
-				Connect Wallet
+			<Button
+				size="large"
+				onClick={() => setVisible(true)}
+				icon={<Icon name="wallet" className="w-6 h-6" />}
+			>
+				<span className="text-lg font-semibold">Connect Wallet</span>
 			</Button>
 		);
 	}
