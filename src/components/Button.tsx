@@ -36,7 +36,7 @@ const buttonTypeStyles = {
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
 			`,
 	default: `
-				bg-primary text-neutral-100 border-neutral-100
+				bg-transparent text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled
@@ -58,7 +58,7 @@ export const Button = ({
 }: ButtonProps) => {
 	return (
 		<AntdButton
-			className={`rounded-[1px] text-shadow-none shadow-none flex items-center gap-2 px-[25px] ${buttonTypeStyles[type]} ${buttonSizeStyles[size]} ${className}`}
+			className={`rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] ${buttonTypeStyles[type]} ${buttonSizeStyles[size]} ${className}`}
 			size={size}
 			type={type}
 			{...props}
