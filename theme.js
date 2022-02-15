@@ -12,7 +12,7 @@ const neutral60 = "#444152";
 const neutral40 = "#9C99AE";
 const neutral20 = "#718879";
 const neutral10 = "#D8DEDA";
-const neutral0 = "hsla(0, 100%, 100%, 0.58)";
+const neutral0 = "#FFFFFF";
 
 const darker = "#151515";
 const disabled = "hsla(0, 0%, 8%, 0.4)";
