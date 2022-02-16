@@ -16,6 +16,7 @@ const neutral0 = "#FFFFFF";
 
 const darker = "#151515";
 const disabled = "hsla(0, 0%, 8%, 0.4)";
+const error = "#FF0202";
 
 module.exports = {
 	colors: {
@@ -26,6 +27,7 @@ module.exports = {
 		light: primary,
 		dark: neutral100,
 		darker: darker,
+		error: error,
 		action: {
 			primary: actionPrimary,
 			hover: actionHover,

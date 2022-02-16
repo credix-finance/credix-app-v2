@@ -20,6 +20,19 @@ body {
 	box-sizing: border-box;
 }
 
+/* Antdesign overrides */
+.ant-form-item-label > label {
+	/* Unset label color so it displays the correct color when disabled */
+	color: unset !important;
+	/* Unset label font size so it displays the correct size that get set on the parent */
+	font-size: unset !important;
+}
+
+.anticon-close-circle {
+	/* Don't show error icon in input fields with validation errors */
+	display: none !important;
+}
+
 .ant-slider {
 	@apply mt-0 ml-0 cursor-default !important;
 }
