@@ -1,15 +1,13 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Label } from "@components/Label";
 import { Input } from "@components/Input";
 import { Form } from "antd";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
 	title: "Input",
-	component: Label,
-	subcomponents: { Input },
+	component: Input,
 	decorators: [
 		(Story) => (
 			<Form layout="vertical">
@@ -17,7 +15,7 @@ export default {
 			</Form>
 		),
 	],
-} as ComponentMeta<typeof Label>;
+} as ComponentMeta<typeof Input>;
 
 const defaultArgs = {
 	label: "Borrower Key",
@@ -32,28 +30,7 @@ const defaultArgs = {
 };
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<any> = ({
-	disabled,
-	value,
-	hasFeedback,
-	validateStatus,
-	description,
-	help,
-	placeholder,
-	isDisplay,
-	label,
-}) => (
-	<Label
-		label={label}
-		description={description}
-		help={help}
-		disabled={disabled}
-		hasFeedback={hasFeedback}
-		validateStatus={validateStatus}
-	>
-		<Input value={value} placeholder={placeholder} isDisplay={isDisplay} />
-	</Label>
-);
+const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

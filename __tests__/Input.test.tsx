@@ -2,7 +2,6 @@ import React from "react";
 import "./__mocks__/matchMedia.mock";
 import renderer from "react-test-renderer";
 import { Input } from "@components/Input";
-import { Label } from "@components/Label";
 import { Form } from "antd";
 
 const defaultArgs = {
@@ -17,9 +16,7 @@ const defaultArgs = {
 test("Default input", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label label={defaultArgs.label}>
-				<Input placeholder={defaultArgs.placeholder} />
-			</Label>
+			<Input label={defaultArgs.label} placeholder={defaultArgs.placeholder} />
 		</Form>
 	);
 
@@ -30,9 +27,11 @@ test("Default input", () => {
 test("Input with text", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label label={defaultArgs.label}>
-				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} />
-			</Label>
+			<Input
+				label={defaultArgs.label}
+				placeholder={defaultArgs.placeholder}
+				value={defaultArgs.value}
+			/>
 		</Form>
 	);
 
@@ -43,9 +42,13 @@ test("Input with text", () => {
 test("Input with error feedback", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label label={defaultArgs.label} hasFeedback={true} validateStatus="error">
-				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} />
-			</Label>
+			<Input
+				label={defaultArgs.label}
+				hasFeedback={true}
+				validateStatus="error"
+				placeholder={defaultArgs.placeholder}
+				value={defaultArgs.value}
+			/>
 		</Form>
 	);
 
@@ -56,9 +59,12 @@ test("Input with error feedback", () => {
 test("Dispaly input", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label label={defaultArgs.label}>
-				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} isDisplay={true} />
-			</Label>
+			<Input
+				label={defaultArgs.label}
+				placeholder={defaultArgs.placeholder}
+				value={defaultArgs.value}
+				isDisplay={true}
+			/>
 		</Form>
 	);
 
@@ -69,9 +75,12 @@ test("Dispaly input", () => {
 test("Disabled input", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label label={defaultArgs.label} disabled={true}>
-				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} />
-			</Label>
+			<Input
+				label={defaultArgs.label}
+				disabled={true}
+				placeholder={defaultArgs.placeholder}
+				value={defaultArgs.value}
+			/>
 		</Form>
 	);
 
@@ -82,12 +91,12 @@ test("Disabled input", () => {
 test("Input with description", () => {
 	const component = renderer.create(
 		<Form layout="vertical">
-			<Label
+			<Input
 				label={"This is a longer question with some more informations under it?"}
 				description="This is a short information text that gives more details about the question."
-			>
-				<Input placeholder={defaultArgs.placeholder} value={defaultArgs.value} />
-			</Label>
+				placeholder={defaultArgs.placeholder}
+				value={defaultArgs.value}
+			/>
 		</Form>
 	);
 

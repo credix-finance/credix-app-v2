@@ -37,12 +37,12 @@ exports[`Default input 1`] = `
         >
           <input
             className="ant-input 
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
-				focus:shadow-none
-				disabled:border-neutral-60/40
-				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-				
-			"
+					pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
+					focus:shadow-none
+					disabled:border-neutral-60/40
+					border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+					
+				"
             disabled={false}
             onBlur={[Function]}
             onChange={[Function]}
@@ -96,12 +96,12 @@ exports[`Disabled input 1`] = `
         >
           <input
             className="ant-input ant-input-disabled 
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
-				focus:shadow-none
-				disabled:border-neutral-60/40
-				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-				
-			"
+					pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
+					focus:shadow-none
+					disabled:border-neutral-60/40
+					border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+					
+				"
             disabled={true}
             onBlur={[Function]}
             onChange={[Function]}
@@ -125,11 +125,7 @@ exports[`Dispaly input 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="ant-row ant-form-item 
-				font-bold text-base
-				false
-				undefined
-			"
+    className="ant-row ant-form-item font-bold text-base"
     style={Object {}}
   >
     <div
@@ -207,12 +203,12 @@ exports[`Input with description 1`] = `
           </div>
           <input
             className="ant-input 
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
-				focus:shadow-none
-				disabled:border-neutral-60/40
-				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-				
-			"
+					pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
+					focus:shadow-none
+					disabled:border-neutral-60/40
+					border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+					
+				"
             disabled={false}
             onBlur={[Function]}
             onChange={[Function]}
@@ -266,12 +262,12 @@ exports[`Input with error feedback 1`] = `
         >
           <input
             className="ant-input 
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
-				focus:shadow-none
-				disabled:border-neutral-60/40
-				border-error focus:ring-error focus:border-error
-				
-			"
+					pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
+					focus:shadow-none
+					disabled:border-neutral-60/40
+					border-error focus:ring-error focus:border-error
+					
+				"
             disabled={false}
             onBlur={[Function]}
             onChange={[Function]}
@@ -348,12 +344,12 @@ exports[`Input with text 1`] = `
         >
           <input
             className="ant-input 
-				pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
-				focus:shadow-none
-				disabled:border-neutral-60/40
-				border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-				
-			"
+					pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
+					focus:shadow-none
+					disabled:border-neutral-60/40
+					border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+					
+				"
             disabled={false}
             onBlur={[Function]}
             onChange={[Function]}
