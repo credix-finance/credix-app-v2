@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Currency statistic 1`] = `
+<div
+  className="bg-credix-primary border border-solid border-darker rounded-[1px] font-sans h-36 min-w-[16rem] w-min ml-[21.5px] pr-5 flex items-center"
+>
+  <div
+    className="bg-credix-primary ml-[-21.5px]"
+  >
+    <div>
+      TVL
+    </div>
+    <div
+      className="text-6xl font-bold"
+    >
+      14.8M
+      <span
+        className="text-sm font-normal"
+      >
+        USDC
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Percentage statistic 1`] = `
+<div
+  className="bg-credix-primary border border-solid border-darker rounded-[1px] font-sans h-36 min-w-[16rem] w-min ml-[21.5px] pr-5 flex items-center"
+>
+  <div
+    className="bg-credix-primary ml-[-21.5px]"
+  >
+    <div>
+      Estimated APY
+    </div>
+    <div
+      className="text-6xl font-bold"
+    >
+      13.8%
+      <span
+        className="text-sm font-normal"
+      />
+    </div>
+  </div>
+</div>
+`;
