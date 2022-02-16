@@ -21,3 +21,33 @@ export const Wallet = Template.bind({});
 Wallet.args = {
 	name: "wallet",
 };
+
+export const ChevronLeftSquare = Template.bind({});
+ChevronLeftSquare.args = {
+	name: "chevron-left-square",
+};
+
+export const LineChart = Template.bind({});
+LineChart.args = {
+	name: "line-chart",
+};
+
+export const Coins = Template.bind({});
+Coins.args = {
+	name: "coins",
+};
+
+export const Timeline = Template.bind({});
+Timeline.args = {
+	name: "timeline",
+};
+
+export const Grid = Template.bind({});
+Grid.args = {
+	name: "grid",
+};
+
+export const User = Template.bind({});
+User.args = {
+	name: "user",
+};
