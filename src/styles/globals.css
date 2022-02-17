@@ -6,6 +6,9 @@
 	.text-shadow-none {
 		text-shadow: none;
 	}
+	.grid-auto-rows-min {
+		grid-auto-rows: min-content;
+	}
 }
 
 html,
@@ -18,6 +21,15 @@ body {
 
 * {
 	box-sizing: border-box;
+}
+
+#__next {
+	@apply grid grid-rows-layout h-full;
+}
+
+#index {
+	background-image: url(/abstract_shape.svg);
+	background-position: center;
 }
 
 /* Antdesign overrides */
