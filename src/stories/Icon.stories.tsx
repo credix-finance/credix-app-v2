@@ -5,7 +5,7 @@ import { Icon } from "@components/Icon";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: "Icon",
+	title: "Components/Icon",
 	component: Icon,
 } as ComponentMeta<typeof Icon>;
 

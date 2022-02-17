@@ -5,7 +5,7 @@ import { CredixLogo } from "@components/CredixLogo";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: "CredixLogo",
+	title: "Components/CredixLogo",
 	component: CredixLogo,
 } as ComponentMeta<typeof CredixLogo>;
 
