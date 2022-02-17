@@ -12,8 +12,9 @@ module.exports = {
 				layout: "min-content 1fr",
 			},
 			gridTemplateColumns: {
-				layout: "min-content 1fr"
+				layout: "min-content 1fr",
 			},
+			borderRadius: { DEFAULT: "0.0625rem" },
 			colors: theme.colors,
 			fontFamily: {
 				sans: [
