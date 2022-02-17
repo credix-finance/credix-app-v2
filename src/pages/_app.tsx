@@ -14,6 +14,7 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { AppProps } from "next/app";
 import { FC, useMemo } from "react";
 import Head from "next/head";
+import { MainMenu } from "@components/MainMenu";
 
 // Use require instead of import since order matters
 require("@solana/wallet-adapter-react-ui/styles.css");
@@ -54,6 +55,7 @@ const CredixApp: FC<AppProps> = ({ Component, pageProps }) => {
 			<ConnectionProvider endpoint={endpoint}>
 				<WalletProvider wallets={wallets} autoConnect>
 					<WalletModalProvider>
+						<MainMenu />
 						<Component {...pageProps} />
 					</WalletModalProvider>
 				</WalletProvider>
