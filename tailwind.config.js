@@ -8,6 +8,7 @@ module.exports = {
 	],
 	theme: {
 		extend: {
+			borderRadius: { DEFAULT: "0.0625rem" },
 			colors: theme.colors,
 			fontFamily: {
 				sans: [
