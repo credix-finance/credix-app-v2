@@ -17,7 +17,7 @@ class MyDocument extends Document {
 						rel="stylesheet"
 					/>
 				</Head>
-				<body className="bg-gray-200 font-mono">
+				<body className="bg-credix-primary font-mono min-h-screen">
 					<Main />
 					<NextScript />
 				</body>
