@@ -2,7 +2,7 @@
 
 exports[`Wallet button 1`] = `
 <button
-  className="ant-btn ant-btn-primary ant-btn-lg rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] 
+  className="ant-btn ant-btn-primary ant-btn-lg rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] 
 				bg-action-primary border-action-primary text-credix-primary
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
