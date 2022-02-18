@@ -96,7 +96,7 @@ export const Input = ({
 						${
 							hasFeedback && validateStatus == "error"
 								? "border-error focus:ring-error focus:border-error"
-								: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 "
+								: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
 						}
 						${className}
 					`}
