@@ -54,7 +54,7 @@ exports[`Default input 1`] = `
 						border-[0.5px] rounded-[1px]
 						focus:shadow-none
 						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
 						
 					"
                     disabled={false}
@@ -131,7 +131,7 @@ exports[`Disabled input 1`] = `
 						border-[0.5px] rounded-[1px]
 						focus:shadow-none
 						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
 						
 					"
                     disabled={true}
@@ -256,7 +256,7 @@ exports[`Input with description 1`] = `
 						border-[0.5px] rounded-[1px]
 						focus:shadow-none
 						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
 						
 					"
                     disabled={false}
@@ -410,7 +410,7 @@ exports[`Input with text 1`] = `
 						border-[0.5px] rounded-[1px]
 						focus:shadow-none
 						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
 						
 					"
                     disabled={false}
