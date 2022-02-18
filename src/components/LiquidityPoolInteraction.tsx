@@ -31,6 +31,7 @@ export const LiquidityPoolInteraction = ({
 	// TODO: get these values from client
 	const balance = 65;
 	const investments = 256;
+	const investmentsReturn = 3.24;
 
 	const [form] = Form.useForm();
 	const [submitDisabled, setSubmitDisabled] = useState(true);
@@ -40,16 +41,17 @@ export const LiquidityPoolInteraction = ({
 	};
 
 	return (
-		<div className="p-12 bg-neutral-0 space-y-7">
+		<div className="p-6 md:p-12 bg-neutral-0 space-y-7">
 			<h2 className="space-x-5 flex items-center">
 				<Icon name="line-chart" className="w-7 h-7" />
 				<span className="uppercase font-bold text-2xl">{action}</span>
 			</h2>
 			<InvestmentDetails
 				balance={balance}
-				balance_currency="USDC"
+				balanceCurrency="USDC"
 				investments={investments}
-				investments_currency="USDC"
+				investmentsCurrency="USDC"
+				investmentsReturn={investmentsReturn}
 			/>
 			<Form
 				name="invest"
@@ -72,7 +74,7 @@ export const LiquidityPoolInteraction = ({
 					suffix={
 						<div
 							onClick={onAddMax}
-							className="pl-[14.5px] pr-14 hover:cursor-pointer hover:font-semibold"
+							className="pl-[14.5px] md:pr-14 hover:cursor-pointer hover:font-semibold"
 						>
 							MAX
 						</div>
