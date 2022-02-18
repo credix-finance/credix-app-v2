@@ -5,7 +5,7 @@ exports[`Negative return 1`] = `
   className="md:flex space-y-2 md:space-y-0 md:space-x-4"
 >
   <div
-    className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6"
+    className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block"
   >
     <div
       className="text-xs md:text-base font-medium"
@@ -19,7 +19,7 @@ exports[`Negative return 1`] = `
     </div>
   </div>
   <div
-    className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6"
+    className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block"
   >
     <div
       className="flex justify-between items-start md:space-x-24 md:justify-start"
@@ -76,7 +76,7 @@ exports[`Positive return 1`] = `
   className="md:flex space-y-2 md:space-y-0 md:space-x-4"
 >
   <div
-    className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6"
+    className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block"
   >
     <div
       className="text-xs md:text-base font-medium"
@@ -90,7 +90,7 @@ exports[`Positive return 1`] = `
     </div>
   </div>
   <div
-    className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6"
+    className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block"
   >
     <div
       className="flex justify-between items-start md:space-x-24 md:justify-start"

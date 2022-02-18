@@ -1,11 +1,21 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
 
 import { LiquidityPoolInteraction } from "@components/LiquidityPoolInteraction";
 
 export default {
 	title: "LiquidityPoolInteraction",
 	component: LiquidityPoolInteraction,
+	parameters: {
+		//👇 The viewports object from the Essentials addon
+		viewport: {
+			//👇 The viewports you want to use
+			viewports: INITIAL_VIEWPORTS,
+			//👇 Your own default viewport
+			defaultViewport: "default",
+		},
+	},
 } as ComponentMeta<typeof LiquidityPoolInteraction>;
 
 const Template: ComponentStory<typeof LiquidityPoolInteraction> = (args) => (
@@ -55,4 +65,9 @@ Withdraw.args = {
 	action: "withdraw",
 	onSubmit: () => console.log("withdrawing"),
 	onSubmitFailed: () => console.log("investing"),
+};
+Withdraw.parameters = {
+	viewport: {
+		defaultViewport: "default",
+	},
 };
