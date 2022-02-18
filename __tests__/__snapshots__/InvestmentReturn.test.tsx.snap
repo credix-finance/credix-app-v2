@@ -5,7 +5,7 @@ exports[`Negative return 1`] = `
   className="flex items-center space-x-[10px]"
 >
   <div
-    className="bg-error rounded-full w-6 h-6 grid place-items-center"
+    className="bg-action-hover -scale-y-100 rounded-full w-6 h-6 grid place-items-center"
   >
     <svg
       fill="none"
@@ -21,7 +21,7 @@ exports[`Negative return 1`] = `
     </svg>
   </div>
   <div
-    className="text-error font-bold"
+    className="text-action-hover font-bold"
   >
     -2.45
     %
