@@ -1,4 +1,5 @@
 import { Button } from "@components/Button";
+import { Card } from "@components/Card";
 import { Statistic } from "@components/Statistic";
 import type { NextPage } from "next";
 
@@ -49,19 +50,12 @@ const Overview: NextPage = () => {
 			</div>
 			<div className="ml-6 md:col-span-12 md:flex md:justify-between md:space-x-20 space-y-8 md:space-y-0">
 				{parties.map(({ name, action, buttonAction, description }) => (
-					<div
-						key={name}
-						className="md:col-span-3 border border-solid rounded-[1px] border-darker w-full p-6 pt-16"
-					>
-						<div className="bg-credix-primary -ml-11 py-[18.5px]">
-							<div className="text-xs font-normal capitalize">{name}</div>
-							<div className="font-sans font-semibold text-[32px] capitalize">{action}</div>
-						</div>
-						<div className="mb-14">{description}</div>
+					<Card key={name} topTitle={name} title={action} offset="large">
+						<div className="mb-14 text-base">{description}</div>
 						<Button block={true} className="capitalize">
 							{buttonAction}
 						</Button>
-					</div>
+					</Card>
 				))}
 			</div>
 		</main>
