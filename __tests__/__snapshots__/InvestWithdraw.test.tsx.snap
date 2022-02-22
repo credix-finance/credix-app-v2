@@ -1,0 +1,722 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Default 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="ant-tabs ant-tabs-top"
+      >
+        <div
+          class="ant-tabs-nav"
+          role="tablist"
+        >
+          <div
+            class="ant-tabs-nav-wrap"
+          >
+            <div
+              class="ant-tabs-nav-list"
+              style="transform: translate(0px, 0px);"
+            >
+              <div
+                class="ant-tabs-tab ant-tabs-tab-active"
+              >
+                <div
+                  aria-controls="rc-tabs-test-panel-1"
+                  aria-selected="true"
+                  class="ant-tabs-tab-btn"
+                  id="rc-tabs-test-tab-1"
+                  role="tab"
+                  tabindex="0"
+                >
+                  Invest
+                </div>
+              </div>
+              <div
+                class="ant-tabs-tab"
+                style="margin-left: 0px;"
+              >
+                <div
+                  aria-controls="rc-tabs-test-panel-2"
+                  aria-selected="false"
+                  class="ant-tabs-tab-btn"
+                  id="rc-tabs-test-tab-2"
+                  role="tab"
+                  tabindex="0"
+                >
+                  Withdraw
+                </div>
+              </div>
+              <div
+                class="ant-tabs-ink-bar ant-tabs-ink-bar-animated"
+              />
+            </div>
+          </div>
+          <div
+            class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"
+          >
+            <button
+              aria-controls="rc-tabs-test-more-popup"
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-hidden="true"
+              class="ant-tabs-nav-more"
+              id="rc-tabs-test-more"
+              style="margin-left: 0px; visibility: hidden; order: 1;"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                aria-label="ellipsis"
+                class="anticon anticon-ellipsis"
+                role="img"
+              >
+                <svg
+                  aria-hidden="true"
+                  data-icon="ellipsis"
+                  fill="currentColor"
+                  focusable="false"
+                  height="1em"
+                  viewBox="64 64 896 896"
+                  width="1em"
+                >
+                  <path
+                    d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"
+                  />
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="ant-tabs-content-holder"
+        >
+          <div
+            class="ant-tabs-content ant-tabs-content-top"
+          >
+            <div
+              aria-hidden="false"
+              aria-labelledby="rc-tabs-test-tab-1"
+              class="ant-tabs-tabpane ant-tabs-tabpane-active"
+              id="rc-tabs-test-panel-1"
+              role="tabpanel"
+              tabindex="0"
+            >
+              <div
+                class="p-6 md:p-12 bg-neutral-0 space-y-7"
+              >
+                <h2
+                  class="space-x-5 flex items-center"
+                >
+                  <svg
+                    class="w-4 h-4 fill-current w-7 h-7"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="m14.034 7.569-1.225 2.45a2.493 2.493 0 0 1 1.49.745l1.226-2.45a2.494 2.494 0 0 1-1.491-.745Zm-2.612 2.675a2.51 2.51 0 0 0-1.178 1.178L8.578 9.756a2.51 2.51 0 0 0 1.178-1.178l1.666 1.666ZM5.701 9.235l-1.225 2.45a2.493 2.493 0 0 1 1.49.746l1.225-2.45a2.493 2.493 0 0 1-1.49-.746Z"
+                      fill-rule="evenodd"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M16.667 5.833a.833.833 0 1 1-1.667 0 .833.833 0 0 1 1.667 0Zm1.667 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 1.667a.833.833 0 1 1-1.667 0 .833.833 0 0 1 1.667 0ZM10 7.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-5 6.667a.833.833 0 1 1-1.666 0 .833.833 0 0 1 1.666 0Zm1.667 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm5.833-.834a.833.833 0 1 0 0-1.666.833.833 0 0 0 0 1.666Zm0 1.667a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                  <span
+                    class="uppercase font-bold text-2xl"
+                  >
+                    invest
+                  </span>
+                </h2>
+                <div
+                  class="md:flex space-y-2 md:space-y-0 md:space-x-4"
+                >
+                  <div
+                    class="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block"
+                  >
+                    <div
+                      class="text-xs md:text-base font-medium"
+                    >
+                      Current balance
+                    </div>
+                    <div
+                      class="text-2xl font-bold"
+                    >
+                      65 USDC
+                    </div>
+                  </div>
+                  <div
+                    class="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block"
+                  >
+                    <div
+                      class="flex justify-between items-start md:space-x-24 md:justify-start"
+                    >
+                      <div
+                        class="text-xs md:text-base font-medium"
+                      >
+                        Current investments
+                      </div>
+                      <div
+                        class="hidden md:block"
+                      >
+                        <div
+                          class="flex items-center space-x-[10px]"
+                        >
+                          <div
+                            class="bg-action-primary rounded-full w-6 h-6 grid place-items-center"
+                          >
+                            <svg
+                              fill="none"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M14.6139 4.41333C14.5463 4.25043 14.4168 4.12098 14.2539 4.05333C14.1738 4.01917 14.0877 4.00105 14.0006 4H10.6673C10.4905 4 10.3209 4.07024 10.1959 4.19526C10.0708 4.32029 10.0006 4.48986 10.0006 4.66667C10.0006 4.84348 10.0708 5.01305 10.1959 5.13807C10.3209 5.2631 10.4905 5.33333 10.6673 5.33333H12.3939L8.66728 9.06L6.47394 6.86C6.41197 6.79751 6.33823 6.74792 6.257 6.71407C6.17576 6.68023 6.08862 6.6628 6.00061 6.6628C5.9126 6.6628 5.82547 6.68023 5.74423 6.71407C5.66299 6.74792 5.58925 6.79751 5.52728 6.86L1.52728 10.86C1.46479 10.922 1.4152 10.9957 1.38135 11.0769C1.3475 11.1582 1.33008 11.2453 1.33008 11.3333C1.33008 11.4213 1.3475 11.5085 1.38135 11.5897C1.4152 11.671 1.46479 11.7447 1.52728 11.8067C1.58925 11.8692 1.66299 11.9187 1.74423 11.9526C1.82547 11.9864 1.9126 12.0039 2.00061 12.0039C2.08862 12.0039 2.17576 11.9864 2.25699 11.9526C2.33823 11.9187 2.41197 11.8692 2.47394 11.8067L6.00061 8.27333L8.19394 10.4733C8.25592 10.5358 8.32965 10.5854 8.41089 10.6193C8.49213 10.6531 8.57927 10.6705 8.66728 10.6705C8.75529 10.6705 8.84242 10.6531 8.92366 10.6193C9.0049 10.5854 9.07864 10.5358 9.14061 10.4733L13.3339 6.27333V8C13.3339 8.17681 13.4042 8.34638 13.5292 8.4714C13.6542 8.59643 13.8238 8.66667 14.0006 8.66667C14.1774 8.66667 14.347 8.59643 14.472 8.4714C14.597 8.34638 14.6673 8.17681 14.6673 8V4.66667C14.6662 4.57955 14.6481 4.49348 14.6139 4.41333Z"
+                                fill="white"
+                              />
+                            </svg>
+                          </div>
+                          <div
+                            class="text-action-primary font-bold"
+                          >
+                            +3.24
+                            %
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div
+                        class="text-2xl font-bold"
+                      >
+                        256 USDC
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <form
+                  class="ant-form ant-form-vertical max-w-[624px]"
+                  id="invest"
+                >
+                  <div
+                    class="ant-row ant-form-item 
+				font-bold text-base mb-7
+				false
+				undefined
+			"
+                  >
+                    <div
+                      class="ant-col ant-form-item-label"
+                    >
+                      <label
+                        class=""
+                        title="AMOUNT"
+                      >
+                        AMOUNT
+                      </label>
+                    </div>
+                    <div
+                      class="ant-col ant-form-item-control"
+                    >
+                      <div
+                        class="ant-form-item-control-input"
+                      >
+                        <div
+                          class="ant-form-item-control-input-content"
+                        >
+                          <div
+                            class="ant-row ant-form-item mb-0"
+                          >
+                            <div
+                              class="ant-col ant-form-item-control"
+                            >
+                              <div
+                                class="ant-form-item-control-input"
+                              >
+                                <div
+                                  class="ant-form-item-control-input-content"
+                                >
+                                  <span
+                                    class="ant-input-group-wrapper ant-input-group-wrapper-lg 
+						pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
+						focus:shadow-none
+						disabled:border-neutral-60/40
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
+						bg-neutral-0
+					"
+                                  >
+                                    <span
+                                      class="ant-input-wrapper ant-input-group"
+                                    >
+                                      <span
+                                        class="ant-input-group-addon"
+                                      >
+                                        USDC
+                                      </span>
+                                      <span
+                                        class="ant-input-affix-wrapper ant-input-affix-wrapper-lg"
+                                      >
+                                        <input
+                                          class="ant-input ant-input-lg"
+                                          id="invest_amount"
+                                          placeholder="e.g. 0.0007"
+                                          type="number"
+                                          value=""
+                                        />
+                                        <span
+                                          class="ant-input-suffix"
+                                        >
+                                          <div
+                                            class="pl-[14.5px] md:pr-14 hover:cursor-pointer hover:font-semibold"
+                                          >
+                                            MAX
+                                          </div>
+                                        </span>
+                                      </span>
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="ant-row ant-form-item mb-0"
+                  >
+                    <div
+                      class="ant-col ant-form-item-control"
+                    >
+                      <div
+                        class="ant-form-item-control-input"
+                      >
+                        <div
+                          class="ant-form-item-control-input-content"
+                        >
+                          <button
+                            class="ant-btn ant-btn-primary rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] 
+				bg-action-primary border-action-primary text-credix-primary
+				hover:bg-neutral-60 hover:border-neutral-60
+				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
+				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
+			 text-base font-medium h-[42px] w-full md:w-max capitalize"
+                            disabled=""
+                            type="submit"
+                          >
+                            <span>
+                              invest
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div
+              aria-hidden="true"
+              aria-labelledby="rc-tabs-test-tab-2"
+              class="ant-tabs-tabpane"
+              id="rc-tabs-test-panel-2"
+              role="tabpanel"
+              style="display: none;"
+              tabindex="-1"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="ant-tabs ant-tabs-top"
+    >
+      <div
+        class="ant-tabs-nav"
+        role="tablist"
+      >
+        <div
+          class="ant-tabs-nav-wrap"
+        >
+          <div
+            class="ant-tabs-nav-list"
+            style="transform: translate(0px, 0px);"
+          >
+            <div
+              class="ant-tabs-tab ant-tabs-tab-active"
+            >
+              <div
+                aria-controls="rc-tabs-test-panel-1"
+                aria-selected="true"
+                class="ant-tabs-tab-btn"
+                id="rc-tabs-test-tab-1"
+                role="tab"
+                tabindex="0"
+              >
+                Invest
+              </div>
+            </div>
+            <div
+              class="ant-tabs-tab"
+              style="margin-left: 0px;"
+            >
+              <div
+                aria-controls="rc-tabs-test-panel-2"
+                aria-selected="false"
+                class="ant-tabs-tab-btn"
+                id="rc-tabs-test-tab-2"
+                role="tab"
+                tabindex="0"
+              >
+                Withdraw
+              </div>
+            </div>
+            <div
+              class="ant-tabs-ink-bar ant-tabs-ink-bar-animated"
+            />
+          </div>
+        </div>
+        <div
+          class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"
+        >
+          <button
+            aria-controls="rc-tabs-test-more-popup"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-hidden="true"
+            class="ant-tabs-nav-more"
+            id="rc-tabs-test-more"
+            style="margin-left: 0px; visibility: hidden; order: 1;"
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              aria-label="ellipsis"
+              class="anticon anticon-ellipsis"
+              role="img"
+            >
+              <svg
+                aria-hidden="true"
+                data-icon="ellipsis"
+                fill="currentColor"
+                focusable="false"
+                height="1em"
+                viewBox="64 64 896 896"
+                width="1em"
+              >
+                <path
+                  d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div
+        class="ant-tabs-content-holder"
+      >
+        <div
+          class="ant-tabs-content ant-tabs-content-top"
+        >
+          <div
+            aria-hidden="false"
+            aria-labelledby="rc-tabs-test-tab-1"
+            class="ant-tabs-tabpane ant-tabs-tabpane-active"
+            id="rc-tabs-test-panel-1"
+            role="tabpanel"
+            tabindex="0"
+          >
+            <div
+              class="p-6 md:p-12 bg-neutral-0 space-y-7"
+            >
+              <h2
+                class="space-x-5 flex items-center"
+              >
+                <svg
+                  class="w-4 h-4 fill-current w-7 h-7"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="m14.034 7.569-1.225 2.45a2.493 2.493 0 0 1 1.49.745l1.226-2.45a2.494 2.494 0 0 1-1.491-.745Zm-2.612 2.675a2.51 2.51 0 0 0-1.178 1.178L8.578 9.756a2.51 2.51 0 0 0 1.178-1.178l1.666 1.666ZM5.701 9.235l-1.225 2.45a2.493 2.493 0 0 1 1.49.746l1.225-2.45a2.493 2.493 0 0 1-1.49-.746Z"
+                    fill-rule="evenodd"
+                  />
+                  <path
+                    clip-rule="evenodd"
+                    d="M16.667 5.833a.833.833 0 1 1-1.667 0 .833.833 0 0 1 1.667 0Zm1.667 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 1.667a.833.833 0 1 1-1.667 0 .833.833 0 0 1 1.667 0ZM10 7.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-5 6.667a.833.833 0 1 1-1.666 0 .833.833 0 0 1 1.666 0Zm1.667 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm5.833-.834a.833.833 0 1 0 0-1.666.833.833 0 0 0 0 1.666Zm0 1.667a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+                <span
+                  class="uppercase font-bold text-2xl"
+                >
+                  invest
+                </span>
+              </h2>
+              <div
+                class="md:flex space-y-2 md:space-y-0 md:space-x-4"
+              >
+                <div
+                  class="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block"
+                >
+                  <div
+                    class="text-xs md:text-base font-medium"
+                  >
+                    Current balance
+                  </div>
+                  <div
+                    class="text-2xl font-bold"
+                  >
+                    65 USDC
+                  </div>
+                </div>
+                <div
+                  class="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block"
+                >
+                  <div
+                    class="flex justify-between items-start md:space-x-24 md:justify-start"
+                  >
+                    <div
+                      class="text-xs md:text-base font-medium"
+                    >
+                      Current investments
+                    </div>
+                    <div
+                      class="hidden md:block"
+                    >
+                      <div
+                        class="flex items-center space-x-[10px]"
+                      >
+                        <div
+                          class="bg-action-primary rounded-full w-6 h-6 grid place-items-center"
+                        >
+                          <svg
+                            fill="none"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M14.6139 4.41333C14.5463 4.25043 14.4168 4.12098 14.2539 4.05333C14.1738 4.01917 14.0877 4.00105 14.0006 4H10.6673C10.4905 4 10.3209 4.07024 10.1959 4.19526C10.0708 4.32029 10.0006 4.48986 10.0006 4.66667C10.0006 4.84348 10.0708 5.01305 10.1959 5.13807C10.3209 5.2631 10.4905 5.33333 10.6673 5.33333H12.3939L8.66728 9.06L6.47394 6.86C6.41197 6.79751 6.33823 6.74792 6.257 6.71407C6.17576 6.68023 6.08862 6.6628 6.00061 6.6628C5.9126 6.6628 5.82547 6.68023 5.74423 6.71407C5.66299 6.74792 5.58925 6.79751 5.52728 6.86L1.52728 10.86C1.46479 10.922 1.4152 10.9957 1.38135 11.0769C1.3475 11.1582 1.33008 11.2453 1.33008 11.3333C1.33008 11.4213 1.3475 11.5085 1.38135 11.5897C1.4152 11.671 1.46479 11.7447 1.52728 11.8067C1.58925 11.8692 1.66299 11.9187 1.74423 11.9526C1.82547 11.9864 1.9126 12.0039 2.00061 12.0039C2.08862 12.0039 2.17576 11.9864 2.25699 11.9526C2.33823 11.9187 2.41197 11.8692 2.47394 11.8067L6.00061 8.27333L8.19394 10.4733C8.25592 10.5358 8.32965 10.5854 8.41089 10.6193C8.49213 10.6531 8.57927 10.6705 8.66728 10.6705C8.75529 10.6705 8.84242 10.6531 8.92366 10.6193C9.0049 10.5854 9.07864 10.5358 9.14061 10.4733L13.3339 6.27333V8C13.3339 8.17681 13.4042 8.34638 13.5292 8.4714C13.6542 8.59643 13.8238 8.66667 14.0006 8.66667C14.1774 8.66667 14.347 8.59643 14.472 8.4714C14.597 8.34638 14.6673 8.17681 14.6673 8V4.66667C14.6662 4.57955 14.6481 4.49348 14.6139 4.41333Z"
+                              fill="white"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="text-action-primary font-bold"
+                        >
+                          +3.24
+                          %
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="text-2xl font-bold"
+                    >
+                      256 USDC
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <form
+                class="ant-form ant-form-vertical max-w-[624px]"
+                id="invest"
+              >
+                <div
+                  class="ant-row ant-form-item 
+				font-bold text-base mb-7
+				false
+				undefined
+			"
+                >
+                  <div
+                    class="ant-col ant-form-item-label"
+                  >
+                    <label
+                      class=""
+                      title="AMOUNT"
+                    >
+                      AMOUNT
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-form-item-control"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <div
+                          class="ant-row ant-form-item mb-0"
+                        >
+                          <div
+                            class="ant-col ant-form-item-control"
+                          >
+                            <div
+                              class="ant-form-item-control-input"
+                            >
+                              <div
+                                class="ant-form-item-control-input-content"
+                              >
+                                <span
+                                  class="ant-input-group-wrapper ant-input-group-wrapper-lg 
+						pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
+						focus:shadow-none
+						disabled:border-neutral-60/40
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
+						bg-neutral-0
+					"
+                                >
+                                  <span
+                                    class="ant-input-wrapper ant-input-group"
+                                  >
+                                    <span
+                                      class="ant-input-group-addon"
+                                    >
+                                      USDC
+                                    </span>
+                                    <span
+                                      class="ant-input-affix-wrapper ant-input-affix-wrapper-lg"
+                                    >
+                                      <input
+                                        class="ant-input ant-input-lg"
+                                        id="invest_amount"
+                                        placeholder="e.g. 0.0007"
+                                        type="number"
+                                        value=""
+                                      />
+                                      <span
+                                        class="ant-input-suffix"
+                                      >
+                                        <div
+                                          class="pl-[14.5px] md:pr-14 hover:cursor-pointer hover:font-semibold"
+                                        >
+                                          MAX
+                                        </div>
+                                      </span>
+                                    </span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ant-row ant-form-item mb-0"
+                >
+                  <div
+                    class="ant-col ant-form-item-control"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <button
+                          class="ant-btn ant-btn-primary rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] 
+				bg-action-primary border-action-primary text-credix-primary
+				hover:bg-neutral-60 hover:border-neutral-60
+				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
+				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
+			 text-base font-medium h-[42px] w-full md:w-max capitalize"
+                          disabled=""
+                          type="submit"
+                        >
+                          <span>
+                            invest
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            aria-labelledby="rc-tabs-test-tab-2"
+            class="ant-tabs-tabpane"
+            id="rc-tabs-test-panel-2"
+            role="tabpanel"
+            style="display: none;"
+            tabindex="-1"
+          />
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
