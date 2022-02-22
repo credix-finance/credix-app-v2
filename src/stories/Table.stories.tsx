@@ -1,9 +1,9 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Table } from "@components/Table";
-import { TableHeaderCell } from "@components/TableHeaderCell";
 import { Tabs } from "@components/Tabs";
 import { TabPane } from "@components/TabPane";
+import { IconName } from "@components/Icon";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -49,18 +49,21 @@ const defaultArgs = {
 	],
 	columns: [
 		{
-			title: () => <TableHeaderCell label="Name" icon="stacked-column-down" />,
+			title: "Name",
+			icon: "stacked-column-down" as IconName,
 			dataIndex: "name",
 			key: "name",
 		},
 		{
-			title: () => <TableHeaderCell label="Amount" icon="coins-alt" />,
+			title: "Amount",
+			icon: "coins-alt" as IconName,
 			dataIndex: "amount",
 			key: "amount",
 			render: (text) => <span className="font-medium text-lg">{text}</span>,
 		},
 		{
-			title: () => <TableHeaderCell label="Date" icon="calendar" />,
+			title: "Date",
+			icon: "calendar" as IconName,
 			dataIndex: "date",
 			key: "date",
 			render: (text) => <span className="font-medium text-lg">{text}</span>,

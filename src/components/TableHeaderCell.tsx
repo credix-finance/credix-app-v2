@@ -1,9 +1,9 @@
 import React from "react";
-import { Icon, IconNames } from "@components/Icon";
+import { Icon, IconName } from "@components/Icon";
 
-interface TableHeaderCellProps {
+export interface TableHeaderCellProps {
 	className?: string;
-	icon?: IconNames;
+	icon?: IconName;
 	label: string;
 }
 

@@ -40,29 +40,7 @@ exports[`Default 1`] = `
                     onMouseLeave={[Function]}
                     rowSpan={null}
                     style={Object {}}
-                  >
-                    Name
-                  </th>
-                  <th
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    Amount
-                  </th>
-                  <th
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    Date
-                  </th>
+                  />
                 </tr>
               </thead>
               <tbody
@@ -81,37 +59,7 @@ exports[`Default 1`] = `
                     onMouseLeave={[Function]}
                     rowSpan={null}
                     style={Object {}}
-                  >
-                    a55 Debenture Series-1
-                  </td>
-                  <td
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    <span
-                      className="font-medium text-lg"
-                    >
-                      0.22 USDC
-                    </span>
-                  </td>
-                  <td
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    <span
-                      className="font-medium text-lg"
-                    >
-                      02.11.21
-                    </span>
-                  </td>
+                  />
                 </tr>
                 <tr
                   className="ant-table-row ant-table-row-level-0"
@@ -126,37 +74,7 @@ exports[`Default 1`] = `
                     onMouseLeave={[Function]}
                     rowSpan={null}
                     style={Object {}}
-                  >
-                    a55 Debenture Series-1
-                  </td>
-                  <td
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    <span
-                      className="font-medium text-lg"
-                    >
-                      0.22 USDC
-                    </span>
-                  </td>
-                  <td
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    <span
-                      className="font-medium text-lg"
-                    >
-                      02.11.21
-                    </span>
-                  </td>
+                  />
                 </tr>
                 <tr
                   className="ant-table-row ant-table-row-level-0"
@@ -171,37 +89,7 @@ exports[`Default 1`] = `
                     onMouseLeave={[Function]}
                     rowSpan={null}
                     style={Object {}}
-                  >
-                    a55 Debenture Series-1
-                  </td>
-                  <td
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    <span
-                      className="font-medium text-lg"
-                    >
-                      0.22 USDC
-                    </span>
-                  </td>
-                  <td
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    <span
-                      className="font-medium text-lg"
-                    >
-                      02.11.21
-                    </span>
-                  </td>
+                  />
                 </tr>
                 <tr
                   className="ant-table-row ant-table-row-level-0"
@@ -216,37 +104,7 @@ exports[`Default 1`] = `
                     onMouseLeave={[Function]}
                     rowSpan={null}
                     style={Object {}}
-                  >
-                    a55 Debenture Series-1
-                  </td>
-                  <td
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    <span
-                      className="font-medium text-lg"
-                    >
-                      0.22 USDC
-                    </span>
-                  </td>
-                  <td
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    <span
-                      className="font-medium text-lg"
-                    >
-                      02.11.21
-                    </span>
-                  </td>
+                  />
                 </tr>
                 <tr
                   className="ant-table-row ant-table-row-level-0"
@@ -261,37 +119,7 @@ exports[`Default 1`] = `
                     onMouseLeave={[Function]}
                     rowSpan={null}
                     style={Object {}}
-                  >
-                    a55 Debenture Series-1
-                  </td>
-                  <td
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    <span
-                      className="font-medium text-lg"
-                    >
-                      0.22 USDC
-                    </span>
-                  </td>
-                  <td
-                    className="ant-table-cell"
-                    colSpan={null}
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
-                    rowSpan={null}
-                    style={Object {}}
-                  >
-                    <span
-                      className="font-medium text-lg"
-                    >
-                      02.11.21
-                    </span>
-                  </td>
+                  />
                 </tr>
               </tbody>
             </table>

@@ -1,8 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table as AntdTable } from "antd";
 import { TableProps as AntdTableProps } from "antd/lib/table";
 import { PageItem } from "@components/PageItem";
+import { ColumnType } from "antd/lib/table";
+import { TableHeaderCell } from "./TableHeaderCell";
+import { IconName } from "@components/Icon";
+
+type ColumnsProps = ColumnType<any> & {
+	/**
+	 * Optional icon that will be displayed on the left of the column title
+	 */
+	icon?: IconName;
+	titleClassName?: string;
+};
 
 interface TableProps {
 	/**
@@ -12,10 +23,33 @@ interface TableProps {
 	/**
 	 * Table columns
 	 */
-	columns?: AntdTableProps<any>["columns"];
+	columns?: ColumnsProps[];
 }
 
-export const Table = (props: TableProps) => {
+export const Table = ({ columns, ...props }: TableProps) => {
+	const [parsedColumns, setParsedColumns] = useState([]);
+
+	useEffect(() => {
+		setParsedColumns(
+			columns.map((column) => {
+				if (typeof column.title === "function") {
+					return column;
+				}
+
+				if (column.icon) {
+					const { icon, title, titleClassName } = column;
+					return Object.assign({}, column, {
+						title: () => (
+							<TableHeaderCell label={title as string} icon={icon} className={titleClassName} />
+						),
+					});
+				}
+
+				return column;
+			})
+		);
+	}, [columns]);
+
 	return (
 		<AntdTable
 			pagination={{
@@ -25,6 +59,7 @@ export const Table = (props: TableProps) => {
 					<PageItem page={page} type={type} originalElement={originalElement} />
 				),
 			}}
+			columns={parsedColumns}
 			{...props}
 		/>
 	);

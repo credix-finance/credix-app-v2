@@ -2,7 +2,6 @@ import React from "react";
 import "./__mocks__/matchMedia.mock";
 import renderer from "react-test-renderer";
 import { Table } from "@components/Table";
-import { TableHeaderCell } from "@components/TableHeaderCell";
 
 const defaultData = {
 	dataSource: [
@@ -68,18 +67,21 @@ test("Default", () => {
 test("Table headers with icons", () => {
 	const columns = [
 		{
-			title: () => <TableHeaderCell label="Name" icon="stacked-column-down" />,
+			title: "Name",
+			icon: "stacked-column-down",
 			dataIndex: "name",
 			key: "name",
 		},
 		{
-			title: () => <TableHeaderCell label="Amount" icon="stacked-column-down" />,
+			title: "Amount",
+			icon: "stacked-column-down",
 			dataIndex: "amount",
 			key: "amount",
 			render: (text) => <span className="font-medium text-lg">{text}</span>,
 		},
 		{
-			title: () => <TableHeaderCell label="Date" icon="calendar" />,
+			title: "Date",
+			icon: "calendar",
 			dataIndex: "date",
 			key: "date",
 			render: (text) => <span className="font-medium text-lg">{text}</span>,
