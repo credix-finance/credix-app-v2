@@ -1,5 +1,4 @@
 import React from "react";
-import "./__mocks__/matchMedia.mock";
 import renderer from "react-test-renderer";
 import { Input } from "@components/Input";
 import { Form } from "antd";
