@@ -1,6 +1,7 @@
 import { ConfirmOptions, PublicKey } from "@solana/web3.js";
 import { ClusterConfig, Config } from "types/config.types";
 import { RPCEndpoint, SolanaCluster } from "types/solana.types";
+import { CivicStage } from "types/civic.types";
 
 const baseConfig = {
 	programId: new PublicKey("CRDx2YkdtYtGZXGHZ59wNv1EwKHQndnRc1gT4p8i2vPX"),
@@ -12,23 +13,26 @@ const localnetConfig: ClusterConfig = {
 	...baseConfig,
 	name: SolanaCluster.LOCALNET,
 	RPCEndpoint: RPCEndpoint.LOCALNET,
+	stage: CivicStage.LOCALNET,
 };
 
 const devnetConfig: ClusterConfig = {
 	...baseConfig,
 	name: SolanaCluster.DEVNET,
 	RPCEndpoint: RPCEndpoint.DEVNET,
+	stage: CivicStage.DEVNET,
 };
 
 const mainnetConfig: ClusterConfig = {
 	...baseConfig,
 	name: SolanaCluster.MAINNET,
 	RPCEndpoint: RPCEndpoint.MAINNET,
+	stage: CivicStage.MAINNET,
 };
 ///
 
 const getTargetClusterFromEnv = (): SolanaCluster => {
-	const targetCluster = process.env.REACT_APP_CLUSTER;
+	const targetCluster = process.env.NEXT_PUBLIC_REACT_APP_CLUSTER;
 
 	if (targetCluster) {
 		if (!Object.values(SolanaCluster).some((c) => c === targetCluster)) {
