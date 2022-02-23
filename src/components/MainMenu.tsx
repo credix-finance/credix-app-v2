@@ -1,6 +1,9 @@
 import React from "react";
 import { CredixLogo } from "@components/CredixLogo";
 import { WalletButton } from "@components/WalletButton";
+import { config } from "config";
+import { SolanaCluster } from "types/solana.types";
+import { Identity } from "./Identity";
 
 export const MainMenu = () => {
 	return (
@@ -8,7 +11,8 @@ export const MainMenu = () => {
 			<div>
 				<CredixLogo />
 			</div>
-			<div>
+			<div className="md:flex">
+				{config.clusterConfig.name !== SolanaCluster.LOCALNET && <Identity />}
 				<WalletButton />
 			</div>
 		</div>

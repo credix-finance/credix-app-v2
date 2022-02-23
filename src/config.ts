@@ -1,6 +1,7 @@
 import { ConfirmOptions, PublicKey } from "@solana/web3.js";
 import { ClusterConfig, Config } from "types/config.types";
 import { RPCEndpoint, SolanaCluster } from "types/solana.types";
+import { CivicStage } from "types/civic.types";
 
 /// PREFILLED CONFIGS
 const localnetConfig: ClusterConfig = {
@@ -8,6 +9,7 @@ const localnetConfig: ClusterConfig = {
 	RPCEndpoint: RPCEndpoint.LOCALNET,
 	programId: new PublicKey("CRDx2YkdtYtGZXGHZ59wNv1EwKHQndnRc1gT4p8i2vPX"),
 	gatewayProgramId: new PublicKey("gatem74V238djXdzWnJf94Wo1DcnuGkfijbf3AuBhfs"),
+	stage: CivicStage.LOCALNET,
 };
 
 const devnetConfig: ClusterConfig = {
@@ -15,6 +17,7 @@ const devnetConfig: ClusterConfig = {
 	RPCEndpoint: RPCEndpoint.DEVNET,
 	programId: new PublicKey("CRDx2YkdtYtGZXGHZ59wNv1EwKHQndnRc1gT4p8i2vPX"),
 	gatewayProgramId: new PublicKey("gatem74V238djXdzWnJf94Wo1DcnuGkfijbf3AuBhfs"),
+	stage: CivicStage.DEVNET,
 };
 
 const mainnetConfig: ClusterConfig = {
@@ -22,11 +25,12 @@ const mainnetConfig: ClusterConfig = {
 	RPCEndpoint: RPCEndpoint.MAINNET,
 	programId: new PublicKey("CRDx2YkdtYtGZXGHZ59wNv1EwKHQndnRc1gT4p8i2vPX"),
 	gatewayProgramId: new PublicKey("gatem74V238djXdzWnJf94Wo1DcnuGkfijbf3AuBhfs"),
+	stage: CivicStage.MAINNET,
 };
 ///
 
 const getTargetClusterFromEnv = (): SolanaCluster => {
-	const targetCluster = process.env.REACT_APP_CLUSTER;
+	const targetCluster = process.env.NEXT_PUBLIC_REACT_APP_CLUSTER;
 
 	if (targetCluster) {
 		if (!Object.values(SolanaCluster).some((c) => c === targetCluster)) {
