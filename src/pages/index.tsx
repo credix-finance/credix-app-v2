@@ -1,12 +1,23 @@
 import { Button } from "@components/Button";
 import { Card } from "@components/Card";
-import { Statistic } from "@components/Statistic";
+import { MarketStats } from "@components/MarketStats";
+import { Market, useCredixClient } from "@credix/credix-client";
+import { defaultMarketplace } from "../consts";
 import type { NextPage } from "next";
+import { useCallback, useEffect, useState } from "react";
 
 const Overview: NextPage = () => {
-	const tvl = 14_800_000;
-	const apy = 0.138;
-	const creditOutstanding = 12_300_000;
+	const client = useCredixClient();
+	const [market, setMarket] = useState<Market | null>(null);
+
+	const getMarket = useCallback(async () => {
+		const market = await client.fetchMarket(defaultMarketplace);
+		setMarket(market);
+	}, [client]);
+
+	useEffect(() => {
+		getMarket();
+	}, [getMarket]);
 
 	const parties = [
 		{
@@ -39,15 +50,7 @@ const Overview: NextPage = () => {
 					markets
 				</div>
 			</div>
-			<div className="md:col-span-4 w-full flex justify-center">
-				<Statistic label="TVL" currency="USDC" value={tvl} />
-			</div>
-			<div className="md:col-span-4 w-full flex justify-center">
-				<Statistic label="Estimatded APY" isPercentage={true} value={apy} />
-			</div>
-			<div className="md:col-span-4 w-full flex justify-center">
-				<Statistic label="Credit outstanding" currency="USDC" value={creditOutstanding} />
-			</div>
+			<MarketStats market={market} />
 			<div className="ml-6 md:col-span-12 md:flex md:justify-between md:space-x-20 space-y-8 md:space-y-0">
 				{parties.map(({ name, action, buttonAction, description }) => (
 					<Card key={name} topTitle={name} title={action} offset="large">
