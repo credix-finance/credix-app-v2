@@ -136,7 +136,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
         run: |
-          NEXT_PUBLIC_BASE_PATH= yarn build
+          NEXT_PUBLIC_BASE_PATH= NEXT_PUBLIC_REACT_APP_CLUSTER=devnet yarn build
           yarn export
 
       - name: Checkout target repository
@@ -199,7 +199,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
         run: |
-          NEXT_PUBLIC_BASE_PATH= yarn build
+          NEXT_PUBLIC_BASE_PATH= NEXT_PUBLIC_REACT_APP_CLUSTER=mainnet yarn build
           yarn export
 
       - name: Checkout target repository
