@@ -7311,8 +7311,8 @@ __metadata:
     antd: ^4.18.5
     autoprefixer: ^10.4.2
     babel-loader: ^8.2.3
-    chromatic: ^6.5.1
     big.js: ^6.1.1
+    chromatic: ^6.5.1
     eslint: 8.7.0
     eslint-config-next: 12.1.0
     eslint-config-prettier: ^8.3.0
