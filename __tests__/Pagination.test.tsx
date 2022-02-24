@@ -1,6 +1,5 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import "./__mocks__/matchMedia.mock";
 import { Pagination } from "@components/Pagination";
 
 test("Default", () => {
