@@ -4,7 +4,11 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "@components/Button";
 import { Icon } from "@components/Icon";
 
-export const WalletButton = () => {
+interface WalletButtonProps {
+	className?: string;
+}
+
+export const WalletButton = ({className = ""}: WalletButtonProps) => {
 	const { wallet, publicKey, disconnect } = useWallet();
 	const { setVisible } = useWalletModal();
 	const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -30,6 +34,7 @@ export const WalletButton = () => {
 				size="large"
 				onClick={() => setVisible(true)}
 				icon={<Icon name="wallet" className="w-6 h-6" />}
+				className={className}
 			>
 				<span className="text-lg font-semibold">Connect Wallet</span>
 			</Button>
@@ -42,6 +47,7 @@ export const WalletButton = () => {
 				type="default"
 				onClick={() => setDropdownVisible(!dropdownVisible)}
 				icon={<WalletIcon wallet={wallet} className="w-6" />}
+				className={className}
 			>
 				{address}
 			</Button>
