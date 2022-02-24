@@ -1,0 +1,55 @@
+{
+	"name": "@credix/credix-client",
+	"version": "0.1.0",
+	"description": "Client to interact with Credix marketplaces on Solana",
+	"main": "build/src/index.js",
+	"types": "build/src/index.d.ts",
+	"author": {
+		"name": "Credix Finance BV",
+		"email": "admin@credix.finance",
+		"url": "https://credix.finance"
+	},
+	"repository": "https://github.com/credix-finance/credix-client",
+	"bugs": {
+		"url": "https://github.com/credix-finance/credix-client/issues",
+		"email": "admin@credix.finance"
+	},
+	"homepage": "https://credix.finance",
+	"license": "MIT",
+	"scripts": {
+		"build": "tsc",
+		"lint": "yarn eslint src/",
+		"format": "yarn prettier --check src/",
+		"clean": "rm -rf build/",
+		"test": "NODE_PATH=./src/ nyc mocha",
+		"build-docs": "yarn typedoc src/index.ts --excludePrivate"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all",
+			"maintained node versions"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"dependencies": {
+		"@identity.com/solana-gateway-ts": "^0.8.1",
+		"@project-serum/anchor": "^0.20.1",
+		"@saberhq/anchor-contrib": "^1.12.32",
+		"@solana/spl-token": "^0.1.8",
+		"@solana/web3.js": "^1.31.0",
+		"big.js": "^6.1.1",
+		"bn.js": "^5.2.0",
+		"fraction.js": "^4.1.2"
+	},
+	"peerDependencies": {
+		"react": "^17.0.2"
+	},
+	"packageManager": "yarn@3.1.1",
+	"yalcSig": "cc879d142dc0e74f44aa7f014ba65eb3"
+}

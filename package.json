@@ -15,6 +15,7 @@
 		"build-storybook": "build-storybook"
 	},
 	"dependencies": {
+		"@credix/credix-client": "file:.yalc/@credix/credix-client",
 		"@solana/wallet-adapter-base": "^0.9.2",
 		"@solana/wallet-adapter-react": "^0.15.2",
 		"@solana/wallet-adapter-react-ui": "^0.9.4",

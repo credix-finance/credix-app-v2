@@ -1,10 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { IconNames } from "@components/Icon";
+import { IconName } from "@components/Icon";
 import { SideMenuItem } from "@components/SideMenuItem";
 
 const defaultProps = {
-	icon: "line-chart" as IconNames,
+	icon: "line-chart" as IconName,
 	label: "Invest",
 	path: "/invest",
 	isActive: false,

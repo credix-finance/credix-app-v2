@@ -1,36 +1,35 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { SideMenu } from "@components/SideMenu";
-import { SideMenuItemProps } from "@components/SideMenuItem";
-import { IconNames } from "@components/Icon";
+import { IconName } from "@components/Icon";
 
 const items = [
 	{
-		icon: "line-chart" as IconNames,
+		icon: "line-chart" as IconName,
 		label: "Invest",
 		path: "/invest",
 		isActive: true,
 	},
 	{
-		icon: "coins" as IconNames,
+		icon: "coins" as IconName,
 		label: "withdraw",
 		path: "/withdraw",
 		isActive: false,
 	},
 	{
-		icon: "timeline" as IconNames,
+		icon: "timeline" as IconName,
 		label: "Deals",
 		path: "/deals",
 		isActive: false,
 	},
 	{
-		icon: "grid" as IconNames,
+		icon: "grid" as IconName,
 		label: "Transactions",
 		path: "/transactions",
 		isActive: false,
 	},
 	{
-		icon: "user" as IconNames,
+		icon: "user" as IconName,
 		label: "Account",
 		path: "/account",
 		isActive: false,

@@ -1,9 +1,9 @@
 import React from "react";
-import { Icon, IconNames } from "@components/Icon";
+import { Icon, IconName } from "@components/Icon";
 import Link from "next/link";
 
 export interface SideMenuItemProps {
-	icon: IconNames;
+	icon: IconName;
 	label: string;
 	path: string;
 	isActive: boolean;
