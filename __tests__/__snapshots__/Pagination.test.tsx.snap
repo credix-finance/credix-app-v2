@@ -1,0 +1,351 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Default 1`] = `
+<ul
+  className="ant-pagination ant-table-pagination"
+  style={Object {}}
+  unselectable="unselectable"
+>
+  <li
+    aria-disabled={true}
+    className="ant-pagination-prev ant-pagination-disabled"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex={null}
+    title="Previous Page"
+  >
+    <button
+      className="ant-pagination-item-link border-none bg-transparent w-[39px] h-[36px] grid place-content-center"
+      tabIndex={-1}
+      type="button"
+    >
+      <svg
+        fill="none"
+        height="20"
+        viewBox="0 0 20 20"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.5 15L7.5 10L12.5 5"
+          stroke="#343A3F"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.6"
+        />
+      </svg>
+    </button>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={1}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        1
+      </span>
+    </a>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-2"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={2}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        2
+      </span>
+    </a>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-3"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={3}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        3
+      </span>
+    </a>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-4"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={4}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        4
+      </span>
+    </a>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-5"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={5}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        5
+      </span>
+    </a>
+  </li>
+  <li
+    aria-disabled={false}
+    className="ant-pagination-next"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex={0}
+    title="Next Page"
+  >
+    <button
+      className="ant-pagination-item-link border-none bg-transparent w-[39px] h-[36px] grid place-content-center"
+      tabIndex={-1}
+      type="button"
+    >
+      <svg
+        fill="none"
+        height="20"
+        viewBox="0 0 20 20"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.5 15L12.5 10L7.5 5"
+          stroke="#343A3F"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.6"
+        />
+      </svg>
+    </button>
+  </li>
+</ul>
+`;
+
+exports[`With more 1`] = `
+<ul
+  className="ant-pagination ant-table-pagination"
+  style={Object {}}
+  unselectable="unselectable"
+>
+  <li
+    aria-disabled={true}
+    className="ant-pagination-prev ant-pagination-disabled"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex={null}
+    title="Previous Page"
+  >
+    <button
+      className="ant-pagination-item-link border-none bg-transparent w-[39px] h-[36px] grid place-content-center"
+      tabIndex={-1}
+      type="button"
+    >
+      <svg
+        fill="none"
+        height="20"
+        viewBox="0 0 20 20"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.5 15L7.5 10L12.5 5"
+          stroke="#343A3F"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.6"
+        />
+      </svg>
+    </button>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={1}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        1
+      </span>
+    </a>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-2"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={2}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        2
+      </span>
+    </a>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-3"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={3}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        3
+      </span>
+    </a>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-4"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={4}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        4
+      </span>
+    </a>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-5 ant-pagination-item-before-jump-next"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={5}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        5
+      </span>
+    </a>
+  </li>
+  <li
+    className="ant-pagination-jump-next ant-pagination-jump-next-custom-icon"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title="Next 5 Pages"
+  >
+    <a
+      className="ant-pagination-item-link text-neutral-100 border-none bg-transparent w-[39px] h-[36px] grid place-content-center"
+    >
+      <svg
+        className="w-4 h-4 fill-current w-6 h-5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          r="1"
+        />
+        <circle
+          cx="19"
+          cy="12"
+          r="1"
+        />
+        <circle
+          cx="5"
+          cy="12"
+          r="1"
+        />
+      </svg>
+    </a>
+  </li>
+  <li
+    className="ant-pagination-item ant-pagination-item-10"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex="0"
+    title={10}
+  >
+    <a
+      className="ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100"
+      rel="nofollow"
+    >
+      <span>
+        10
+      </span>
+    </a>
+  </li>
+  <li
+    aria-disabled={false}
+    className="ant-pagination-next"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    tabIndex={0}
+    title="Next Page"
+  >
+    <button
+      className="ant-pagination-item-link border-none bg-transparent w-[39px] h-[36px] grid place-content-center"
+      tabIndex={-1}
+      type="button"
+    >
+      <svg
+        fill="none"
+        height="20"
+        viewBox="0 0 20 20"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.5 15L12.5 10L7.5 5"
+          stroke="#343A3F"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.6"
+        />
+      </svg>
+    </button>
+  </li>
+</ul>
+`;

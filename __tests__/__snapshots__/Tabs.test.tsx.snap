@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Default 1`] = `
+<div
+  className="ant-tabs ant-tabs-top"
+>
+  <div
+    className="ant-tabs-nav"
+    onKeyDown={[Function]}
+    role="tablist"
+  >
+    <div
+      className="ant-tabs-nav-wrap"
+    >
+      <div
+        className="ant-tabs-nav-list"
+        style={
+          Object {
+            "transform": "translate(0px, 0px)",
+            "transition": undefined,
+          }
+        }
+      >
+        <div
+          className="ant-tabs-tab ant-tabs-tab-active"
+          onClick={[Function]}
+        >
+          <div
+            aria-controls={null}
+            aria-selected={true}
+            className="ant-tabs-tab-btn"
+            id={null}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            role="tab"
+            tabIndex={0}
+          >
+            tab 1
+          </div>
+        </div>
+        <div
+          className="ant-tabs-tab"
+          onClick={[Function]}
+          style={
+            Object {
+              "marginLeft": 0,
+            }
+          }
+        >
+          <div
+            aria-controls={null}
+            aria-selected={false}
+            className="ant-tabs-tab-btn"
+            id={null}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            role="tab"
+            tabIndex={0}
+          >
+            tab 2
+          </div>
+        </div>
+        <div
+          className="ant-tabs-ink-bar ant-tabs-ink-bar-animated"
+        />
+      </div>
+    </div>
+    <div
+      className="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"
+    >
+      <button
+        aria-controls="null-more-popup"
+        aria-expanded={false}
+        aria-haspopup="listbox"
+        aria-hidden="true"
+        className="ant-tabs-nav-more"
+        id="null-more"
+        onKeyDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        style={
+          Object {
+            "marginLeft": 0,
+            "order": 1,
+            "visibility": "hidden",
+          }
+        }
+        tabIndex={-1}
+        type="button"
+      >
+        <span
+          aria-label="ellipsis"
+          className="anticon anticon-ellipsis"
+          role="img"
+        >
+          <svg
+            aria-hidden="true"
+            data-icon="ellipsis"
+            fill="currentColor"
+            focusable="false"
+            height="1em"
+            viewBox="64 64 896 896"
+            width="1em"
+          >
+            <path
+              d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div
+    className="ant-tabs-content-holder"
+  >
+    <div
+      className="ant-tabs-content ant-tabs-content-top"
+      style={null}
+    >
+      <div
+        aria-hidden={false}
+        aria-labelledby={null}
+        className="ant-tabs-tabpane ant-tabs-tabpane-active"
+        id={null}
+        role="tabpanel"
+        style={Object {}}
+        tabIndex={0}
+      >
+        This is the content of tab 1
+      </div>
+      <div
+        aria-hidden={true}
+        aria-labelledby={null}
+        className="ant-tabs-tabpane"
+        id={null}
+        role="tabpanel"
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+        tabIndex={-1}
+      />
+    </div>
+  </div>
+</div>
+`;
