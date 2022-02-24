@@ -12,8 +12,7 @@
 		"export": "next export",
 		"test:unit": "jest --passWithNoTests",
 		"storybook": "start-storybook -p 6006",
-		"build-storybook": "build-storybook",
-		"chromatic": "chromatic --exit-zero-on-changes"
+		"build-storybook": "build-storybook"
 	},
 	"dependencies": {
 		"@solana/wallet-adapter-base": "^0.9.2",
