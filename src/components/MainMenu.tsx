@@ -13,7 +13,7 @@ export const MainMenu = () => {
 			</div>
 			<div className="md:flex">
 				{config.clusterConfig.name !== SolanaCluster.LOCALNET && <Identity />}
-				<WalletButton />
+				<WalletButton className="ml-4" />
 			</div>
 		</div>
 	);
