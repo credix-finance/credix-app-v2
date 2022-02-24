@@ -19,6 +19,10 @@ interface ButtonProps {
 	 * Controls whether a loading spinner is displayed at the start of the button.
 	 */
 	loading?: AntButtonProps["loading"];
+	/**
+	 * Buttons with the block property will take up the entire width of their parent.
+	 */
+	block?: AntButtonProps["block"];
 	onClick?: AntButtonProps["onClick"];
 	className?: AntButtonProps["className"];
 	children?: AntButtonProps["children"];
@@ -58,7 +62,7 @@ export const Button = ({
 }: ButtonProps) => {
 	return (
 		<AntdButton
-			className={`rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] ${buttonTypeStyles[type]} ${buttonSizeStyles[size]} ${className}`}
+			className={`rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] ${buttonTypeStyles[type]} ${buttonSizeStyles[size]} ${className}`}
 			size={size}
 			type={type}
 			{...props}

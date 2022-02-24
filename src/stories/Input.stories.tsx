@@ -6,7 +6,7 @@ import { Form } from "antd";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: "Input",
+	title: "Components/Input",
 	component: Input,
 	decorators: [
 		(Story) => (

@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card with large offset 1`] = `
+<div
+  className="md:col-span-3 border border-solid rounded-[1px] border-darker w-full p-7 pt-16"
+>
+  <div
+    className="bg-credix-primary -ml-14 py-[18.5px]"
+  >
+    <div
+      className="text-xs font-normal capitalize"
+    >
+      top title
+    </div>
+    <div
+      className="font-sans font-semibold text-[32px] capitalize"
+    >
+      title
+    </div>
+  </div>
+  <div
+    className="text-base"
+  >
+    This is the content of the card.
+  </div>
+</div>
+`;
+
+exports[`Card with middle offset 1`] = `
+<div
+  className="md:col-span-3 border border-solid rounded-[1px] border-darker w-full p-7 pt-16"
+>
+  <div
+    className="bg-credix-primary -ml-12 py-[18.5px]"
+  >
+    <div
+      className="text-xs font-normal capitalize"
+    >
+      top title
+    </div>
+    <div
+      className="font-sans font-semibold text-[32px] capitalize"
+    >
+      title
+    </div>
+  </div>
+  <div
+    className="text-base"
+  >
+    This is the content of the card.
+  </div>
+</div>
+`;
+
+exports[`Card with small offset 1`] = `
+<div
+  className="md:col-span-3 border border-solid rounded-[1px] border-darker w-full p-7 pt-16"
+>
+  <div
+    className="bg-credix-primary -ml-9 py-[18.5px]"
+  >
+    <div
+      className="text-xs font-normal capitalize"
+    >
+      top title
+    </div>
+    <div
+      className="font-sans font-semibold text-[32px] capitalize"
+    >
+      title
+    </div>
+  </div>
+  <div
+    className="text-base"
+  >
+    This is the content of the card.
+  </div>
+</div>
+`;

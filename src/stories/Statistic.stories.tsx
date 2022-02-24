@@ -5,13 +5,16 @@ import { Statistic } from "@components/Statistic";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: "Statistic",
+	title: "Components/Statistic",
 	component: Statistic,
 } as ComponentMeta<typeof Statistic>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof Statistic> = (args) => <Statistic {...args} />;
-
+const Template: ComponentStory<typeof Statistic> = (args) => (
+	<div className="w-max">
+		<Statistic {...args} />
+	</div>
+);
 export const Currency = Template.bind({});
 Currency.args = {
 	label: "TVL",

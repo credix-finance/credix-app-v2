@@ -2,7 +2,7 @@
 
 exports[`Outline button 1`] = `
 <button
-  className="ant-btn rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] 
+  className="ant-btn rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] 
 				bg-credix-primary text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
@@ -19,7 +19,7 @@ exports[`Outline button 1`] = `
 
 exports[`Outline button disabled 1`] = `
 <button
-  className="ant-btn rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] 
+  className="ant-btn rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] 
 				bg-credix-primary text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
@@ -37,7 +37,7 @@ exports[`Outline button disabled 1`] = `
 
 exports[`Outline button with icon 1`] = `
 <button
-  className="ant-btn rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] 
+  className="ant-btn rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] 
 				bg-credix-primary text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
@@ -63,7 +63,7 @@ exports[`Outline button with icon 1`] = `
 
 exports[`Primary button 1`] = `
 <button
-  className="ant-btn ant-btn-primary rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] 
+  className="ant-btn ant-btn-primary rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] 
 				bg-action-primary border-action-primary text-credix-primary
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
@@ -80,7 +80,7 @@ exports[`Primary button 1`] = `
 
 exports[`Primary button disabled 1`] = `
 <button
-  className="ant-btn ant-btn-primary rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] 
+  className="ant-btn ant-btn-primary rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] 
 				bg-action-primary border-action-primary text-credix-primary
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
@@ -98,7 +98,7 @@ exports[`Primary button disabled 1`] = `
 
 exports[`Primary button with icon 1`] = `
 <button
-  className="ant-btn ant-btn-primary rounded-[1px] border text-shadow-none shadow-none flex items-center gap-2 px-[25px] 
+  className="ant-btn ant-btn-primary rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] 
 				bg-action-primary border-action-primary text-credix-primary
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
