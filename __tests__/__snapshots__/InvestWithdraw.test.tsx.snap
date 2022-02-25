@@ -243,7 +243,7 @@ Object {
 						border-[0.5px] rounded-[1px]
 						focus:shadow-none
 						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
 						bg-neutral-0
 					 ant-input-group-wrapper-lg"
                                   >
@@ -570,7 +570,7 @@ Object {
 						border-[0.5px] rounded-[1px]
 						focus:shadow-none
 						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
 						bg-neutral-0
 					 ant-input-group-wrapper-lg"
                                 >
