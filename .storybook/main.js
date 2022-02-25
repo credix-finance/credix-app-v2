@@ -32,6 +32,7 @@ module.exports = {
 			...config.resolve?.alias,
 			"@components": path.resolve(__dirname, "../src/components"),
 			"@credix_types": path.resolve(__dirname, "../src/types"),
+			"@consts": path.resolve(__dirname, "../src/consts"),
 			"@": [path.resolve(__dirname, "../src/"), path.resolve(__dirname, "../")],
 		};
 

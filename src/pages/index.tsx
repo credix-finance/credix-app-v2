@@ -65,3 +65,5 @@ const Overview = () => {
 Overview.getLayout = function getLayout(page: ReactElement) {
 	return <Layout.WithMainMenu>{page}</Layout.WithMainMenu>;
 };
+
+export default Overview;

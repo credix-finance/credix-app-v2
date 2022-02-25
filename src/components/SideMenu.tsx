@@ -1,7 +1,8 @@
-import { useRouter } from "next/router"
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
-import { CredixLogo } from "./CredixLogo"
-import { SideMenuItem, SideMenuItemProps } from "./SideMenuItem";
+import { CredixLogo } from "@components/CredixLogo";
+import { SideMenuItem, SideMenuItemProps } from "@components/SideMenuItem";
 
 interface SideMenuProps {
 	menuItems: Omit<SideMenuItemProps, "isActive">[];
@@ -13,11 +14,15 @@ export const SideMenu = ({ menuItems }: SideMenuProps) => {
 	return (
 		<div className="w-72 bg-darker h-screen pt-[33px] sticky top-0">
 			<div className="w-[39px] h-[39px] text-credix-primary ml-[43px]">
-				<CredixLogo mode="light" />
+				<Link href="/">
+					<a>
+						<CredixLogo mode="light" />
+					</a>
+				</Link>
 			</div>
 			<div className="mt-[145px]">
 				{menuItems.map((item) => (
-					<SideMenuItem key={item.label} isActive={router.pathname === item.path} {...item} />
+					<SideMenuItem key={item.label} isActive={router?.pathname === item.path} {...item} />
 				))}
 			</div>
 		</div>
