@@ -2,6 +2,8 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { Statistic } from "@components/Statistic";
+import Big from "big.js";
+import { Ratio } from "@credix/credix-client";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -18,7 +20,7 @@ const Template: ComponentStory<typeof Statistic> = (args) => (
 export const Currency = Template.bind({});
 Currency.args = {
 	label: "TVL",
-	value: 14800000,
+	value: new Big(14_800_000_000_000),
 	currency: "USDC",
 	isPercentage: false,
 };
@@ -26,6 +28,6 @@ Currency.args = {
 export const Percentage = Template.bind({});
 Percentage.args = {
 	label: "Estimated APY",
-	value: 0.138,
+	value: new Ratio(0.138, 1),
 	isPercentage: true,
 };
