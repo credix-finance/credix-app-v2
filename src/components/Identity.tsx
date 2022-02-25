@@ -5,7 +5,7 @@ import { GatewayProvider } from "@civic/solana-gateway-react";
 import { CivicHeaderSection } from "@components/CivicHeaderSection";
 import { config } from "../config";
 import { useCredixClient } from "@credix/credix-client";
-import { defaultMarketplace } from "consts";
+import { defaultMarketplace } from "../consts";
 
 export const Identity = () => {
 	const wallet = useWallet();

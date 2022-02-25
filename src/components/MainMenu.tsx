@@ -1,9 +1,9 @@
 import React from "react";
+import { config } from "../config";
+import { SolanaCluster } from "@types/solana.types";
 import { CredixLogo } from "@components/CredixLogo";
 import { WalletButton } from "@components/WalletButton";
-import { config } from "config";
-import { SolanaCluster } from "types/solana.types";
-import { Identity } from "./Identity";
+import { Identity } from "@components/Identity";
 
 export const MainMenu = () => {
 	return (

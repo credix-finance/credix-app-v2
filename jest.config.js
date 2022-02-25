@@ -14,6 +14,7 @@ const customJestConfig = {
 	testEnvironment: "jest-environment-jsdom",
 	moduleNameMapper: {
 		"^@components/(.*)": "<rootDir>/src/components/$1",
+		"^@types/(.*)": "<rootDir>/src/types/$1",
 	},
 	modulePathIgnorePatterns: ["__mocks__", ".yalc"],
 };
