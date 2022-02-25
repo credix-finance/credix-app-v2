@@ -13,7 +13,7 @@ export const SideMenu = ({ menuItems }: SideMenuProps) => {
 
 	return (
 		<div className="w-72 bg-darker h-screen pt-[33px] sticky top-0">
-			<div className="w-[39px] h-[39px] text-credix-primary ml-[43px]">
+			<div className="text-credix-primary ml-[43px]">
 				<Link href="/">
 					<a>
 						<CredixLogo mode="light" />
