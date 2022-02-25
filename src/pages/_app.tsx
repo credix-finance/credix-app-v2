@@ -11,16 +11,15 @@ import {
 	TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { config } from "config";
-import { clusterApiUrl } from "@solana/web3.js";
 import { NextPage } from "next"
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base"
+import { ClientProvider } from "@components/ClientProvider"
 
 // Use require instead of import since order matters
 require("@solana/wallet-adapter-react-ui/styles.css");
 require("../styles/antd.less");
 require("../styles/globals.css");
 
-type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
 }
 
@@ -29,12 +28,6 @@ type AppPropsWithLayout = AppProps & {
 }
 
 const CredixApp: FC<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
-	// Can be set to 'devnet', 'testnet', or 'mainnet-beta'
-	const network = WalletAdapterNetwork.Mainnet;
-
-	// You can also provide a custom RPC endpoint
-	const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-
 	// @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
 	// Only the wallets you configure here will be compiled into your application, and only the dependencies
 	// of wallets that your users connect to will be loaded
@@ -62,7 +55,9 @@ const CredixApp: FC<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) =
 			<ConnectionProvider endpoint={config.clusterConfig.RPCEndpoint}>
 				<WalletProvider wallets={wallets} autoConnect>
 					<WalletModalProvider>
-						{layoutComponent}
+						<ClientProvider>
+							{layoutComponent}
+						</ClientProvider>
 					</WalletModalProvider>
 				</WalletProvider>
 			</ConnectionProvider>

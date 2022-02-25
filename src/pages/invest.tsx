@@ -12,4 +12,5 @@ Invest.getLayout = function getLayout(page: ReactElement) {
 		</Layout.WithSideMenu>
 	);
 };
+
 export default Invest;

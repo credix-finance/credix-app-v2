@@ -6,8 +6,9 @@ import { useCredixClient } from "@credix/credix-client";
 import { defaultMarketplace } from "../consts";
 import { useStore } from "state/useStore";
 import Layout from "@components/Layout";
+import { NextPageWithLayout } from "./_app";
 
-const Overview = () => {
+const Overview: NextPageWithLayout = () => {
 	const client = useCredixClient();
 	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const market = useStore((state) => state.market);

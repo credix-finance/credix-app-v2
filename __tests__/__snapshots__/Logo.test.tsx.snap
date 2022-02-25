@@ -2,7 +2,7 @@
 
 exports[`Dark logo 1`] = `
 <svg
-  className="block dark:hidden w-[54px] h-[42px] "
+  className="w-[40px] h-[40px] "
   viewBox="187.95 93.98 59.68 82.96"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -14,7 +14,7 @@ exports[`Dark logo 1`] = `
 
 exports[`Light logo 1`] = `
 <svg
-  className=""
+  className="w-[40px] h-[40px] "
   viewBox="187.95 93.98 59.68 82.96"
   xmlns="http://www.w3.org/2000/svg"
 >

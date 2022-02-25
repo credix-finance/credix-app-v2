@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { SideMenu } from "@components/SideMenu";
 import { MainMenu } from "@components/MainMenu";
-import { routes } from "@consts";
+import { routes } from "../consts";
 
 interface LayoutProps {
 	children?: ReactNode;
