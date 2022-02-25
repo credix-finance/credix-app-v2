@@ -11,6 +11,9 @@ module.exports = {
 			gridTemplateRows: {
 				layout: "min-content 1fr",
 			},
+			gridTemplateColumns: {
+				layout: "min-content 1fr"
+			},
 			colors: theme.colors,
 			fontFamily: {
 				sans: [
