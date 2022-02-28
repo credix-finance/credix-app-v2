@@ -191,7 +191,7 @@ body {
 }
 
 .ant-message-notice-content {
-	@apply py-7 px-5 shadow-none font-bold text-base border-[0.1px] rounded border-solid border-neutral-60 bg-credix-primary !important;
+	@apply px-7 py-5 shadow-none font-bold text-base border-[0.1px] rounded border-solid border-neutral-60 bg-credix-primary !important;
 }
 
 .ant-message-custom-content {
