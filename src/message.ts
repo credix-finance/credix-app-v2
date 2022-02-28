@@ -9,6 +9,10 @@ interface MessageProps {
 
 const defaultClassName = "";
 
+const loading = (props: MessageProps) => {
+	return antdMessage.loading({ ...props, className: defaultClassName });
+};
+
 const success = (props: MessageProps) => {
 	antdMessage.success({
 		...props,
@@ -28,6 +32,7 @@ const error = (props: MessageProps) => {
 const message = {
 	success,
 	error,
+	loading,
 };
 
 export default message;

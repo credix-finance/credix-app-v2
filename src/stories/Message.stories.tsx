@@ -24,3 +24,21 @@ Error.args = {
 	onClick: () => message.error({ content: "Wallet not connected" }),
 	buttonText: "Error",
 };
+
+export const Loading = Template.bind({});
+Loading.args = {
+	onClick: () => message.loading({ content: "Connecting wallet" }),
+	buttonText: "Loading",
+};
+
+export const LoadingThenSuccess = Template.bind({});
+LoadingThenSuccess.args = {
+	onClick: () => {
+		const loadingMessage = message.loading({ content: "loading", duration: 0 });
+		setTimeout(() => {
+			loadingMessage();
+			message.error({ content: "Wallet not connected" });
+		}, 5000);
+	},
+	buttonText: "Error",
+};

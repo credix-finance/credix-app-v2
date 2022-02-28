@@ -197,3 +197,7 @@ body {
 .ant-message-custom-content {
 	@apply flex items-center space-x-3 !important;
 }
+
+.anticon {
+	@apply text-current !important;
+}
