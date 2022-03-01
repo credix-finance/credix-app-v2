@@ -7,7 +7,7 @@ import { ColumnType } from "antd/lib/table";
 import { TableHeaderCell } from "./TableHeaderCell";
 import { IconName } from "@components/Icon";
 
-type ColumnsProps = ColumnType<any> & {
+export type ColumnsProps = ColumnType<any> & {
 	/**
 	 * Optional icon that will be displayed on the left of the column title
 	 */
