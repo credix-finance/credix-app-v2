@@ -50,7 +50,6 @@ const Deals: NextPageWithLayout = () => {
 	const locales = useLocales();
 	const client = useCredixClient();
 	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
-
 	const market = useStore((state) => state.market);
 	const [isLoadingDeals, setIsLoadingDeals] = useState<boolean>(true);
 	const [activeDeals, setActiveDeals] = useState<Deal[]>([]);
