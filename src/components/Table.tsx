@@ -54,7 +54,7 @@ export const Table = ({ columns, ...props }: TableProps) => {
 		<AntdTable
 			pagination={{
 				hideOnSinglePage: true,
-				pageSize: 10,
+				pageSize: 5,
 				itemRender: (page, type, originalElement) => (
 					<PageItem page={page} type={type} originalElement={originalElement} />
 				),
