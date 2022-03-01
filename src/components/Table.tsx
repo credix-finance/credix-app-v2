@@ -24,6 +24,11 @@ interface TableProps {
 	 * Table columns
 	 */
 	columns?: ColumnsProps[];
+	/**
+	 * onRow provides a way to hook into click events originating from the table row.
+	 * This prop also enables table hover styles
+	 */
+	onRow?: AntdTableProps<any>["onRow"];
 }
 
 export const Table = ({ columns, ...props }: TableProps) => {
@@ -52,6 +57,7 @@ export const Table = ({ columns, ...props }: TableProps) => {
 
 	return (
 		<AntdTable
+			className={props.onRow ? "table-hoverable" : ""}
 			pagination={{
 				hideOnSinglePage: true,
 				pageSize: 5,

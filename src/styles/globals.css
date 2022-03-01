@@ -136,6 +136,14 @@ body {
 	box-shadow: inset 0px -1px 0px #d8deda !important;
 }
 
+.table-hoverable tr {
+	@apply cursor-pointer !important;
+}
+
+.table-hoverable tr:hover td {
+	@apply bg-neutral-10 !important;
+}
+
 .ant-tabs-tab {
 	@apply bg-neutral-0  py-6 w-44 justify-center font-bold text-base !important;
 }
