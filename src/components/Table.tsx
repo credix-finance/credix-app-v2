@@ -29,6 +29,10 @@ interface TableProps {
 	 * This prop also enables table hover styles
 	 */
 	onRow?: AntdTableProps<any>["onRow"];
+	/**
+	 * controls whether the table displays a loading spinner
+	 */
+	loading?: AntdTableProps<any>["loading"];
 }
 
 export const Table = ({ columns, ...props }: TableProps) => {

@@ -181,3 +181,7 @@ body {
 .ant-form-item-control-input-content .ant-input-suffix {
 	@apply ml-0 !important;
 }
+
+.ant-spin-dot-item {
+	@apply bg-neutral-80 !important;
+}
