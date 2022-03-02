@@ -1,11 +1,8 @@
 import React, { useMemo } from "react";
-import { Ratio } from "@credix/credix-client";
-import Big from "big.js";
-import { formatRatio, toUIAmount } from "../utils/format.utils";
 
 interface StatisticProps {
 	label: string;
-	value: Big | Ratio;
+	value: number;
 	currency?: string;
 	isPercentage?: boolean;
 }
@@ -23,15 +20,7 @@ export const Statistic = ({ label, value, currency, isPercentage = false }: Stat
 	);
 
 	const formattedValue = useMemo(() => {
-		if (!value) {
-			return null;
-		}
-
-		if (value instanceof Big) {
-			return formatter.format(toUIAmount(value).toNumber());
-		}
-
-		return formatter.format(formatRatio(value).div(100).toNumber());
+		return formatter.format(value);
 	}, [formatter, value]);
 
 	return (

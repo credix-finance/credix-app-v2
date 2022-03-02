@@ -1,6 +1,6 @@
-import { Market, Ratio } from "@credix/credix-client";
-import Big from "big.js";
+import { Market } from "@credix/credix-client";
 import React, { useCallback, useEffect, useState } from "react";
+import { formatRatio } from "utils/format.utils"
 import { Statistic } from "./Statistic";
 
 interface MarketStatsProps {
@@ -8,22 +8,27 @@ interface MarketStatsProps {
 }
 
 export const MarketStats = ({ market }: MarketStatsProps) => {
-	const [creditOutstanding, setCreditOutstanding] = useState<Big | null>(new Big(0));
-	const [tvl, setTvl] = useState<Big | null>(new Big(0));
-	const [apy, setApy] = useState<Ratio | null>(new Ratio(1, 1));
+	const [creditOutstanding, setCreditOutstanding] = useState<number>(0);
+	const [tvl, setTvl] = useState<number>(0);
+	const [apy, setApy] = useState<number>(0);
 
 	const getTVL = useCallback(async () => {
 		const tvl = await market?.calculateTVL();
-		setTvl(tvl);
+		setTvl(tvl?.toNumber() || 0);
 	}, [market]);
 
 	const getAPY = useCallback(async () => {
 		const weightedAverageFinancingFee = await market?.calculateWeightedAverageFinancingFee();
-		setApy(weightedAverageFinancingFee);
+
+		if (!weightedAverageFinancingFee) {
+			return
+		}
+
+		setApy(formatRatio(weightedAverageFinancingFee).toNumber());
 	}, [market]);
 
 	const getCreditOutstanding = useCallback(async () => {
-		setCreditOutstanding(market?.totalOutstandingCredit);
+		setCreditOutstanding(market?.totalOutstandingCredit?.toNumber() || 0);
 	}, [market]);
 
 	useEffect(() => {
