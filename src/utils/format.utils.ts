@@ -24,9 +24,22 @@ export const formatUIAmount = (n: Big, formatter: formatter) =>
 
 export const toProgramAmount = (n: Big) => n.mul(conversionFactor);
 
+export const toRatioAsNumber = (numerator: Big, denominator: Big) => {
+	if (!denominator || !denominator.toNumber()) {
+		return 0;
+	}
+
+	return formatRatio(new Ratio(numerator.toNumber(), denominator.toNumber()));
+};
+
 export const formatRatio = (r: Ratio) => {
-	const numerator = new Big(r.numerator);
 	const denominator = new Big(r.denominator);
+
+	if (!denominator.toNumber()) {
+		return;
+	}
+
+	const numerator = new Big(r.numerator);
 	return numerator.div(denominator).mul(100);
 };
 
