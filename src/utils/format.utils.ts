@@ -19,3 +19,10 @@ export const formatRatio = (r: Ratio) => {
 	const denominator = new Big(r.denominator);
 	return numerator.div(denominator).mul(100);
 };
+
+export const formatTimestamp = (timestamp, locale) => {
+	// Most unix timestamps don't include milliseconds which causes the date to be parsed wrong
+	const timestampWithMilliseconds = timestamp * 1000;
+	return formatDate(new Date(timestampWithMilliseconds), locale);
+};
+export const formatDate = (date, locale) => Intl.DateTimeFormat([...locale, "en-GB"]).format(date);
