@@ -17,7 +17,7 @@ const Overview: NextPage = () => {
 
 	useEffect(() => {
 		getMarket();
-	}, [getMarket]);
+	}, []);
 
 	const parties = [
 		{
