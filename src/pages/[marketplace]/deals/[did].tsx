@@ -2,7 +2,9 @@ import { Button } from "@components/Button";
 import { Link } from "@components/Link";
 import { Tag } from "@components/Tag";
 import { Deal as DealType, Ratio, useCredixClient } from "@credix/credix-client";
+import { useWallet } from "@solana/wallet-adapter-react";
 import Big from "big.js";
+import { config } from "config";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
@@ -12,10 +14,12 @@ const Deal: NextPage = () => {
 	const router = useRouter();
 	const { marketplace, did } = router.query;
 	const client = useCredixClient();
+	const { publicKey } = useWallet();
 	const [deal, setDeal] = useState<DealType>();
 	const [interestRepaidRatio, setInterestRepaidRatio] = useState<Big | 0>();
 	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<Big | 0>();
 	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Big | 0>(0);
+	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
 	const getDeal = useCallback(async () => {
 		try {
@@ -40,6 +44,10 @@ const Deal: NextPage = () => {
 				formatRatio(new Ratio(deal?.timeToMaturity, deal?.daysRemaining))
 		);
 	}, [deal]);
+
+	useEffect(() => {
+		setIsAdmin(config.managementKeys.includes(publicKey?.toString()));
+	}, [publicKey]);
 
 	const activateDeal = async () => {
 		try {
@@ -120,8 +128,7 @@ const Deal: NextPage = () => {
 						<div className="text-2xl font-bold pt-2">{deal?.daysRemaining} DAYS</div>
 					</div>
 				</div>
-				{/* TODO: find out who is allowed to activate deal */}
-				{deal && deal.isPending() && (
+				{isAdmin && deal && deal.isPending() && (
 					<Button type="default" className="mt-14" onClick={activateDeal}>
 						Activate Deal
 					</Button>

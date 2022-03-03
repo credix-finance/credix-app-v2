@@ -14,6 +14,8 @@ import { useLocales } from "../../hooks/useLocales";
 import { useStore } from "@state/useStore";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { config } from "config";
 
 const dealsTableColumns: ColumnsProps[] = [
 	{
@@ -46,8 +48,9 @@ const dealsTableColumns: ColumnsProps[] = [
 
 const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
-	const { marketplace } = router.query;
 	const locales = useLocales();
+	const { publicKey } = useWallet();
+	const { marketplace } = router.query;
 	const client = useCredixClient();
 	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const market = useStore((state) => state.market);
@@ -55,6 +58,7 @@ const Deals: NextPageWithLayout = () => {
 	const [activeDeals, setActiveDeals] = useState<Deal[]>([]);
 	const [pendingDeals, setPendingDeals] = useState<Deal[]>([]);
 	const [endedDeals, setEndedDeals] = useState<Deal[]>([]);
+	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
 	useEffect(() => {
 		maybeFetchMarket(client, marketplace as string);
@@ -121,6 +125,10 @@ const Deals: NextPageWithLayout = () => {
 		getDeals();
 	}, [getDeals]);
 
+	useEffect(() => {
+		setIsAdmin(config.managementKeys.includes(publicKey?.toString()));
+	}, [publicKey]);
+
 	return (
 		<div className="space-y-14 py-5 px-4 md:pt-12 md:px-28">
 			<div className="flex justify-between">
@@ -148,21 +156,23 @@ const Deals: NextPageWithLayout = () => {
 						columns={dealsTableColumns}
 					/>
 				</TabPane>
-				<TabPane tab="Pending Deals" key="2">
-					<Table
-						loading={isLoadingDeals}
-						onRow={(record) => {
-							return {
-								onClick: () => {
-									router.push(`/${marketplace}/deal/${record?.key}`);
-								},
-							};
-						}}
-						dataSource={pendingDeals}
-						columns={dealsTableColumns}
-					/>
-				</TabPane>
-				<TabPane tab="Ended Deals" key="endedDealsTab">
+				{isAdmin && (
+					<TabPane tab="Pending Deals" key="2">
+						<Table
+							loading={isLoadingDeals}
+							onRow={(record) => {
+								return {
+									onClick: () => {
+										router.push(`/${marketplace}/deal/${record?.key}`);
+									},
+								};
+							}}
+							dataSource={pendingDeals}
+							columns={dealsTableColumns}
+						/>
+					</TabPane>
+				)}
+				<TabPane tab="Ended Deals" key="3">
 					<Table loading={isLoadingDeals} dataSource={endedDeals} columns={dealsTableColumns} />
 				</TabPane>
 			</Tabs>
