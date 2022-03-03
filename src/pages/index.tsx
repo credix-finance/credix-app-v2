@@ -65,7 +65,7 @@ const Overview: NextPage = () => {
 
 	const onSignin = async () => {
 		await login(wallet);
-		await getMe();
+		// await getMe();
 	};
 
 	return (
@@ -80,6 +80,7 @@ const Overview: NextPage = () => {
 				<Button onClick={onSignin} disabled={!wallet.connected}>
 					{walletMessage}
 				</Button>
+				<Button onClick={getMe}>get info</Button>
 			</div>
 		</main>
 	);
