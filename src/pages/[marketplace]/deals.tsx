@@ -90,7 +90,7 @@ const Deals: NextPageWithLayout = () => {
 			return;
 		}
 
-		const { activeDeals, endedDeals } = deals.reduce(
+		const { activeDeals, endedDeals, pendingDeals } = deals.reduce(
 			(acc, deal) => {
 				switch (deal.status) {
 					case DealStatus.IN_PROGRESS:
@@ -99,13 +99,16 @@ const Deals: NextPageWithLayout = () => {
 					case DealStatus.CLOSED:
 						acc.endedDeals.push(mapDeal(deal));
 						break;
+					case DealStatus.PENDING:
+						acc.pendingDeals.push(mapDeal(deal));
+						break;
 					default:
 						break;
 				}
 
 				return acc;
 			},
-			{ activeDeals: [], endedDeals: [] }
+			{ activeDeals: [], endedDeals: [], pendingDeals: [] }
 		);
 
 		setActiveDeals(activeDeals);
