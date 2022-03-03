@@ -40,5 +40,5 @@ LoadingThenSuccess.args = {
 			message.error({ content: "Wallet not connected" });
 		}, 5000);
 	},
-	buttonText: "Error",
+	buttonText: "Loading then success",
 };
