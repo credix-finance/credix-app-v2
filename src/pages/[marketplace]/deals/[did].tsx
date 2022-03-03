@@ -110,7 +110,8 @@ const Deal: NextPage = () => {
 					</div>
 					<div className="p-3 border border-solid border-neutral-60 relative">
 						<div
-							className={`absolute top-0 left-0 h-1 bg-neutral-60 w-[${interestRepaidRatio}%]`}
+							className="absolute top-0 left-0 h-1 bg-neutral-60"
+							style={{ width: `${interestRepaidRatio}%` }}
 						></div>
 						<div>Interest Repaid</div>
 						<div className="flex justify-between items-center pt-2">
@@ -122,7 +123,8 @@ const Deal: NextPage = () => {
 					</div>
 					<div className="p-3 border border-solid border-neutral-60 relative">
 						<div
-							className={`absolute top-0 left-0 h-1 bg-neutral-60 w-[${daysRemainingRatio}%]`}
+							className="absolute top-0 left-0 h-1 bg-neutral-60"
+							style={{ width: `${daysRemainingRatio}%` }}
 						></div>
 						<div>Time Left</div>
 						<div className="text-2xl font-bold pt-2">{deal?.daysRemaining} DAYS</div>
