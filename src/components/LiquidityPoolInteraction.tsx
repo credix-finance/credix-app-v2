@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { Form } from "antd";
+import { FormProps } from "antd/lib/form";
 import { Icon } from "@components/Icon";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { InvestmentDetails } from "@components/InvestmentDetails";
-import { Form } from "antd";
-import { FormProps } from "antd/lib/form";
+import { Market, useCredixClient } from "@credix/credix-client";
+import { defaultMarketplace } from "../consts";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { TokenAmount } from "@solana/web3.js";
+import Big from "big.js";
+
+export interface LiquidityPoolInteractionForm {
+	amount: number;
+}
 
 interface LiquidityPoolInteractionProps {
 	/**
@@ -20,7 +29,7 @@ interface LiquidityPoolInteractionProps {
 	/**
 	 * Action to perform when form submission fails
 	 */
-	onSubmitFailed: FormProps["onFinishFailed"];
+	onSubmitFailed?: FormProps["onFinishFailed"];
 }
 
 export const LiquidityPoolInteraction = ({
@@ -28,15 +37,56 @@ export const LiquidityPoolInteraction = ({
 	onSubmit,
 	onSubmitFailed,
 }: LiquidityPoolInteractionProps) => {
-	// TODO: get these values from client
-	const balance = 65;
-	const investments = 256;
-	const investmentsReturn = 3.24;
-
+	const client = useCredixClient();
+	const { publicKey } = useWallet();
+	const [market, setMarket] = useState<Market>();
+	const [userBaseBalance, setUserBaseBalance] = useState<TokenAmount>();
+	const [userStake, setUserStake] = useState<Big>(new Big(0));
 	const [form] = Form.useForm();
 
+	const getMarket = useCallback(async () => {
+		const market = await client.fetchMarket(defaultMarketplace);
+		setMarket(market);
+	}, [client]);
+
+	const getUserBaseBalance = useCallback(async () => {
+		if (!publicKey) {
+			return;
+		}
+
+		const userBaseBalance = await market?.userBaseBalance(publicKey);
+		setUserBaseBalance(userBaseBalance);
+	}, [market, publicKey]);
+
+	const getUserStake = useCallback(async () => {
+		if (!publicKey) {
+			return;
+		}
+
+		try {
+			const userStake = await market?.getUserStake(publicKey);
+			setUserStake(userStake);
+		} catch (error) {
+			setUserStake(new Big(0));
+		}
+	}, [market, publicKey]);
+
+	useEffect(() => {
+		getMarket();
+	}, [getMarket]);
+
+	useEffect(() => {
+		getUserBaseBalance();
+	}, [getUserBaseBalance]);
+
+	useEffect(() => {
+		getUserStake();
+	}, [getUserStake]);
+
 	const onAddMax = () => {
-		form.setFieldsValue({ amount: action === "invest" ? balance : investments });
+		form.setFieldsValue({
+			amount: action === "invest" ? userBaseBalance.uiAmount : userStake,
+		});
 	};
 
 	return (
@@ -46,11 +96,10 @@ export const LiquidityPoolInteraction = ({
 				<span className="uppercase font-bold text-2xl">{action}</span>
 			</h2>
 			<InvestmentDetails
-				balance={balance}
+				balance={userBaseBalance}
 				balanceCurrency="USDC"
-				investments={investments}
+				investments={userStake}
 				investmentsCurrency="USDC"
-				investmentsReturn={investmentsReturn}
 			/>
 			<Form
 				name="invest"
