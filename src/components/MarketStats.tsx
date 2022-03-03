@@ -1,6 +1,6 @@
 import { Market } from "@credix/credix-client";
 import React, { useCallback, useEffect, useState } from "react";
-import { formatRatio } from "utils/format.utils"
+import { formatRatio } from "utils/format.utils";
 import { Statistic } from "./Statistic";
 
 interface MarketStatsProps {
@@ -21,10 +21,10 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 		const weightedAverageFinancingFee = await market?.calculateWeightedAverageFinancingFee();
 
 		if (!weightedAverageFinancingFee) {
-			return
+			return;
 		}
 
-		setApy(formatRatio(weightedAverageFinancingFee).toNumber());
+		setApy(formatRatio(weightedAverageFinancingFee).div(100).toNumber());
 	}, [market]);
 
 	const getCreditOutstanding = useCallback(async () => {
@@ -44,16 +44,16 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 	}, [getCreditOutstanding]);
 
 	return (
-		<>
-			<div className="md:col-span-4 w-full flex justify-center">
+		<div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 md:gap-x-14 md:gap-y-12">
+			<div className="w-full flex justify-center">
 				<Statistic label="TVL" currency="USDC" value={tvl} />
 			</div>
-			<div className="md:col-span-4 w-full flex justify-center">
+			<div className="w-full flex justify-center">
 				<Statistic label="Estimatded APY" isPercentage={true} value={apy} />
 			</div>
-			<div className="md:col-span-4 w-full flex justify-center">
+			<div className="w-full flex justify-center">
 				<Statistic label="Credit outstanding" currency="USDC" value={creditOutstanding} />
 			</div>
-		</>
+		</div>
 	);
 };

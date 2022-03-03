@@ -51,7 +51,9 @@ const Overview: NextPageWithLayout = () => {
 					markets
 				</div>
 			</div>
-			<MarketStats market={market} />
+			<div className="md:col-span-12 w-full">
+				<MarketStats market={market} />
+			</div>
 			<div className="ml-6 md:col-span-12 md:flex md:justify-between md:space-x-20 space-y-8 md:space-y-0">
 				{parties.map(({ name, action, buttonAction, description }) => (
 					<Card key={name} topTitle={name} title={action} offset="large">
