@@ -11,7 +11,7 @@ interface InputProps {
 	/**
 	 * Name text
 	 */
-	name: FormItemProps["name"];
+	name?: FormItemProps["name"];
 	/**
 	 * Optional description to provide more information about the input
 	 */
