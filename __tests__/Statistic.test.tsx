@@ -5,7 +5,7 @@ import { Statistic } from "@components/Statistic";
 test("Currency statistic", () => {
 	const props = {
 		label: "TVL",
-		value: 14800000,
+		value: 14_800_000,
 		currency: "USDC",
 		isPercentage: false,
 	};

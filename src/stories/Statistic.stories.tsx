@@ -18,7 +18,7 @@ const Template: ComponentStory<typeof Statistic> = (args) => (
 export const Currency = Template.bind({});
 Currency.args = {
 	label: "TVL",
-	value: 14800000,
+	value: 14_800_000,
 	currency: "USDC",
 	isPercentage: false,
 };

@@ -19,7 +19,9 @@ export const Statistic = ({ label, value, currency, isPercentage = false }: Stat
 		[isPercentage]
 	);
 
-	const formattedValue = useMemo(() => formatter.format(value), [formatter, value]);
+	const formattedValue = useMemo(() => {
+		return formatter.format(value);
+	}, [formatter, value]);
 
 	return (
 		<div className="bg-credix-primary border border-solid border-darker rounded-[1px] font-sans h-36 w-min min-w-[16rem] md:w-full md:min-w-[12rem] ml-[21.5px] pr-5 flex items-center">
