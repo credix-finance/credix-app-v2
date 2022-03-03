@@ -137,7 +137,7 @@ const Deals: NextPageWithLayout = () => {
 						onRow={(record) => {
 							return {
 								onClick: () => {
-									router.push(`/${marketplace}/deal/${record?.key}`);
+									router.push(`/${marketplace}/deals/${record?.key}`);
 								},
 							};
 						}}
