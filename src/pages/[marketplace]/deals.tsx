@@ -53,6 +53,7 @@ const Deals: NextPageWithLayout = () => {
 	const market = useStore((state) => state.market);
 	const [isLoadingDeals, setIsLoadingDeals] = useState<boolean>(true);
 	const [activeDeals, setActiveDeals] = useState<Deal[]>([]);
+	const [pendingDeals, setPendingDeals] = useState<Deal[]>([]);
 	const [endedDeals, setEndedDeals] = useState<Deal[]>([]);
 
 	useEffect(() => {
@@ -109,6 +110,7 @@ const Deals: NextPageWithLayout = () => {
 
 		setActiveDeals(activeDeals);
 		setEndedDeals(endedDeals);
+		setPendingDeals(pendingDeals);
 		setIsLoadingDeals(false);
 	}, [market, mapDeal]);
 
@@ -140,6 +142,20 @@ const Deals: NextPageWithLayout = () => {
 							};
 						}}
 						dataSource={activeDeals}
+						columns={dealsTableColumns}
+					/>
+				</TabPane>
+				<TabPane tab="Pending Deals" key="2">
+					<Table
+						loading={isLoadingDeals}
+						onRow={(record) => {
+							return {
+								onClick: () => {
+									router.push(`/${marketplace}/deal/${record?.key}`);
+								},
+							};
+						}}
+						dataSource={pendingDeals}
 						columns={dealsTableColumns}
 					/>
 				</TabPane>
