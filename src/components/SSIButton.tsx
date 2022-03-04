@@ -9,7 +9,6 @@ export const SolanaSignInButton = () => {
 	const [active, setActive] = useState<boolean>(false);
 
 	const onClick = () => {
-		console.log("click", wallet);
 		if (!wallet.connected) {
 			setVisible(true);
 		}
