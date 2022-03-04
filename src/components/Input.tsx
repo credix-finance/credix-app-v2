@@ -44,6 +44,7 @@ interface InputProps {
 	children?: AntInputProps["children"];
 	value?: AntInputProps["value"];
 	disabled?: boolean;
+	defaultValue?: AntInputProps["defaultValue"];
 }
 
 export const Input = ({

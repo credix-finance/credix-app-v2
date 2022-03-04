@@ -12,6 +12,7 @@ type Store = {
 	setUser: (u: User) => void;
 	accessToken: string;
 	setAccessToken: (t: string) => void;
+	clear: () => void;
 };
 
 export const useStore = create<Store>(
@@ -21,6 +22,14 @@ export const useStore = create<Store>(
 			setUser: (user: User) => set((state) => ({ ...state, user: user })),
 			accessToken: null,
 			setAccessToken: (t: string) => set((state) => ({ ...state, accessToken: t })),
+			clear: () =>
+				set((state) => ({
+					setUser: state.setUser,
+					setAccessToken: state.setAccessToken,
+					clear: state.clear,
+					user: null,
+					accessToken: null,
+				})),
 		}),
 		{
 			name: "storage",
@@ -33,7 +42,7 @@ export const MainMenu = () => {
 	const [started, setStarted] = useState<boolean>(false);
 	const baseUrl = "http://127.0.0.1:8080";
 
-	const { setUser, setAccessToken, accessToken } = useStore((state) => ({
+	const { setAccessToken, accessToken, setUser } = useStore((state) => ({
 		setUser: state.setUser,
 		setAccessToken: state.setAccessToken,
 		accessToken: state.accessToken,
@@ -52,14 +61,14 @@ export const MainMenu = () => {
 		try {
 			const response = await client.get("/api/users/me");
 			setLoggedIn(true);
-			console.log("user", response);
+			setUser(response.data);
 		} catch (e) {
 			if (e.response && e.response.status === 401) {
 				setLoggedIn(false);
 				console.log("not logged in");
 			}
 		}
-	}, [client]);
+	}, [client, setUser]);
 
 	const start = useCallback(async () => {
 		await getMe();
@@ -75,6 +84,7 @@ export const MainMenu = () => {
 	}, [started, start]);
 
 	const callback = (e, r) => {
+		console.log(r);
 		if (r) {
 			client.defaults.headers["Authorization"] = `Bearer ${r.data.access_token}`;
 			setLoggedIn(true);
@@ -90,7 +100,15 @@ export const MainMenu = () => {
 				<CredixLogo />
 			</div>
 			<div className="flex space-x-4">
-				<SignInButton baseUrl="http://127.0.0.1:8080" isLoggedIn={loggedIn} onSignIn={callback} />
+				<SignInButton
+					baseUrl="http://127.0.0.1:8080"
+					isLoggedIn={loggedIn}
+					onSignIn={callback}
+					onSignOut={() => {
+						console.log("sign out");
+						setLoggedIn(false);
+					}}
+				/>
 			</div>
 		</div>
 	);

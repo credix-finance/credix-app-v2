@@ -3,8 +3,14 @@ import { useWalletModal, WalletIcon } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "@components/Button";
 import { Icon } from "@components/Icon";
+import { useStore } from "./MainMenu";
 
-export const WalletButton = () => {
+interface Props {
+	onDisconnect: () => void;
+}
+
+export const WalletButton = (props: Props) => {
+	const clear = useStore((state) => state.clear);
 	const { wallet, publicKey, disconnect } = useWallet();
 	const { setVisible } = useWalletModal();
 	const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -36,6 +42,15 @@ export const WalletButton = () => {
 		);
 	}
 
+	const logout = async () => {
+		console.log("disconnecting");
+		await disconnect();
+		console.log("disconnected wallet");
+		clear();
+		console.log("disconnected");
+		props.onDisconnect();
+	};
+
 	return (
 		<div className="relative" onBlur={() => setTimeout(() => setDropdownVisible(false), 100)}>
 			<Button
@@ -57,12 +72,7 @@ export const WalletButton = () => {
 					</Button>
 				</div>
 				<div className="border-solid border-0">
-					<Button type="default" className="w-full border-none" onClick={() => setVisible(true)}>
-						Change Wallet
-					</Button>
-				</div>
-				<div className="border-solid border-0">
-					<Button type="default" className="w-full border-none" onClick={disconnect}>
+					<Button type="default" className="w-full border-none" onClick={logout}>
 						Disconnect
 					</Button>
 				</div>

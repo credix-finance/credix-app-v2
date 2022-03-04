@@ -11,6 +11,7 @@ interface Props {
 	baseUrl: string;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	onSignIn: any;
+	onSignOut: any;
 }
 
 export const SignInButton = (props: Props) => {
@@ -59,7 +60,7 @@ export const SignInButton = (props: Props) => {
 	}, [wallet.connected, wallet.connecting, props.isLoggedIn, logIn]);
 
 	if (props.isLoggedIn && wallet.connected) {
-		return <WalletButton />;
+		return <WalletButton onDisconnect={props.onSignOut} />;
 	}
 
 	return (
