@@ -17,6 +17,10 @@ For example:
 
 Dark mode is supported by using the tailwind `dark:` modifier. AntDesign does have a dark theme, but it's a separate `.less` file and does not support the prefers-color-scheme media feature out of the box.
 
+## Identity verification
+
+We use [Civic](https://www.civic.com/) as our identity verification provider. You'll need to go through their process if you want to perform transactions on `devnet` or `mainnet`.
+
 ## Clusters
 
 You can target one of the three available clusters (localnet, devnet, mainnet) by setting the `NEXT_PUBLIC_REACT_APP_CLUSTER` environment variable.
