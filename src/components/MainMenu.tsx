@@ -1,6 +1,5 @@
-import React from "react";
 import { CredixLogo } from "@components/CredixLogo";
-import { WalletButton } from "@components/WalletButton";
+import React from "react";
 import { SolanaSignInButton } from "./SSIButton";
 
 export const MainMenu = () => {
@@ -10,7 +9,6 @@ export const MainMenu = () => {
 				<CredixLogo />
 			</div>
 			<div className="flex space-x-4">
-				<WalletButton />
 				<SolanaSignInButton />
 			</div>
 		</div>
