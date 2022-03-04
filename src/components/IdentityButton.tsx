@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import { PublicKey } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { GatewayProvider } from "@civic/solana-gateway-react";
-import { CivicHeaderSection } from "@components/CivicHeaderSection";
+import { CivicButton } from "@components/CivicButton";
 import { config } from "../config";
 import { useCredixClient } from "@credix/credix-client";
 import { defaultMarketplace } from "../consts";
 
-export const Identity = () => {
+export const IdentityButton = () => {
 	const wallet = useWallet();
 	const client = useCredixClient();
 	const { connection } = useConnection();
@@ -35,7 +35,7 @@ export const Identity = () => {
 			gatekeeperNetwork={gatekeeperNetwork}
 			clusterUrl={config.clusterConfig.RPCEndpoint}
 		>
-			{gatekeeperNetwork && <CivicHeaderSection gatekeeperNetwork={gatekeeperNetwork} />}
+			{gatekeeperNetwork && <CivicButton />}
 		</GatewayProvider>
 	);
 };

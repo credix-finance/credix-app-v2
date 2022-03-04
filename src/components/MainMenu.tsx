@@ -1,9 +1,9 @@
 import React from "react";
 import { config } from "../config";
-import { SolanaCluster } from "@types/solana.types";
+import { SolanaCluster } from "@credix_types/solana.types";
 import { CredixLogo } from "@components/CredixLogo";
 import { WalletButton } from "@components/WalletButton";
-import { Identity } from "@components/Identity";
+import { IdentityButton } from "@components/IdentityButton";
 
 export const MainMenu = () => {
 	return (
@@ -12,7 +12,7 @@ export const MainMenu = () => {
 				<CredixLogo />
 			</div>
 			<div className="md:flex">
-				{config.clusterConfig.name !== SolanaCluster.LOCALNET && <Identity />}
+				{config.clusterConfig.name !== SolanaCluster.LOCALNET && <IdentityButton />}
 				<WalletButton className="ml-4" />
 			</div>
 		</div>

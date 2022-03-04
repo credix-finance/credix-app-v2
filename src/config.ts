@@ -1,7 +1,7 @@
 import { ConfirmOptions, PublicKey } from "@solana/web3.js";
-import { ClusterConfig, Config } from "@types/config.types";
-import { RPCEndpoint, SolanaCluster } from "@types/solana.types";
-import { CivicStage } from "@types/civic.types";
+import { ClusterConfig, Config } from "@credix_types/config.types";
+import { RPCEndpoint, SolanaCluster } from "@credix_types/solana.types";
+import { CivicStage } from "@credix_types/civic.types";
 
 const baseConfig = {
 	programId: new PublicKey("CRDx2YkdtYtGZXGHZ59wNv1EwKHQndnRc1gT4p8i2vPX"),

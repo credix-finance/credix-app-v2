@@ -17,7 +17,7 @@
 		"baseUrl": "./src/",
 		"paths": {
 			"@components/*": ["components/*"],
-			"@types/*": ["types/*"]
+			"@credix_types/*": ["types/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
