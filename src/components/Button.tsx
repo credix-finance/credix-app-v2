@@ -30,6 +30,7 @@ interface ButtonProps {
 	 * The type of the button. Only "default" and "primary" are supported.
 	 */
 	type?: "default" | "primary";
+	htmlType?: AntButtonProps["htmlType"];
 }
 
 const buttonTypeStyles = {

@@ -9,6 +9,10 @@ interface InputProps {
 	 */
 	label: FormItemProps["label"];
 	/**
+	 * Name text
+	 */
+	name?: FormItemProps["name"];
+	/**
 	 * Optional description to provide more information about the input
 	 */
 	description?: string;
@@ -33,6 +37,9 @@ interface InputProps {
 	isDisplay?: boolean;
 	placeholder?: AntInputProps["placeholder"];
 	onClick?: AntInputProps["onClick"];
+	type?: AntInputProps["type"];
+	addonBefore?: AntInputProps["addonBefore"];
+	suffix?: AntInputProps["suffix"];
 	className?: AntInputProps["className"];
 	children?: AntInputProps["children"];
 	value?: AntInputProps["value"];
@@ -41,6 +48,7 @@ interface InputProps {
 
 export const Input = ({
 	label,
+	name,
 	description,
 	children,
 	value,
@@ -67,30 +75,33 @@ export const Input = ({
 			hasFeedback={hasFeedback}
 			validateStatus={validateStatus}
 			className={`
-				font-bold text-base
+				font-bold text-base mb-7
 				${disabled && "text-neutral-60/40"}
 				${hasFeedback && validateStatus === "error" && "border-error"}
 			`}
 		>
 			{description && <div className="font-normal text-sm mt-0 mb-[10px]">{description}</div>}
-			<AntdInput
-				disabled={disabled}
-				value={value}
-				className={`
-					pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
-					focus:shadow-none
-					disabled:border-neutral-60/40
-					${
-						hasFeedback && validateStatus == "error"
-							? "border-error focus:ring-error focus:border-error"
-							: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 "
-					}
-					${className}
-				`}
-				{...props}
-			>
-				{children}
-			</AntdInput>
+			<Form.Item name={name} className="mb-0">
+				<AntdInput
+					disabled={disabled}
+					value={value}
+					size="large"
+					className={`
+						pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
+						focus:shadow-none
+						disabled:border-neutral-60/40
+						${
+							hasFeedback && validateStatus == "error"
+								? "border-error focus:ring-error focus:border-error"
+								: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
+						}
+						${className}
+					`}
+					{...props}
+				>
+					{children}
+				</AntdInput>
+			</Form.Item>
 		</Form.Item>
 	);
 };
