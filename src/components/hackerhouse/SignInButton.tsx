@@ -1,4 +1,5 @@
 import { Button } from "@components/Button";
+import { WalletButton } from "@components/WalletButton";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import axios from "axios";
@@ -9,7 +10,7 @@ interface Props {
 	isLoggedIn: boolean;
 	baseUrl: string;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	callback: any;
+	onSignIn: any;
 }
 
 export const SignInButton = (props: Props) => {
@@ -34,9 +35,9 @@ export const SignInButton = (props: Props) => {
 
 		try {
 			const response = await client.post(url, payload);
-			props.callback(null, response);
+			props.onSignIn(null, response);
 		} catch (e) {
-			props.callback(e);
+			props.onSignIn(e);
 		}
 	}, [client, sign, wallet.publicKey, props]);
 
@@ -56,6 +57,10 @@ export const SignInButton = (props: Props) => {
 			logIn();
 		}
 	}, [wallet.connected, wallet.connecting, props.isLoggedIn, logIn]);
+
+	if (props.isLoggedIn && wallet.connected) {
+		return <WalletButton />;
+	}
 
 	return (
 		<Button size="large" onClick={click} type="primary">

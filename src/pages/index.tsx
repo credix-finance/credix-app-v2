@@ -5,7 +5,7 @@ import { useForm } from "antd/lib/form/Form";
 import type { NextPage } from "next";
 import { useState } from "react";
 
-interface User {
+export interface User {
 	firstName: string;
 	lastName: string;
 	keys: string[];
@@ -22,44 +22,6 @@ const Overview: NextPage = () => {
 	const [user] = useState<User | undefined>(undefined);
 
 	// const [form] = Form.useForm();
-
-	/* const client = useMemo(
-		() =>
-			axios.create({
-				baseURL: "http://127.0.0.1:8080",
-				headers: { Authorization: token ? `Bearer ${token}` : undefined },
-			}),
-		[token]
-	); */
-
-	/* 	const login = async (wallet: WalletContextState) => {
-		if (!wallet.connected) {
-			return;
-		}
-
-		const key = wallet.publicKey;
-		const encoder = new TextEncoder();
-		const message = key.toString();
-		const signature = await wallet.signMessage(encoder.encode(message));
-		const response = await client.post("/login", {
-			address: message,
-			signature: base58.encode(signature),
-		});
-
-		const token = response.data.access_token;
-
-		// client.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-		setToken(token);
-	}; */
-
-	/* 	const getMe = async () => {
-		const response = await client.get("/api/users/me");
-		console.log(response.data);
-	}; */
-	/*
-	useEffect(() => {
-		setWalletMessage(!wallet.connected ? "Connect your wallet" : "Sign in with Solana");
-	/}, [wallet.connected]); */
 
 	const edit = (values: any) => {
 		console.log("asfdasf", values);
