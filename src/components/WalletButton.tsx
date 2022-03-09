@@ -46,7 +46,7 @@ export const WalletButton = () => {
 				{address}
 			</Button>
 			<div
-				className={`absolute whitespace-nowrap right-0 grid grid-cols-1 bg-white rounded-sm w-56 border border-solid border-neutral-100 divide-y divide-neutral-100 ${
+				className={`absolute z-10 whitespace-nowrap right-0 grid grid-cols-1 bg-white rounded-sm w-56 border border-solid border-neutral-100 divide-y divide-neutral-100 ${
 					dropdownVisible ? "block" : "hidden"
 				}`}
 			>
