@@ -1,23 +1,19 @@
 import { Button } from "@components/Button";
 import { Card } from "@components/Card";
 import { MarketStats } from "@components/MarketStats";
-import { Market, useCredixClient } from "@credix/credix-client";
+import { useCredixClient } from "@credix/credix-client";
 import { defaultMarketplace } from "../consts";
 import type { NextPage } from "next";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useStore } from "state/useStore";
 
 const Overview: NextPage = () => {
 	const client = useCredixClient();
-	const [market, setMarket] = useState<Market>();
-
-	const getMarket = useCallback(async () => {
-		const market = await client.fetchMarket(defaultMarketplace);
-		setMarket(market);
-	}, [client]);
+	const { market, maybeFetchMarket } = useStore((state) => state);
 
 	useEffect(() => {
-		getMarket();
-	}, []);
+		maybeFetchMarket(client, defaultMarketplace);
+	}, [client, maybeFetchMarket]);
 
 	const parties = [
 		{
