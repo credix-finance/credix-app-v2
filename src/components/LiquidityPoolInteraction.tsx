@@ -43,6 +43,8 @@ export const LiquidityPoolInteraction = ({
 	const [userBaseBalance, setUserBaseBalance] = useState<TokenAmount>();
 	const [userStake, setUserStake] = useState<Big>(new Big(0));
 	const [form] = Form.useForm();
+	const [maxInvestmentAmount, setMaxInvestmentAmount] = useState<number>(0);
+	const [maxWithdrawalAmount, setMaxWithdrawalAmount] = useState<number>(0);
 
 	const getMarket = useCallback(async () => {
 		const market = await client.fetchMarket(defaultMarketplace);
@@ -56,6 +58,10 @@ export const LiquidityPoolInteraction = ({
 
 		const userBaseBalance = await market?.userBaseBalance(publicKey);
 		setUserBaseBalance(userBaseBalance);
+
+		if (userBaseBalance) {
+			setMaxInvestmentAmount(userBaseBalance.uiAmount);
+		}
 	}, [market, publicKey]);
 
 	const getUserStake = useCallback(async () => {
@@ -66,6 +72,7 @@ export const LiquidityPoolInteraction = ({
 		try {
 			const userStake = await market?.getUserStake(publicKey);
 			setUserStake(userStake);
+			setMaxWithdrawalAmount(userStake.toNumber());
 		} catch (error) {
 			setUserStake(new Big(0));
 		}
@@ -85,7 +92,7 @@ export const LiquidityPoolInteraction = ({
 
 	const onAddMax = () => {
 		form.setFieldsValue({
-			amount: action === "invest" ? userBaseBalance.uiAmount : userStake,
+			amount: action === "invest" ? maxInvestmentAmount : maxWithdrawalAmount,
 		});
 	};
 
