@@ -1,7 +1,6 @@
 import { ConfirmOptions, PublicKey } from "@solana/web3.js";
 import { ClusterConfig, Config } from "@credix_types/config.types";
 import { RPCEndpoint, SolanaCluster } from "@credix_types/solana.types";
-import { CivicStage } from "@credix_types/civic.types";
 
 const baseConfig = {
 	programId: new PublicKey("CRDx2YkdtYtGZXGHZ59wNv1EwKHQndnRc1gT4p8i2vPX"),
@@ -13,21 +12,18 @@ const localnetConfig: ClusterConfig = {
 	...baseConfig,
 	name: SolanaCluster.LOCALNET,
 	RPCEndpoint: RPCEndpoint.LOCALNET,
-	stage: CivicStage.LOCALNET,
 };
 
 const devnetConfig: ClusterConfig = {
 	...baseConfig,
 	name: SolanaCluster.DEVNET,
 	RPCEndpoint: RPCEndpoint.DEVNET,
-	stage: CivicStage.DEVNET,
 };
 
 const mainnetConfig: ClusterConfig = {
 	...baseConfig,
 	name: SolanaCluster.MAINNET,
 	RPCEndpoint: RPCEndpoint.MAINNET,
-	stage: CivicStage.MAINNET,
 };
 ///
 

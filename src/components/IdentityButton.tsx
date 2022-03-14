@@ -6,6 +6,7 @@ import { CivicButton } from "@components/CivicButton";
 import { config } from "../config";
 import { useCredixClient } from "@credix/credix-client";
 import { defaultMarketplace } from "../consts";
+import { SolanaCluster } from "@credix_types/solana.types";
 
 export const IdentityButton = () => {
 	const wallet = useWallet();
@@ -28,10 +29,27 @@ export const IdentityButton = () => {
 		}
 	}, [connection, wallet, getGatekeeperNetwork]);
 
+	const mapClusterNameToStage = (clusterName: SolanaCluster) => {
+		switch (clusterName) {
+			case SolanaCluster.LOCALNET: {
+				return "local";
+			}
+			case SolanaCluster.DEVNET: {
+				return "preprod";
+			}
+			case SolanaCluster.MAINNET: {
+				return "prod";
+			}
+			default: {
+				break;
+			}
+		}
+	};
+
 	return (
 		<GatewayProvider
 			wallet={wallet}
-			stage={config.clusterConfig.stage}
+			stage={mapClusterNameToStage(config.clusterConfig.name)}
 			gatekeeperNetwork={gatekeeperNetwork}
 			clusterUrl={config.clusterConfig.RPCEndpoint}
 		>

@@ -1,5 +1,4 @@
 import { ConfirmOptions, PublicKey } from "@solana/web3.js";
-import { CivicStage } from "./civic.types";
 import { RPCEndpoint, SolanaCluster } from "./solana.types";
 
 export interface ClusterConfig {
@@ -7,7 +6,6 @@ export interface ClusterConfig {
 	RPCEndpoint: RPCEndpoint;
 	programId: PublicKey;
 	gatewayProgramId: PublicKey;
-	stage: CivicStage;
 }
 
 export interface Config {
