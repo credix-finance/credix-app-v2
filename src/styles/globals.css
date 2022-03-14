@@ -79,7 +79,7 @@ body {
 }
 
 .ant-table-thead > tr > th {
-	@apply border-b-0 !important;
+	@apply border-b-0 bg-darker text-credix-primary !important;
 }
 
 .ant-table-thead
