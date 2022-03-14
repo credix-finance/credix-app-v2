@@ -104,7 +104,7 @@ body {
 }
 
 .ant-tabs-ink-bar {
-	@apply h-[6px] bg-action-primary !important;
+	@apply h-[6px] bg-action-hover !important;
 }
 
 .ant-tabs-tab:hover,
