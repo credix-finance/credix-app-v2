@@ -17,7 +17,7 @@ export const MainMenu = ({ showLogo = true }: MainMenuProps) => {
 				{showLogo && (
 					<Link href="/">
 						<a>
-							<CredixLogo />
+							<CredixLogo mode="dark" />
 						</a>
 					</Link>
 				)}
