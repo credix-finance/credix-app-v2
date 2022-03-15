@@ -9,7 +9,8 @@ import { useStore } from "state/useStore";
 
 const Overview: NextPage = () => {
 	const client = useCredixClient();
-	const { market, maybeFetchMarket } = useStore((state) => state);
+	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
+	const market = useStore((state) => state.market);
 
 	useEffect(() => {
 		maybeFetchMarket(client, defaultMarketplace);

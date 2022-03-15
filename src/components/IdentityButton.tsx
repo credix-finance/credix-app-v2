@@ -7,17 +7,23 @@ import { config } from "../config";
 import { useCredixClient } from "@credix/credix-client";
 import { defaultMarketplace } from "../consts";
 import { SolanaCluster } from "@credix_types/solana.types";
+import { useStore } from "state/useStore";
 
 export const IdentityButton = () => {
 	const wallet = useWallet();
 	const client = useCredixClient();
 	const { connection } = useConnection();
 	const [gatekeeperNetwork, setGatekeeperNetwork] = useState<PublicKey>();
+	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
+	const market = useStore((state) => state.market);
 
 	const getGatekeeperNetwork = useCallback(async () => {
-		const market = await client.fetchMarket(defaultMarketplace);
 		setGatekeeperNetwork(market?.gateKeeperNetwork);
-	}, [client]);
+	}, [market]);
+
+	useEffect(() => {
+		maybeFetchMarket(client, defaultMarketplace);
+	}, [client, maybeFetchMarket]);
 
 	useEffect(() => {
 		getGatekeeperNetwork();
