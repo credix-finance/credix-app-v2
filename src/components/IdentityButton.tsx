@@ -7,7 +7,7 @@ import { config } from "../config";
 import { useCredixClient } from "@credix/credix-client";
 import { defaultMarketplace } from "../consts";
 import { SolanaCluster } from "@credix_types/solana.types";
-import { useStore } from "state/useStore";
+import { useStore } from "../state/useStore";
 
 export const IdentityButton = () => {
 	const wallet = useWallet();
