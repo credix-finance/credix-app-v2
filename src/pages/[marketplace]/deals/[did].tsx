@@ -11,23 +11,18 @@ const Deal: NextPage = () => {
 	const router = useRouter();
 	const { marketplace, did } = router.query;
 	const client = useCredixClient();
+	const getDeal = useStore((state) => state.getDeal);
 	const [deal, setDeal] = useState<DealType>();
 	const isAdmin = useStore((state) => state.isAdmin);
 
-	const getDeal = useCallback(async () => {
-		try {
-			const market = await client?.fetchMarket(marketplace as string);
-			// TODO: get the deal directly from the market once that's added to the client
-			const deals = await market?.fetchDeals();
-			setDeal(deals.find((deal) => deal.address.toString() === did));
-		} catch {
-			console.log("failed to fetch market");
-		}
-	}, [client, marketplace, did]);
+	const getDealFromStore = useCallback(async () => {
+		const dealFromStore = await getDeal(client, marketplace as string, did as string);
+		setDeal(dealFromStore);
+	}, [client, marketplace, did, getDeal]);
 
 	useEffect(() => {
-		getDeal();
-	}, [getDeal]);
+		getDealFromStore();
+	}, [getDealFromStore]);
 
 	const activateDeal = async () => {
 		try {
@@ -37,6 +32,10 @@ const Deal: NextPage = () => {
 			// TODO: trigger error message
 		}
 	};
+
+	if (!deal) {
+		return null;
+	}
 
 	return (
 		<div className="px-4 py-5 md:pt-20 max-w-3xl flex flex-col justify-self-center">

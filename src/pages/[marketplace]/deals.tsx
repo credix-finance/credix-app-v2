@@ -1,6 +1,6 @@
 import { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Deal, DealStatus, Ratio, useCredixClient } from "@credix/credix-client";
+import { Deal, Ratio, useCredixClient } from "@credix/credix-client";
 import { toUIAmount, formatRatio, formatTimestamp } from "../../utils/format.utils";
 import { Tabs } from "@components/Tabs";
 import { TabPane } from "@components/TabPane";
@@ -52,17 +52,17 @@ const Deals: NextPageWithLayout = () => {
 	const { publicKey } = useWallet();
 	const { marketplace } = router.query;
 	const client = useCredixClient();
-	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
-	const market = useStore((state) => state.market);
-	const [isLoadingDeals, setIsLoadingDeals] = useState<boolean>(true);
-	const [activeDeals, setActiveDeals] = useState<Deal[]>([]);
-	const [pendingDeals, setPendingDeals] = useState<Deal[]>([]);
-	const [endedDeals, setEndedDeals] = useState<Deal[]>([]);
+	const maybeFetchDeals = useStore((state) => state.maybeFetchDeals);
+	const activeDeals = useStore((state) => state.activeDeals);
+	const endedDeals = useStore((state) => state.endedDeals);
+	const pendingDeals = useStore((state) => state.pendingDeals);
+	const isLoadingDeals = useStore((state) => state.isLoadingDeals);
+
 	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
 	useEffect(() => {
-		maybeFetchMarket(client, marketplace as string);
-	}, [client, maybeFetchMarket, marketplace]);
+		maybeFetchDeals(client, marketplace as string);
+	}, [client, maybeFetchDeals, marketplace]);
 
 	const dealRepaidRatio = (principal: Big, principalAmountRepaid: Big) => {
 		if (!principalAmountRepaid.toNumber()) {
@@ -84,46 +84,6 @@ const Deals: NextPageWithLayout = () => {
 		},
 		[locales]
 	);
-
-	const getDeals = useCallback(async () => {
-		setIsLoadingDeals(true);
-		const deals = await market?.fetchDeals();
-
-		if (!deals) {
-			setIsLoadingDeals(false);
-			return;
-		}
-
-		const { activeDeals, endedDeals, pendingDeals } = deals.reduce(
-			(acc, deal) => {
-				switch (deal.status) {
-					case DealStatus.IN_PROGRESS:
-						acc.activeDeals.push(mapDeal(deal));
-						break;
-					case DealStatus.CLOSED:
-						acc.endedDeals.push(mapDeal(deal));
-						break;
-					case DealStatus.PENDING:
-						acc.pendingDeals.push(mapDeal(deal));
-						break;
-					default:
-						break;
-				}
-
-				return acc;
-			},
-			{ activeDeals: [], endedDeals: [], pendingDeals: [] }
-		);
-
-		setActiveDeals(activeDeals);
-		setEndedDeals(endedDeals);
-		setPendingDeals(pendingDeals);
-		setIsLoadingDeals(false);
-	}, [market, mapDeal]);
-
-	useEffect(() => {
-		getDeals();
-	}, [getDeals]);
 
 	useEffect(() => {
 		setIsAdmin(config.managementKeys.includes(publicKey?.toString()));
@@ -152,7 +112,7 @@ const Deals: NextPageWithLayout = () => {
 								},
 							};
 						}}
-						dataSource={activeDeals}
+						dataSource={activeDeals?.map((deal) => mapDeal(deal))}
 						columns={dealsTableColumns}
 					/>
 				</TabPane>
@@ -167,13 +127,17 @@ const Deals: NextPageWithLayout = () => {
 									},
 								};
 							}}
-							dataSource={pendingDeals}
+							dataSource={pendingDeals?.map((deal) => mapDeal(deal))}
 							columns={dealsTableColumns}
 						/>
 					</TabPane>
 				)}
 				<TabPane tab="Ended Deals" key="3">
-					<Table loading={isLoadingDeals} dataSource={endedDeals} columns={dealsTableColumns} />
+					<Table
+						loading={isLoadingDeals}
+						dataSource={endedDeals?.map((deal) => mapDeal(deal))}
+						columns={dealsTableColumns}
+					/>
 				</TabPane>
 			</Tabs>
 		</div>
