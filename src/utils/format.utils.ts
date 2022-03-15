@@ -25,4 +25,10 @@ export const formatTimestamp = (timestamp, locale) => {
 	const timestampWithMilliseconds = timestamp * 1000;
 	return formatDate(new Date(timestampWithMilliseconds), locale);
 };
-export const formatDate = (date, locale) => Intl.DateTimeFormat([...locale, "en-GB"]).format(date);
+
+export const formatDate = (date, locale) => {
+	const fallback = "en-GB";
+	const locales = locale && locale.length > 0 ? [...locale, fallback] : fallback;
+
+	return Intl.DateTimeFormat(locales).format(date);
+};
