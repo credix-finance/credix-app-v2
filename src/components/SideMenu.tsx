@@ -2,10 +2,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { CredixLogo } from "@components/CredixLogo";
-import { SideMenuItem, SideMenuItemProps } from "@components/SideMenuItem";
+import { SideMenuItem } from "@components/SideMenuItem";
+import { Route } from "../types/route.types";
 
 interface SideMenuProps {
-	menuItems: Omit<SideMenuItemProps, "isActive">[];
+	menuItems: Route[];
 }
 
 export const SideMenu = ({ menuItems }: SideMenuProps) => {
