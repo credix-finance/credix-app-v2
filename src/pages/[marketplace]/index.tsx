@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
 import { useStore } from "@state/useStore";
+import Link from "next/link";
 
 const Overview: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -23,7 +24,7 @@ const Overview: NextPageWithLayout = () => {
 		{
 			name: "liquidity providers",
 			action: "invest",
-			buttonAction: "Invest",
+			buttonAction: "invest",
 			description:
 				"Stable return, flexibility to withdraw at any moment and invest in senior tranche = liquidity pool.",
 		},
@@ -55,9 +56,13 @@ const Overview: NextPageWithLayout = () => {
 				{parties.map(({ name, action, buttonAction, description }) => (
 					<Card key={name} topTitle={name} title={action} offset="large">
 						<div className="mb-14 text-base">{description}</div>
-						<Button block={true} className="capitalize">
-							{buttonAction}
-						</Button>
+						<Link href={`${marketplace}/${buttonAction}`}>
+							<a>
+								<Button block={true} className="capitalize">
+									{buttonAction}
+								</Button>
+							</a>
+						</Link>
 					</Card>
 				))}
 			</div>
