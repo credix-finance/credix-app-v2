@@ -8,7 +8,7 @@ interface WalletButtonProps {
 	className?: string;
 }
 
-export const WalletButton = ({className = ""}: WalletButtonProps) => {
+export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 	const { wallet, publicKey, disconnect } = useWallet();
 	const { setVisible } = useWalletModal();
 	const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -47,7 +47,7 @@ export const WalletButton = ({className = ""}: WalletButtonProps) => {
 				type="default"
 				onClick={() => setDropdownVisible(!dropdownVisible)}
 				icon={<WalletIcon wallet={wallet} className="w-6" />}
-				className={className}
+				className={`bg-neutral-0 ${className}`}
 			>
 				{address}
 			</Button>
@@ -57,18 +57,22 @@ export const WalletButton = ({className = ""}: WalletButtonProps) => {
 				}`}
 			>
 				<div className="border-solid border-0">
-					<Button type="default" className="w-full border-none" onClick={copyAddress}>
+					<Button type="default" className="w-full border-none bg-neutral-0" onClick={copyAddress}>
 						{/* TODO: add feedback when copied */}
 						Copy Address
 					</Button>
 				</div>
 				<div className="border-solid border-0">
-					<Button type="default" className="w-full border-none" onClick={() => setVisible(true)}>
+					<Button
+						type="default"
+						className="w-full border-none bg-neutral-0"
+						onClick={() => setVisible(true)}
+					>
 						Change Wallet
 					</Button>
 				</div>
 				<div className="border-solid border-0">
-					<Button type="default" className="w-full border-none" onClick={disconnect}>
+					<Button type="default" className="w-full border-none bg-neutral-0" onClick={disconnect}>
 						Disconnect
 					</Button>
 				</div>
