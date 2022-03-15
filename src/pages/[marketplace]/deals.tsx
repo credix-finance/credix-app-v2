@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
-import { Deal, DealStatus, Market, Ratio, useCredixClient } from "@credix/credix-client";
+import { Deal, DealStatus, Ratio, useCredixClient } from "@credix/credix-client";
 import { toUIAmount, formatRatio, formatTimestamp } from "../../utils/format.utils";
 import { Tabs } from "@components/Tabs";
 import { TabPane } from "@components/TabPane";
@@ -12,6 +12,7 @@ import { Button } from "@components/Button";
 import Link from "next/link";
 import Big from "big.js";
 import { useLocales } from "../../hooks/useLocales";
+import { useStore } from "@state/useStore";
 
 const dealsTableColumns: ColumnsProps[] = [
 	{
@@ -44,22 +45,19 @@ const dealsTableColumns: ColumnsProps[] = [
 
 const Deals: NextPage = () => {
 	const router = useRouter();
-	const locales = useLocales();
 	const { marketplace } = router.query;
+	const locales = useLocales();
 	const client = useCredixClient();
-	const [market, setMarket] = useState<Market>();
+	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
+
+	const market = useStore((state) => state.market);
 	const [isLoadingDeals, setIsLoadingDeals] = useState<boolean>(true);
 	const [activeDeals, setActiveDeals] = useState<Deal[]>([]);
 	const [endedDeals, setEndedDeals] = useState<Deal[]>([]);
 
-	const getMarket = useCallback(async () => {
-		try {
-			const market = await client?.fetchMarket(marketplace as string);
-			setMarket(market);
-		} catch {
-			console.log("failed to fetch market");
-		}
-	}, [client, marketplace]);
+	useEffect(() => {
+		maybeFetchMarket(client, marketplace as string);
+	}, [client, maybeFetchMarket, marketplace]);
 
 	const dealRepaidRatio = (principal: Big, principalAmountRepaid: Big) => {
 		if (!principalAmountRepaid.toNumber()) {
@@ -69,15 +67,18 @@ const Deals: NextPage = () => {
 		return formatRatio(new Ratio(principal.toNumber(), principalAmountRepaid.toNumber()));
 	};
 
-	const mapDeal = ({ address, name, principal, goLiveAt, principalAmountRepaid }: Deal) => {
-		return {
-			key: address.toString(),
-			name: name,
-			amount: toUIAmount(principal).toNumber(),
-			date: formatTimestamp(goLiveAt, locales),
-			paid: dealRepaidRatio(principal, principalAmountRepaid),
-		};
-	};
+	const mapDeal = useCallback(
+		({ address, name, principal, goLiveAt, principalAmountRepaid }: Deal) => {
+			return {
+				key: address.toString(),
+				name: name,
+				amount: toUIAmount(principal).toNumber(),
+				date: formatTimestamp(goLiveAt, locales as string[]),
+				paid: dealRepaidRatio(principal, principalAmountRepaid),
+			};
+		},
+		[locales]
+	);
 
 	const getDeals = useCallback(async () => {
 		setIsLoadingDeals(true);
@@ -105,11 +106,7 @@ const Deals: NextPage = () => {
 		setActiveDeals(activeDeals);
 		setEndedDeals(endedDeals);
 		setIsLoadingDeals(false);
-	}, [market]);
-
-	useEffect(() => {
-		getMarket();
-	}, [getMarket]);
+	}, [market, mapDeal]);
 
 	useEffect(() => {
 		getDeals();

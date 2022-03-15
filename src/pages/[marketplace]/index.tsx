@@ -4,9 +4,9 @@ import { Card } from "@components/Card";
 import { MarketStats } from "@components/MarketStats";
 import { useCredixClient } from "@credix/credix-client";
 import { useRouter } from "next/router";
-import { useStore } from "state/useStore";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
+import { useStore } from "@state/useStore";
 
 const Overview: NextPageWithLayout = () => {
 	const router = useRouter();
