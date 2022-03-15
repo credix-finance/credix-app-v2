@@ -118,14 +118,14 @@ const Deals: NextPage = () => {
 				<div></div>
 				<Link href={`/${marketplace}/invest`}>
 					<a>
-						<Button size="large" icon={<Icon name="plus-square" />}>
-							Invest
+						<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
+							<span className="text-lg">Invest</span>
 						</Button>
 					</a>
 				</Link>
 			</div>
 			<Tabs>
-				<TabPane tab="Active Deals" key="1">
+				<TabPane tab="Active Deals" key="activeDealsTab">
 					<Table
 						loading={isLoadingDeals}
 						onRow={(record) => {
@@ -139,7 +139,7 @@ const Deals: NextPage = () => {
 						columns={dealsTableColumns}
 					/>
 				</TabPane>
-				<TabPane tab="Ended Deals" key="2">
+				<TabPane tab="Ended Deals" key="endedDealsTab">
 					<Table loading={isLoadingDeals} dataSource={endedDeals} columns={dealsTableColumns} />
 				</TabPane>
 			</Tabs>
