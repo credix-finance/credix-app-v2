@@ -26,7 +26,7 @@ const dealsTableColumns: ColumnsProps[] = [
 		icon: "coins-alt",
 		dataIndex: "amount",
 		key: "amount",
-		render: (text) => <span className="font-medium text-lg">{text}</span>,
+		render: (text) => <span className="font-medium text-lg">{text} USDC</span>,
 	},
 	{
 		title: "Date",
