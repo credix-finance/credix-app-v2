@@ -2,6 +2,9 @@ import { Ratio } from "@credix/credix-client";
 import Big, { RoundingMode } from "big.js";
 
 type formatter = (value: number) => string;
+export const clamp = (value: number, min: number, max: number) => {
+	return Math.min(Math.max(value, min), max);
+};
 
 const roundingPrecision = 2;
 const conversionFactor = new Big(10).pow(6);
@@ -16,6 +19,11 @@ export const round = (n: Big, roundingMode: RoundingMode, precision = roundingPr
 	n.round(precision, roundingMode);
 
 export const formatNumber = (n: Big, formatter: formatter) => formatter(n.toNumber());
+export const ratioFormatter = Intl.NumberFormat("en", {
+	style: "percent",
+	minimumFractionDigits: 0,
+	maximumFractionDigits: 1,
+});
 
 export const toUIAmount = (n: Big) => n.div(conversionFactor);
 
@@ -23,14 +31,6 @@ export const formatUIAmount = (n: Big, formatter: formatter) =>
 	formatNumber(toUIAmount(n), formatter);
 
 export const toProgramAmount = (n: Big) => n.mul(conversionFactor);
-
-export const toRatioAsNumber = (numerator: Big, denominator: Big) => {
-	if (!denominator || !denominator.toNumber()) {
-		return 0;
-	}
-
-	return formatRatio(new Ratio(numerator.toNumber(), denominator.toNumber()));
-};
 
 export const formatRatio = (r: Ratio) => {
 	const denominator = new Big(r.denominator);
