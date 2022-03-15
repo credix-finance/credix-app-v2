@@ -1,13 +1,15 @@
 import create, { SetState, GetState } from "zustand";
 import { devtools } from "zustand/middleware";
+import { AdminSlice, createAdminSlice } from "./adminSlice";
 import { MarketSlice, createMarketSlice } from "./marketSlice";
 
-export type StoreState = MarketSlice;
+export type StoreState = MarketSlice & AdminSlice;
 
 export type StoreSlice<T> = (set: SetState<StoreState>, get: GetState<StoreState>) => T;
 
 export const useStore = create<StoreState>(
 	devtools((set, get) => ({
 		...createMarketSlice(set, get),
+		...createAdminSlice(set, get),
 	}))
 );

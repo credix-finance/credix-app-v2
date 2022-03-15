@@ -1,6 +1,5 @@
 import { Button } from "@components/Button";
 import DealDetails from "@components/DealDetails";
-import { DealStatus } from "@components/DealStatus";
 import { Link } from "@components/Link";
 import { Deal as DealType, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
@@ -12,7 +11,6 @@ const Deal: NextPage = () => {
 	const router = useRouter();
 	const { marketplace, did } = router.query;
 	const client = useCredixClient();
-	const { publicKey } = useWallet();
 	const [deal, setDeal] = useState<DealType>();
 	const isAdmin = useStore((state) => state.isAdmin);
 
