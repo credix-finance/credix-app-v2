@@ -6,9 +6,9 @@ import { useCredixClient } from "@credix/credix-client";
 import { useRouter } from "next/router";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
-import { useStore } from "@state/useStore";
 import Link from "next/link";
 import { investWithdrawRoute } from "@consts";
+import { useStore } from "@state/useStore";
 
 const Overview: NextPageWithLayout = () => {
 	const router = useRouter();
