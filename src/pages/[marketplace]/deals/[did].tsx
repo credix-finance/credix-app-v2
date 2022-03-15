@@ -1,4 +1,5 @@
 import { Button } from "@components/Button";
+import { DealStatus } from "@components/DealStatus";
 import { Link } from "@components/Link";
 import { Tag } from "@components/Tag";
 import { Deal as DealType, Ratio, useCredixClient } from "@credix/credix-client";
@@ -58,22 +59,12 @@ const Deal: NextPage = () => {
 		}
 	};
 
-	let tag = null;
-
-	if (deal?.isInProgress()) {
-		tag = <Tag type="active">Active</Tag>;
-	} else if (deal?.isPending()) {
-		tag = <Tag type="pending">Pending</Tag>;
-	} else {
-		tag = <Tag type="ended">Ended</Tag>;
-	}
-
 	return (
 		<div className="px-4 py-5 md:pt-20 max-w-3xl flex flex-col justify-self-center">
 			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
 			<div className="text-4xl font-sans pt-3 pb-5">{deal?.name}</div>
 			<div className="bg-neutral-0 p-12 space-y-7">
-				{tag}
+				<DealStatus deal={deal} />
 				<div className="text-neutral-60 w-max">
 					<div>Borrower Key</div>
 					<div className="px-4 py-3 border border-solid border-neutral-60">
