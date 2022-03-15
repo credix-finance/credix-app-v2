@@ -32,6 +32,17 @@ body {
 	background-position: center;
 }
 
+.identity-button > button {
+	@apply bg-neutral-0 text-neutral-100 h-[42px] flex justify-center items-center;
+}
+
+.identity-button > button > svg {
+	@apply relative top-[unset] left-[unset] !important;
+}
+.identity-button > button > span {
+	@apply text-neutral-100 !important;
+}
+
 /* Antdesign overrides */
 .ant-form-item-label > label {
 	/* Unset label color so it displays the correct color when disabled */

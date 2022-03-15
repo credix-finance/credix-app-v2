@@ -16,7 +16,8 @@
 		"jsx": "preserve",
 		"baseUrl": "./src/",
 		"paths": {
-			"@components/*": ["components/*"]
+			"@components/*": ["components/*"],
+			"@credix_types/*": ["types/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
