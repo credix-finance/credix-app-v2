@@ -28,6 +28,7 @@ const Deal: NextPage = () => {
 		try {
 			await deal.activate();
 			// TODO: trigger success message
+			// TODO: refresh deal in store
 		} catch {
 			// TODO: trigger error message
 		}
@@ -41,10 +42,10 @@ const Deal: NextPage = () => {
 		<div className="px-4 py-5 md:pt-20 max-w-3xl flex flex-col justify-self-center">
 			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
 			<div className="text-4xl font-sans pt-3 pb-5">{deal?.name}</div>
-			<div className="bg-neutral-0 p-12 space-y-7">
+			<div className="bg-neutral-0 pb-12">
 				<DealDetails deal={deal} />
 				{isAdmin && deal && deal.isPending() && (
-					<Button type="default" className="mt-14" onClick={activateDeal}>
+					<Button type="default" className="ml-12" onClick={activateDeal}>
 						Activate Deal
 					</Button>
 				)}
