@@ -1,5 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
-import { config } from "config";
+import { config } from "../config";
 import { StoreSlice } from "./useStore";
 
 export type AdminSlice = {
