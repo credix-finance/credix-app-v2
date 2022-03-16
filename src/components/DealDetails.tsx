@@ -61,7 +61,11 @@ const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 					<div>Time to Maturity</div>
 					<div className="text-2xl font-bold pt-2">{deal?.timeToMaturity} DAYS</div>
 				</div>
-				<div className="p-3 border border-solid border-neutral-60">
+				<div className="p-3 border border-solid border-neutral-60 relative">
+					<div
+						className="absolute top-0 left-0 h-1 bg-neutral-60"
+						style={{ width: `${clamp(principalRepaidRatio * 100, 0, 100)}%` }}
+					></div>
 					<div>Principal Repaid</div>
 					<div className="flex justify-between items-center pt-2">
 						<div className="text-2xl font-bold">
@@ -73,7 +77,7 @@ const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 				<div className="p-3 border border-solid border-neutral-60 relative">
 					<div
 						className="absolute top-0 left-0 h-1 bg-neutral-60"
-						style={{ width: `${clamp(interestRepaidRatio, 0, 100)}%` }}
+						style={{ width: `${clamp(interestRepaidRatio * 100, 0, 100)}%` }}
 					></div>
 					<div>Interest Repaid</div>
 					<div className="flex justify-between items-center pt-2">
