@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import DealDetails from "@components/DealDetails";
+import { DealDetails } from "@components/DealDetails";
 import { PublicKey } from "@solana/web3.js";
 import Big from "big.js";
 import { Ratio } from "@credix/credix-client";

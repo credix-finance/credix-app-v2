@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import DealDetails from "@components/DealDetails";
+import { DealDetails } from "@components/DealDetails";
 import { Link } from "@components/Link";
 import { Deal as DealType, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
