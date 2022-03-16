@@ -84,7 +84,7 @@ export const createMarketSlice: StoreSlice<MarketSlice> = (set, get) => ({
 	isLoadingDeals: false,
 	fetchMarket: async (client, marketPlace) => {
 		const market = await getMarket(client, marketPlace);
-		set({ market });
+		set({ market, ...initialDealsState });
 	},
 	maybeFetchMarket: async (client, marketPlace) => {
 		if (get().market) {
