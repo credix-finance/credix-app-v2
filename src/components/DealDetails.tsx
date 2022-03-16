@@ -1,6 +1,12 @@
 import { Deal, Ratio } from "@credix/credix-client";
 import { FunctionComponent, useEffect, useState } from "react";
-import { clamp, formatRatio, numberFormatter, ratioFormatter } from "../utils/format.utils";
+import {
+	clamp,
+	formatRatio,
+	numberFormatter,
+	ratioFormatter,
+	toUIAmount,
+} from "@utils/format.utils";
 import { DealStatus } from "@components/DealStatus";
 
 interface DealDetailsProps {
@@ -42,7 +48,7 @@ const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 				<div className="p-6 border border-solid border-neutral-60">
 					<div>Pricipal</div>
 					<div className="text-2xl font-bold pt-2">
-						{numberFormatter.format(deal?.principal.toNumber())} USDC
+						{numberFormatter.format(toUIAmount(deal?.principal)?.toNumber())} USDC
 					</div>
 				</div>
 				<div className="p-6 border border-solid border-neutral-60">
@@ -59,7 +65,7 @@ const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 					<div>Principal Repaid</div>
 					<div className="flex justify-between items-center pt-2">
 						<div className="text-2xl font-bold">
-							{numberFormatter.format(deal?.principalAmountRepaid.toNumber())} USDC
+							{numberFormatter.format(toUIAmount(deal?.principalAmountRepaid)?.toNumber())} USDC
 						</div>
 						<div className="font-bold">{ratioFormatter.format(principalRepaidRatio)}</div>
 					</div>
@@ -72,7 +78,7 @@ const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 					<div>Interest Repaid</div>
 					<div className="flex justify-between items-center pt-2">
 						<div className="text-2xl font-bold">
-							{numberFormatter.format(deal?.interestRepaid.toNumber())} USDC
+							{numberFormatter.format(toUIAmount(deal?.interestRepaid).toNumber())} USDC
 						</div>
 						<div className="font-bold">{ratioFormatter.format(interestRepaidRatio)}</div>
 					</div>
