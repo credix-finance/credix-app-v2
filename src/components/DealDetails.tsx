@@ -25,7 +25,7 @@ const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 		);
 		setDaysRemainingRatio(
 			deal?.principalAmountRepaid &&
-				formatRatio(new Ratio(deal?.timeToMaturity, deal?.daysRemaining))?.toNumber()
+				formatRatio(new Ratio(deal?.daysRemaining, deal?.timeToMaturity))?.toNumber()
 		);
 	}, [deal]);
 
