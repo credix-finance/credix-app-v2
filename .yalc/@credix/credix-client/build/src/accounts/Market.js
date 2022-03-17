@@ -63,9 +63,9 @@ class Market {
                     signingAuthority: signingAuthority,
                     investorTokenAccount: investorTokenAccount,
                     liquidityPoolTokenAccount: liquidityPoolTokenAccount,
-                    lpTokenMintAccount: this.lpMintPK,
+                    lpTokenMint: this.lpMintPK,
                     investorLpTokenAccount: investorLPTokenAccount,
-                    baseMintAccount: this.baseMintPK,
+                    baseTokenMint: this.baseMintPK,
                     tokenProgram: spl_token_1.TOKEN_PROGRAM_ID,
                     credixPass,
                     systemProgram: web3_js_1.SystemProgram.programId,
@@ -102,9 +102,9 @@ class Market {
                     investorTokenAccount: investorTokenAccount,
                     liquidityPoolTokenAccount: liquidityPoolTokenAccount,
                     treasuryPoolTokenAccount: this.treasury,
-                    lpTokenMintAccount: this.lpMintPK,
+                    lpTokenMint: this.lpMintPK,
                     credixPass,
-                    baseMintAccount: this.baseMintPK,
+                    baseTokenMint: this.baseMintPK,
                     tokenProgram: spl_token_1.TOKEN_PROGRAM_ID,
                     associatedTokenProgram: spl_token_1.ASSOCIATED_TOKEN_PROGRAM_ID,
                 },
@@ -163,13 +163,13 @@ class Market {
      * Address of the base mint for this market. Base tokens are the currency deals are created for (e.g. USDC)
      */
     get baseMintPK() {
-        return this.programVersion.liquidityPoolTokenMintAccount;
+        return this.programVersion.baseTokenMint;
     }
     /**
      * Address of the mint of LP token.
      */
     get lpMintPK() {
-        return this.programVersion.lpTokenMintAccount;
+        return this.programVersion.lpTokenMint;
     }
     /**
      * Address of the treasury of this market
@@ -429,10 +429,10 @@ class Market {
      * @param borrower Enable borrower functionality (creation of deals)
      * @returns
      */
-    issueCredixPass(pk, underwriter, borrower) {
+    issueCredixPass(pk, underwriter, borrower, releaseTimestamp) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [credixPassAddress, credixPassBump] = yield __1.CredixPass.generatePDA(pk, this);
-            return this.program.rpc.createCredixPass(credixPassBump, underwriter, borrower, {
+            const [credixPassAddress] = yield __1.CredixPass.generatePDA(pk, this);
+            return this.program.rpc.createCredixPass(underwriter, borrower, new anchor_1.BN(releaseTimestamp), {
                 accounts: {
                     owner: this.program.provider.wallet.publicKey,
                     passHolder: pk,

@@ -77,7 +77,7 @@ describe("Market", () => __awaiter(void 0, void 0, void 0, function* () {
         // Act
         const baseMintPK = market === null || market === void 0 ? void 0 : market.baseMintPK;
         // Assert
-        (0, chai_1.expect)(baseMintPK === null || baseMintPK === void 0 ? void 0 : baseMintPK.equals(Market_fixture_1.globalMarketFixture.liquidityPoolTokenMintAccount)).to.be.true;
+        (0, chai_1.expect)(baseMintPK === null || baseMintPK === void 0 ? void 0 : baseMintPK.equals(Market_fixture_1.globalMarketFixture.baseTokenMint)).to.be.true;
     }));
     it("returns the lp mint public key", () => __awaiter(void 0, void 0, void 0, function* () {
         // Arrange
@@ -89,7 +89,7 @@ describe("Market", () => __awaiter(void 0, void 0, void 0, function* () {
         // Act
         const lpMintPK = market === null || market === void 0 ? void 0 : market.lpMintPK;
         // Assert
-        (0, chai_1.expect)(lpMintPK === null || lpMintPK === void 0 ? void 0 : lpMintPK.equals(Market_fixture_1.globalMarketFixture.lpTokenMintAccount)).to.be.true;
+        (0, chai_1.expect)(lpMintPK === null || lpMintPK === void 0 ? void 0 : lpMintPK.equals(Market_fixture_1.globalMarketFixture.lpTokenMint)).to.be.true;
     }));
     it("returns the treasury public key", () => __awaiter(void 0, void 0, void 0, function* () {
         // Arrange

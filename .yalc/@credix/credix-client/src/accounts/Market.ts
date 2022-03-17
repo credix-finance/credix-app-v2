@@ -71,9 +71,9 @@ export class Market {
 				signingAuthority: signingAuthority,
 				investorTokenAccount: investorTokenAccount,
 				liquidityPoolTokenAccount: liquidityPoolTokenAccount,
-				lpTokenMintAccount: this.lpMintPK,
+				lpTokenMint: this.lpMintPK,
 				investorLpTokenAccount: investorLPTokenAccount,
-				baseMintAccount: this.baseMintPK,
+				baseTokenMint: this.baseMintPK,
 				tokenProgram: TOKEN_PROGRAM_ID,
 				credixPass,
 				systemProgram: SystemProgram.programId,
@@ -112,9 +112,9 @@ export class Market {
 				investorTokenAccount: investorTokenAccount,
 				liquidityPoolTokenAccount: liquidityPoolTokenAccount,
 				treasuryPoolTokenAccount: this.treasury,
-				lpTokenMintAccount: this.lpMintPK,
+				lpTokenMint: this.lpMintPK,
 				credixPass,
-				baseMintAccount: this.baseMintPK,
+				baseTokenMint: this.baseMintPK,
 				tokenProgram: TOKEN_PROGRAM_ID,
 				associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
 			},
@@ -194,14 +194,14 @@ export class Market {
 	 * Address of the base mint for this market. Base tokens are the currency deals are created for (e.g. USDC)
 	 */
 	get baseMintPK() {
-		return this.programVersion.liquidityPoolTokenMintAccount;
+		return this.programVersion.baseTokenMint;
 	}
 
 	/**
 	 * Address of the mint of LP token.
 	 */
 	get lpMintPK() {
-		return this.programVersion.lpTokenMintAccount;
+		return this.programVersion.lpTokenMint;
 	}
 
 	/**
@@ -504,10 +504,15 @@ export class Market {
 	 * @param borrower Enable borrower functionality (creation of deals)
 	 * @returns
 	 */
-	async issueCredixPass(pk: PublicKey, underwriter: boolean, borrower: boolean) {
-		const [credixPassAddress, credixPassBump] = await CredixPass.generatePDA(pk, this);
+	async issueCredixPass(
+		pk: PublicKey,
+		underwriter: boolean,
+		borrower: boolean,
+		releaseTimestamp: number
+	) {
+		const [credixPassAddress] = await CredixPass.generatePDA(pk, this);
 
-		return this.program.rpc.createCredixPass(credixPassBump, underwriter, borrower, {
+		return this.program.rpc.createCredixPass(underwriter, borrower, new BN(releaseTimestamp), {
 			accounts: {
 				owner: this.program.provider.wallet.publicKey,
 				passHolder: pk,

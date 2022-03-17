@@ -4,7 +4,7 @@ import { CredixClientConfig } from "..";
 import * as React from "react";
 export interface CredixClientProviderProps {
     connection: Connection;
-    wallet: typeof Wallet;
+    wallet: Wallet;
     config: CredixClientConfig;
     children: React.ReactNode;
 }

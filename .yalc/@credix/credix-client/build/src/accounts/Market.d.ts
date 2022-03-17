@@ -186,7 +186,7 @@ export declare class Market {
      * @param borrower Enable borrower functionality (creation of deals)
      * @returns
      */
-    issueCredixPass(pk: PublicKey, underwriter: boolean, borrower: boolean): Promise<string>;
+    issueCredixPass(pk: PublicKey, underwriter: boolean, borrower: boolean, releaseTimestamp: number): Promise<string>;
     /**
      * Update a credix pass. This function requires that the client wallet to belong to a management address
      * @param pk Public key for which we issue a credix pass

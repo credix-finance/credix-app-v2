@@ -11,7 +11,7 @@ export const ClientProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	return (
 		<CredixClientProvider
 			connection={connection}
-			wallet={wallet as typeof Wallet}
+			wallet={wallet as Wallet}
 			config={{
 				programId: config.clusterConfig.programId,
 				confirmOptions: config.confirmOptions,

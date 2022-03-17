@@ -8,15 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.programCredixPassFixture = exports.credixPassFixture = void 0;
 const web3_js_1 = require("@solana/web3.js");
+const bn_js_1 = __importDefault(require("bn.js"));
 const util_1 = require("../util");
 exports.credixPassFixture = {
     bump: 0,
     isBorrower: true,
     isUnderwriter: true,
     active: true,
+    releaseTimestamp: new bn_js_1.default(Date.now()),
+    user: web3_js_1.Keypair.generate().publicKey,
 };
 const programCredixPassFixture = (credixPass) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield util_1.testProgram.coder.accounts.encode("credixPass", credixPass);

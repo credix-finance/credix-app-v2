@@ -22,7 +22,7 @@ export declare class CredixClient {
      * If no confirm options are present the client will use the default options from the connection
      * @constructor
      */
-    constructor(connection: Connection, wallet: typeof Wallet, config: CredixClientConfig);
+    constructor(connection: Connection, wallet: Wallet, config: CredixClientConfig);
     /**
      * Fetches a market. This market is the main entrypoint for the Credix market program.
      * @param marketName Name of the market to fetch

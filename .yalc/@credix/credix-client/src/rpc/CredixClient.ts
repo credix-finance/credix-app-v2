@@ -3,8 +3,8 @@ import { Provider, Wallet } from "@project-serum/anchor";
 import { makeSaberProvider, newProgram } from "@saberhq/anchor-contrib";
 import { ConfirmOptions, Connection, PublicKey } from "@solana/web3.js";
 import { Market } from "..";
-import { IDL } from "../idl/credix";
 import { CredixProgram } from "../idl/idl.types";
+import { IDL } from "../idl/credix";
 
 /** Configuration for a Credix client */
 export interface CredixClientConfig {
@@ -29,7 +29,7 @@ export class CredixClient {
 	 * If no confirm options are present the client will use the default options from the connection
 	 * @constructor
 	 */
-	constructor(connection: Connection, wallet: typeof Wallet, config: CredixClientConfig) {
+	constructor(connection: Connection, wallet: Wallet, config: CredixClientConfig) {
 		const provider = new Provider(
 			connection,
 			wallet,

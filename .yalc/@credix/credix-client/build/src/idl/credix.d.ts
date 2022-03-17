@@ -19,11 +19,30 @@ export declare type Credix = {
                     "name": "globalMarketState";
                     "isMut": true;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "arg";
+                                "type": "string";
+                                "path": "global_market_seed";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "signingAuthority";
                     "isMut": false;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "liquidityPoolTokenAccount";
@@ -41,12 +60,12 @@ export declare type Credix = {
                     "isSigner": false;
                 },
                 {
-                    "name": "lpTokenMintAccount";
+                    "name": "lpTokenMint";
                     "isMut": true;
                     "isSigner": true;
                 },
                 {
-                    "name": "baseMintAccount";
+                    "name": "baseTokenMint";
                     "isMut": false;
                     "isSigner": false;
                 },
@@ -72,14 +91,6 @@ export declare type Credix = {
                 }
             ];
             "args": [
-                {
-                    "name": "signingAuthorityBump";
-                    "type": "u8";
-                },
-                {
-                    "name": "globalMarketStateBump";
-                    "type": "u8";
-                },
                 {
                     "name": "globalMarketSeed";
                     "type": "string";
@@ -120,6 +131,16 @@ export declare type Credix = {
                     "name": "signingAuthority";
                     "isMut": false;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "investorTokenAccount";
@@ -132,7 +153,7 @@ export declare type Credix = {
                     "isSigner": false;
                 },
                 {
-                    "name": "lpTokenMintAccount";
+                    "name": "lpTokenMint";
                     "isMut": true;
                     "isSigner": false;
                 },
@@ -145,9 +166,29 @@ export declare type Credix = {
                     "name": "credixPass";
                     "isMut": false;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "investor";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "credix-pass";
+                            }
+                        ];
+                    };
                 },
                 {
-                    "name": "baseMintAccount";
+                    "name": "baseTokenMint";
                     "isMut": false;
                     "isSigner": false;
                 },
@@ -201,6 +242,26 @@ export declare type Credix = {
                     "name": "borrowerInfo";
                     "isMut": true;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "borrower";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "borrower-info";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "globalMarketState";
@@ -211,11 +272,57 @@ export declare type Credix = {
                     "name": "deal";
                     "isMut": true;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "borrower";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "u16";
+                                "account": "BorrowerInfo";
+                                "path": "borrower_info.num_of_deals";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "deal-info";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "credixPass";
                     "isMut": false;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "borrower";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "credix-pass";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "systemProgram";
@@ -224,14 +331,6 @@ export declare type Credix = {
                 }
             ];
             "args": [
-                {
-                    "name": "dealBump";
-                    "type": "u8";
-                },
-                {
-                    "name": "borrowerInfoBump";
-                    "type": "u8";
-                },
                 {
                     "name": "principal";
                     "type": "u64";
@@ -284,11 +383,47 @@ export declare type Credix = {
                     "name": "signingAuthority";
                     "isMut": false;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "deal";
                     "isMut": true;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "borrower";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "u16";
+                                "account": "Deal";
+                                "path": "deal.deal_number";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "deal-info";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "liquidityPoolTokenAccount";
@@ -309,9 +444,29 @@ export declare type Credix = {
                     "name": "credixPass";
                     "isMut": false;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "borrower";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "credix-pass";
+                            }
+                        ];
+                    };
                 },
                 {
-                    "name": "baseMintAccount";
+                    "name": "baseTokenMint";
                     "isMut": false;
                     "isSigner": false;
                 },
@@ -365,6 +520,32 @@ export declare type Credix = {
                     "name": "deal";
                     "isMut": true;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "borrower";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "u16";
+                                "account": "Deal";
+                                "path": "deal.deal_number";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "deal-info";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "liquidityPoolTokenAccount";
@@ -380,19 +561,49 @@ export declare type Credix = {
                     "name": "signingAuthority";
                     "isMut": false;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "credixPass";
                     "isMut": false;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "borrower";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "credix-pass";
+                            }
+                        ];
+                    };
                 },
                 {
-                    "name": "baseMintAccount";
+                    "name": "baseTokenMint";
                     "isMut": false;
                     "isSigner": false;
                 },
                 {
-                    "name": "lpTokenMintAccount";
+                    "name": "lpTokenMint";
                     "isMut": true;
                     "isSigner": false;
                 },
@@ -442,6 +653,16 @@ export declare type Credix = {
                     "name": "signingAuthority";
                     "isMut": false;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "investorLpTokenAccount";
@@ -464,7 +685,7 @@ export declare type Credix = {
                     "isSigner": false;
                 },
                 {
-                    "name": "lpTokenMintAccount";
+                    "name": "lpTokenMint";
                     "isMut": true;
                     "isSigner": false;
                 },
@@ -472,9 +693,29 @@ export declare type Credix = {
                     "name": "credixPass";
                     "isMut": false;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "investor";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "credix-pass";
+                            }
+                        ];
+                    };
                 },
                 {
-                    "name": "baseMintAccount";
+                    "name": "baseTokenMint";
                     "isMut": false;
                     "isSigner": false;
                 },
@@ -513,6 +754,26 @@ export declare type Credix = {
                     "name": "credixPass";
                     "isMut": true;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "pass_holder";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "credix-pass";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "globalMarketState";
@@ -532,16 +793,16 @@ export declare type Credix = {
             ];
             "args": [
                 {
-                    "name": "passBump";
-                    "type": "u8";
-                },
-                {
                     "name": "isUnderwriter";
                     "type": "bool";
                 },
                 {
                     "name": "isBorrower";
                     "type": "bool";
+                },
+                {
+                    "name": "releaseTimestamp";
+                    "type": "i64";
                 }
             ];
         },
@@ -562,6 +823,26 @@ export declare type Credix = {
                     "name": "credixPass";
                     "isMut": true;
                     "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            },
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "path": "pass_holder";
+                            },
+                            {
+                                "kind": "const";
+                                "type": "string";
+                                "value": "credix-pass";
+                            }
+                        ];
+                    };
                 },
                 {
                     "name": "globalMarketState";
@@ -581,6 +862,10 @@ export declare type Credix = {
                 {
                     "name": "isBorrower";
                     "type": "bool";
+                },
+                {
+                    "name": "releaseTimestamp";
+                    "type": "i64";
                 }
             ];
         },
@@ -615,6 +900,71 @@ export declare type Credix = {
                 }
             ];
             "args": [];
+        },
+        {
+            "name": "updateLpTokenMetadata";
+            "accounts": [
+                {
+                    "name": "owner";
+                    "isMut": true;
+                    "isSigner": true;
+                },
+                {
+                    "name": "globalMarketState";
+                    "isMut": false;
+                    "isSigner": false;
+                },
+                {
+                    "name": "metadataPda";
+                    "isMut": true;
+                    "isSigner": false;
+                },
+                {
+                    "name": "lpTokenMint";
+                    "isMut": true;
+                    "isSigner": false;
+                },
+                {
+                    "name": "signingAuthority";
+                    "isMut": false;
+                    "isSigner": false;
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account";
+                                "type": "publicKey";
+                                "account": "GlobalMarketState";
+                                "path": "global_market_state";
+                            }
+                        ];
+                    };
+                },
+                {
+                    "name": "tokenMetadataProgram";
+                    "isMut": false;
+                    "isSigner": false;
+                },
+                {
+                    "name": "rent";
+                    "isMut": false;
+                    "isSigner": false;
+                },
+                {
+                    "name": "systemProgram";
+                    "isMut": false;
+                    "isSigner": false;
+                }
+            ];
+            "args": [
+                {
+                    "name": "name";
+                    "type": "string";
+                },
+                {
+                    "name": "symbol";
+                    "type": "string";
+                }
+            ];
         }
     ];
     "accounts": [
@@ -724,11 +1074,11 @@ export declare type Credix = {
                         "type": "publicKey";
                     },
                     {
-                        "name": "liquidityPoolTokenMintAccount";
+                        "name": "baseTokenMint";
                         "type": "publicKey";
                     },
                     {
-                        "name": "lpTokenMintAccount";
+                        "name": "lpTokenMint";
                         "type": "publicKey";
                     },
                     {
@@ -762,6 +1112,10 @@ export declare type Credix = {
                     {
                         "name": "frozen";
                         "type": "bool";
+                    },
+                    {
+                        "name": "seed";
+                        "type": "string";
                     }
                 ];
             };
@@ -786,6 +1140,14 @@ export declare type Credix = {
                     {
                         "name": "active";
                         "type": "bool";
+                    },
+                    {
+                        "name": "releaseTimestamp";
+                        "type": "i64";
+                    },
+                    {
+                        "name": "user";
+                        "type": "publicKey";
                     }
                 ];
             };
@@ -846,6 +1208,11 @@ export declare type Credix = {
                     "name": "globalMarketState";
                     "type": "publicKey";
                     "index": false;
+                },
+                {
+                    "name": "globalMarketStateSeed";
+                    "type": "string";
+                    "index": false;
                 }
             ];
         },
@@ -880,6 +1247,11 @@ export declare type Credix = {
                 {
                     "name": "globalMarketState";
                     "type": "publicKey";
+                    "index": false;
+                },
+                {
+                    "name": "globalMarketStateSeed";
+                    "type": "string";
                     "index": false;
                 }
             ];
@@ -921,6 +1293,11 @@ export declare type Credix = {
                     "name": "globalMarketState";
                     "type": "publicKey";
                     "index": false;
+                },
+                {
+                    "name": "globalMarketStateSeed";
+                    "type": "string";
+                    "index": false;
                 }
             ];
         },
@@ -955,6 +1332,11 @@ export declare type Credix = {
                 {
                     "name": "globalMarketState";
                     "type": "publicKey";
+                    "index": false;
+                },
+                {
+                    "name": "globalMarketStateSeed";
+                    "type": "string";
                     "index": false;
                 }
             ];
@@ -1001,6 +1383,11 @@ export declare type Credix = {
                     "name": "globalMarketState";
                     "type": "publicKey";
                     "index": false;
+                },
+                {
+                    "name": "globalMarketStateSeed";
+                    "type": "string";
+                    "index": false;
                 }
             ];
         },
@@ -1040,6 +1427,11 @@ export declare type Credix = {
                 {
                     "name": "globalMarketState";
                     "type": "publicKey";
+                    "index": false;
+                },
+                {
+                    "name": "globalMarketStateSeed";
+                    "type": "string";
                     "index": false;
                 }
             ];
@@ -1185,6 +1577,11 @@ export declare type Credix = {
             "code": 6027;
             "name": "InvalidTreasuryAccount";
             "msg": "Invalid treasury Account for this market.";
+        },
+        {
+            "code": 6028;
+            "name": "WithdrawalsLocked";
+            "msg": "Not yet possible to withdraw funds.";
         }
     ];
 };
