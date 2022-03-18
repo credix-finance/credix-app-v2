@@ -2,12 +2,13 @@
 
 exports[`Side menu 1`] = `
 <div
-  className="w-72 bg-darker h-screen pt-4 sticky top-0"
+  className="w-72 bg-darker h-screen pt-5 sticky top-0"
 >
   <div
-    className="text-credix-primary ml-[43px]"
+    className="text-credix-primary ml-5 h-[50px] flex"
   >
     <a
+      className="flex items-center"
       href="/"
       onClick={[Function]}
       onMouseEnter={[Function]}

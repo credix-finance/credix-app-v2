@@ -2,7 +2,7 @@
 
 exports[`Main menu 1`] = `
 <div
-  className="w-full bg-credix-primary flex justify-between items-center p-4 lg:px-20"
+  className="w-full bg-credix-primary flex justify-between items-center p-5"
 >
   <div>
     <a
