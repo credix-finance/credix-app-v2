@@ -1,18 +1,29 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
-import { SideMenuItem, SideMenuItemProps } from "./SideMenuItem";
+import { CredixLogo } from "@components/CredixLogo";
+import { SideMenuItem } from "@components/SideMenuItem";
+import { Route } from "../types/route.types";
 
 interface SideMenuProps {
-	menuItems: SideMenuItemProps[];
+	menuItems: Route[];
 }
 
 export const SideMenu = ({ menuItems }: SideMenuProps) => {
+	const router = useRouter();
+
 	return (
-		<div className="w-72 bg-darker h-screen pt-[33px]">
-			{/* TODO: replace this with CredixIcon component when merged */}
-			<div className="w-[39px] h-[39px] text-credix-primary ml-[43px]">CRDX</div>
+		<div className="w-72 bg-darker h-screen pt-[33px] sticky top-0">
+			<div className="text-credix-primary ml-[43px]">
+				<Link href="/">
+					<a>
+						<CredixLogo mode="light" />
+					</a>
+				</Link>
+			</div>
 			<div className="mt-[145px]">
 				{menuItems.map((item) => (
-					<SideMenuItem key={item.label} {...item} />
+					<SideMenuItem key={item.label} isActive={router?.pathname === item.path} {...item} />
 				))}
 			</div>
 		</div>

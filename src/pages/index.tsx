@@ -1,13 +1,14 @@
+import { useEffect, ReactElement } from "react";
 import { Button } from "@components/Button";
 import { Card } from "@components/Card";
 import { MarketStats } from "@components/MarketStats";
 import { useCredixClient } from "@credix/credix-client";
 import { defaultMarketplace } from "../consts";
-import type { NextPage } from "next";
-import { useEffect } from "react";
 import { useStore } from "state/useStore";
+import Layout from "@components/Layout";
+import { NextPageWithLayout } from "./_app";
 
-const Overview: NextPage = () => {
+const Overview: NextPageWithLayout = () => {
 	const client = useCredixClient();
 	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const market = useStore((state) => state.market);
@@ -60,6 +61,10 @@ const Overview: NextPage = () => {
 			</div>
 		</main>
 	);
+};
+
+Overview.getLayout = function getLayout(page: ReactElement) {
+	return <Layout.WithMainMenu>{page}</Layout.WithMainMenu>;
 };
 
 export default Overview;
