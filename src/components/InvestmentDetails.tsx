@@ -25,9 +25,7 @@ export const InvestmentDetails = ({
 			<div className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block">
 				<div className="flex justify-between items-start md:space-x-24 md:justify-start">
 					<div className="text-xs md:text-base font-medium">Current investments</div>
-					<div className="hidden md:block">
-						<InvestmentReturn value={investmentsReturn} />
-					</div>
+					<InvestmentReturn value={investmentsReturn} className="hidden md:flex" />
 				</div>
 				<div>
 					<div className="text-2xl font-bold">{`${investments} ${investmentsCurrency}`}</div>

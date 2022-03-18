@@ -3,13 +3,14 @@ import { Icon } from "@components/Icon";
 
 interface InvestmentReturnProps {
 	value: number;
+	className?: string;
 }
 
-export const InvestmentReturn = ({ value }: InvestmentReturnProps) => {
+export const InvestmentReturn = ({ value, className = "" }: InvestmentReturnProps) => {
 	const isGrowth = value >= 0;
 
 	return (
-		<div className="flex items-center space-x-[10px]">
+		<div className={`flex items-center space-x-[10px] ${className}`}>
 			{isGrowth ? (
 				<Icon className="text-action-primary w-6 h-6" name="trend-up-circle" />
 			) : (
