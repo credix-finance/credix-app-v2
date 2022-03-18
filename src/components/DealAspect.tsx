@@ -8,13 +8,14 @@ interface DealAspectProps {
 }
 
 export const DealAspect: FunctionComponent<DealAspectProps> = ({ title, value, ratio }) => {
+	const hasRatio = ratio !== undefined;
 	return (
 		<div
 			className={`${
-				ratio ? "p-3" : "p-6"
+				hasRatio ? "p-3" : "p-6"
 			} border border-solid border-neutral-60 relative w-full md:w-52`}
 		>
-			{ratio && (
+			{hasRatio && (
 				<div
 					className="absolute top-0 left-0 h-1 bg-neutral-60"
 					style={{ width: `${clamp(ratio * 100, 0, 100)}%` }}
