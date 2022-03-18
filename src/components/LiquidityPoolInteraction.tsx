@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from "@components/Icon";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
@@ -34,11 +34,15 @@ export const LiquidityPoolInteraction = ({
 	const investmentsReturn = 3.24;
 
 	const [form] = Form.useForm();
-	const [submitDisabled, setSubmitDisabled] = useState(true);
+	const [submitDisabled, setSubmitDisabled] = useState(null);
+
 	const onAddMax = () => {
 		form.setFieldsValue({ amount: action === "invest" ? balance : investments });
 		setSubmitDisabled(false);
 	};
+
+	// Set the disabled state on the client so there is no client <-> server mismatch
+	useEffect(() => setSubmitDisabled(true), []);
 
 	return (
 		<div className="p-6 md:p-12 bg-neutral-0 space-y-7">
@@ -60,7 +64,7 @@ export const LiquidityPoolInteraction = ({
 				onFinishFailed={onSubmitFailed}
 				layout="vertical"
 				onFieldsChange={(_changedFields, fields) =>
-					process.browser && setSubmitDisabled(fields.some((field) => !field.value))
+					setSubmitDisabled(fields.some((field) => !field.value))
 				}
 				className="max-w-[624px]"
 			>
