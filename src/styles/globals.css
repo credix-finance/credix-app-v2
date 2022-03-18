@@ -205,3 +205,51 @@ body {
 .anticon {
 	@apply text-current !important;
 }
+
+.ant-input-group-addon {
+	@apply bg-neutral-0 !important;
+}
+
+.ant-input-affix-wrapper {
+	@apply h-14 border border-neutral-40 !important;
+}
+
+.ant-select-selector {
+	@apply h-14 flex items-center border border-neutral-40 rounded-[1px] !important;
+}
+
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+	.ant-select-selector {
+	@apply ring-1 ring-neutral-60 border border-neutral-40 shadow-none z-10 !important;
+}
+
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+	@apply border-neutral-60  !important;
+}
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+	@apply ring-1 ring-neutral-60 border-neutral-40 shadow-none z-10 !important;
+}
+
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+	@apply border-r !important;
+}
+.ant-input-affix-wrapper:hover {
+	@apply border-r border-neutral-60 !important;
+}
+
+.ant-select-selector {
+	@apply pr-8 !important;
+}
+
+.ant-select-arrow {
+	@apply w-max h-max -mt-3 mr-4 z-10 !important;
+}
+
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+	@apply pl-6 pr-10 !important;
+}
+
+.ant-input-group.ant-input-group-compact {
+	@apply grid grid-cols-select !important;
+}
