@@ -71,6 +71,7 @@ export const LiquidityPoolInteraction = ({
 					placeholder="e.g. 0.0007"
 					type="number"
 					addonBefore="USDC"
+					required={true}
 					suffix={
 						<div
 							onClick={onAddMax}
