@@ -1,13 +1,17 @@
-import { Input } from "@components/Input";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Form, Select, Input as AntdInput } from "antd";
-import { FunctionComponent, useState } from "react";
-import { Button } from "./Button";
-import { Icon } from "./Icon";
+import { Input } from "@components/Input";
+import { Button } from "@components/Button";
+import { Icon } from "@components/Icon";
 
 const { Option } = Select;
 
-interface RepayDealFormInput {
-	type: "interest" | "principal";
+export enum DEAL_REPAYMENT_TYPE {
+	INTEREST = "interest",
+	PRINCIPAL = "principal",
+}
+export interface RepayDealFormInput {
+	type: DEAL_REPAYMENT_TYPE;
 	amount: number;
 }
 
@@ -17,12 +21,14 @@ interface RepayDealFormProps {
 
 const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({ onSubmit }) => {
 	const [form] = Form.useForm();
-	const [submitDisabled, setSubmitDisabled] = useState(true);
+	const [submitDisabled, setSubmitDisabled] = useState(null);
 
 	const onAddMax = () => {
 		form.setFieldsValue({ amount: 100000 });
 		setSubmitDisabled(false);
 	};
+
+	useEffect(() => setSubmitDisabled(true), []);
 
 	return (
 		<Form
@@ -31,7 +37,7 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({ onSubmit }) => {
 			onFinish={onSubmit}
 			layout="vertical"
 			onFieldsChange={(_changedFields, fields) =>
-				process.browser && setSubmitDisabled(fields.some((field) => !field.value))
+				setSubmitDisabled(fields.some((field) => !field.value))
 			}
 			className="max-w-[624px]"
 		>
