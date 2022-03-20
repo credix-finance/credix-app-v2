@@ -17,14 +17,27 @@ export interface RepayDealFormInput {
 
 interface RepayDealFormProps {
 	onSubmit: ({ type, amount }: RepayDealFormInput) => void;
+	maxInterestRepayment?: number;
+	maxPrincipalRepayment?: number;
 }
 
-const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({ onSubmit }) => {
+const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
+	onSubmit,
+	maxInterestRepayment,
+	maxPrincipalRepayment,
+}) => {
 	const [form] = Form.useForm();
 	const [submitDisabled, setSubmitDisabled] = useState(null);
+	const repaymentOptions: Option[] = [
+		{ label: DEAL_REPAYMENT_TYPE.INTEREST, value: DEAL_REPAYMENT_TYPE.INTEREST },
+		{ label: DEAL_REPAYMENT_TYPE.PRINCIPAL, value: DEAL_REPAYMENT_TYPE.PRINCIPAL },
+	];
 
 	const onAddMax = () => {
-		form.setFieldsValue({ amount: 100000 });
+		form.getFieldValue("repaymentType") === DEAL_REPAYMENT_TYPE.INTEREST
+			? form.setFieldsValue({ amount: maxInterestRepayment })
+			: form.setFieldsValue({ amount: maxPrincipalRepayment });
+
 		setSubmitDisabled(false);
 	};
 
@@ -65,7 +78,7 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({ onSubmit }) => {
 				<Input
 					name="amount"
 					label=" "
-					className="bg-neutral-0 w-full"
+					className="bg-neutral-0 w-full deal-repay-input"
 					placeholder="Amount"
 					type="number"
 					suffix={
