@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Deal, Ratio, useCredixClient } from "@credix/credix-client";
 import { toUIAmount, formatRatio, formatTimestamp } from "../../utils/format.utils";
@@ -14,8 +14,6 @@ import { useLocales } from "../../hooks/useLocales";
 import { useStore } from "@state/useStore";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { config } from "config";
 
 const dealsTableColumns: ColumnsProps[] = [
 	{
@@ -49,7 +47,6 @@ const dealsTableColumns: ColumnsProps[] = [
 const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
 	const locales = useLocales();
-	const { publicKey } = useWallet();
 	const { marketplace } = router.query;
 	const client = useCredixClient();
 	const maybeFetchDeals = useStore((state) => state.maybeFetchDeals);
@@ -57,8 +54,7 @@ const Deals: NextPageWithLayout = () => {
 	const endedDeals = useStore((state) => state.endedDeals);
 	const pendingDeals = useStore((state) => state.pendingDeals);
 	const isLoadingDeals = useStore((state) => state.isLoadingDeals);
-
-	const [isAdmin, setIsAdmin] = useState<boolean>(false);
+	const isAdmin = useStore((state) => state.isAdmin);
 
 	useEffect(() => {
 		maybeFetchDeals(client, marketplace as string);
@@ -84,10 +80,6 @@ const Deals: NextPageWithLayout = () => {
 		},
 		[locales]
 	);
-
-	useEffect(() => {
-		setIsAdmin(config.managementKeys.includes(publicKey?.toString()));
-	}, [publicKey]);
 
 	return (
 		<div className="space-y-14 py-5 px-4 md:pt-12 md:px-28">
