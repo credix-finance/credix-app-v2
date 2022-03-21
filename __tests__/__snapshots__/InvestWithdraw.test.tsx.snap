@@ -304,13 +304,13 @@ Object {
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
 			 text-base font-medium h-[42px] w-full md:w-max capitalize"
-                            disabled=""
                             type="submit"
                           >
                             <span>
                               invest
                             </span>
                           </button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -632,13 +632,13 @@ Object {
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
 			 text-base font-medium h-[42px] w-full md:w-max capitalize"
-                          disabled=""
                           type="submit"
                         >
                           <span>
                             invest
                           </span>
                         </button>
+                        )}
                       </div>
                     </div>
                   </div>

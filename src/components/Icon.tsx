@@ -22,20 +22,18 @@ export type IconName = typeof iconNames[number];
 
 interface IconProps {
 	name: IconName;
-	size?: "small" | "middle" | "large";
+	size?: IconDimension;
 	className?: string;
-	width?: string;
-	height?: string;
 }
 
-const iconDimensions = {
-	small: "w-4 h-4",
-	middle: "w-6 h-6",
-	large: "w-8 h-8",
-};
+export enum IconDimension {
+	SMALL = "w-4 h-4",
+	MIDDLE = "w-6 h-6",
+	LARGE = "w-8 h-8",
+}
 
 export const Icon = ({ name, className, size }: IconProps) => {
-	className = [className, iconDimensions[size], "fill-current"].filter(Boolean).join(" ");
+	className = [className, size, "fill-current"].filter(Boolean).join(" ");
 
 	switch (name) {
 		case "bookmark":

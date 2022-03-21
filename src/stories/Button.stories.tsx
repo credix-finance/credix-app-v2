@@ -2,7 +2,7 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { Button } from "@components/Button";
-import { Icon } from "@components/Icon";
+import { Icon, IconDimension } from "@components/Icon";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -30,7 +30,7 @@ export const PrimaryIcon = Template.bind({});
 PrimaryIcon.args = {
 	...defaultArgs,
 	type: "primary",
-	icon: <Icon name="bookmark" size="small" />,
+	icon: <Icon name="bookmark" size={IconDimension.SMALL} />,
 };
 
 export const PrimaryDisabled = Template.bind({});
@@ -53,7 +53,7 @@ export const OutlineIcon = Template.bind({});
 OutlineIcon.args = {
 	...defaultArgs,
 	type: "default",
-	icon: <Icon name="bookmark" size="small" />,
+	icon: <Icon name="bookmark" size={IconDimension.SMALL} />,
 };
 
 export const OutlineDisabled = Template.bind({});

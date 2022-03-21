@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon } from "./Icon";
+import { Icon, IconDimension } from "./Icon";
 
 interface PageItemProps {
 	page: number;
@@ -16,7 +16,7 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 					className:
 						"ant-pagination-item-link border-none bg-transparent w-[39px] h-[36px] grid place-content-center",
 				},
-				<Icon name="chevron-left" size="small" />
+				<Icon name="chevron-left" size={IconDimension.SMALL} />
 			);
 		case "page":
 			return React.cloneElement(
@@ -34,7 +34,7 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 					className:
 						"ant-pagination-item-link border-none bg-transparent w-[39px] h-[36px] grid place-content-center",
 				},
-				<Icon name="chevron-right" size="small" />
+				<Icon name="chevron-right" size={IconDimension.SMALL} />
 			);
 		case "jump-prev":
 		case "jump-next":
