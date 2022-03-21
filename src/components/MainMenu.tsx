@@ -12,7 +12,7 @@ interface MainMenuProps {
 
 export const MainMenu = ({ showLogo = true }: MainMenuProps) => {
 	return (
-		<div className="w-full bg-neutral-0 flex justify-between items-center py-[16.5px] px-4 lg:px-[88px]">
+		<div className="w-full bg-credix-primary flex justify-between items-center py-[16.5px] px-4 lg:px-[88px]">
 			<div>
 				{showLogo && (
 					<Link href="/">

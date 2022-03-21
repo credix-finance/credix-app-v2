@@ -47,17 +47,21 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 				type="default"
 				onClick={() => setDropdownVisible(!dropdownVisible)}
 				icon={<WalletIcon wallet={wallet} className="w-6" />}
-				className={`bg-neutral-0 ${className}`}
+				className={className}
 			>
 				{address}
 			</Button>
 			<div
-				className={`absolute z-10 whitespace-nowrap right-0 grid grid-cols-1 bg-white rounded-sm w-56 border border-solid border-neutral-100 divide-y divide-neutral-100 ${
+				className={`absolute z-10 whitespace-nowrap right-0 grid grid-cols-1 bg-credix-primary rounded-sm w-56 border border-solid border-neutral-100 divide-y divide-neutral-100 ${
 					dropdownVisible ? "block" : "hidden"
 				}`}
 			>
 				<div className="border-solid border-0">
-					<Button type="default" className="w-full border-none bg-neutral-0" onClick={copyAddress}>
+					<Button
+						type="default"
+						className="w-full border-none bg-credix-primary"
+						onClick={copyAddress}
+					>
 						{/* TODO: add feedback when copied */}
 						Copy Address
 					</Button>
@@ -65,14 +69,18 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 				<div className="border-solid border-0">
 					<Button
 						type="default"
-						className="w-full border-none bg-neutral-0"
+						className="w-full border-none bg-credix-primary"
 						onClick={() => setVisible(true)}
 					>
 						Change Wallet
 					</Button>
 				</div>
 				<div className="border-solid border-0">
-					<Button type="default" className="w-full border-none bg-neutral-0" onClick={disconnect}>
+					<Button
+						type="default"
+						className="w-full border-none bg-credix-primary"
+						onClick={disconnect}
+					>
 						Disconnect
 					</Button>
 				</div>
