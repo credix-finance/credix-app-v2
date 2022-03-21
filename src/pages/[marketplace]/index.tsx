@@ -9,7 +9,6 @@ import { NextPageWithLayout } from "pages/_app";
 import Link from "next/link";
 import { investWithdrawRoute } from "@consts";
 import { useStore } from "@state/useStore";
-import Link from "next/link";
 
 const Overview: NextPageWithLayout = () => {
 	const router = useRouter();

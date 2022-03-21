@@ -11,6 +11,7 @@ interface SideMenuProps {
 
 export const SideMenu = ({ menuItems }: SideMenuProps) => {
 	const router = useRouter();
+	const path = router?.pathname.split("/");
 
 	return (
 		<div className="w-72 bg-darker h-screen pt-4 sticky top-0">
@@ -23,7 +24,7 @@ export const SideMenu = ({ menuItems }: SideMenuProps) => {
 			</div>
 			<div className="mt-[145px]">
 				{menuItems.map((item) => (
-					<SideMenuItem key={item.label} isActive={router?.pathname === item.path} {...item} />
+					<SideMenuItem key={item.label} isActive={path.includes(item.path.slice(1))} {...item} />
 				))}
 			</div>
 		</div>
