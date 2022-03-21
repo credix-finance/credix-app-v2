@@ -1,13 +1,14 @@
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { Button } from "@components/Button";
 import { DealDetails } from "@components/DealDetails";
+import Layout from "@components/Layout";
 import { Link } from "@components/Link";
 import { Deal as DealType, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
-import { NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import { NextPageWithLayout } from "pages/_app";
 
-const Deal: NextPage = () => {
+const Deal: NextPageWithLayout = () => {
 	const router = useRouter();
 	const { marketplace, did } = router.query;
 	const client = useCredixClient();
@@ -52,6 +53,10 @@ const Deal: NextPage = () => {
 			</div>
 		</div>
 	);
+};
+
+Deal.getLayout = function getLayout(page: ReactElement) {
+	return <Layout.WithMainMenu showLogo={false}>{page}</Layout.WithMainMenu>;
 };
 
 export default Deal;
