@@ -16,6 +16,7 @@ export type MarketSlice = {
 	pendingDeals?: Deal[];
 	endedDeals?: Deal[];
 	isLoadingDeals: boolean;
+	isLoadingMarket: boolean;
 	fetchMarket: (client: CredixClient, marketPlace: string) => void;
 	maybeFetchMarket: (client: CredixClient, marketPlace: string) => void;
 	fetchDeals: (client: CredixClient, marketPlace: string) => void;
@@ -65,7 +66,7 @@ const maybeFetchDeals = async (
 	get: GetState<MarketSlice>,
 	set: SetState<MarketSlice>
 ) => {
-	if (get().allDeals) {
+	if (get().allDeals || get().isLoadingDeals) {
 		return;
 	}
 
@@ -82,12 +83,14 @@ export const createMarketSlice: StoreSlice<MarketSlice> = (set, get) => ({
 	market: null,
 	...initialDealsState,
 	isLoadingDeals: false,
+	isLoadingMarket: false,
 	fetchMarket: async (client, marketPlace) => {
+		set({ isLoadingMarket: true });
 		const market = await getMarket(client, marketPlace);
-		set({ market, ...initialDealsState });
+		set({ market, ...initialDealsState, isLoadingMarket: false });
 	},
 	maybeFetchMarket: async (client, marketPlace) => {
-		if (get().market) {
+		if (get().market || get().isLoadingMarket) {
 			return;
 		}
 
