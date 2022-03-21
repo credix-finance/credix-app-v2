@@ -1,21 +1,19 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { InvestWithdraw as InvestWithdrawComponent } from "@components/InvestWithdraw";
-import { Market, useCredixClient } from "@credix/credix-client";
+import { useCredixClient } from "@credix/credix-client";
 import { defaultMarketplace } from "consts";
 import { MarketStats } from "@components/MarketStats";
+import Layout from "@components/Layout";
+import { useStore } from "state/useStore";
 
 function InvestWithdraw() {
 	const client = useCredixClient();
-	const [market, setMarket] = useState<Market>();
-
-	const getMarket = useCallback(async () => {
-		const market = await client.fetchMarket(defaultMarketplace);
-		setMarket(market);
-	}, [client]);
+	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
+	const market = useStore((state) => state.market);
 
 	useEffect(() => {
-		getMarket();
-	}, []);
+		maybeFetchMarket(client, defaultMarketplace);
+	}, [client, maybeFetchMarket]);
 
 	return (
 		<div className="space-y-20 py-5 px-4 md:pt-24 md:px-32">
@@ -26,5 +24,13 @@ function InvestWithdraw() {
 		</div>
 	);
 }
+
+InvestWithdraw.getLayout = function getLayout(page: ReactElement) {
+	return (
+		<Layout.WithSideMenu>
+			<Layout.WithMainMenu showLogo={false}>{page}</Layout.WithMainMenu>
+		</Layout.WithSideMenu>
+	);
+};
 
 export default InvestWithdraw;
