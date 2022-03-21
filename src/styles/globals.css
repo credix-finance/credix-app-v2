@@ -131,3 +131,15 @@ body {
 .ant-tabs-top > .ant-tabs-nav {
 	@apply m-0 !important;
 }
+
+.ant-form-item-control-input-content .ant-input-affix-wrapper {
+	@apply py-0 px-0 !important;
+}
+
+.ant-form-item-control-input-content .ant-input {
+	@apply pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 !important;
+}
+
+.ant-form-item-control-input-content .ant-input-suffix {
+	@apply ml-0 !important;
+}
