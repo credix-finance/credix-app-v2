@@ -24,7 +24,7 @@ export const SideMenu = ({ menuItems }: SideMenuProps) => {
 			</div>
 			<div className="mt-[145px]">
 				{menuItems.map((item) => (
-					<SideMenuItem key={item.label} isActive={path.includes(item.path.slice(1))} {...item} />
+					<SideMenuItem key={item.label} isActive={path?.includes(item.path.slice(1))} {...item} />
 				))}
 			</div>
 		</div>
