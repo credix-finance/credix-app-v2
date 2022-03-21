@@ -90,7 +90,7 @@ body {
 }
 
 .ant-table-thead > tr > th {
-	@apply border-b-0 !important;
+	@apply border-b-0 bg-darker text-credix-primary !important;
 }
 
 .ant-table-thead
@@ -115,7 +115,7 @@ body {
 }
 
 .ant-tabs-ink-bar {
-	@apply h-[6px] bg-action-primary !important;
+	@apply h-[6px] bg-action-hover !important;
 }
 
 .ant-tabs-tab:hover,
