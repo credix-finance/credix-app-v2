@@ -310,7 +310,6 @@ Object {
                               invest
                             </span>
                           </button>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -638,7 +637,6 @@ Object {
                             invest
                           </span>
                         </button>
-                        )}
                       </div>
                     </div>
                   </div>
