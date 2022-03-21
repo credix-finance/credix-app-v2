@@ -2,7 +2,7 @@
 
 exports[`Icons: bookmark 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 16 16"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -14,7 +14,7 @@ exports[`Icons: bookmark 1`] = `
 
 exports[`Icons: calendar 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -54,7 +54,7 @@ exports[`Icons: chevron-left 1`] = `
 
 exports[`Icons: chevron-left-square 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -87,7 +87,7 @@ exports[`Icons: chevron-right 1`] = `
 
 exports[`Icons: coins 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 20 20"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -106,7 +106,7 @@ exports[`Icons: coins 1`] = `
 
 exports[`Icons: coins-alt 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -125,7 +125,7 @@ exports[`Icons: coins-alt 1`] = `
 
 exports[`Icons: ellipsis 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   strokeLinecap="round"
   strokeLinejoin="round"
   strokeWidth="2"
@@ -152,7 +152,7 @@ exports[`Icons: ellipsis 1`] = `
 
 exports[`Icons: grid 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 20 21"
   xmlns="http://www.ww3.org/2000/svg"
 >
@@ -166,7 +166,7 @@ exports[`Icons: grid 1`] = `
 
 exports[`Icons: line-chart 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   fill="none"
   viewBox="0 0 20 20"
   xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +186,7 @@ exports[`Icons: line-chart 1`] = `
 
 exports[`Icons: stacked-column-down 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 16 16"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -200,7 +200,7 @@ exports[`Icons: stacked-column-down 1`] = `
 
 exports[`Icons: timeline 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 20 21"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -219,7 +219,7 @@ exports[`Icons: timeline 1`] = `
 
 exports[`Icons: trend-down-circle 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -238,7 +238,7 @@ exports[`Icons: trend-down-circle 1`] = `
 
 exports[`Icons: trend-up-circle 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -257,7 +257,7 @@ exports[`Icons: trend-up-circle 1`] = `
 
 exports[`Icons: user 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 20 21"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -271,7 +271,7 @@ exports[`Icons: user 1`] = `
 
 exports[`Icons: wallet 1`] = `
 <svg
-  className="w-4 h-4 fill-current "
+  className="w-4 h-4 fill-current"
   viewBox="0 0 24 25"
   xmlns="http://www.w3.org/2000/svg"
 >

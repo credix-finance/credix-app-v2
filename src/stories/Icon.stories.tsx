@@ -10,7 +10,7 @@ export default {
 } as ComponentMeta<typeof Icon>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof Icon> = (args) => <Icon {...args} />;
+const Template: ComponentStory<typeof Icon> = (args) => <Icon size="small" {...args} />;
 
 export const Bookmark = Template.bind({});
 Bookmark.args = {

@@ -10,7 +10,7 @@ export interface TableHeaderCellProps {
 export const TableHeaderCell = ({ icon, label, className = "" }: TableHeaderCellProps) => {
 	return (
 		<div className={`space-x-1.5 flex items-center ${className}`}>
-			<Icon name={icon} />
+			<Icon name={icon} size="small" />
 			<span>{label}</span>
 		</div>
 	);

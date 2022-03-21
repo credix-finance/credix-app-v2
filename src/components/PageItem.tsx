@@ -16,7 +16,7 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 					className:
 						"ant-pagination-item-link border-none bg-transparent w-[39px] h-[36px] grid place-content-center",
 				},
-				<Icon name="chevron-left" />
+				<Icon name="chevron-left" size="small" />
 			);
 		case "page":
 			return React.cloneElement(
@@ -34,7 +34,7 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 					className:
 						"ant-pagination-item-link border-none bg-transparent w-[39px] h-[36px] grid place-content-center",
 				},
-				<Icon name="chevron-right" />
+				<Icon name="chevron-right" size="small" />
 			);
 		case "jump-prev":
 		case "jump-next":

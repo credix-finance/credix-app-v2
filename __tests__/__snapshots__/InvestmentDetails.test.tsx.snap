@@ -33,7 +33,7 @@ exports[`Negative return 1`] = `
         className="flex items-center space-x-[10px] hidden md:flex"
       >
         <svg
-          className="w-4 h-4 fill-current text-action-hover w-6 h-6"
+          className="text-action-hover w-6 h-6 fill-current"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -100,7 +100,7 @@ exports[`Positive return 1`] = `
         className="flex items-center space-x-[10px] hidden md:flex"
       >
         <svg
-          className="w-4 h-4 fill-current text-action-primary w-6 h-6"
+          className="text-action-primary w-6 h-6 fill-current"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >

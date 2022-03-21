@@ -30,7 +30,7 @@ export const PrimaryIcon = Template.bind({});
 PrimaryIcon.args = {
 	...defaultArgs,
 	type: "primary",
-	icon: <Icon name="bookmark" />,
+	icon: <Icon name="bookmark" size="small" />,
 };
 
 export const PrimaryDisabled = Template.bind({});
@@ -53,7 +53,7 @@ export const OutlineIcon = Template.bind({});
 OutlineIcon.args = {
 	...defaultArgs,
 	type: "default",
-	icon: <Icon name="bookmark" />,
+	icon: <Icon name="bookmark" size="small" />,
 };
 
 export const OutlineDisabled = Template.bind({});

@@ -22,12 +22,20 @@ export type IconName = typeof iconNames[number];
 
 interface IconProps {
 	name: IconName;
+	size?: "small" | "middle" | "large";
 	className?: string;
+	width?: string;
+	height?: string;
 }
 
-export const Icon = ({ name, className = "" }: IconProps) => {
-	const defaultClassNames = "w-4 h-4 fill-current";
-	className = `${defaultClassNames} ${className}`;
+const iconDimensions = {
+	small: "w-4 h-4",
+	middle: "w-6 h-6",
+	large: "w-8 h-8",
+};
+
+export const Icon = ({ name, className, size }: IconProps) => {
+	className = [className, iconDimensions[size], "fill-current"].filter(Boolean).join(" ");
 
 	switch (name) {
 		case "bookmark":

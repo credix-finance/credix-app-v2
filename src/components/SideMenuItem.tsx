@@ -22,7 +22,7 @@ export const SideMenuItem = ({ label, icon, path, isActive }: SideMenuItemProps)
 						${isActive ? "text-darker font-bold" : "text-credix-primary font-medium"}
 					`}
 				>
-					<Icon name={icon} className="w-[20px] h-[20px]" />
+					<Icon name={icon} className="w-5 h-5" />
 					<span className="pl-[18px] text-base">{label}</span>
 				</div>
 			</a>

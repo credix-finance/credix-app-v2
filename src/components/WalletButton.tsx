@@ -33,7 +33,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 			<Button
 				size="large"
 				onClick={() => setVisible(true)}
-				icon={<Icon name="wallet" className="w-6 h-6" />}
+				icon={<Icon name="wallet" size="middle" />}
 				className={className}
 			>
 				<span className="text-lg font-semibold">Connect Wallet</span>
