@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Market, useCredixClient } from "@credix/credix-client";
+import React, { useEffect } from "react";
+import { useCredixClient } from "@credix/credix-client";
 import {
 	LiquidityPoolInteraction,
 	LiquidityPoolInteractionForm,
@@ -9,21 +9,17 @@ import { Tabs } from "@components/Tabs";
 import { defaultMarketplace } from "../consts";
 import { Big } from "big.js";
 import message from "../message";
+import { useStore } from "state/useStore";
 
 export const InvestWithdraw = () => {
 	const client = useCredixClient();
-	const [market, setMarket] = useState<Market | null>(null);
-
-	const getMarket = useCallback(async () => {
-		const market = await client.fetchMarket(defaultMarketplace);
-		setMarket(market);
-	}, [client]);
+	const fetchMarket = useStore((state) => state.fetchMarket);
+	const market = useStore((state) => state.market);
 
 	useEffect(() => {
-		getMarket();
-	}, []);
+		fetchMarket(client, defaultMarketplace);
+	}, [client, fetchMarket]);
 
-	// TODO: hook this up with to the client
 	const withdraw = async ({ amount }: LiquidityPoolInteractionForm) => {
 		const hide = message.loading({ content: `Withdrawing ${amount} USDC` });
 

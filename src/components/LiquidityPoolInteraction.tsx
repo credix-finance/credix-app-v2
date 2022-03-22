@@ -11,6 +11,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
 import { validateMaxValue, validateMinValue } from "utils/validation.utils";
+import { useStore } from "state/useStore";
 
 export interface LiquidityPoolInteractionForm {
 	amount: number;
@@ -39,18 +40,18 @@ export const LiquidityPoolInteraction = ({
 	onSubmitFailed,
 }: LiquidityPoolInteractionProps) => {
 	const client = useCredixClient();
+	const fetchMarket = useStore((state) => state.fetchMarket);
+	const market = useStore((state) => state.market);
 	const { publicKey } = useWallet();
-	const [market, setMarket] = useState<Market>();
 	const [userBaseBalance, setUserBaseBalance] = useState<TokenAmount>();
 	const [userStake, setUserStake] = useState<Big>(new Big(0));
 	const [form] = Form.useForm();
 	const [maxInvestmentAmount, setMaxInvestmentAmount] = useState<number>(0);
 	const [maxWithdrawalAmount, setMaxWithdrawalAmount] = useState<number>(0);
 
-	const getMarket = useCallback(async () => {
-		const market = await client.fetchMarket(defaultMarketplace);
-		setMarket(market);
-	}, [client]);
+	useEffect(() => {
+		fetchMarket(client, defaultMarketplace);
+	}, [client, fetchMarket]);
 
 	const getUserBaseBalance = useCallback(async () => {
 		if (!publicKey) {
@@ -78,10 +79,6 @@ export const LiquidityPoolInteraction = ({
 			setUserStake(new Big(0));
 		}
 	}, [market, publicKey]);
-
-	useEffect(() => {
-		getMarket();
-	}, [getMarket]);
 
 	useEffect(() => {
 		getUserBaseBalance();
