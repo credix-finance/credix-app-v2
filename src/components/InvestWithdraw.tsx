@@ -27,6 +27,7 @@ export const InvestWithdraw = () => {
 			await market.withdraw(new Big(amount));
 			hide();
 			message.success({ content: `Sucessfully withdrew ${amount} USDC` });
+			await fetchMarket(client, defaultMarketplace);
 		} catch (error) {
 			hide();
 			message.error({ content: `Failed to withdraw ${amount} USDC` });
@@ -40,6 +41,7 @@ export const InvestWithdraw = () => {
 			await market.deposit(new Big(amount));
 			hide();
 			message.success({ content: `Sucessfully deposited ${amount} USDC` });
+			await fetchMarket(client, defaultMarketplace);
 		} catch (error) {
 			hide();
 			message.error({ content: `Failed to deposit ${amount} USDC` });

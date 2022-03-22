@@ -110,6 +110,7 @@ export const LiquidityPoolInteraction = ({
 		return validateMinValue(value, 0, validationMessage);
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const onFinish = async (values: any) => {
 		await onSubmit(values);
 		form.resetFields();
