@@ -186,6 +186,10 @@ body {
 	@apply bg-neutral-80 !important;
 }
 
+.ant-message {
+	@apply h-full top-0 grid place-items-center bg-neutral-80/50 !important;
+}
+
 .ant-message-notice {
 	@apply flex justify-center font-mono !important;
 }

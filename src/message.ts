@@ -7,32 +7,40 @@ interface MessageProps {
 	duration?: number;
 }
 
-const defaultClassName = "";
+/**
+ * Ensure that all message related DOM elements are removed when the component is dismissed.
+ * Not destroying the message would cause the message background to remain visible.
+ */
+const defaultOnClose = () => antdMessage.destroy();
 
 const loading = (props: MessageProps) => {
-	return antdMessage.loading({ duration: 0, className: defaultClassName, ...props });
+	return antdMessage.loading({
+		duration: 0,
+		onClose: defaultOnClose,
+		...props,
+	});
 };
 
 const success = (props: MessageProps) => {
 	antdMessage.success({
-		...props,
-		className: defaultClassName,
+		onClose: defaultOnClose,
 		icon: React.createElement(Icon, {
 			name: "check-circle" as IconName,
 			size: IconDimension.SMALL,
 		}),
+		...props,
 	});
 };
 
 const error = (props: MessageProps) => {
 	antdMessage.error({
-		...props,
-		className: defaultClassName,
+		onClose: defaultOnClose,
 		icon: React.createElement(Icon, {
 			name: "exclamation-circle" as IconName,
 			size: IconDimension.SMALL,
 			className: "text-error",
 		}),
+		...props,
 	});
 };
 
