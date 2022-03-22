@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, IconName } from "@components/Icon";
+import { Icon, IconDimension, IconName } from "@components/Icon";
 import { message as antdMessage } from "antd";
 
 interface MessageProps {
@@ -10,14 +10,17 @@ interface MessageProps {
 const defaultClassName = "";
 
 const loading = (props: MessageProps) => {
-	return antdMessage.loading({ ...props, className: defaultClassName });
+	return antdMessage.loading({ duration: 0, className: defaultClassName, ...props });
 };
 
 const success = (props: MessageProps) => {
 	antdMessage.success({
 		...props,
 		className: defaultClassName,
-		icon: React.createElement(Icon, { name: "check-circle" as IconName, size: "small" }),
+		icon: React.createElement(Icon, {
+			name: "check-circle" as IconName,
+			size: IconDimension.SMALL,
+		}),
 	});
 };
 
@@ -27,7 +30,7 @@ const error = (props: MessageProps) => {
 		className: defaultClassName,
 		icon: React.createElement(Icon, {
 			name: "exclamation-circle" as IconName,
-			size: "small",
+			size: IconDimension.SMALL,
 			className: "text-error",
 		}),
 	});
