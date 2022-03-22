@@ -7,6 +7,7 @@ import Big from "big.js";
 test("Positive return", () => {
 	const props = {
 		balance: {
+			uiAmount: 65,
 			uiAmountString: "65",
 		} as TokenAmount,
 		balanceCurrency: "USDC",
@@ -24,6 +25,7 @@ test("Positive return", () => {
 test("Negative return", () => {
 	const props = {
 		balance: {
+			uiAmount: 65,
 			uiAmountString: "65",
 		} as TokenAmount,
 		balanceCurrency: "USDC",

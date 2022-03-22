@@ -2,7 +2,7 @@ import React from "react";
 import { InvestmentReturn } from "@components/InvestmentReturn";
 import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
-import { formatNumber, numberFormatter } from "utils/format.utils";
+import { formatNumber, numberFormatter } from "@utils/format.utils";
 
 interface InvestmentDetailsProps {
 	balance: TokenAmount;

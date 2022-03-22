@@ -49,10 +49,6 @@ export const LiquidityPoolInteraction = ({
 	const [maxInvestmentAmount, setMaxInvestmentAmount] = useState<number>(0);
 	const [maxWithdrawalAmount, setMaxWithdrawalAmount] = useState<number>(0);
 
-	useEffect(() => {
-		fetchMarket(client, defaultMarketplace);
-	}, [client, fetchMarket]);
-
 	const getUserBaseBalance = useCallback(async () => {
 		if (!publicKey) {
 			return;
@@ -79,6 +75,10 @@ export const LiquidityPoolInteraction = ({
 			setUserStake(new Big(0));
 		}
 	}, [market, publicKey]);
+
+	useEffect(() => {
+		fetchMarket(client, defaultMarketplace);
+	}, [client, fetchMarket]);
 
 	useEffect(() => {
 		getUserBaseBalance();
