@@ -13,12 +13,13 @@ import { useStore } from "state/useStore";
 
 export const InvestWithdraw = () => {
 	const client = useCredixClient();
+	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
 
 	useEffect(() => {
-		fetchMarket(client, defaultMarketplace);
-	}, [client, fetchMarket]);
+		maybeFetchMarket(client, defaultMarketplace);
+	}, [client, maybeFetchMarket]);
 
 	const withdraw = async ({ amount }: LiquidityPoolInteractionForm) => {
 		const hide = message.loading({ content: `Withdrawing ${amount} USDC` });

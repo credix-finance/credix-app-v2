@@ -40,7 +40,7 @@ export const LiquidityPoolInteraction = ({
 	onSubmitFailed,
 }: LiquidityPoolInteractionProps) => {
 	const client = useCredixClient();
-	const fetchMarket = useStore((state) => state.fetchMarket);
+	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const market = useStore((state) => state.market);
 	const { publicKey } = useWallet();
 	const [userBaseBalance, setUserBaseBalance] = useState<TokenAmount>();
@@ -67,18 +67,17 @@ export const LiquidityPoolInteraction = ({
 			return;
 		}
 
-		try {
-			const userStake = await market?.getUserStake(publicKey);
-			setUserStake(userStake);
+		const userStake = await market?.getUserStake(publicKey);
+		setUserStake(userStake);
+
+		if (userStake) {
 			setMaxWithdrawalAmount(userStake.toNumber());
-		} catch (error) {
-			setUserStake(new Big(0));
 		}
 	}, [market, publicKey]);
 
 	useEffect(() => {
-		fetchMarket(client, defaultMarketplace);
-	}, [client, fetchMarket]);
+		maybeFetchMarket(client, defaultMarketplace);
+	}, [client, maybeFetchMarket]);
 
 	useEffect(() => {
 		getUserBaseBalance();
