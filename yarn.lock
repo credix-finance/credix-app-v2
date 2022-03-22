@@ -2941,7 +2941,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/wallet-adapter-react@npm:^0.15.3":
+"@solana/wallet-adapter-react@npm:0.15.3, @solana/wallet-adapter-react@npm:^0.15.3":
   version: 0.15.3
   resolution: "@solana/wallet-adapter-react@npm:0.15.3"
   dependencies:
@@ -2949,18 +2949,6 @@ __metadata:
     "@solana/web3.js": ^1.20.0
     react: ^17.0.0
   checksum: f090f489579bcee64f33db4df0830544984f80a5b888a2e7a844fcbf7141d4f28564bf8f2c7311b87c3d80a36ae30cecb3bd34df100c20df2558dd78c54d6d62
-  languageName: node
-  linkType: hard
-
-"@solana/wallet-adapter-react@npm:^0.15.4":
-  version: 0.15.4
-  resolution: "@solana/wallet-adapter-react@npm:0.15.4"
-  dependencies:
-    "@solana/wallet-adapter-base": ^0.9.4
-    "@solana/web3.js": ^1.36.0
-  peerDependencies:
-    react: ^17.0.0
-  checksum: 38c9e66ef3ae1e4ba86f0cc228cdf8e1b823f9aa7ffd3bd894a11d421be04d71add0de747f03b9c440a7d210342e921cdce7fb76469329bb054e7aac02b8d53b
   languageName: node
   linkType: hard
 
@@ -7627,7 +7615,7 @@ __metadata:
     "@civic/solana-gateway-react": 0.4.13
     "@credix/credix-client": "file:.yalc/@credix/credix-client"
     "@solana/wallet-adapter-base": ^0.9.5
-    "@solana/wallet-adapter-react": ^0.15.4
+    "@solana/wallet-adapter-react": 0.15.3
     "@solana/wallet-adapter-react-ui": ^0.9.6
     "@solana/wallet-adapter-wallets": ^0.14.3
     "@solana/web3.js": ^1.36.0
