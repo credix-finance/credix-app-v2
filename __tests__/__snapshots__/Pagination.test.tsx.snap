@@ -276,7 +276,7 @@ exports[`With more 1`] = `
       className="ant-pagination-item-link text-neutral-100 border-none bg-transparent w-[39px] h-[36px] grid place-content-center"
     >
       <svg
-        className="w-4 h-4 fill-current w-6 h-5"
+        className="w-6 h-5 fill-current"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"

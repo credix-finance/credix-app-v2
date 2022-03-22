@@ -51,6 +51,36 @@ body {
 	font-size: unset !important;
 }
 
+.ant-input-wrapper.ant-input-group > .ant-input-group-addon {
+	@apply bg-neutral-0 py-4 px-[14.5px] border-neutral-40 rounded border border-solid text-base font-normal !important;
+}
+
+.ant-input-wrapper.ant-input-group > .ant-input-group-addon:first-child {
+	@apply rounded-r-none border-r-0 !important;
+}
+
+.ant-input-wrapper.ant-input-group > .ant-input-group-addon:last-child {
+	@apply rounded-l-none border-l-0 !important;
+}
+
+.ant-input-affix-wrapper {
+	@apply border rounded rounded-l-none border-neutral-40 bg-neutral-0 !important;
+}
+.ant-input-affix-wrapper.ant-input-affix-wrapper-lg .ant-input {
+	@apply py-4 px-[14.5px] bg-neutral-0 font-normal !important;
+}
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+	@apply border border-neutral-40 !important;
+}
+
+.ant-input-affix-wrapper-focused {
+	@apply shadow-none ring-1 ring-neutral-40 border-neutral-40 !important;
+}
+
+.ant-input-group-wrapper {
+	@apply p-0 !important;
+}
+
 .anticon-close-circle {
 	/* Don't show error icon in input fields with validation errors */
 	display: none !important;

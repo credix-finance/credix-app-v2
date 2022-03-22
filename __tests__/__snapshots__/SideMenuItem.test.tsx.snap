@@ -15,7 +15,7 @@ exports[`Side menu item active 1`] = `
 					"
   >
     <svg
-      className="w-4 h-4 fill-current w-[20px] h-[20px]"
+      className="w-5 h-5 fill-current"
       fill="none"
       viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ exports[`Side menu item inactive 1`] = `
 					"
   >
     <svg
-      className="w-4 h-4 fill-current w-[20px] h-[20px]"
+      className="w-5 h-5 fill-current"
       fill="none"
       viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"

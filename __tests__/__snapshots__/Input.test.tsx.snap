@@ -8,7 +8,7 @@ exports[`Default input 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold text-base
+				font-bold text-base mb-7
 				false
 				undefined
 			"
@@ -35,23 +35,41 @@ exports[`Default input 1`] = `
         <div
           className="ant-form-item-control-input-content"
         >
-          <input
-            className="ant-input 
-					border-[0.5px] rounded-[1px]
-					focus:shadow-none
-					disabled:border-neutral-60/40
-					border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-					
-				"
-            disabled={false}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            placeholder="key"
-            type="text"
-            value=""
-          />
+          <div
+            className="ant-row ant-form-item mb-0"
+            style={Object {}}
+          >
+            <div
+              className="ant-col ant-form-item-control"
+              style={Object {}}
+            >
+              <div
+                className="ant-form-item-control-input"
+              >
+                <div
+                  className="ant-form-item-control-input-content"
+                >
+                  <input
+                    className="ant-input ant-input-lg 
+						border-[0.5px] rounded-[1px]
+						focus:shadow-none
+						disabled:border-neutral-60/40
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+						
+					"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="key"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -67,7 +85,7 @@ exports[`Disabled input 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold text-base
+				font-bold text-base mb-7
 				text-neutral-60/40
 				undefined
 			"
@@ -94,23 +112,41 @@ exports[`Disabled input 1`] = `
         <div
           className="ant-form-item-control-input-content"
         >
-          <input
-            className="ant-input ant-input-disabled 
-					border-[0.5px] rounded-[1px]
-					focus:shadow-none
-					disabled:border-neutral-60/40
-					border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-					
-				"
-            disabled={true}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            placeholder="key"
-            type="text"
-            value="USBDCKTVGBBK"
-          />
+          <div
+            className="ant-row ant-form-item mb-0"
+            style={Object {}}
+          >
+            <div
+              className="ant-col ant-form-item-control"
+              style={Object {}}
+            >
+              <div
+                className="ant-form-item-control-input"
+              >
+                <div
+                  className="ant-form-item-control-input-content"
+                >
+                  <input
+                    className="ant-input ant-input-disabled ant-input-lg 
+						border-[0.5px] rounded-[1px]
+						focus:shadow-none
+						disabled:border-neutral-60/40
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+						
+					"
+                    disabled={true}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="key"
+                    type="text"
+                    value="USBDCKTVGBBK"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -169,7 +205,7 @@ exports[`Input with description 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold text-base
+				font-bold text-base mb-7
 				false
 				undefined
 			"
@@ -201,23 +237,41 @@ exports[`Input with description 1`] = `
           >
             This is a short information text that gives more details about the question.
           </div>
-          <input
-            className="ant-input 
-					border-[0.5px] rounded-[1px]
-					focus:shadow-none
-					disabled:border-neutral-60/40
-					border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-					
-				"
-            disabled={false}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            placeholder="key"
-            type="text"
-            value="USBDCKTVGBBK"
-          />
+          <div
+            className="ant-row ant-form-item mb-0"
+            style={Object {}}
+          >
+            <div
+              className="ant-col ant-form-item-control"
+              style={Object {}}
+            >
+              <div
+                className="ant-form-item-control-input"
+              >
+                <div
+                  className="ant-form-item-control-input-content"
+                >
+                  <input
+                    className="ant-input ant-input-lg 
+						border-[0.5px] rounded-[1px]
+						focus:shadow-none
+						disabled:border-neutral-60/40
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+						
+					"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="key"
+                    type="text"
+                    value="USBDCKTVGBBK"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -233,7 +287,7 @@ exports[`Input with error feedback 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold text-base
+				font-bold text-base mb-7
 				false
 				border-error
 			 ant-form-item-has-feedback ant-form-item-has-error"
@@ -260,57 +314,41 @@ exports[`Input with error feedback 1`] = `
         <div
           className="ant-form-item-control-input-content"
         >
-          <span
-            className="ant-input-affix-wrapper 
-					border-[0.5px] rounded-[1px]
-					focus:shadow-none
-					disabled:border-neutral-60/40
-					border-error focus:ring-error focus:border-error
-					
-				 ant-input-affix-wrapper-status-error ant-input-affix-wrapper-has-feedback"
-            onMouseUp={[Function]}
+          <div
+            className="ant-row ant-form-item mb-0"
+            style={Object {}}
           >
-            <input
-              className="ant-input"
-              disabled={false}
-              hidden={null}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              placeholder="key"
-              style={null}
-              type="text"
-              value="USBDCKTVGBBK"
-            />
-            <span
-              className="ant-input-suffix"
+            <div
+              className="ant-col ant-form-item-control"
+              style={Object {}}
             >
-              <span
-                className="ant-input-feedback-icon"
+              <div
+                className="ant-form-item-control-input"
               >
-                <span
-                  aria-label="close-circle"
-                  className="anticon anticon-close-circle"
-                  role="img"
+                <div
+                  className="ant-form-item-control-input-content"
                 >
-                  <svg
-                    aria-hidden="true"
-                    data-icon="close-circle"
-                    fill="currentColor"
-                    focusable="false"
-                    height="1em"
-                    viewBox="64 64 896 896"
-                    width="1em"
-                  >
-                    <path
-                      d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"
-                    />
-                  </svg>
-                </span>
-              </span>
-            </span>
-          </span>
+                  <input
+                    className="ant-input ant-input-lg 
+						border-[0.5px] rounded-[1px]
+						focus:shadow-none
+						disabled:border-neutral-60/40
+						border-error focus:ring-error focus:border-error
+						
+					"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="key"
+                    type="text"
+                    value="USBDCKTVGBBK"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -326,7 +364,7 @@ exports[`Input with text 1`] = `
 >
   <div
     className="ant-row ant-form-item 
-				font-bold text-base
+				font-bold text-base mb-7
 				false
 				undefined
 			"
@@ -353,23 +391,41 @@ exports[`Input with text 1`] = `
         <div
           className="ant-form-item-control-input-content"
         >
-          <input
-            className="ant-input 
-					border-[0.5px] rounded-[1px]
-					focus:shadow-none
-					disabled:border-neutral-60/40
-					border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
-					
-				"
-            disabled={false}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            placeholder="key"
-            type="text"
-            value="USBDCKTVGBBK"
-          />
+          <div
+            className="ant-row ant-form-item mb-0"
+            style={Object {}}
+          >
+            <div
+              className="ant-col ant-form-item-control"
+              style={Object {}}
+            >
+              <div
+                className="ant-form-item-control-input"
+              >
+                <div
+                  className="ant-form-item-control-input-content"
+                >
+                  <input
+                    className="ant-input ant-input-lg 
+						border-[0.5px] rounded-[1px]
+						focus:shadow-none
+						disabled:border-neutral-60/40
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
+						
+					"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="key"
+                    type="text"
+                    value="USBDCKTVGBBK"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

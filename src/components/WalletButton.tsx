@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import { useWalletModal, WalletIcon } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "@components/Button";
-import { Icon } from "@components/Icon";
+import { Icon, IconDimension } from "@components/Icon";
 
 interface WalletButtonProps {
 	className?: string;
@@ -33,7 +33,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 			<Button
 				size="large"
 				onClick={() => setVisible(true)}
-				icon={<Icon name="wallet" className="w-6 h-6" />}
+				icon={<Icon name="wallet" size={IconDimension.MIDDLE} />}
 				className={className}
 			>
 				<span className="text-lg font-semibold">Connect Wallet</span>

@@ -47,7 +47,7 @@ exports[`Outline button with icon 1`] = `
   type="button"
 >
   <svg
-    className="w-4 h-4 fill-current "
+    className="fill-current"
     viewBox="0 0 16 16"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -108,7 +108,7 @@ exports[`Primary button with icon 1`] = `
   type="button"
 >
   <svg
-    className="w-4 h-4 fill-current "
+    className="fill-current"
     viewBox="0 0 16 16"
     xmlns="http://www.w3.org/2000/svg"
   >
