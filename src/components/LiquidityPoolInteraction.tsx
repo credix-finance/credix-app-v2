@@ -5,11 +5,12 @@ import { Icon } from "@components/Icon";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { InvestmentDetails } from "@components/InvestmentDetails";
-import { Market, useCredixClient } from "@credix/credix-client";
+import { useCredixClient } from "@credix/credix-client";
 import { defaultMarketplace } from "../consts";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
+import { validateMaxValue, validateMinValue } from "utils/validation.utils";
 
 export interface LiquidityPoolInteractionForm {
 	amount: number;
@@ -92,8 +93,29 @@ export const LiquidityPoolInteraction = ({
 
 	const onAddMax = () => {
 		form.setFieldsValue({
-			amount: action === "invest" ? maxInvestmentAmount : maxWithdrawalAmount,
+			amount: getMaxValue,
 		});
+	};
+
+	const getMaxValue = action === "invest" ? maxInvestmentAmount : maxWithdrawalAmount;
+
+	const validateMaxAmount = (value): Promise<void> => {
+		const maxValue = getMaxValue;
+		const validationMessage = `'amount' needs to be less than or equal to ${
+			action === "invest" ? "your balance" : "your invested amount"
+		}`;
+
+		return validateMaxValue(value, maxValue, validationMessage);
+	};
+
+	const validateMinAmount = (value): Promise<void> => {
+		const validationMessage = "'amount' needs to be greater than 0";
+		return validateMinValue(value, 0, validationMessage);
+	};
+
+	const onFinish = async (values: any) => {
+		await onSubmit(values);
+		form.resetFields();
 	};
 
 	return (
@@ -111,7 +133,7 @@ export const LiquidityPoolInteraction = ({
 			<Form
 				name="invest"
 				form={form}
-				onFinish={onSubmit}
+				onFinish={onFinish}
 				onFinishFailed={onSubmitFailed}
 				layout="vertical"
 				className="max-w-[624px]"
@@ -124,6 +146,19 @@ export const LiquidityPoolInteraction = ({
 					type="number"
 					addonBefore="USDC"
 					required={true}
+					rules={[
+						{ required: true },
+						{
+							validator(_, value) {
+								return validateMaxAmount(value);
+							},
+						},
+						{
+							validator(_, value) {
+								return validateMinAmount(value);
+							},
+						},
+					]}
 					suffix={
 						<div
 							onClick={onAddMax}

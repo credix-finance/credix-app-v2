@@ -43,6 +43,7 @@ interface InputProps {
 	className?: AntInputProps["className"];
 	children?: AntInputProps["children"];
 	value?: AntInputProps["value"];
+	rules?: FormItemProps["rules"];
 	disabled?: boolean;
 	required?: boolean;
 }
@@ -56,6 +57,7 @@ export const Input = ({
 	hasFeedback,
 	validateStatus,
 	help,
+	rules,
 	className = "",
 	isDisplay = false,
 	disabled = false,
@@ -84,7 +86,7 @@ export const Input = ({
 			`}
 		>
 			{description && <div className="font-normal text-sm mt-0 mb-[10px]">{description}</div>}
-			<Form.Item name={name} className="mb-0" rules={[{ required }]}>
+			<Form.Item name={name} className="mb-0" rules={rules}>
 				<AntdInput
 					disabled={disabled}
 					value={value}
