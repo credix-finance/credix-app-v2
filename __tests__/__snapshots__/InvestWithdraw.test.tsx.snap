@@ -239,13 +239,13 @@ Object {
                                   class="ant-form-item-control-input-content"
                                 >
                                   <span
-                                    class="ant-input-group-wrapper ant-input-group-wrapper-lg 
-						pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
+                                    class="ant-input-group-wrapper 
+						border-[0.5px] rounded-[1px]
 						focus:shadow-none
 						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
 						bg-neutral-0
-					"
+					 ant-input-group-wrapper-lg"
                                   >
                                     <span
                                       class="ant-input-wrapper ant-input-group"
@@ -269,7 +269,7 @@ Object {
                                           class="ant-input-suffix"
                                         >
                                           <div
-                                            class="pl-[14.5px] md:pr-14 hover:cursor-pointer hover:font-semibold"
+                                            class="md:pr-20 hover:cursor-pointer font-medium hover:font-semibold"
                                           >
                                             MAX
                                           </div>
@@ -566,13 +566,13 @@ Object {
                                 class="ant-form-item-control-input-content"
                               >
                                 <span
-                                  class="ant-input-group-wrapper ant-input-group-wrapper-lg 
-						pl-4 pr-[25px] py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 border-[0.5px] rounded-[1px]
+                                  class="ant-input-group-wrapper 
+						border-[0.5px] rounded-[1px]
 						focus:shadow-none
 						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
+						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 
 						bg-neutral-0
-					"
+					 ant-input-group-wrapper-lg"
                                 >
                                   <span
                                     class="ant-input-wrapper ant-input-group"
@@ -596,7 +596,7 @@ Object {
                                         class="ant-input-suffix"
                                       >
                                         <div
-                                          class="pl-[14.5px] md:pr-14 hover:cursor-pointer hover:font-semibold"
+                                          class="md:pr-20 hover:cursor-pointer font-medium hover:font-semibold"
                                         >
                                           MAX
                                         </div>

@@ -52,7 +52,7 @@ body {
 }
 
 .ant-input-wrapper.ant-input-group > .ant-input-group-addon {
-	@apply bg-neutral-0 py-4 px-[14.5px] border-neutral-40 rounded border-[0.5px] border-solid text-base font-normal !important;
+	@apply bg-neutral-0 py-4 px-[14.5px] border-neutral-40 rounded border border-solid text-base font-normal !important;
 }
 
 .ant-input-wrapper.ant-input-group > .ant-input-group-addon:first-child {
@@ -63,11 +63,14 @@ body {
 	@apply rounded-l-none border-l-0 !important;
 }
 
-.ant-input-affix-wrapper.ant-input-affix-wrapper-lg {
-	@apply border-[0.5px] py-4 px-[14.5px] rounded rounded-l-none border-neutral-40 !important;
+.ant-input-affix-wrapper {
+	@apply border rounded rounded-l-none border-neutral-40 bg-neutral-0 !important;
+}
+.ant-input-affix-wrapper.ant-input-affix-wrapper-lg .ant-input {
+	@apply py-4 px-[14.5px] bg-neutral-0 font-normal !important;
 }
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
-	@apply border-r-[0.5px] !important;
+	@apply border border-neutral-40 !important;
 }
 
 .ant-input-affix-wrapper-focused {
