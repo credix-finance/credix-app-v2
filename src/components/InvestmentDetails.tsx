@@ -2,6 +2,7 @@ import React from "react";
 import { InvestmentReturn } from "@components/InvestmentReturn";
 import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
+import { formatNumber, numberFormatter } from "utils/format.utils";
 
 interface InvestmentDetailsProps {
 	balance: TokenAmount;
@@ -23,7 +24,7 @@ export const InvestmentDetails = ({
 			<div className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block">
 				<div className="text-xs md:text-base font-medium">Current balance</div>
 				<div className="text-2xl font-bold">{`${
-					balance ? balance.uiAmountString : 0
+					balance ? numberFormatter.format(balance.uiAmount) : 0
 				} ${balanceCurrency}`}</div>
 			</div>
 			<div className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block">
@@ -32,7 +33,9 @@ export const InvestmentDetails = ({
 					<InvestmentReturn value={investmentsReturn} className="hidden md:flex" />
 				</div>
 				<div>
-					<div className="text-2xl font-bold">{`${investments} ${investmentsCurrency}`}</div>
+					<div className="text-2xl font-bold">{`${
+						investments && formatNumber(investments, 2, numberFormatter.format)
+					} ${investmentsCurrency}`}</div>
 				</div>
 			</div>
 		</div>

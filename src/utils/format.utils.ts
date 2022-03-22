@@ -4,6 +4,12 @@ import Big, { RoundingMode } from "big.js";
 const roundingPrecision = 2;
 const conversionFactor = new Big(10).pow(6);
 
+export const numberFormatter = Intl.NumberFormat("en", {
+	notation: "standard",
+	minimumFractionDigits: 0,
+	maximumFractionDigits: 1,
+});
+
 export const formatNumber = (n: Big, roundingMode: RoundingMode, formatter: any) =>
 	formatter(n.round(roundingPrecision, roundingMode).toNumber());
 
