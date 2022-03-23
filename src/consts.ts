@@ -3,22 +3,16 @@ import { Route } from "types/route.types";
 
 export const defaultMarketplace = "credix-marketplace";
 
-const investWithdraw = {
+export const investWithdrawRoute: Route = {
 	icon: "line-chart" as IconName,
 	label: "Invest/Withdraw",
 	path: "/invest-withdraw",
 };
 
-const invest = {
-	icon: "line-chart" as IconName,
-	label: "Invest",
-	path: "/invest",
-};
-
-const deals = {
+export const dealsRoute: Route = {
 	icon: "line-chart" as IconName,
 	label: "Deals",
 	path: "/deals",
 };
 
-export const routes: Route[] = [investWithdraw, invest, deals];
+export const routes: Route[] = [investWithdrawRoute, dealsRoute];
