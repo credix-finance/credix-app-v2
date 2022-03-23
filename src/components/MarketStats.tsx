@@ -1,6 +1,6 @@
 import { Market } from "@credix/credix-client";
 import React, { useCallback, useEffect, useState } from "react";
-import { formatRatio } from "utils/format.utils";
+import { formatRatio, toUIAmount } from "utils/format.utils";
 import { Statistic } from "./Statistic";
 
 interface MarketStatsProps {
@@ -14,7 +14,10 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 
 	const getTVL = useCallback(async () => {
 		const tvl = await market?.calculateTVL();
-		setTvl(tvl?.toNumber() || 0);
+
+		if (tvl) {
+			setTvl(toUIAmount(tvl).toNumber() || 0);
+		}
 	}, [market]);
 
 	const getAPY = useCallback(async () => {
@@ -28,7 +31,11 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 	}, [market]);
 
 	const getCreditOutstanding = useCallback(async () => {
-		setCreditOutstanding(market?.totalOutstandingCredit?.toNumber() || 0);
+		const totalOutstandingCredit = market?.totalOutstandingCredit;
+
+		if (totalOutstandingCredit) {
+			setCreditOutstanding(toUIAmount(totalOutstandingCredit).toNumber());
+		}
 	}, [market]);
 
 	useEffect(() => {
