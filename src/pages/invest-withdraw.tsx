@@ -5,15 +5,19 @@ import { defaultMarketplace } from "consts";
 import { MarketStats } from "@components/MarketStats";
 import Layout from "@components/Layout";
 import { useStore } from "state/useStore";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 function InvestWithdraw() {
 	const client = useCredixClient();
-	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
+	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
+	const { publicKey } = useWallet();
 
 	useEffect(() => {
-		maybeFetchMarket(client, defaultMarketplace);
-	}, [client, maybeFetchMarket]);
+		if (publicKey) {
+			fetchMarket(client, defaultMarketplace);
+		}
+	}, [publicKey, client, fetchMarket]);
 
 	return (
 		<div className="space-y-20 py-5 px-4 md:pt-24 md:px-32">
