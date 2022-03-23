@@ -46,6 +46,10 @@ interface InputProps {
 	rules?: FormItemProps["rules"];
 	disabled?: boolean;
 	required?: boolean;
+	/**
+	 * Specifies the increment step for number inputs
+	 */
+	step?: string;
 }
 
 export const Input = ({

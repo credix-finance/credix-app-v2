@@ -139,6 +139,7 @@ export const LiquidityPoolInteraction = ({
 				<Input
 					name="amount"
 					label="AMOUNT"
+					step="0.1"
 					className="bg-neutral-0"
 					placeholder="e.g. 0.0007"
 					type="number"
