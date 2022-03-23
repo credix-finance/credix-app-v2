@@ -117,7 +117,7 @@ export const LiquidityPoolInteraction = ({
 	};
 
 	return (
-		<div className="p-6 md:p-12 bg-neutral-0 space-y-7">
+		<div className="p-6 md:p-12 md:pr-36 bg-neutral-0 space-y-7">
 			<h2 className="space-x-5 flex items-center">
 				<Icon name="line-chart" className="w-7 h-7" />
 				<span className="uppercase font-bold text-2xl">{action}</span>
@@ -134,7 +134,6 @@ export const LiquidityPoolInteraction = ({
 				onFinish={onFinish}
 				onFinishFailed={onSubmitFailed}
 				layout="vertical"
-				className="max-w-[624px]"
 			>
 				<Input
 					name="amount"
