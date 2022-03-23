@@ -50,6 +50,10 @@ interface InputProps {
 	 * Specifies the increment step for number inputs
 	 */
 	step?: string;
+	/**
+	 * Specifies the locale used for the input wich affects the decimal seperator
+	 */
+	lang?: string;
 }
 
 export const Input = ({
