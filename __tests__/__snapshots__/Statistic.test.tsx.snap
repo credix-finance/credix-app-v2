@@ -7,7 +7,9 @@ exports[`Currency statistic 1`] = `
   <div
     className="bg-credix-primary ml-[-21.5px]"
   >
-    <div>
+    <div
+      className="capitalize"
+    >
       TVL
     </div>
     <div
@@ -31,7 +33,9 @@ exports[`Percentage statistic 1`] = `
   <div
     className="bg-credix-primary ml-[-21.5px]"
   >
-    <div>
+    <div
+      className="capitalize"
+    >
       Estimated APY
     </div>
     <div
