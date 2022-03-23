@@ -26,9 +26,11 @@ export const formatTimestamp = (timestamp, locale) => {
 	return formatDate(new Date(timestampWithMilliseconds), locale);
 };
 
-export const formatDate = (date, locale) => {
-	const fallback = "en-GB";
+export const formatDate = (date: Date, locale: string[]) => {
+	const fallback = "en-US";
 	const locales = locale && locale.length > 0 ? [...locale, fallback] : fallback;
 
-	return Intl.DateTimeFormat(locales).format(date);
+	return Intl.DateTimeFormat(locales, { year: "numeric", month: "2-digit", day: "2-digit" }).format(
+		date
+	);
 };

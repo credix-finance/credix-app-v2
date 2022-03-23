@@ -17,6 +17,7 @@ const customJestConfig = {
 		"^@credix_types/(.*)": "<rootDir>/src/types/$1",
 		"^@config/(.*)": "<rootDir>/src/config/$1",
 		"^@state/(.*)": "<rootDir>/src/state/$1",
+		"^@utils/(.*)": "<rootDir>/src/utils/$1",
 	},
 	modulePathIgnorePatterns: ["__mocks__", ".yalc"],
 };
