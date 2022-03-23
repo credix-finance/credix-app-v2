@@ -6,7 +6,7 @@ exports[`Main menu 1`] = `
 >
   <div>
     <a
-      href="/"
+      href="/undefined"
       onClick={[Function]}
       onMouseEnter={[Function]}
     >

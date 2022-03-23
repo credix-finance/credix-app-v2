@@ -5,17 +5,20 @@ import { CredixLogo } from "@components/CredixLogo";
 import { WalletButton } from "@components/WalletButton";
 import { IdentityButton } from "@components/IdentityButton";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface MainMenuProps {
 	showLogo?: boolean;
 }
 
 export const MainMenu = ({ showLogo = true }: MainMenuProps) => {
+	const router = useRouter();
+
 	return (
 		<div className="w-full bg-credix-primary flex justify-between items-center py-[16.5px] px-4 lg:px-[88px]">
 			<div>
 				{showLogo && (
-					<Link href="/">
+					<Link href={`/${router?.query?.marketplace}`}>
 						<a>
 							<CredixLogo mode="dark" />
 						</a>
