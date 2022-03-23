@@ -10,6 +10,7 @@ import { defaultMarketplace } from "../consts";
 import { Big } from "big.js";
 import message from "../message";
 import { useStore } from "state/useStore";
+import { toProgramAmount } from "@utils/format.utils";
 
 export const InvestWithdraw = () => {
 	const client = useCredixClient();
@@ -25,7 +26,7 @@ export const InvestWithdraw = () => {
 		const hide = message.loading({ content: `Withdrawing ${amount} USDC` });
 
 		try {
-			await market.withdraw(new Big(amount));
+			await market.withdraw(toProgramAmount(new Big(amount)));
 			hide();
 			message.success({ content: `Sucessfully withdrew ${amount} USDC` });
 			await fetchMarket(client, defaultMarketplace);
@@ -39,7 +40,7 @@ export const InvestWithdraw = () => {
 		const hide = message.loading({ content: `Depositing ${amount} USDC` });
 
 		try {
-			await market.deposit(new Big(amount));
+			await market.deposit(toProgramAmount(new Big(amount)));
 			hide();
 			message.success({ content: `Sucessfully deposited ${amount} USDC` });
 			await fetchMarket(client, defaultMarketplace);

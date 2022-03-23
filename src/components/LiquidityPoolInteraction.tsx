@@ -12,6 +12,7 @@ import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
 import { validateMaxValue, validateMinValue } from "utils/validation.utils";
 import { useStore } from "state/useStore";
+import { toUIAmount } from "@utils/format.utils";
 
 export interface LiquidityPoolInteractionForm {
 	amount: number;
@@ -68,9 +69,9 @@ export const LiquidityPoolInteraction = ({
 		}
 
 		const userStake = await market?.getUserStake(publicKey);
-		setUserStake(userStake);
 
 		if (userStake) {
+			setUserStake(toUIAmount(userStake));
 			setMaxWithdrawalAmount(userStake.toNumber());
 		}
 	}, [market, publicKey]);
