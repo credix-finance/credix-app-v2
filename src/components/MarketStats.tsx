@@ -56,7 +56,7 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 				<Statistic label="TVL" currency="USDC" value={tvl} />
 			</div>
 			<div className="w-full flex justify-center">
-				<Statistic label="Estimatded APY" isPercentage={true} value={apy} />
+				<Statistic label="Average financing fee" isPercentage={true} value={apy} />
 			</div>
 			<div className="w-full flex justify-center">
 				<Statistic label="Credit outstanding" currency="USDC" value={creditOutstanding} />
