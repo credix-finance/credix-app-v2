@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import type { NextPage } from "next";
 import { Deal, DealStatus, Ratio, useCredixClient } from "@credix/credix-client";
 import { toUIAmount, formatRatio, formatTimestamp } from "../../utils/format.utils";
 import { Tabs } from "@components/Tabs";
@@ -13,6 +12,8 @@ import Link from "next/link";
 import Big from "big.js";
 import { useLocales } from "../../hooks/useLocales";
 import { useStore } from "@state/useStore";
+import Layout from "@components/Layout";
+import { NextPageWithLayout } from "pages/_app";
 
 const dealsTableColumns: ColumnsProps[] = [
 	{
@@ -43,7 +44,7 @@ const dealsTableColumns: ColumnsProps[] = [
 	},
 ];
 
-const Deals: NextPage = () => {
+const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
 	const { marketplace } = router.query;
 	const locales = useLocales();
@@ -89,16 +90,20 @@ const Deals: NextPage = () => {
 			return;
 		}
 
-		const { activeDeals, endedDeals } = deals?.reduce(
+		const { activeDeals, endedDeals } = deals.reduce(
 			(acc, deal) => {
 				switch (deal.status) {
 					case DealStatus.IN_PROGRESS:
 						acc.activeDeals.push(mapDeal(deal));
+						break;
 					case DealStatus.CLOSED:
 						acc.endedDeals.push(mapDeal(deal));
+						break;
 					default:
-						return acc;
+						break;
 				}
+
+				return acc;
 			},
 			{ activeDeals: [], endedDeals: [] }
 		);
@@ -113,7 +118,7 @@ const Deals: NextPage = () => {
 	}, [getDeals]);
 
 	return (
-		<div className="space-y-14 py-5 px-4 md:pt-36 md:px-28">
+		<div className="space-y-14 py-5 px-4 md:pt-12 md:px-28">
 			<div className="flex justify-between">
 				<div></div>
 				<Link href={`/${marketplace}/invest`}>
@@ -144,6 +149,14 @@ const Deals: NextPage = () => {
 				</TabPane>
 			</Tabs>
 		</div>
+	);
+};
+
+Deals.getLayout = function getLayout(page: ReactElement) {
+	return (
+		<Layout.WithSideMenu>
+			<Layout.WithMainMenu showLogo={false}>{page}</Layout.WithMainMenu>
+		</Layout.WithSideMenu>
 	);
 };
 
