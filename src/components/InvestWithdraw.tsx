@@ -10,7 +10,7 @@ import { defaultMarketplace } from "../consts";
 import { Big } from "big.js";
 import message from "../message";
 import { useStore } from "state/useStore";
-import { toProgramAmount } from "@utils/format.utils";
+import { numberFormatter, toProgramAmount } from "@utils/format.utils";
 
 export const InvestWithdraw = () => {
 	const client = useCredixClient();
@@ -23,30 +23,32 @@ export const InvestWithdraw = () => {
 	}, [client, maybeFetchMarket]);
 
 	const withdraw = async ({ amount }: LiquidityPoolInteractionForm) => {
-		const hide = message.loading({ content: `Withdrawing ${amount} USDC` });
+		const formattedNumber = numberFormatter.format(amount);
+		const hide = message.loading({ content: `Withdrawing ${formattedNumber} USDC` });
 
 		try {
 			await market.withdraw(toProgramAmount(new Big(amount)));
 			hide();
-			message.success({ content: `Sucessfully withdrew ${amount} USDC` });
+			message.success({ content: `Sucessfully withdrew ${formattedNumber} USDC` });
 			await fetchMarket(client, defaultMarketplace);
 		} catch (error) {
 			hide();
-			message.error({ content: `Failed to withdraw ${amount} USDC` });
+			message.error({ content: `Failed to withdraw ${formattedNumber} USDC` });
 		}
 	};
 
 	const invest = async ({ amount }: LiquidityPoolInteractionForm) => {
-		const hide = message.loading({ content: `Depositing ${amount} USDC` });
+		const formattedNumber = numberFormatter.format(amount);
+		const hide = message.loading({ content: `Depositing ${formattedNumber} USDC` });
 
 		try {
 			await market.deposit(toProgramAmount(new Big(amount)));
 			hide();
-			message.success({ content: `Sucessfully deposited ${amount} USDC` });
+			message.success({ content: `Sucessfully deposited ${formattedNumber} USDC` });
 			await fetchMarket(client, defaultMarketplace);
 		} catch (error) {
 			hide();
-			message.error({ content: `Failed to deposit ${amount} USDC` });
+			message.error({ content: `Failed to deposit ${formattedNumber} USDC` });
 		}
 	};
 
