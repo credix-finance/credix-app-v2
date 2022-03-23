@@ -72,7 +72,7 @@ export const LiquidityPoolInteraction = ({
 
 		if (userStake) {
 			setUserStake(toUIAmount(userStake));
-			setMaxWithdrawalAmount(userStake.toNumber());
+			setMaxWithdrawalAmount(toUIAmount(userStake).toNumber());
 		}
 	}, [market, publicKey]);
 
