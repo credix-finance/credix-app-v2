@@ -1,6 +1,6 @@
 import { Deal, Ratio } from "@credix/credix-client";
 import { FunctionComponent, useEffect, useState } from "react";
-import { formatRatio, numberFormatter, toUIAmount } from "@utils/format.utils";
+import { numberFormatter, toUIAmount } from "@utils/format.utils";
 import { DealStatus } from "@components/DealStatus";
 import { DealAspect } from "@components/DealAspect";
 import Big from "big.js";
@@ -15,26 +15,26 @@ export const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 	const [daysRemainingRatio, setDaysRemainingRatio] = useState<number | 0>(0);
 
 	useEffect(() => {
-		setPrincipalRepaidRatio(
-			formatRatio(new Ratio(deal?.principalAmountRepaid.toNumber(), deal?.principal.toNumber()))
-				.div(100)
-				.toNumber()
+		const principalRatio = new Ratio(
+			toUIAmount(deal?.principalAmountRepaid).toNumber(),
+			toUIAmount(deal?.principal).toNumber()
 		);
+		setPrincipalRepaidRatio(principalRatio.apply(new Big(1)).toNumber());
 
 		if (deal?.interestToRepay.eq(new Big(0))) {
 			setInterestRepaidRatio(1);
 		} else {
-			setInterestRepaidRatio(
-				formatRatio(new Ratio(deal?.interestRepaid.toNumber(), deal?.interestToRepay.toNumber()))
-					.div(100)
-					.toNumber()
+			const interestRatio = new Ratio(
+				toUIAmount(deal?.interestRepaid).toNumber(),
+				toUIAmount(deal?.totalInterest).toNumber()
 			);
+			setInterestRepaidRatio(interestRatio.apply(new Big(1)).toNumber());
 		}
 
-		setDaysRemainingRatio(
-			deal?.principalAmountRepaid &&
-				formatRatio(new Ratio(deal?.daysRemaining, deal?.timeToMaturity))?.div(100).toNumber()
-		);
+		if (deal?.principalAmountRepaid) {
+			const daysRatio = new Ratio(deal?.daysRemaining, deal?.timeToMaturity);
+			setDaysRemainingRatio(daysRatio.apply(new Big(1)).toNumber());
+		}
 	}, [deal]);
 
 	return (
@@ -54,7 +54,8 @@ export const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 				<DealAspect
 					title="financing fee"
 					value={`${
-						deal?.financingFeePercentage && formatRatio(deal?.financingFeePercentage)?.toNumber()
+						deal?.financingFeePercentage &&
+						deal?.financingFeePercentage.apply(new Big(100))?.toNumber()
 					}%`}
 				/>
 				<DealAspect title="time to maturity" value={`${deal?.timeToMaturity} DAYS`} />

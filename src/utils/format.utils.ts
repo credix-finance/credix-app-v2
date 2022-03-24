@@ -32,17 +32,6 @@ export const formatUIAmount = (n: Big, formatter: formatter) =>
 
 export const toProgramAmount = (n: Big) => n.mul(conversionFactor);
 
-export const formatRatio = (r: Ratio) => {
-	const denominator = new Big(r.denominator);
-
-	if (!denominator.toNumber()) {
-		return;
-	}
-
-	const numerator = new Big(r.numerator);
-	return numerator.div(denominator).mul(100);
-};
-
 export const formatTimestamp = (timestamp, locale) => {
 	// Most unix timestamps don't include milliseconds which causes the date to be parsed wrong
 	const timestampWithMilliseconds = timestamp * 1000;
