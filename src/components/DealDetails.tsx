@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { formatRatio, numberFormatter, toUIAmount } from "@utils/format.utils";
 import { DealStatus } from "@components/DealStatus";
 import { DealAspect } from "@components/DealAspect";
+import Big from "big.js";
 
 interface DealDetailsProps {
 	deal: Deal;
@@ -19,11 +20,17 @@ export const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 				.div(100)
 				.toNumber()
 		);
-		setInterestRepaidRatio(
-			formatRatio(new Ratio(deal?.interestRepaid.toNumber(), deal?.interestToRepay.toNumber()))
-				.div(100)
-				.toNumber()
-		);
+
+		if (deal?.interestToRepay.eq(new Big(0))) {
+			setInterestRepaidRatio(1);
+		} else {
+			setInterestRepaidRatio(
+				formatRatio(new Ratio(deal?.interestRepaid.toNumber(), deal?.interestToRepay.toNumber()))
+					.div(100)
+					.toNumber()
+			);
+		}
+
 		setDaysRemainingRatio(
 			deal?.principalAmountRepaid &&
 				formatRatio(new Ratio(deal?.daysRemaining, deal?.timeToMaturity))?.div(100).toNumber()
