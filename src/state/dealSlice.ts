@@ -47,11 +47,7 @@ export const createDealSlice: StoreSlice<DealSlice> = (set, get) => ({
 		await maybeFetchDeals(market, get, set);
 	},
 	getDeal: async (market, dealAddress) => {
-		await maybeFetchDeals(market, get, set);
-
-		if (!get().deals) {
-			return;
-		}
+		await getDeals(market, set);
 
 		return get().deals.find((d) => d.address.toString() === dealAddress);
 	},
