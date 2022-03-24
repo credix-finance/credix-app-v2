@@ -14,6 +14,7 @@ import { useLocales } from "../../hooks/useLocales";
 import { useStore } from "@state/useStore";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
+import { selectActiveDeals, selectEndedDeals, selectPendingDeals } from "@state/selectors";
 
 const dealsTableColumns: ColumnsProps[] = [
 	{
@@ -49,16 +50,22 @@ const Deals: NextPageWithLayout = () => {
 	const locales = useLocales();
 	const { marketplace } = router.query;
 	const client = useCredixClient();
+	const fetchMarket = useStore((state) => state.fetchMarket);
+	const market = useStore((state) => state.market);
 	const maybeFetchDeals = useStore((state) => state.maybeFetchDeals);
-	const activeDeals = useStore((state) => state.activeDeals);
-	const endedDeals = useStore((state) => state.endedDeals);
-	const pendingDeals = useStore((state) => state.pendingDeals);
+	const activeDeals = useStore((state) => selectActiveDeals(state));
+	const endedDeals = useStore((state) => selectEndedDeals(state));
+	const pendingDeals = useStore((state) => selectPendingDeals(state));
 	const isLoadingDeals = useStore((state) => state.isLoadingDeals);
 	const isAdmin = useStore((state) => state.isAdmin);
 
 	useEffect(() => {
-		maybeFetchDeals(client, marketplace as string);
-	}, [client, maybeFetchDeals, marketplace]);
+		fetchMarket(client, marketplace as string);
+	}, [fetchMarket, client, marketplace]);
+
+	useEffect(() => {
+		maybeFetchDeals(market);
+	}, [market, maybeFetchDeals]);
 
 	const dealRepaidRatio = (principal: Big, principalAmountRepaid: Big) => {
 		if (!principalAmountRepaid.toNumber()) {
