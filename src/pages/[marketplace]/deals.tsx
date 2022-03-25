@@ -136,6 +136,13 @@ const Deals: NextPageWithLayout = () => {
 				<TabPane tab="Ended Deals" key="3">
 					<Table
 						loading={isLoadingDeals}
+						onRow={(record) => {
+							return {
+								onClick: () => {
+									router.push(`/${marketplace}/deals/${record?.key}`);
+								},
+							};
+						}}
 						dataSource={endedDeals?.map((deal) => mapDeal(deal))}
 						columns={dealsTableColumns}
 					/>
