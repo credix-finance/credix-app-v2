@@ -27,7 +27,17 @@ const dealsTableColumns: ColumnsProps[] = [
 		icon: "coins-alt",
 		dataIndex: "amount",
 		key: "amount",
-		render: (text) => <span className="font-medium text-lg">{text} USDC</span>,
+		/**
+		 * Adding a width to the column makes it so that is is not responsive anymore.
+		 * Giving it a small width will result it the column getting the width of the max of the content
+		 */
+		width: 1,
+		render: (text) => (
+			<div className="flex justify-between font-medium text-lg">
+				<span>{text}</span>
+				<span className="pl-2">USDC</span>
+			</div>
+		),
 	},
 	{
 		title: "Date",
