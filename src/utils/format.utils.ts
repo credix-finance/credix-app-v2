@@ -10,13 +10,14 @@ export const numberFormatter = Intl.NumberFormat("en", {
 	maximumFractionDigits: 1,
 });
 
-export const formatNumber = (n: Big, roundingMode: RoundingMode, formatter: any) =>
-	formatter(n.round(roundingPrecision, roundingMode).toNumber());
+export const round = (n: Big, roundingMode: RoundingMode, precision = roundingPrecision) =>
+	n.round(precision, roundingMode);
+
+export const formatNumber = (n: Big, formatter: any) => formatter(n.toNumber());
 
 export const toUIAmount = (n: Big) => n.div(conversionFactor);
 
-export const formatUIAmount = (n: Big, roundingMode: RoundingMode, formatter: any) =>
-	formatNumber(toUIAmount(n), roundingMode, formatter);
+export const formatUIAmount = (n: Big, formatter: any) => formatNumber(toUIAmount(n), formatter);
 
 export const toProgramAmount = (n: Big) => n.mul(conversionFactor);
 

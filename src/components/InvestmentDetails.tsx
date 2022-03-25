@@ -2,7 +2,7 @@ import React from "react";
 import { InvestmentReturn } from "@components/InvestmentReturn";
 import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
-import { formatNumber, numberFormatter } from "@utils/format.utils";
+import { formatNumber, numberFormatter, round } from "@utils/format.utils";
 
 interface InvestmentDetailsProps {
 	balance: TokenAmount;
@@ -35,7 +35,8 @@ export const InvestmentDetails = ({
 				</div>
 				<div>
 					<div className="text-2xl font-bold">{`${
-						investments && formatNumber(investments, 2, numberFormatter.format)
+						investments &&
+						formatNumber(round(investments, Big.roundHalfEven), numberFormatter.format)
 					} ${investmentsCurrency}`}</div>
 				</div>
 			</div>
