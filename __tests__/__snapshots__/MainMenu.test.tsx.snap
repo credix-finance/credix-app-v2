@@ -6,7 +6,7 @@ exports[`Main menu 1`] = `
 >
   <div>
     <a
-      href="/"
+      href="/undefined"
       onClick={[Function]}
       onMouseEnter={[Function]}
     >
@@ -46,7 +46,7 @@ exports[`Main menu 1`] = `
     </a>
   </div>
   <div
-    className="md:flex"
+    className="flex"
   >
     <button
       className="ant-btn ant-btn-primary ant-btn-lg rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] 

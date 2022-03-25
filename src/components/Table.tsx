@@ -7,7 +7,7 @@ import { ColumnType } from "antd/lib/table";
 import { TableHeaderCell } from "./TableHeaderCell";
 import { IconName } from "@components/Icon";
 
-type ColumnsProps = ColumnType<any> & {
+export type ColumnsProps = ColumnType<any> & {
 	/**
 	 * Optional icon that will be displayed on the left of the column title
 	 */
@@ -24,6 +24,15 @@ interface TableProps {
 	 * Table columns
 	 */
 	columns?: ColumnsProps[];
+	/**
+	 * onRow provides a way to hook into click events originating from the table row.
+	 * This prop also enables table hover styles
+	 */
+	onRow?: AntdTableProps<any>["onRow"];
+	/**
+	 * controls whether the table displays a loading spinner
+	 */
+	loading?: AntdTableProps<any>["loading"];
 }
 
 export const Table = ({ columns, ...props }: TableProps) => {
@@ -52,9 +61,10 @@ export const Table = ({ columns, ...props }: TableProps) => {
 
 	return (
 		<AntdTable
+			className={props.onRow ? "table-hoverable" : ""}
 			pagination={{
 				hideOnSinglePage: true,
-				pageSize: 10,
+				pageSize: 5,
 				itemRender: (page, type, originalElement) => (
 					<PageItem page={page} type={type} originalElement={originalElement} />
 				),

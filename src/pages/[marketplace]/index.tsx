@@ -3,25 +3,28 @@ import { Button } from "@components/Button";
 import { Card } from "@components/Card";
 import { MarketStats } from "@components/MarketStats";
 import { useCredixClient } from "@credix/credix-client";
-import { defaultMarketplace } from "../consts";
-import { useStore } from "state/useStore";
+import { useRouter } from "next/router";
 import Layout from "@components/Layout";
-import { NextPageWithLayout } from "./_app";
+import { NextPageWithLayout } from "pages/_app";
+import { useStore } from "@state/useStore";
+import Link from "next/link";
 
 const Overview: NextPageWithLayout = () => {
+	const router = useRouter();
+	const { marketplace } = router.query;
 	const client = useCredixClient();
 	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const market = useStore((state) => state.market);
 
 	useEffect(() => {
-		maybeFetchMarket(client, defaultMarketplace);
-	}, [client, maybeFetchMarket]);
+		maybeFetchMarket(client, marketplace as string);
+	}, [client, maybeFetchMarket, marketplace]);
 
 	const parties = [
 		{
 			name: "liquidity providers",
 			action: "invest",
-			buttonAction: "Invest",
+			buttonAction: "invest",
 			description:
 				"Stable return, flexibility to withdraw at any moment and invest in senior tranche = liquidity pool.",
 		},
@@ -53,9 +56,13 @@ const Overview: NextPageWithLayout = () => {
 				{parties.map(({ name, action, buttonAction, description }) => (
 					<Card key={name} topTitle={name} title={action} offset="large">
 						<div className="mb-14 text-base">{description}</div>
-						<Button block={true} className="capitalize">
-							{buttonAction}
-						</Button>
+						<Link href={`${marketplace}/${buttonAction}`}>
+							<a>
+								<Button block={true} className="capitalize">
+									{buttonAction}
+								</Button>
+							</a>
+						</Link>
 					</Card>
 				))}
 			</div>

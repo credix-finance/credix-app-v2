@@ -5,11 +5,13 @@ import { GatewayProvider } from "@civic/solana-gateway-react";
 import { CivicButton } from "@components/CivicButton";
 import { config } from "../config";
 import { useCredixClient } from "@credix/credix-client";
-import { defaultMarketplace } from "../consts";
 import { SolanaCluster } from "@credix_types/solana.types";
-import { useStore } from "../state/useStore";
+import { useStore } from "@state/useStore";
+import { useRouter } from "next/router";
 
 export const IdentityButton = () => {
+	const router = useRouter();
+	const { marketplace } = router.query;
 	const wallet = useWallet();
 	const client = useCredixClient();
 	const { connection } = useConnection();
@@ -22,8 +24,8 @@ export const IdentityButton = () => {
 	}, [market]);
 
 	useEffect(() => {
-		maybeFetchMarket(client, defaultMarketplace);
-	}, [client, maybeFetchMarket]);
+		maybeFetchMarket(client, marketplace as string);
+	}, [client, maybeFetchMarket, marketplace]);
 
 	useEffect(() => {
 		getGatekeeperNetwork();
