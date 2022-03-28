@@ -18,8 +18,9 @@
 		"paths": {
 			"@components/*": ["components/*"],
 			"@credix_types/*": ["types/*"],
-			"@consts/*": ["consts/*"],
-			"@state/*": ["state/*"]
+			"@consts": ["consts"],
+			"@state/*": ["state/*"],
+			"@utils/*": ["utils/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { Form } from "antd";
+import { FormProps } from "antd/lib/form";
 import { Icon } from "@components/Icon";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { InvestmentDetails } from "@components/InvestmentDetails";
-import { Form } from "antd";
-import { FormProps } from "antd/lib/form";
+import { useCredixClient } from "@credix/credix-client";
+import { defaultMarketplace } from "../consts";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { TokenAmount } from "@solana/web3.js";
+import Big from "big.js";
+import { validateMaxValue, validateMinValue } from "utils/validation.utils";
+import { useStore } from "state/useStore";
+import { toUIAmount } from "@utils/format.utils";
+
+export interface LiquidityPoolInteractionForm {
+	amount: number;
+}
 
 interface LiquidityPoolInteractionProps {
 	/**
@@ -20,7 +32,7 @@ interface LiquidityPoolInteractionProps {
 	/**
 	 * Action to perform when form submission fails
 	 */
-	onSubmitFailed: FormProps["onFinishFailed"];
+	onSubmitFailed?: FormProps["onFinishFailed"];
 }
 
 export const LiquidityPoolInteraction = ({
@@ -28,46 +40,124 @@ export const LiquidityPoolInteraction = ({
 	onSubmit,
 	onSubmitFailed,
 }: LiquidityPoolInteractionProps) => {
-	// TODO: get these values from client
-	const balance = 65;
-	const investments = 256;
-	const investmentsReturn = 3.24;
-
+	const client = useCredixClient();
+	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
+	const market = useStore((state) => state.market);
+	const { publicKey } = useWallet();
+	const [userBaseBalance, setUserBaseBalance] = useState<TokenAmount>();
+	const [userStake, setUserStake] = useState<Big>(new Big(0));
 	const [form] = Form.useForm();
+	const [maxInvestmentAmount, setMaxInvestmentAmount] = useState<number>(0);
+	const [maxWithdrawalAmount, setMaxWithdrawalAmount] = useState<number>(0);
+
+	const getUserBaseBalance = useCallback(async () => {
+		if (!publicKey) {
+			return;
+		}
+
+		const userBaseBalance = await market?.userBaseBalance(publicKey);
+		setUserBaseBalance(userBaseBalance);
+
+		if (userBaseBalance) {
+			setMaxInvestmentAmount(userBaseBalance.uiAmount);
+		}
+	}, [market, publicKey]);
+
+	const getUserStake = useCallback(async () => {
+		if (!publicKey) {
+			return;
+		}
+
+		const userStake = await market?.getUserStake(publicKey);
+
+		if (userStake) {
+			setUserStake(toUIAmount(userStake));
+			setMaxWithdrawalAmount(toUIAmount(userStake).toNumber());
+		}
+	}, [market, publicKey]);
+
+	useEffect(() => {
+		maybeFetchMarket(client, defaultMarketplace);
+	}, [client, maybeFetchMarket]);
+
+	useEffect(() => {
+		getUserBaseBalance();
+	}, [getUserBaseBalance]);
+
+	useEffect(() => {
+		getUserStake();
+	}, [getUserStake]);
 
 	const onAddMax = () => {
-		form.setFieldsValue({ amount: action === "invest" ? balance : investments });
+		form.setFieldsValue({
+			amount: getMaxValue,
+		});
+	};
+
+	const getMaxValue = action === "invest" ? maxInvestmentAmount : maxWithdrawalAmount;
+
+	const validateMaxAmount = (value): Promise<void> => {
+		const maxValue = getMaxValue;
+		const validationMessage = `'amount' needs to be less than or equal to ${
+			action === "invest" ? "your balance" : "your invested amount"
+		}`;
+
+		return validateMaxValue(value, maxValue, validationMessage);
+	};
+
+	const validateMinAmount = (value): Promise<void> => {
+		const validationMessage = "'amount' needs to be greater than 0";
+		return validateMinValue(value, 0, validationMessage);
+	};
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const onFinish = async (values: any) => {
+		await onSubmit(values);
+		form.resetFields();
 	};
 
 	return (
-		<div className="p-6 md:p-12 bg-neutral-0 space-y-7">
+		<div className="p-6 md:p-12 md:pr-36 bg-neutral-0 space-y-7">
 			<h2 className="space-x-5 flex items-center">
 				<Icon name="line-chart" className="w-7 h-7" />
 				<span className="uppercase font-bold text-2xl">{action}</span>
 			</h2>
 			<InvestmentDetails
-				balance={balance}
+				balance={userBaseBalance}
 				balanceCurrency="USDC"
-				investments={investments}
+				investments={userStake}
 				investmentsCurrency="USDC"
-				investmentsReturn={investmentsReturn}
 			/>
 			<Form
 				name="invest"
 				form={form}
-				onFinish={onSubmit}
+				onFinish={onFinish}
 				onFinishFailed={onSubmitFailed}
 				layout="vertical"
-				className="max-w-[624px]"
 			>
 				<Input
 					name="amount"
 					label="AMOUNT"
+					step="0.1"
 					className="bg-neutral-0"
-					placeholder="e.g. 0.0007"
+					placeholder="e.g. 10000.07"
+					lang="en"
 					type="number"
 					addonBefore="USDC"
 					required={true}
+					rules={[
+						{ required: true },
+						{
+							validator(_, value) {
+								return validateMaxAmount(value);
+							},
+						},
+						{
+							validator(_, value) {
+								return validateMinAmount(value);
+							},
+						},
+					]}
 					suffix={
 						<div
 							onClick={onAddMax}

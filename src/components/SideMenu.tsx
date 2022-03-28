@@ -13,7 +13,7 @@ export const SideMenu = ({ menuItems }: SideMenuProps) => {
 	const router = useRouter();
 
 	return (
-		<div className="w-72 bg-darker h-screen pt-[33px] sticky top-0">
+		<div className="w-72 bg-darker h-screen pt-4 sticky top-0">
 			<div className="text-credix-primary ml-[43px]">
 				<Link href="/">
 					<a>

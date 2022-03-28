@@ -1,12 +1,15 @@
 import React from "react";
 import { InvestmentReturn } from "@components/InvestmentReturn";
+import { TokenAmount } from "@solana/web3.js";
+import Big from "big.js";
+import { formatNumber, numberFormatter, round } from "@utils/format.utils";
 
 interface InvestmentDetailsProps {
-	balance: number;
+	balance: TokenAmount;
 	balanceCurrency: string;
-	investments: number;
+	investments: Big;
 	investmentsCurrency: string;
-	investmentsReturn: number;
+	investmentsReturn?: number;
 }
 
 export const InvestmentDetails = ({
@@ -17,18 +20,24 @@ export const InvestmentDetails = ({
 	investmentsReturn,
 }: InvestmentDetailsProps) => {
 	return (
-		<div className="md:flex space-y-2 md:space-y-0 md:space-x-4">
+		<div className="md:grid md:grid-cols-2 space-y-2 md:space-y-0 md:space-x-4">
 			<div className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block">
 				<div className="text-xs md:text-base font-medium">Current balance</div>
-				<div className="text-2xl font-bold">{`${balance} ${balanceCurrency}`}</div>
+				<div className="text-2xl font-bold">{`${
+					balance ? numberFormatter.format(balance.uiAmount) : 0
+				} ${balanceCurrency}`}</div>
 			</div>
 			<div className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block">
 				<div className="flex justify-between items-start md:space-x-24 md:justify-start">
 					<div className="text-xs md:text-base font-medium">Current investments</div>
-					<InvestmentReturn value={investmentsReturn} className="hidden md:flex" />
+					{/* TODO: show this component when the endpoint is implemented */}
+					{false && <InvestmentReturn value={investmentsReturn} className="hidden md:flex" />}
 				</div>
 				<div>
-					<div className="text-2xl font-bold">{`${investments} ${investmentsCurrency}`}</div>
+					<div className="text-2xl font-bold">{`${
+						investments &&
+						formatNumber(round(investments, Big.roundHalfEven), numberFormatter.format)
+					} ${investmentsCurrency}`}</div>
 				</div>
 			</div>
 		</div>

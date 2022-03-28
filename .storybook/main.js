@@ -34,6 +34,7 @@ module.exports = {
 			"@credix_types": path.resolve(__dirname, "../src/types"),
 			"@consts": path.resolve(__dirname, "../src/consts"),
 			"@state": path.resolve(__dirname, "../src/state"),
+			"@utils": path.resolve(__dirname, "../src/utils"),
 			"@": [path.resolve(__dirname, "../src/"), path.resolve(__dirname, "../")],
 		};
 

@@ -1,12 +1,17 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { InvestmentDetails } from "@components/InvestmentDetails";
+import { TokenAmount } from "@solana/web3.js";
+import Big from "big.js";
 
 test("Positive return", () => {
 	const props = {
-		balance: 65,
+		balance: {
+			uiAmount: 65,
+			uiAmountString: "65",
+		} as TokenAmount,
 		balanceCurrency: "USDC",
-		investments: 256,
+		investments: new Big(256),
 		investmentsCurrency: "USDC",
 		investmentsReturn: 3.43,
 	};
@@ -19,9 +24,12 @@ test("Positive return", () => {
 
 test("Negative return", () => {
 	const props = {
-		balance: 65,
+		balance: {
+			uiAmount: 65,
+			uiAmountString: "65",
+		} as TokenAmount,
 		balanceCurrency: "USDC",
-		investments: 256,
+		investments: new Big(256),
 		investmentsCurrency: "USDC",
 		investmentsReturn: -3.43,
 	};

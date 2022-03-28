@@ -185,3 +185,23 @@ body {
 .ant-spin-dot-item {
 	@apply bg-neutral-80 !important;
 }
+
+.ant-message {
+	@apply h-full top-0 grid place-items-center bg-neutral-80/50 !important;
+}
+
+.ant-message-notice {
+	@apply flex justify-center font-mono !important;
+}
+
+.ant-message-notice-content {
+	@apply px-7 py-5 shadow-none font-bold text-base border-[0.1px] rounded border-solid border-neutral-60 bg-credix-primary !important;
+}
+
+.ant-message-custom-content {
+	@apply flex items-center space-x-3 !important;
+}
+
+.anticon {
+	@apply text-current !important;
+}

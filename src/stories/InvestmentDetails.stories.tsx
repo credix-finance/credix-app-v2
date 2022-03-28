@@ -2,6 +2,8 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { InvestmentDetails } from "@components/InvestmentDetails";
+import Big from "big.js";
+import { TokenAmount } from "@solana/web3.js";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -16,18 +18,24 @@ const Template: ComponentStory<typeof InvestmentDetails> = (args) => (
 
 export const Positive = Template.bind({});
 Positive.args = {
-	balance: 65,
+	balance: {
+		uiAmount: 65,
+		uiAmountString: "65",
+	} as TokenAmount,
 	balanceCurrency: "USDC",
-	investments: 256,
+	investments: new Big(256),
 	investmentsCurrency: "USDC",
 	investmentsReturn: 3.34,
 };
 
 export const Negative = Template.bind({});
 Negative.args = {
-	balance: 65,
+	balance: {
+		uiAmount: 65,
+		uiAmountString: "65",
+	} as TokenAmount,
 	balanceCurrency: "USDC",
-	investments: 256,
+	investments: new Big(256),
 	investmentsCurrency: "USDC",
 	investmentsReturn: -3.34,
 };

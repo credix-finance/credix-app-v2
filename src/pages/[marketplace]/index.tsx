@@ -8,6 +8,7 @@ import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
 import { useStore } from "@state/useStore";
 import Link from "next/link";
+import { investWithdrawRoute } from "@consts";
 
 const Overview: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -24,7 +25,8 @@ const Overview: NextPageWithLayout = () => {
 		{
 			name: "liquidity providers",
 			action: "invest",
-			buttonAction: "invest",
+			buttonAction: "Invest",
+			buttonLink: investWithdrawRoute.path,
 			description:
 				"Stable return, flexibility to withdraw at any moment and invest in senior tranche = liquidity pool.",
 		},
@@ -32,6 +34,7 @@ const Overview: NextPageWithLayout = () => {
 			name: "Borrowers",
 			action: "borrow",
 			buttonAction: "deals",
+			buttonLink: "/",
 			description:
 				"Stable return, flexibility to withdraw at any moment and invest in senior tranche = liquidity pool.",
 		},
@@ -51,12 +54,14 @@ const Overview: NextPageWithLayout = () => {
 					markets
 				</div>
 			</div>
-			<MarketStats market={market} />
+			<div className="md:col-span-12 w-full">
+				<MarketStats market={market} />
+			</div>
 			<div className="ml-6 md:col-span-12 md:flex md:justify-between md:space-x-20 space-y-8 md:space-y-0">
-				{parties.map(({ name, action, buttonAction, description }) => (
+				{parties.map(({ name, action, buttonAction, buttonLink, description }) => (
 					<Card key={name} topTitle={name} title={action} offset="large">
 						<div className="mb-14 text-base">{description}</div>
-						<Link href={`${marketplace}/${buttonAction}`}>
+						<Link href={buttonLink}>
 							<a>
 								<Button block={true} className="capitalize">
 									{buttonAction}

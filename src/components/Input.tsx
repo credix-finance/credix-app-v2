@@ -11,7 +11,7 @@ interface InputProps {
 	/**
 	 * Name text
 	 */
-	name: FormItemProps["name"];
+	name?: FormItemProps["name"];
 	/**
 	 * Optional description to provide more information about the input
 	 */
@@ -43,8 +43,17 @@ interface InputProps {
 	className?: AntInputProps["className"];
 	children?: AntInputProps["children"];
 	value?: AntInputProps["value"];
+	rules?: FormItemProps["rules"];
 	disabled?: boolean;
 	required?: boolean;
+	/**
+	 * Specifies the increment step for number inputs
+	 */
+	step?: string;
+	/**
+	 * Specifies the locale used for the input wich affects the decimal seperator
+	 */
+	lang?: string;
 }
 
 export const Input = ({
@@ -56,6 +65,7 @@ export const Input = ({
 	hasFeedback,
 	validateStatus,
 	help,
+	rules,
 	className = "",
 	isDisplay = false,
 	disabled = false,
@@ -84,7 +94,7 @@ export const Input = ({
 			`}
 		>
 			{description && <div className="font-normal text-sm mt-0 mb-[10px]">{description}</div>}
-			<Form.Item name={name} className="mb-0" rules={[{ required }]}>
+			<Form.Item name={name} className="mb-0" rules={rules}>
 				<AntdInput
 					disabled={disabled}
 					value={value}
@@ -96,7 +106,7 @@ export const Input = ({
 						${
 							hasFeedback && validateStatus == "error"
 								? "border-error focus:ring-error focus:border-error"
-								: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100 "
+								: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
 						}
 						${className}
 					`}

@@ -6,7 +6,7 @@ interface InvestmentReturnProps {
 	className?: string;
 }
 
-export const InvestmentReturn = ({ value, className = "" }: InvestmentReturnProps) => {
+export const InvestmentReturn = ({ value = 0, className = "" }: InvestmentReturnProps) => {
 	const isGrowth = value >= 0;
 
 	return (
