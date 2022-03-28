@@ -27,6 +27,7 @@ const dealsTableColumns: ColumnsProps[] = [
 		icon: "coins-alt",
 		dataIndex: "amount",
 		key: "amount",
+		width: 200,
 		render: (text) => <span className="font-medium text-lg">{text} USDC</span>,
 	},
 	{
@@ -34,12 +35,14 @@ const dealsTableColumns: ColumnsProps[] = [
 		icon: "calendar",
 		dataIndex: "date",
 		key: "date",
+		width: 200,
 		render: (text) => <span className="font-medium text-lg">{text}</span>,
 	},
 	{
 		title: "Paid",
 		dataIndex: "paid",
 		key: "paid",
+		width: 200,
 		render: (value: number) => <Slider value={value} fullLabel="Full" />,
 	},
 ];
