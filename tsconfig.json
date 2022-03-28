@@ -18,7 +18,7 @@
 		"paths": {
 			"@components/*": ["components/*"],
 			"@credix_types/*": ["types/*"],
-			"@consts/*": ["consts/*"],
+			"@consts": ["consts"],
 			"@state/*": ["state/*"],
 			"@utils/*": ["utils/*"]
 		}
