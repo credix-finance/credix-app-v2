@@ -90,19 +90,18 @@ const Deals: NextPageWithLayout = () => {
 		[locales]
 	);
 
+	const investButton = (
+		<Link href={`/${marketplace}/invest`}>
+			<a>
+				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
+					<span className="text-lg">Invest</span>
+				</Button>
+			</a>
+		</Link>
+	);
 	return (
 		<div className="space-y-14 py-5 px-4 md:pt-12 md:px-28">
-			<div className="flex justify-between">
-				<div></div>
-				<Link href={`/${marketplace}/invest`}>
-					<a>
-						<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
-							<span className="text-lg">Invest</span>
-						</Button>
-					</a>
-				</Link>
-			</div>
-			<Tabs>
+			<Tabs tabBarExtraContent={investButton}>
 				<TabPane tab="Active Deals" key="activeDealsTab">
 					<Table
 						loading={isLoadingDeals}
