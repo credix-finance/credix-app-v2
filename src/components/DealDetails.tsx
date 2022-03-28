@@ -71,11 +71,7 @@ export const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 					value={`${numberFormatter.format(toUIAmount(deal?.interestRepaid).toNumber())} USDC`}
 					ratio={interestRepaidRatio}
 				/>
-				<DealAspect
-					title="time left"
-					value={`${deal?.daysRemaining} DAYS`}
-					ratio={daysRemainingRatio}
-				/>
+				<DealAspect title="time left" value={`${deal?.daysRemaining} DAYS`} ratio={null} />
 			</div>
 		</div>
 	);

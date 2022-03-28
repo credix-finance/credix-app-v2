@@ -24,7 +24,9 @@ export const DealAspect: FunctionComponent<DealAspectProps> = ({ title, value, r
 			<div className="uppercase">{title}</div>
 			<div className="flex justify-between items-center pt-2">
 				<div className="text-2xl font-bold">{value}</div>
-				<div className="font-bold">{ratio && ratioFormatter.format(ratio)}</div>
+				<div className="font-bold">
+					{hasRatio && ratio !== null && ratioFormatter.format(ratio)}
+				</div>
 			</div>
 		</div>
 	);
