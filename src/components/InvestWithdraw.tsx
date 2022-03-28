@@ -29,7 +29,7 @@ export const InvestWithdraw = () => {
 		try {
 			await market.withdraw(toProgramAmount(new Big(amount)));
 			hide();
-			message.success({ content: `Sucessfully withdrew ${formattedNumber} USDC` });
+			message.success({ content: `Successfully withdrew ${formattedNumber} USDC` });
 			await fetchMarket(client, defaultMarketplace);
 		} catch (error) {
 			hide();
@@ -44,7 +44,7 @@ export const InvestWithdraw = () => {
 		try {
 			await market.deposit(toProgramAmount(new Big(amount)));
 			hide();
-			message.success({ content: `Sucessfully deposited ${formattedNumber} USDC` });
+			message.success({ content: `Successfully deposited ${formattedNumber} USDC` });
 			await fetchMarket(client, defaultMarketplace);
 		} catch (error) {
 			hide();
