@@ -88,6 +88,14 @@ describe("Format utils", () => {
 		expect(formattedValue).toBe(expected);
 	});
 
+	test("numbers are formatted compactly", () => {
+		const expected = "100K";
+		const value = 100_000;
+		const formattedValue = numberFormatter.format(value);
+
+		expect(formattedValue).toBe(expected);
+	});
+
 	test("numbers representing percentages are formatted correctly", () => {
 		const expected = "12.3%";
 		let value = 0.123;
