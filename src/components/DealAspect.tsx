@@ -5,15 +5,21 @@ interface DealAspectProps {
 	title: string;
 	value: string;
 	ratio?: number;
+	showRatio?: boolean;
 }
 
-export const DealAspect: FunctionComponent<DealAspectProps> = ({ title, value, ratio }) => {
+export const DealAspect: FunctionComponent<DealAspectProps> = ({
+	title,
+	value,
+	ratio,
+	showRatio = true,
+}) => {
 	const hasRatio = ratio !== undefined;
 	return (
 		<div
 			className={`${
 				hasRatio ? "p-3" : "p-6"
-			} border border-solid border-neutral-60 relative w-full md:w-52`}
+			} border border-solid border-neutral-60 relative w-full`}
 		>
 			{hasRatio && (
 				<div
@@ -24,9 +30,7 @@ export const DealAspect: FunctionComponent<DealAspectProps> = ({ title, value, r
 			<div className="uppercase">{title}</div>
 			<div className="flex justify-between items-center pt-2">
 				<div className="text-2xl font-bold">{value}</div>
-				<div className="font-bold">
-					{hasRatio && ratio !== null && ratioFormatter.format(ratio)}
-				</div>
+				<div className="font-bold">{hasRatio && showRatio && ratioFormatter.format(ratio)}</div>
 			</div>
 		</div>
 	);

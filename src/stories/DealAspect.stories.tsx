@@ -21,3 +21,11 @@ WithRatio.args = {
 	value: "100K",
 	ratio: 0.15,
 };
+
+export const WithRatioButNotShown = Template.bind({});
+WithRatioButNotShown.args = {
+	title: "Principal repaid",
+	value: "100K",
+	ratio: 0.15,
+	showRatio: false,
+};
