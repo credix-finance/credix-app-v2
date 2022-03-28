@@ -1,15 +1,7 @@
 import { Wallet } from "@project-serum/anchor";
-import { ConfirmOptions, Connection, PublicKey } from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
 import { Market } from "..";
-/** Configuration for a Credix client */
-export interface CredixClientConfig {
-    /** Program the client will be used for */
-    programId: PublicKey;
-    /**
-     * Confirm options to be used by the client.
-     */
-    confirmOptions?: ConfirmOptions;
-}
+import { CredixClientConfig, MarketConfig } from "../config";
 /**
  * Client for interacting with Credix programs
  */
@@ -23,6 +15,7 @@ export declare class CredixClient {
      * @constructor
      */
     constructor(connection: Connection, wallet: Wallet, config: CredixClientConfig);
+    initializeMarket(marketConfiguration: MarketConfig): Promise<string>;
     /**
      * Fetches a market. This market is the main entrypoint for the Credix market program.
      * @param marketName Name of the market to fetch

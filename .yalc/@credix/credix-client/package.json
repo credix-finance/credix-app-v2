@@ -40,18 +40,18 @@
 	},
 	"packageManager": "yarn@3.1.1",
 	"dependencies": {
-		"@identity.com/solana-gateway-ts": "^0.8.1",
+		"@identity.com/solana-gateway-ts": "^0.8.2",
 		"@project-serum/anchor": "0.22.1",
-		"@saberhq/anchor-contrib": "^1.12.32",
+		"@saberhq/anchor-contrib": "^1.12.55",
 		"@solana/spl-token": "^0.1.8",
-		"@solana/web3.js": "^1.31.0",
+		"@solana/web3.js": "^1.36.0",
 		"big.js": "^6.1.1",
 		"bn.js": "^5.2.0",
-		"fraction.js": "^4.1.2"
+		"fraction.js": "^4.2.0"
 	},
 	"peerDependencies": {
 		"react": "^17.0.2"
 	},
 	"prettier": "@credix/prettier-config",
-	"yalcSig": "728c57ee2af62b63c40dc490d89b1581"
+	"yalcSig": "4f517ee39b53d8b1d0c908e77c96f947"
 }

@@ -69,7 +69,7 @@ describe("Deal", () => {
         const market = new src_1.Market(Market_fixture_1.globalMarketFixture, "market", util_1.testProgram, marketAddress.publicKey, util_1.testClient);
         const dealAddress = web3_js_1.Keypair.generate();
         const deal = new src_1.Deal(Deal_fixture_1.dealFixture, market, dealAddress.publicKey, util_1.testProgram, util_1.testClient);
-        (0, chai_1.expect)(deal.createdAt).to.equal(Deal_fixture_1.dealFixture.createdAt);
+        (0, chai_1.expect)(deal.createdAt).to.equal(Deal_fixture_1.dealFixture.createdAt.toNumber());
     });
     it("returns the leverage ratio", () => {
         const marketAddress = web3_js_1.Keypair.generate();
@@ -98,14 +98,14 @@ describe("Deal", () => {
         const market = new src_1.Market(Market_fixture_1.globalMarketFixture, "market", util_1.testProgram, marketAddress.publicKey, util_1.testClient);
         const dealAddress = web3_js_1.Keypair.generate();
         const deal = new src_1.Deal(Deal_fixture_1.dealFixture, market, dealAddress.publicKey, util_1.testProgram, util_1.testClient);
-        (0, chai_1.expect)(deal.lateFees).to.equal(Deal_fixture_1.dealFixture.lateFees);
+        (0, chai_1.expect)(deal.lateFees).to.equal(Deal_fixture_1.dealFixture.lateFees.toNumber());
     });
     it("returns the late fees repaid", () => {
         const marketAddress = web3_js_1.Keypair.generate();
         const market = new src_1.Market(Market_fixture_1.globalMarketFixture, "market", util_1.testProgram, marketAddress.publicKey, util_1.testClient);
         const dealAddress = web3_js_1.Keypair.generate();
         const deal = new src_1.Deal(Deal_fixture_1.dealFixture, market, dealAddress.publicKey, util_1.testProgram, util_1.testClient);
-        (0, chai_1.expect)(deal.lateFeesRepaid).to.equal(Deal_fixture_1.dealFixture.lateFeesRepaid);
+        (0, chai_1.expect)(deal.lateFeesRepaid).to.equal(Deal_fixture_1.dealFixture.lateFeesRepaid.toNumber());
     });
     it("returns if the deal is private", () => {
         const marketAddress = web3_js_1.Keypair.generate();
@@ -126,15 +126,14 @@ describe("Deal", () => {
         const market = new src_1.Market(Market_fixture_1.globalMarketFixture, "market", util_1.testProgram, marketAddress.publicKey, util_1.testClient);
         const dealAddress = web3_js_1.Keypair.generate();
         const deal = new src_1.Deal(Deal_fixture_1.dealFixture, market, dealAddress.publicKey, util_1.testProgram, util_1.testClient);
-        (0, chai_1.expect)(deal.principal.eq(new big_js_1.default(Deal_fixture_1.dealFixture.principal.toNumber()))).to.be.true;
+        (0, chai_1.expect)((0, big_js_1.default)(deal.principal).eq(new big_js_1.default(Deal_fixture_1.dealFixture.principal.toNumber()))).to.be.true;
     });
     it("returns principal repaid", () => {
         const marketAddress = web3_js_1.Keypair.generate();
         const market = new src_1.Market(Market_fixture_1.globalMarketFixture, "market", util_1.testProgram, marketAddress.publicKey, util_1.testClient);
         const dealAddress = web3_js_1.Keypair.generate();
         const deal = new src_1.Deal(Deal_fixture_1.dealFixture, market, dealAddress.publicKey, util_1.testProgram, util_1.testClient);
-        (0, chai_1.expect)(deal.principalAmountRepaid.eq(new big_js_1.default(Deal_fixture_1.dealFixture.principalAmountRepaid.toNumber()))).to
-            .be.true;
+        (0, chai_1.expect)((0, big_js_1.default)(deal.principalAmountRepaid).eq(new big_js_1.default(Deal_fixture_1.dealFixture.principalAmountRepaid.toNumber()))).to.be.true;
     });
     it("returns principal principal to repay", () => {
         const marketAddress = web3_js_1.Keypair.generate();
@@ -150,7 +149,8 @@ describe("Deal", () => {
         const market = new src_1.Market(Market_fixture_1.globalMarketFixture, "market", util_1.testProgram, marketAddress.publicKey, util_1.testClient);
         const dealAddress = web3_js_1.Keypair.generate();
         const deal = new src_1.Deal(Deal_fixture_1.dealFixture, market, dealAddress.publicKey, util_1.testProgram, util_1.testClient);
-        (0, chai_1.expect)(deal.interestRepaid.eq(new big_js_1.default(Deal_fixture_1.dealFixture.interestAmountRepaid.toNumber()))).to.be.true;
+        (0, chai_1.expect)((0, big_js_1.default)(deal.interestRepaid).eq(new big_js_1.default(Deal_fixture_1.dealFixture.interestAmountRepaid.toNumber()))).to.be
+            .true;
     });
     it("returns the financing fee percentage", () => {
         const marketAddress = web3_js_1.Keypair.generate();
@@ -180,8 +180,8 @@ describe("Deal", () => {
         const dealAddress = web3_js_1.Keypair.generate();
         const timeToMaturity = new src_1.Ratio(Deal_fixture_1.dealFixture.timeToMaturityDays, 360);
         const financingFeePercentage = new src_1.Ratio(Deal_fixture_1.dealFixture.financingFeePercentage.numerator, Deal_fixture_1.dealFixture.financingFeePercentage.denominator);
-        const interest = financingFeePercentage.apply(new big_js_1.default(Deal_fixture_1.dealFixture.principal.toNumber()));
-        const totalInterest = timeToMaturity.apply(interest);
+        const interest = financingFeePercentage.apply(Deal_fixture_1.dealFixture.principal.toNumber());
+        const totalInterest = timeToMaturity.apply(interest.toNumber());
         const deal = new src_1.Deal(Object.assign(Object.assign({}, Deal_fixture_1.dealFixture), { principalAmountRepaid: Deal_fixture_1.dealFixture.principal, interestAmountRepaid: new anchor_1.BN(totalInterest.toNumber()) }), market, dealAddress.publicKey, util_1.testProgram, util_1.testClient);
         (0, chai_1.expect)(deal.status).to.equal(src_1.DealStatus.CLOSED);
     });

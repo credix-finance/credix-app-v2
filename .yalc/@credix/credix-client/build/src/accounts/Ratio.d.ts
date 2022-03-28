@@ -4,11 +4,13 @@ export declare class Ratio {
     numerator: Big;
     denominator: Big;
     constructor(numerator: number, denominator: number);
-    apply(to: Big): Big;
+    apply(to: number): Big;
     /**
      * Helper function to convert this into something that is understandable program side
      * @returns
      */
     toIDLRatio(): IDLRatio;
+    equals(rhs: Ratio): boolean;
+    static fromNumber(n: number): Ratio;
 }
 //# sourceMappingURL=Ratio.d.ts.map

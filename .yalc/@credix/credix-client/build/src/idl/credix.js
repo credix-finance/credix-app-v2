@@ -65,7 +65,22 @@ exports.IDL = {
                 {
                     "name": "lpTokenMint",
                     "isMut": true,
-                    "isSigner": true
+                    "isSigner": false,
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "account",
+                                "type": "publicKey",
+                                "account": "GlobalMarketState",
+                                "path": "global_market_state"
+                            },
+                            {
+                                "kind": "const",
+                                "type": "string",
+                                "value": "lp-token-mint"
+                            }
+                        ]
+                    }
                 },
                 {
                     "name": "baseTokenMint",
@@ -603,11 +618,6 @@ exports.IDL = {
                 {
                     "name": "baseTokenMint",
                     "isMut": false,
-                    "isSigner": false
-                },
-                {
-                    "name": "lpTokenMint",
-                    "isMut": true,
                     "isSigner": false
                 },
                 {
@@ -1284,11 +1294,6 @@ exports.IDL = {
                 },
                 {
                     "name": "treasuryAmount",
-                    "type": "u64",
-                    "index": false
-                },
-                {
-                    "name": "lpTokenPrice",
                     "type": "u64",
                     "index": false
                 },

@@ -3,11 +3,11 @@ import Sinon from "sinon";
 import { globalMarketFixture, programMarketFixture } from "./fixtures/Market.fixture";
 import { chaiSolana } from "@saberhq/chai-solana";
 import { testClient, testConnection, testProgramId } from "./util";
-import { CredixClient, CredixClientConfig } from "../src/rpc/CredixClient";
+import { CredixClient } from "../src/rpc/CredixClient";
 import NodeWallet from "@project-serum/anchor/dist/cjs/nodewallet";
 import { Keypair } from "@solana/web3.js";
 import { GlobalMarketState } from "../src/idl/idl.types";
-import { Market } from "../src";
+import { CredixClientConfig, Market } from "../src";
 
 use(chaiSolana);
 

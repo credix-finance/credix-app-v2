@@ -13,8 +13,11 @@ exports.CredixClient = void 0;
 const solana_gateway_ts_1 = require("@identity.com/solana-gateway-ts");
 const anchor_1 = require("@project-serum/anchor");
 const anchor_contrib_1 = require("@saberhq/anchor-contrib");
+const spl_token_1 = require("@solana/spl-token");
+const web3_js_1 = require("@solana/web3.js");
 const __1 = require("..");
 const credix_1 = require("../idl/credix");
+const pda_utils_1 = require("../utils/pda.utils");
 /**
  * Client for interacting with Credix programs
  */
@@ -31,6 +34,34 @@ class CredixClient {
         const saberProvider = (0, anchor_contrib_1.makeSaberProvider)(provider);
         this.program = (0, anchor_contrib_1.newProgram)(credix_1.IDL, config.programId, saberProvider);
     }
+    // TODO: add as static method on Market
+    initializeMarket(marketConfiguration) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [marketAddress] = yield __1.Market.generatePDA(marketConfiguration.name, this.program.programId);
+            const [signingAuthority] = yield (0, pda_utils_1.findSigningAuthorityPDA)(marketAddress, this.program.programId);
+            const liquidityPoolTokenAccount = yield spl_token_1.Token.getAssociatedTokenAddress(spl_token_1.ASSOCIATED_TOKEN_PROGRAM_ID, spl_token_1.TOKEN_PROGRAM_ID, marketConfiguration.baseMint, signingAuthority, true);
+            const treasuryTokenAccount = yield spl_token_1.Token.getAssociatedTokenAddress(spl_token_1.ASSOCIATED_TOKEN_PROGRAM_ID, spl_token_1.TOKEN_PROGRAM_ID, marketConfiguration.baseMint, marketConfiguration.treasury, true);
+            const [lpTokenMintAddress] = yield __1.Market.generateLPTokenMintPDA(marketConfiguration.name, this.program.programId);
+            return this.program.rpc.initializeMarket(marketConfiguration.name, marketConfiguration.interestFee.toIDLRatio(), marketConfiguration.withdrawalFee.toIDLRatio(), {
+                accounts: {
+                    owner: this.program.provider.wallet.publicKey,
+                    gatekeeperNetwork: marketConfiguration.gatekeeperNetwork,
+                    globalMarketState: marketAddress,
+                    signingAuthority: signingAuthority,
+                    liquidityPoolTokenAccount: liquidityPoolTokenAccount,
+                    treasury: marketConfiguration.treasury,
+                    treasuryPoolTokenAccount: treasuryTokenAccount,
+                    lpTokenMint: lpTokenMintAddress,
+                    baseTokenMint: marketConfiguration.baseMint,
+                    rent: web3_js_1.SYSVAR_RENT_PUBKEY,
+                    tokenProgram: spl_token_1.TOKEN_PROGRAM_ID,
+                    systemProgram: web3_js_1.SystemProgram.programId,
+                    associatedTokenProgram: spl_token_1.ASSOCIATED_TOKEN_PROGRAM_ID,
+                },
+                signers: [],
+            });
+        });
+    }
     /**
      * Fetches a market. This market is the main entrypoint for the Credix market program.
      * @param marketName Name of the market to fetch
@@ -41,7 +72,7 @@ class CredixClient {
             const [address] = yield __1.Market.generatePDA(marketName, this.program.programId);
             const globalMarketState = yield this.program.account.globalMarketState.fetchNullable(address);
             if (!globalMarketState) {
-                return globalMarketState;
+                return null;
             }
             return new __1.Market(globalMarketState, marketName, this.program, address, this);
         });

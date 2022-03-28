@@ -130,8 +130,10 @@ describe("Market", async () => {
 		const withdrawFee = market?.withdrawFee;
 
 		// Assert
-		expect(withdrawFee?.numerator).to.equal(globalMarketFixture.withdrawalFee.numerator);
-		expect(withdrawFee?.denominator).to.equal(globalMarketFixture.withdrawalFee.denominator);
+		expect(withdrawFee?.numerator.toNumber()).to.equal(globalMarketFixture.withdrawalFee.numerator);
+		expect(withdrawFee?.denominator.toNumber()).to.equal(
+			globalMarketFixture.withdrawalFee.denominator
+		);
 	});
 
 	it("returns the interest fee", async () => {
@@ -204,7 +206,7 @@ describe("Market", async () => {
 		const liquidityPoolBalance = await market.fetchLiquidityPoolBalance();
 		const expectedTVL = new Big(liquidityPoolBalance.amount).add(totalOutstandingCredit);
 
-		expect(tvl.toNumber()).to.equal(expectedTVL.toNumber());
+		expect(tvl).to.equal(expectedTVL.toNumber());
 	});
 
 	it("fetches the liquidity pool balance", async () => {
@@ -266,7 +268,7 @@ describe("Market", async () => {
 
 		// Assert
 		const tvl = await market.calculateTVL();
-		expect(lpPrice.eq(tvl.div(new Big(100)))).to.be.true;
+		expect(Big(lpPrice).eq(Big(100).div(Big(tvl)).toNumber())).to.be.true;
 	});
 
 	it("returns the LP price 0 when no supply yet", async () => {
@@ -299,7 +301,7 @@ describe("Market", async () => {
 		const lpPrice = await market.getLPPrice();
 
 		// Assert
-		expect(lpPrice.eq(0)).to.be.true;
+		expect(Big(lpPrice).eq(0)).to.be.true;
 	});
 
 	it("finds a base token account", async () => {
@@ -483,7 +485,7 @@ describe("Market", async () => {
 
 		// Assert
 		expect(
-			totalOutstandingCredit.eq(new Big(globalMarketFixture.totalOutstandingCredit.toNumber()))
+			Big(totalOutstandingCredit).eq(new Big(globalMarketFixture.totalOutstandingCredit.toNumber()))
 		).to.be.true;
 	});
 

@@ -24,4 +24,5 @@ __exportStar(require("./accounts/Ratio"), exports);
 __exportStar(require("./components/CredixClientProvider"), exports);
 var useCredixClient_1 = require("./components/useCredixClient");
 Object.defineProperty(exports, "useCredixClient", { enumerable: true, get: function () { return useCredixClient_1.useCredixClient; } });
+__exportStar(require("./config"), exports);
 //# sourceMappingURL=index.js.map

@@ -2,6 +2,7 @@ import { web3 } from "@project-serum/anchor";
 import { PublicKey } from "@solana/web3.js";
 import Big from "big.js";
 import { BorrowerInfo, CredixClient, CredixPass, Deal, Ratio } from "..";
+import { CredixPassConfig } from "../config";
 import { CredixProgram, GlobalMarketState } from "../idl/idl.types";
 /**
  * Represents a Credix market. Main entrypoint for market interactions
@@ -25,15 +26,15 @@ export declare class Market {
     /**
      * Deposit into the market's liquidity pool
      * @param amount Amount to deposit
-     * @returns
+     * @returns promise with the transaction signature
      */
-    deposit(amount: Big): Promise<string>;
+    deposit(amount: number): Promise<string>;
     /**
      * Withdraw from the market's liquidity pool
-     * @param amount Amount to withdraw
-     * @returns
+     * @param amount to withdraw
+     * @returns promise with the transaction signature
      */
-    withdraw(amount: Big): Promise<string>;
+    withdraw(amount: number): Promise<string>;
     /**
      * Create a deal for this market
      * @param principal Principal of the deal
@@ -41,9 +42,9 @@ export declare class Market {
      * @param timeToMaturity Time until the principal has to be repaid. Should be a multiple of 30.
      * @param borrower Borrower for which we create the deal.
      * @param dealName Name of the deal.
-     * @returns
+     * @returns promise with the transaction signature
      */
-    createDeal(principal: Big, financingFee: number, timeToMaturity: number, borrower: PublicKey, dealName: string): Promise<string>;
+    createDeal(principal: number, financingFee: number, timeToMaturity: number, borrower: PublicKey, dealName: string): Promise<string>;
     /**
      * Address of the program to which this market belongs
      */
@@ -63,10 +64,7 @@ export declare class Market {
     /**
      * Withdrawal fee for this market
      */
-    get withdrawFee(): {
-        numerator: number;
-        denominator: number;
-    };
+    get withdrawFee(): Ratio;
     /**
      * Interest repayment fee for this market. This is taken from the repayments, not added on top.
      */
@@ -75,57 +73,53 @@ export declare class Market {
         denominator: number;
     };
     /**
-     * Gets the current supply of LP tokens for the lp mint this market uses
-     * @returns
+     * @returns current supply of LP tokens for the lp mint this market uses
      */
     getLPSupply(): Promise<web3.TokenAmount>;
     /**
-     * Gets the current price of LP tokens in base
-     * @returns
+     * @returns current price of base in LP
      */
-    getLPPrice(): Promise<Big>;
+    getLPPrice(): Promise<number>;
     /**
-     * Calculates the associated token account for the base mint of this market
+     * @returns current price of lp in base
+     */
+    getBasePrice(): Promise<number>;
+    /**
      * @param pk Public key to find the associated token account for
-     * @returns
+     * @returns an associated token address for the base mint
      */
     findBaseTokenAccount(pk: PublicKey): Promise<web3.PublicKey>;
     /**
-     * Calculates the associated token account for the lp mint of this market
      * @param pk Public key to find the associated token account for
-     * @returns
+     * @returns an associated token address for the lp mint
      */
     findLPTokenAccount(pk: PublicKey): Promise<web3.PublicKey>;
     /**
-     * Gets the amount of 'base' the user has
      * @param user Public key for which we find the base balance
-     * @returns
+     * @returns the amount of 'base' the user has
      */
     userBaseBalance(user: PublicKey): Promise<web3.TokenAmount>;
     /**
-     * Gets the amount of LP the user has
      * @param user Public key for which we find the LP amount
-     * @returns
+     * @returns the amount of LP the user has
      */
     userLPBalance(user: PublicKey): Promise<web3.TokenAmount>;
     /**
-     * Gets how base is currently in the liquidity pool
-     * @returns
+     * @returns the amount of base in the liquidity pool
      */
     fetchLiquidityPoolBalance(): Promise<web3.TokenAmount>;
     /**
      * Gets how much principal is currently being lend out in deals
      */
-    get totalOutstandingCredit(): Big;
+    get totalOutstandingCredit(): number;
     /**
      * The gatekeeper network this market uses for identity identification
      */
     get gateKeeperNetwork(): web3.PublicKey;
     /**
-     * Fetches deal data
      * @param borrower Borrower to which the deal belongs
      * @param dealNumber The id of the deal, scoped to the borrower
-     * @returns
+     * @returns a Deal instance or null if the deal doesn't exist
      */
     fetchDeal(borrower: PublicKey, dealNumber: number): Promise<Deal | null>;
     /**
@@ -137,7 +131,7 @@ export declare class Market {
      * Calculates the total value locked of the market (liquidity pool balance + total outstanding credit)
      * @returns
      */
-    calculateTVL(): Promise<Big>;
+    calculateTVL(): Promise<number>;
     /**
      * Fetches all the deals that belong to this market
      * @returns
@@ -162,6 +156,12 @@ export declare class Market {
      * @returns
      */
     static generatePDA(marketName: string, programId: PublicKey): Promise<[web3.PublicKey, number]>;
+    /**
+     * @param marketName
+     * @param programId
+     * @returns the lp token mint address that would belong to a market with a certain name
+     */
+    static generateLPTokenMintPDA(marketName: string, programId: PublicKey): Promise<[web3.PublicKey, number]>;
     private generateCredixPassPDA;
     /**
      * Generate the signing authority PDA address for this market
@@ -180,20 +180,26 @@ export declare class Market {
      */
     getUserStake(user: PublicKey): Promise<Big>;
     /**
+     *
+     * @param pk
+     * @returns
+     */
+    /**
      * Issue a credix pass. This function requires that the client wallet to belong to a management address
      * @param pk Public key for which we issue a credix pass
-     * @param underwriter Enable underwriter functionality.
-     * @param borrower Enable borrower functionality (creation of deals)
-     * @returns
+     * @param credixPassConfig Configuration of the credix pass. @see {@link CredixPassConfig}
+     * @returns a promise with the transaction signature
      */
-    issueCredixPass(pk: PublicKey, underwriter: boolean, borrower: boolean, releaseTimestamp: number): Promise<string>;
+    issueCredixPass(pk: PublicKey, credixPassConfig: CredixPassConfig): Promise<string>;
     /**
-     * Update a credix pass. This function requires that the client wallet to belong to a management address
-     * @param pk Public key for which we issue a credix pass
-     * @param underwriter Enable underwriter functionality.
-     * @param borrower Enable borrower functionality (creation of deals)
-     * @returns
+     * Update a credix pass. This function requires that the client wallet belongs to a management address
+     * @param pk Public key for which we update a credix pass
+     * @param credixPassConfig Configuration of the credix pass. @see {@link CredixPassConfig}
+     * @returns a promise with the transaction signature
      */
-    updateCredixPass(pk: PublicKey, active: boolean, underwriter: boolean, borrower: boolean): Promise<string>;
+    updateCredixPass(pk: PublicKey, credixPassConfig: CredixPassConfig): Promise<string>;
+    freeze(): Promise<string>;
+    thaw(): Promise<string>;
+    get isFrozen(): boolean;
 }
 //# sourceMappingURL=Market.d.ts.map

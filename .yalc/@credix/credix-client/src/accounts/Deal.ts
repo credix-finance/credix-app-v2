@@ -78,7 +78,7 @@ export class Deal {
 	 * Timestamp of deal creation
 	 */
 	get createdAt() {
-		return this.programVersion.createdAt;
+		return this.programVersion.createdAt.toNumber();
 	}
 
 	get leverageRatio() {
@@ -106,11 +106,11 @@ export class Deal {
 	 * Fees accrued by missed payments
 	 */
 	get lateFees() {
-		return this.programVersion.lateFees;
+		return this.programVersion.lateFees.toNumber();
 	}
 
 	get lateFeesRepaid() {
-		return this.programVersion.lateFeesRepaid;
+		return this.programVersion.lateFeesRepaid.toNumber();
 	}
 
 	get isPrivate() {
@@ -125,28 +125,28 @@ export class Deal {
 	 * How much was lent
 	 */
 	get principal() {
-		return new Big(this.programVersion.principal.toNumber());
+		return this.programVersion.principal.toNumber();
 	}
 
 	/**
 	 * How much of the principal was repaid
 	 */
 	get principalAmountRepaid() {
-		return new Big(this.programVersion.principalAmountRepaid.toNumber());
+		return this.programVersion.principalAmountRepaid.toNumber();
 	}
 
 	/**
 	 * The principal that is yet to be repaid
 	 */
 	get principalToRepay() {
-		return this.principal.minus(this.principalAmountRepaid);
+		return Big(this.principal).minus(this.principalAmountRepaid);
 	}
 
 	/**
 	 * How much of the interest was repaid
 	 */
 	get interestRepaid() {
-		return new Big(this.programVersion.interestAmountRepaid.toNumber());
+		return this.programVersion.interestAmountRepaid.toNumber();
 	}
 
 	/**
@@ -155,7 +155,7 @@ export class Deal {
 	get totalInterest() {
 		const timeToMaturityRatio = new Ratio(this.timeToMaturity, 360);
 		const interest = this.financingFeePercentage.apply(this.principal);
-		const totalInterest = timeToMaturityRatio.apply(interest);
+		const totalInterest = timeToMaturityRatio.apply(interest.toNumber());
 
 		return totalInterest.round(0, Big.roundDown);
 	}
@@ -280,8 +280,8 @@ export class Deal {
 	 * @param amount
 	 * @returns
 	 */
-	async repayPrincipal(amount: Big) {
-		return this.repay(amount, { interest: {} });
+	async repayPrincipal(amount: number) {
+		return this.repay(amount, { principal: {} });
 	}
 
 	/**
@@ -289,12 +289,16 @@ export class Deal {
 	 * @param amount
 	 * @returns
 	 */
-	async repayInterest(amount: Big) {
-		return this.repay(amount, { principal: {} });
+	async repayInterest(amount: number) {
+		return this.repay(amount, { interest: {} });
 	}
 
-	private async repay(amount: Big, repaymentType: RepaymentType) {
-		const repayAmount = new BN(amount.toNumber());
+	private async repay(amount: number, repaymentType: RepaymentType) {
+		if (!this.borrower.equals(this.program.provider.wallet.publicKey)) {
+			throw new Error("Deal does not belong to wallet");
+		}
+
+		const repayAmount = new BN(amount);
 		const gatewayToken = await this.client.getGatewayToken(
 			this.borrower,
 			this.market.gateKeeperNetwork
@@ -321,7 +325,6 @@ export class Deal {
 				treasuryPoolTokenAccount: this.market.treasury,
 				signingAuthority: signingAuthorityAddress,
 				baseTokenMint: this.market.baseMintPK,
-				lpTokenMint: this.market.lpMintPK,
 				credixPass: credixPassAddress,
 				tokenProgram: TOKEN_PROGRAM_ID,
 				associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
