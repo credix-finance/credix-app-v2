@@ -9,8 +9,8 @@ const initialDealsState = {
 export type DealSlice = {
 	deals?: Deal[];
 	isLoadingDeals: boolean;
-	fetchDeals: (market: Market) => void;
-	maybeFetchDeals: (market: Market) => void;
+	fetchDeals: (market: Market) => Promise<void>;
+	maybeFetchDeals: (market: Market) => Promise<void>;
 	getDeal: (market: Market, dealAddress: string) => Promise<Deal>;
 };
 

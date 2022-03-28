@@ -5,8 +5,8 @@ import { StoreSlice } from "./useStore";
 export type MarketSlice = {
 	market?: Market;
 	isLoadingMarket: boolean;
-	fetchMarket: (client: CredixClient, marketPlace: string) => void;
-	maybeFetchMarket: (client: CredixClient, marketPlace: string) => void;
+	fetchMarket: (client: CredixClient, marketPlace: string) => Promise<void>;
+	maybeFetchMarket: (client: CredixClient, marketPlace: string) => Promise<void>;
 };
 
 const getMarket = async (client: CredixClient, marketPlace: string, set: SetState<MarketSlice>) => {
