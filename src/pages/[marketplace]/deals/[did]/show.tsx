@@ -50,7 +50,7 @@ const Deal: NextPageWithLayout = () => {
 	return (
 		<div className="px-4 py-5 md:pt-20 max-w-3xl flex flex-col justify-self-center">
 			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
-			<div className="text-4xl font-sans pt-3 pb-5">{deal.name}</div>
+			<div className="text-4xl font-sans pt-3 pb-5 break-words">{deal.name}</div>
 			<div className="bg-neutral-0 pb-12">
 				<DealDetails deal={deal} />
 				{isAdmin && deal.isPending() && (

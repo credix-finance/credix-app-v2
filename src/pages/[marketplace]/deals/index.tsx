@@ -112,6 +112,8 @@ const Deals: NextPageWithLayout = () => {
 
 	const actionButton = isAdmin ? newDealButton : investButton;
 
+	const dealShowRoute = (marketplace: string, id: string) => `/${marketplace}/deals/${id}/show`;
+
 	return (
 		<div className="space-y-14 py-5 px-4 md:pt-12 md:px-28">
 			<Tabs tabBarExtraContent={actionButton}>
@@ -121,7 +123,7 @@ const Deals: NextPageWithLayout = () => {
 						onRow={(record) => {
 							return {
 								onClick: () => {
-									router.push(`/${marketplace}/deals/${record?.key}`);
+									router.push(dealShowRoute(marketplace as string, record?.key));
 								},
 							};
 						}}
@@ -136,7 +138,7 @@ const Deals: NextPageWithLayout = () => {
 							onRow={(record) => {
 								return {
 									onClick: () => {
-										router.push(`/${marketplace}/deals/${record?.key}`);
+										router.push(dealShowRoute(marketplace as string, record?.key));
 									},
 								};
 							}}
@@ -151,7 +153,7 @@ const Deals: NextPageWithLayout = () => {
 						onRow={(record) => {
 							return {
 								onClick: () => {
-									router.push(`/${marketplace}/deals/${record?.key}`);
+									router.push(dealShowRoute(marketplace as string, record?.key));
 								},
 							};
 						}}
