@@ -14,12 +14,12 @@ const Overview: NextPageWithLayout = () => {
 	const router = useRouter();
 	const { marketplace } = router.query;
 	const client = useCredixClient();
-	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
+	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
 
 	useEffect(() => {
-		maybeFetchMarket(client, marketplace as string);
-	}, [client, maybeFetchMarket, marketplace]);
+		fetchMarket(client, marketplace as string);
+	}, [client, fetchMarket, marketplace]);
 
 	const parties = [
 		{
