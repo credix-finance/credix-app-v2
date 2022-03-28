@@ -15,7 +15,7 @@ export const MainMenu = ({ showLogo = true }: MainMenuProps) => {
 	const router = useRouter();
 
 	return (
-		<div className="w-full bg-credix-primary flex justify-between items-center p-4 lg:px-20">
+		<div className="w-full bg-credix-primary flex justify-between items-center p-5">
 			<div>
 				{showLogo && (
 					<Link href={`/${router?.query?.marketplace}`}>
