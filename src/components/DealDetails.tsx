@@ -37,37 +37,37 @@ export const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 			<div className="text-neutral-60 w-max">
 				<div>Borrower Key</div>
 				<div className="px-4 py-3 border border-solid border-neutral-60">
-					{deal?.borrower.toString()}
+					{deal.borrower.toString()}
 				</div>
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 				<DealAspect
 					title="principal"
-					value={`${numberFormatter.format(toUIAmount(deal?.principal)?.toNumber())} USDC`}
+					value={`${numberFormatter.format(toUIAmount(deal.principal)?.toNumber())} USDC`}
 				/>
 				<DealAspect
 					title="financing fee"
 					value={`${
-						deal?.financingFeePercentage &&
-						deal?.financingFeePercentage.apply(new Big(100))?.toNumber()
+						deal.financingFeePercentage &&
+						deal.financingFeePercentage.apply(new Big(100))?.toNumber()
 					}%`}
 				/>
-				<DealAspect title="time to maturity" value={`${deal?.timeToMaturity} DAYS`} />
+				<DealAspect title="time to maturity" value={`${deal.timeToMaturity} DAYS`} />
 				<DealAspect
 					title="principal repaid"
 					value={`${numberFormatter.format(
-						toUIAmount(deal?.principalAmountRepaid)?.toNumber()
+						toUIAmount(deal.principalAmountRepaid)?.toNumber()
 					)} USDC`}
 					ratio={principalRepaidRatio}
 				/>
 				<DealAspect
 					title="interest repaid"
-					value={`${numberFormatter.format(toUIAmount(deal?.interestRepaid).toNumber())} USDC`}
+					value={`${numberFormatter.format(toUIAmount(deal.interestRepaid).toNumber())} USDC`}
 					ratio={interestRepaidRatio}
 				/>
 				<DealAspect
 					title="time left"
-					value={`${deal?.daysRemaining} DAYS`}
+					value={`${deal.daysRemaining} DAYS`}
 					ratio={daysRemainingRatio}
 					showRatio={false}
 				/>
