@@ -7,6 +7,7 @@ import { Deal as DealType, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
 import { useRouter } from "next/router";
 import { NextPageWithLayout } from "pages/_app";
+import { multisigUrl } from "@consts";
 
 const Deal: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -34,13 +35,7 @@ const Deal: NextPageWithLayout = () => {
 	}, [getDealFromStore]);
 
 	const activateDeal = async () => {
-		try {
-			await deal.activate();
-			// TODO: trigger success message
-			// TODO: refresh deal in store
-		} catch {
-			// TODO: trigger error message
-		}
+		window.open(multisigUrl, "_blank") || window.location.replace(multisigUrl);
 	};
 
 	if (!deal) {
