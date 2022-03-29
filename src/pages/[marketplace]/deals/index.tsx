@@ -88,7 +88,7 @@ const Deals: NextPageWithLayout = () => {
 				key: address.toString(),
 				name: name,
 				amount: toUIAmount(new Big(principal)).toNumber(),
-				date: formatTimestamp(goLiveAt, locales as string[]),
+				date: goLiveAt && formatTimestamp(goLiveAt, locales as string[]),
 				paid: dealRepaidRatio(new Big(principal), new Big(principalAmountRepaid)),
 			};
 		},
