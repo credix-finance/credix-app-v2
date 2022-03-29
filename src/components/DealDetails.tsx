@@ -16,13 +16,13 @@ export const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 
 	useEffect(() => {
 		const principalRatio = new Ratio(
-			toUIAmount(deal.principalAmountRepaid).toNumber(),
-			toUIAmount(deal.principal).toNumber()
+			toUIAmount(new Big(deal.principalAmountRepaid)).toNumber(),
+			toUIAmount(new Big(deal.principal)).toNumber()
 		);
 		setPrincipalRepaidRatio(principalRatio);
 
 		const interestRatio = new Ratio(
-			toUIAmount(deal.interestRepaid).toNumber(),
+			toUIAmount(new Big(deal.interestRepaid)).toNumber(),
 			toUIAmount(deal.totalInterest).toNumber()
 		);
 		setInterestRepaidRatio(interestRatio);
@@ -43,26 +43,27 @@ export const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 				<DealAspect
 					title="principal"
-					value={`${numberFormatter.format(toUIAmount(deal.principal)?.toNumber())} USDC`}
+					value={`${numberFormatter.format(toUIAmount(new Big(deal.principal))?.toNumber())} USDC`}
 				/>
 				<DealAspect
 					title="financing fee"
 					value={`${
-						deal.financingFeePercentage &&
-						deal.financingFeePercentage.apply(new Big(100))?.toNumber()
+						deal.financingFeePercentage && deal.financingFeePercentage.apply(100)?.toNumber()
 					}%`}
 				/>
 				<DealAspect title="time to maturity" value={`${deal.timeToMaturity} DAYS`} />
 				<DealAspect
 					title="principal repaid"
 					value={`${numberFormatter.format(
-						toUIAmount(deal.principalAmountRepaid)?.toNumber()
+						toUIAmount(new Big(deal.principalAmountRepaid))?.toNumber()
 					)} USDC`}
 					ratio={principalRepaidRatio}
 				/>
 				<DealAspect
 					title="interest repaid"
-					value={`${numberFormatter.format(toUIAmount(deal.interestRepaid).toNumber())} USDC`}
+					value={`${numberFormatter.format(
+						toUIAmount(new Big(deal.interestRepaid)).toNumber()
+					)} USDC`}
 					ratio={interestRepaidRatio}
 				/>
 				<DealAspect
