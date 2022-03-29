@@ -22,12 +22,15 @@ const dealsTableColumns: ColumnsProps[] = [
 		icon: "stacked-column-down",
 		dataIndex: "name",
 		key: "name",
+		width: "40%",
+		ellipsis: true,
 	},
 	{
 		title: "Amount",
 		icon: "coins-alt",
 		dataIndex: "amount",
 		key: "amount",
+		width: "20%",
 		render: (text) => <span className="font-medium text-lg">{text} USDC</span>,
 	},
 	{
@@ -35,12 +38,14 @@ const dealsTableColumns: ColumnsProps[] = [
 		icon: "calendar",
 		dataIndex: "date",
 		key: "date",
+		width: "20%",
 		render: (text) => <span className="font-medium text-lg">{text}</span>,
 	},
 	{
 		title: "Paid",
 		dataIndex: "paid",
 		key: "paid",
+		width: "20%",
 		render: (value: number) => <Slider value={value} fullLabel="Full" />,
 	},
 ];
