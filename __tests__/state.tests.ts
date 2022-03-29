@@ -61,7 +61,7 @@ describe("Deals state", () => {
 		let state = store.getState();
 		expect(state.deals).toBe(null);
 
-		await state.fetchDeals(mockMarket);
+		await state.maybeFetchDeals(mockMarket);
 		state = store.getState();
 		expect(state.deals.length).toBe(3);
 	});
@@ -89,7 +89,7 @@ describe("Deals state", () => {
 		const mockMarket = generateMockMarket();
 
 		const state = store.getState();
-		await state.fetchDeals(mockMarket);
+		await state.maybeFetchDeals(mockMarket);
 
 		const fetchDealsSpy = jest.spyOn(mockMarket, "fetchDeals");
 		await state.maybeFetchDeals(mockMarket);
@@ -161,7 +161,7 @@ describe("selectors", () => {
 		const mockMarket = generateMockMarket();
 
 		let state = store.getState();
-		await state.fetchDeals(mockMarket);
+		await state.maybeFetchDeals(mockMarket);
 		state = store.getState();
 
 		const activeDeals = selectActiveDeals(state);
@@ -172,7 +172,7 @@ describe("selectors", () => {
 		const mockMarket = generateMockMarket();
 
 		let state = store.getState();
-		await state.fetchDeals(mockMarket);
+		await state.maybeFetchDeals(mockMarket);
 		state = store.getState();
 
 		const pendingDeals = selectPendingDeals(state);
@@ -183,7 +183,7 @@ describe("selectors", () => {
 		const mockMarket = generateMockMarket();
 
 		let state = store.getState();
-		await state.fetchDeals(mockMarket);
+		await state.maybeFetchDeals(mockMarket);
 		state = store.getState();
 
 		const endedDeals = selectEndedDeals(state);
