@@ -11,20 +11,26 @@ interface SideMenuProps {
 
 export const SideMenu = ({ menuItems }: SideMenuProps) => {
 	const router = useRouter();
-	const path = router?.pathname.split("/");
+	const route = router?.pathname.split("/");
+	const marketplace = router?.query ? `/${router?.query.marketplace}` : "";
 
 	return (
 		<div className="w-72 bg-darker h-screen pt-5 sticky top-0">
 			<div className="text-credix-primary ml-5 h-[50px] flex">
-				<Link href="/">
+				<Link href={marketplace}>
 					<a className="flex items-center">
 						<CredixLogo mode="light" />
 					</a>
 				</Link>
 			</div>
 			<div className="mt-[145px]">
-				{menuItems.map((item) => (
-					<SideMenuItem key={item.label} isActive={path?.includes(item.path.slice(1))} {...item} />
+				{menuItems.map(({ path, ...item }) => (
+					<SideMenuItem
+						key={item.label}
+						isActive={route?.includes(path.slice(1))}
+						path={`${marketplace as string}${path}`}
+						{...item}
+					/>
 				))}
 			</div>
 		</div>
