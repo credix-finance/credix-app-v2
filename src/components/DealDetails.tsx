@@ -10,31 +10,25 @@ interface DealDetailsProps {
 }
 
 export const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
-	const [interestRepaidRatio, setInterestRepaidRatio] = useState<number | 0>();
-	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<number | 0>();
-	const [daysRemainingRatio, setDaysRemainingRatio] = useState<number | 0>(0);
+	const [interestRepaidRatio, setInterestRepaidRatio] = useState<Ratio>();
+	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<Ratio>();
+	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Ratio>();
 
 	useEffect(() => {
 		const principalRatio = new Ratio(
-			toUIAmount(deal?.principalAmountRepaid).toNumber(),
-			toUIAmount(deal?.principal).toNumber()
+			toUIAmount(deal.principalAmountRepaid).toNumber(),
+			toUIAmount(deal.principal).toNumber()
 		);
-		setPrincipalRepaidRatio(principalRatio.apply(new Big(1)).toNumber());
+		setPrincipalRepaidRatio(principalRatio);
 
-		if (deal?.interestToRepay.eq(new Big(0))) {
-			setInterestRepaidRatio(1);
-		} else {
-			const interestRatio = new Ratio(
-				toUIAmount(deal?.interestRepaid).toNumber(),
-				toUIAmount(deal?.totalInterest).toNumber()
-			);
-			setInterestRepaidRatio(interestRatio.apply(new Big(1)).toNumber());
-		}
+		const interestRatio = new Ratio(
+			toUIAmount(deal.interestRepaid).toNumber(),
+			toUIAmount(deal.totalInterest).toNumber()
+		);
+		setInterestRepaidRatio(interestRatio);
 
-		if (deal?.principalAmountRepaid) {
-			const daysRatio = new Ratio(deal?.daysRemaining, deal?.timeToMaturity);
-			setDaysRemainingRatio(daysRatio.apply(new Big(1)).toNumber());
-		}
+		const daysRatio = new Ratio(deal.daysRemaining, deal.timeToMaturity);
+		setDaysRemainingRatio(daysRatio);
 	}, [deal]);
 
 	return (

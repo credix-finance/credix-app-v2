@@ -1,10 +1,12 @@
+import { Ratio } from "@credix/credix-client";
 import { clamp, ratioFormatter } from "@utils/format.utils";
+import Big from "big.js";
 import { FunctionComponent } from "react";
 
 interface DealAspectProps {
 	title: string;
 	value: string;
-	ratio?: number;
+	ratio?: Ratio;
 	showRatio?: boolean;
 }
 
@@ -24,13 +26,15 @@ export const DealAspect: FunctionComponent<DealAspectProps> = ({
 			{hasRatio && (
 				<div
 					className="absolute top-0 left-0 h-1 bg-neutral-60"
-					style={{ width: `${clamp(ratio * 100, 0, 100)}%` }}
+					style={{ width: `${clamp(ratio.apply(new Big(1)).toNumber() * 100, 0, 100)}%` }}
 				></div>
 			)}
 			<div className="uppercase">{title}</div>
 			<div className="flex justify-between items-center pt-2">
 				<div className="text-2xl font-bold">{value}</div>
-				<div className="font-bold">{hasRatio && showRatio && ratioFormatter.format(ratio)}</div>
+				<div className="font-bold">
+					{hasRatio && showRatio && ratioFormatter.format(ratio.apply(new Big(1)).toNumber())}
+				</div>
 			</div>
 		</div>
 	);
