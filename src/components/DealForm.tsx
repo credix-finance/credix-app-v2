@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from "react";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { Form } from "antd";
+import { validateMinValue } from "@utils/validation.utils";
 
 export interface DealFormInput {
 	principal: number;
@@ -25,6 +26,16 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 	const [form] = Form.useForm();
 	const [submitDisabled, setSubmitDisabled] = useState(true);
 
+	const validateMinPrincipal = (value): Promise<void> => {
+		const validationMessage = "'principal' needs to be greater than 0";
+		return validateMinValue(value, 0, validationMessage);
+	};
+
+	const validateMinTimeToMaturity = (value): Promise<void> => {
+		const validationMessage = "'time to maturity' needs to be greater than 0";
+		return validateMinValue(value, 0, validationMessage);
+	};
+
 	return (
 		<Form
 			name="deal"
@@ -42,6 +53,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				className="bg-neutral-0"
 				placeholder="Name"
 				type="text"
+				required={true}
+				rules={[{ required: true, message: "'deal name' is required" }]}
 			/>
 			<Input
 				name="borrower"
@@ -49,6 +62,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				className="bg-neutral-0"
 				placeholder="Key"
 				type="text"
+				required={true}
+				rules={[{ required: true, message: "'borrower key' is required" }]}
 			/>
 			<Input
 				name="principal"
@@ -56,6 +71,15 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				className="bg-neutral-0"
 				placeholder="Amount"
 				type="number"
+				required={true}
+				rules={[
+					{ required: true },
+					{
+						validator(_, value) {
+							return validateMinPrincipal(value);
+						},
+					},
+				]}
 			/>
 			<Input
 				name="financingFee"
@@ -63,6 +87,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				className="bg-neutral-0"
 				placeholder="%"
 				type="number"
+				required={true}
+				rules={[{ required: true, message: "'financing fee' is required" }]}
 			/>
 			<Input
 				name="timeToMaturity"
@@ -70,6 +96,15 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				className="bg-neutral-0"
 				placeholder="days"
 				type="number"
+				required={true}
+				rules={[
+					{ required: true, message: "'time to maturity' is required" },
+					{
+						validator(_, value) {
+							return validateMinTimeToMaturity(value);
+						},
+					},
+				]}
 			/>
 			<Form.Item className="mb-0">
 				<Button disabled={submitDisabled} htmlType="submit" className="w-full md:w-max capitalize">
