@@ -6,20 +6,20 @@ import { useCredixClient } from "@credix/credix-client";
 import { useRouter } from "next/router";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
-import { useStore } from "@state/useStore";
 import Link from "next/link";
 import { investWithdrawRoute } from "@consts";
+import { useStore } from "@state/useStore";
 
 const Overview: NextPageWithLayout = () => {
 	const router = useRouter();
 	const { marketplace } = router.query;
 	const client = useCredixClient();
-	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
+	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
 
 	useEffect(() => {
-		maybeFetchMarket(client, marketplace as string);
-	}, [client, maybeFetchMarket, marketplace]);
+		fetchMarket(client, marketplace as string);
+	}, [client, fetchMarket, marketplace]);
 
 	const parties = [
 		{

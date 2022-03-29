@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { useWalletModal, WalletIcon } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useStore } from "@state/useStore";
 import { Button } from "@components/Button";
 import { Icon, IconDimension } from "@components/Icon";
 
@@ -13,6 +14,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 	const { setVisible } = useWalletModal();
 	const [dropdownVisible, setDropdownVisible] = useState(false);
 	const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
+	const setIsAdmin = useStore((state) => state.setIsAdmin);
 
 	const address = useMemo(() => {
 		if (!wallet || !base58) {
@@ -27,6 +29,8 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 			await navigator.clipboard.writeText(base58);
 		}
 	}, [base58]);
+
+	useEffect(() => setIsAdmin(publicKey), [setIsAdmin, publicKey]);
 
 	if (!wallet && !publicKey) {
 		return (

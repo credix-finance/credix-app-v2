@@ -1,28 +1,36 @@
+import { GetState, SetState } from "zustand";
 import { CredixClient, Market } from "@credix/credix-client";
 import { StoreSlice } from "./useStore";
 
 export type MarketSlice = {
 	market?: Market;
-	fetchMarket: (client: CredixClient, marketPlace: string) => void;
-	maybeFetchMarket: (client: CredixClient, marketPlace: string) => void;
+	isLoadingMarket: boolean;
+	fetchMarket: (client: CredixClient, marketPlace: string) => Promise<void>;
+	maybeFetchMarket: (client: CredixClient, marketPlace: string) => Promise<void>;
 };
 
-const getMarket = (client: CredixClient, market: string) => {
-	return client.fetchMarket(market);
+const getMarket = async (client: CredixClient, marketPlace: string, set: SetState<MarketSlice>) => {
+	set({ isLoadingMarket: true });
+	const market = await client.fetchMarket(marketPlace);
+	set({ market, isLoadingMarket: false });
+};
+
+const maybeGetMarket = async (
+	client: CredixClient,
+	marketPlace: string,
+	set: SetState<MarketSlice>,
+	get: GetState<MarketSlice>
+) => {
+	if (get().market || get().isLoadingMarket) {
+		return;
+	}
+
+	await getMarket(client, marketPlace, set);
 };
 
 export const createMarketSlice: StoreSlice<MarketSlice> = (set, get) => ({
 	market: null,
-	fetchMarket: async (client, marketPlace) => {
-		const market = await getMarket(client, marketPlace);
-		set({ market });
-	},
-	maybeFetchMarket: async (client, marketPlace) => {
-		if (get().market) {
-			return;
-		}
-
-		const market = await getMarket(client, marketPlace);
-		set({ market });
-	},
+	isLoadingMarket: false,
+	fetchMarket: (client, marketPlace) => getMarket(client, marketPlace, set),
+	maybeFetchMarket: (client, marketPlace) => maybeGetMarket(client, marketPlace, set, get),
 });

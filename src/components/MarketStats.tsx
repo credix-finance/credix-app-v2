@@ -1,6 +1,7 @@
 import { Market } from "@credix/credix-client";
+import Big from "big.js";
 import React, { useCallback, useEffect, useState } from "react";
-import { formatRatio, toUIAmount } from "utils/format.utils";
+import { toUIAmount } from "utils/format.utils";
 import { Statistic } from "./Statistic";
 
 interface MarketStatsProps {
@@ -27,7 +28,7 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 			return;
 		}
 
-		setApy(formatRatio(weightedAverageFinancingFee).div(100).toNumber());
+		setApy(weightedAverageFinancingFee.apply(new Big(1)).toNumber());
 	}, [market]);
 
 	const getCreditOutstanding = useCallback(async () => {

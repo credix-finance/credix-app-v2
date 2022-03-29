@@ -1,7 +1,7 @@
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Deal, DealStatus, Ratio, useCredixClient } from "@credix/credix-client";
-import { toUIAmount, formatRatio, formatTimestamp } from "../../utils/format.utils";
+import { Deal, Ratio, useCredixClient } from "@credix/credix-client";
+import { toUIAmount, formatTimestamp } from "../../utils/format.utils";
 import { Tabs } from "@components/Tabs";
 import { TabPane } from "@components/TabPane";
 import { Table, ColumnsProps } from "@components/Table";
@@ -14,6 +14,7 @@ import { useLocales } from "../../hooks/useLocales";
 import { useStore } from "@state/useStore";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
+import { selectActiveDeals, selectEndedDeals, selectPendingDeals } from "@state/selectors";
 
 const dealsTableColumns: ColumnsProps[] = [
 	{
@@ -46,26 +47,34 @@ const dealsTableColumns: ColumnsProps[] = [
 
 const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
-	const { marketplace } = router.query;
 	const locales = useLocales();
+	const { marketplace } = router.query;
 	const client = useCredixClient();
-	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
-
+	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
-	const [isLoadingDeals, setIsLoadingDeals] = useState<boolean>(true);
-	const [activeDeals, setActiveDeals] = useState<Deal[]>([]);
-	const [endedDeals, setEndedDeals] = useState<Deal[]>([]);
+	const maybeFetchDeals = useStore((state) => state.maybeFetchDeals);
+	const activeDeals = useStore((state) => selectActiveDeals(state));
+	const endedDeals = useStore((state) => selectEndedDeals(state));
+	const pendingDeals = useStore((state) => selectPendingDeals(state));
+	const isLoadingDeals = useStore((state) => state.isLoadingDeals);
+	const isAdmin = useStore((state) => state.isAdmin);
 
 	useEffect(() => {
-		maybeFetchMarket(client, marketplace as string);
-	}, [client, maybeFetchMarket, marketplace]);
+		fetchMarket(client, marketplace as string);
+	}, [fetchMarket, client, marketplace]);
+
+	useEffect(() => {
+		maybeFetchDeals(market);
+	}, [market, maybeFetchDeals]);
 
 	const dealRepaidRatio = (principal: Big, principalAmountRepaid: Big) => {
 		if (!principalAmountRepaid.toNumber()) {
 			return 0;
 		}
 
-		return formatRatio(new Ratio(principal.toNumber(), principalAmountRepaid.toNumber()));
+		const repaidRatio = new Ratio(principal.toNumber(), principalAmountRepaid.toNumber());
+
+		return repaidRatio.apply(new Big(100));
 	};
 
 	const mapDeal = useCallback(
@@ -80,42 +89,6 @@ const Deals: NextPageWithLayout = () => {
 		},
 		[locales]
 	);
-
-	const getDeals = useCallback(async () => {
-		setIsLoadingDeals(true);
-		const deals = await market?.fetchDeals();
-
-		if (!deals) {
-			setIsLoadingDeals(false);
-			return;
-		}
-
-		const { activeDeals, endedDeals } = deals.reduce(
-			(acc, deal) => {
-				switch (deal.status) {
-					case DealStatus.IN_PROGRESS:
-						acc.activeDeals.push(mapDeal(deal));
-						break;
-					case DealStatus.CLOSED:
-						acc.endedDeals.push(mapDeal(deal));
-						break;
-					default:
-						break;
-				}
-
-				return acc;
-			},
-			{ activeDeals: [], endedDeals: [] }
-		);
-
-		setActiveDeals(activeDeals);
-		setEndedDeals(endedDeals);
-		setIsLoadingDeals(false);
-	}, [market, mapDeal]);
-
-	useEffect(() => {
-		getDeals();
-	}, [getDeals]);
 
 	return (
 		<div className="space-y-14 py-5 px-4 md:pt-12 md:px-28">
@@ -136,16 +109,43 @@ const Deals: NextPageWithLayout = () => {
 						onRow={(record) => {
 							return {
 								onClick: () => {
-									router.push(`/${marketplace}/deal/${record?.key}`);
+									router.push(`/${marketplace}/deals/${record?.key}`);
 								},
 							};
 						}}
-						dataSource={activeDeals}
+						dataSource={activeDeals?.map((deal) => mapDeal(deal))}
 						columns={dealsTableColumns}
 					/>
 				</TabPane>
-				<TabPane tab="Ended Deals" key="endedDealsTab">
-					<Table loading={isLoadingDeals} dataSource={endedDeals} columns={dealsTableColumns} />
+				{isAdmin && (
+					<TabPane tab="Pending Deals" key="2">
+						<Table
+							loading={isLoadingDeals}
+							onRow={(record) => {
+								return {
+									onClick: () => {
+										router.push(`/${marketplace}/deals/${record?.key}`);
+									},
+								};
+							}}
+							dataSource={pendingDeals?.map((deal) => mapDeal(deal))}
+							columns={dealsTableColumns}
+						/>
+					</TabPane>
+				)}
+				<TabPane tab="Ended Deals" key="3">
+					<Table
+						loading={isLoadingDeals}
+						onRow={(record) => {
+							return {
+								onClick: () => {
+									router.push(`/${marketplace}/deals/${record?.key}`);
+								},
+							};
+						}}
+						dataSource={endedDeals?.map((deal) => mapDeal(deal))}
+						columns={dealsTableColumns}
+					/>
 				</TabPane>
 			</Tabs>
 		</div>

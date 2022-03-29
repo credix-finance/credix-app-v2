@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { PublicKey } from "@solana/web3.js";
+import React, { useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { GatewayProvider } from "@civic/solana-gateway-react";
 import { CivicButton } from "@components/CivicButton";
@@ -13,21 +12,13 @@ export const IdentityButton = () => {
 	const router = useRouter();
 	const { marketplace } = router.query;
 	const wallet = useWallet();
-	const { publicKey } = wallet;
 	const client = useCredixClient();
-	const [gatekeeperNetwork, setGatekeeperNetwork] = useState<PublicKey>();
 	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const market = useStore((state) => state.market);
 
 	useEffect(() => {
 		maybeFetchMarket(client, marketplace as string);
 	}, [client, maybeFetchMarket, marketplace]);
-
-	useEffect(() => {
-		if (publicKey && market) {
-			setGatekeeperNetwork(market?.gateKeeperNetwork);
-		}
-	}, [market, publicKey]);
 
 	const mapClusterNameToStage = (clusterName: SolanaCluster) => {
 		switch (clusterName) {
@@ -50,10 +41,10 @@ export const IdentityButton = () => {
 		<GatewayProvider
 			wallet={wallet}
 			stage={mapClusterNameToStage(config.clusterConfig.name)}
-			gatekeeperNetwork={gatekeeperNetwork}
+			gatekeeperNetwork={market?.gateKeeperNetwork}
 			clusterUrl={config.clusterConfig.RPCEndpoint}
 		>
-			{gatekeeperNetwork && <CivicButton />}
+			{market?.gateKeeperNetwork && <CivicButton />}
 		</GatewayProvider>
 	);
 };
