@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { Form } from "antd";
@@ -24,7 +24,6 @@ interface DealFormProps {
 
 const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 	const [form] = Form.useForm();
-	const [submitDisabled, setSubmitDisabled] = useState(true);
 
 	const validateMinPrincipal = (value): Promise<void> => {
 		const validationMessage = "'principal' needs to be greater than 0";
@@ -37,16 +36,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 	};
 
 	return (
-		<Form
-			name="deal"
-			form={form}
-			onFinish={onSubmit}
-			layout="vertical"
-			onFieldsChange={(_changedFields, fields) =>
-				process.browser && setSubmitDisabled(fields.some((field) => !field.value))
-			}
-			className="max-w-[624px]"
-		>
+		<Form name="deal" form={form} onFinish={onSubmit} layout="vertical" className="max-w-[624px]">
 			<Input
 				name="dealName"
 				label="Deal Name"
@@ -71,6 +61,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				className="bg-neutral-0"
 				placeholder="Amount"
 				type="number"
+				lang="en"
+				step="1"
 				required={true}
 				rules={[
 					{ required: true },
@@ -87,6 +79,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				className="bg-neutral-0"
 				placeholder="%"
 				type="number"
+				lang="en"
+				step="0.1"
 				required={true}
 				rules={[{ required: true, message: "'financing fee' is required" }]}
 			/>
@@ -97,6 +91,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				placeholder="days"
 				type="number"
 				required={true}
+				step="1"
+				lang="en"
 				rules={[
 					{ required: true, message: "'time to maturity' is required" },
 					{
@@ -107,7 +103,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				]}
 			/>
 			<Form.Item className="mb-0">
-				<Button disabled={submitDisabled} htmlType="submit" className="w-full md:w-max capitalize">
+				<Button htmlType="submit" className="w-full md:w-max capitalize">
 					Create Deal
 				</Button>
 			</Form.Item>
