@@ -32,11 +32,18 @@ const New: NextPageWithLayout = () => {
 		const formattedPrincipal = numberFormatter.format(principal);
 		const hide = message.loading({ content: `Creating deal for ${formattedPrincipal} USDC` });
 		const borrowerPK = new PublicKey(borrower);
-		const credixPass = await market.fetchCredixPass(borrowerPK);
 
-		if (!credixPass) {
+		try {
+			const credixPass = await market.fetchCredixPass(borrowerPK);
+
+			if (!credixPass) {
+				hide();
+				message.error({ content: "No Credix Pass found for given public key" });
+				return;
+			}
+		} catch {
 			hide();
-			message.error({ content: "No Credix Pass found for given public key" });
+			message.error({ content: `Failed to get Credix pass for given public key` });
 			return;
 		}
 
