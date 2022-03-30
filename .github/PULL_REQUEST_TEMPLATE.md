@@ -5,5 +5,4 @@
 ## Checklist
 
 - [ ] I used the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
-- [ ] CI succeeded and formatting has been applied.
 - [ ] Unit tests have been created if a new feature was added.
