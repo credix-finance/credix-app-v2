@@ -40,7 +40,6 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			<Input
 				name="dealName"
 				label="Deal Name"
-				className="bg-neutral-0"
 				placeholder="Name"
 				type="text"
 				required={true}
@@ -49,7 +48,6 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			<Input
 				name="borrower"
 				label="Borrower Key"
-				className="bg-neutral-0"
 				placeholder="Public key"
 				type="text"
 				required={true}
@@ -58,7 +56,6 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			<Input
 				name="principal"
 				label="Principal"
-				className="bg-neutral-0"
 				placeholder="USDC amount"
 				type="number"
 				lang="en"
@@ -76,7 +73,6 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			<Input
 				name="financingFee"
 				label="Financing Fee"
-				className="bg-neutral-0"
 				placeholder="%"
 				type="number"
 				lang="en"
@@ -87,7 +83,6 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			<Input
 				name="timeToMaturity"
 				label="Time To Maturity"
-				className="bg-neutral-0"
 				placeholder="Number of days"
 				type="number"
 				required={true}
