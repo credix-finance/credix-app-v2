@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { Form } from "antd";
-import { validateMinValue } from "@utils/validation.utils";
+import { validateMinValue, validatePublicKey } from "@utils/validation.utils";
 
 export interface DealFormInput {
 	principal: number;
@@ -35,6 +35,11 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		return validateMinValue(value, 0, validationMessage);
 	};
 
+	const validateBorrowerKey = (value): Promise<void> => {
+		const validationMessage = "'borrower key' isn't valid";
+		return validatePublicKey(value, validationMessage);
+	};
+
 	return (
 		<Form name="deal" form={form} onFinish={onSubmit} layout="vertical">
 			<Input
@@ -51,7 +56,14 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				placeholder="Public key"
 				type="text"
 				required={true}
-				rules={[{ required: true, message: "'borrower key' is required" }]}
+				rules={[
+					{ required: true, message: "'borrower key' is required" },
+					{
+						validator(_, value) {
+							return validateBorrowerKey(value);
+						},
+					},
+				]}
 			/>
 			<Input
 				name="principal"
