@@ -2,12 +2,12 @@ import { BN, web3 } from "@project-serum/anchor";
 import { ASSOCIATED_TOKEN_PROGRAM_ID, Token, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { PublicKey, SystemProgram, SYSVAR_RENT_PUBKEY } from "@solana/web3.js";
 import Big from "big.js";
-import Fraction from "fraction.js";
 import { BorrowerInfo, CredixClient, CredixPass, Deal, Ratio } from "..";
+import { CredixPassConfig } from "../config";
 import { CredixProgram, GlobalMarketState } from "../idl/idl.types";
-import { encodeSeedString } from "../utils/pda.utils";
 import { asyncFilter } from "../utils/async.utils";
 import { ZERO } from "../utils/math.utils";
+import { encodeSeedString, findSigningAuthorityPDA } from "../utils/pda.utils";
 
 /**
  * Represents a Credix market. Main entrypoint for market interactions
@@ -47,9 +47,9 @@ export class Market {
 	/**
 	 * Deposit into the market's liquidity pool
 	 * @param amount Amount to deposit
-	 * @returns
+	 * @returns promise with the transaction signature
 	 */
-	async deposit(amount: Big) {
+	async deposit(amount: number) {
 		const investor = this.program.provider.wallet.publicKey;
 		const gatewayToken = await this.client.getGatewayToken(investor, this.gateKeeperNetwork);
 
@@ -63,7 +63,7 @@ export class Market {
 		const investorLPTokenAccount = await this.findLPTokenAccount(investor);
 		const [credixPass] = await this.generateCredixPassPDA(investor);
 
-		return this.program.rpc.depositFunds(new BN(amount.toNumber()), {
+		return this.program.rpc.depositFunds(new BN(amount), {
 			accounts: {
 				investor,
 				gatewayToken: gatewayToken.publicKey,
@@ -71,9 +71,9 @@ export class Market {
 				signingAuthority: signingAuthority,
 				investorTokenAccount: investorTokenAccount,
 				liquidityPoolTokenAccount: liquidityPoolTokenAccount,
-				lpTokenMintAccount: this.lpMintPK,
+				lpTokenMint: this.lpMintPK,
 				investorLpTokenAccount: investorLPTokenAccount,
-				baseMintAccount: this.baseMintPK,
+				baseTokenMint: this.baseMintPK,
 				tokenProgram: TOKEN_PROGRAM_ID,
 				credixPass,
 				systemProgram: SystemProgram.programId,
@@ -85,10 +85,10 @@ export class Market {
 
 	/**
 	 * Withdraw from the market's liquidity pool
-	 * @param amount Amount to withdraw
-	 * @returns
+	 * @param amount to withdraw
+	 * @returns promise with the transaction signature
 	 */
-	async withdraw(amount: Big) {
+	async withdraw(amount: number) {
 		const investor = this.program.provider.wallet.publicKey;
 		const gatewayToken = await this.client.getGatewayToken(investor, this.gateKeeperNetwork);
 
@@ -102,7 +102,7 @@ export class Market {
 		const investorLPTokenAccount = await this.findLPTokenAccount(investor);
 		const [credixPass] = await this.generateCredixPassPDA(investor);
 
-		return this.program.rpc.withdrawFunds(new BN(amount.toNumber()), {
+		return this.program.rpc.withdrawFunds(new BN(amount), {
 			accounts: {
 				investor,
 				gatewayToken: gatewayToken.publicKey,
@@ -112,15 +112,17 @@ export class Market {
 				investorTokenAccount: investorTokenAccount,
 				liquidityPoolTokenAccount: liquidityPoolTokenAccount,
 				treasuryPoolTokenAccount: this.treasury,
-				lpTokenMintAccount: this.lpMintPK,
+				lpTokenMint: this.lpMintPK,
 				credixPass,
-				baseMintAccount: this.baseMintPK,
+				baseTokenMint: this.baseMintPK,
 				tokenProgram: TOKEN_PROGRAM_ID,
 				associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
 			},
 		});
 	}
 
+	// TODO: use ratio for financingFee
+	// TODO: create deal config for creation
 	/**
 	 * Create a deal for this market
 	 * @param principal Principal of the deal
@@ -128,10 +130,10 @@ export class Market {
 	 * @param timeToMaturity Time until the principal has to be repaid. Should be a multiple of 30.
 	 * @param borrower Borrower for which we create the deal.
 	 * @param dealName Name of the deal.
-	 * @returns
+	 * @returns promise with the transaction signature
 	 */
 	async createDeal(
-		principal: Big,
+		principal: number,
 		financingFee: number,
 		timeToMaturity: number,
 		borrower: PublicKey,
@@ -148,24 +150,20 @@ export class Market {
 			throw new Error("No valid Civic gateway token found");
 		}
 
-		const [borrowerInfoAddress, borrowerInfoBump] = await BorrowerInfo.generatePDA(borrower, this);
+		const [borrowerInfoAddress] = await BorrowerInfo.generatePDA(borrower, this);
 		const borrowerInfo = await this.fetchBorrowerInfo(borrower);
-		const dealNumber = borrowerInfo ? borrowerInfo.numberOfDeals + 1 : 0;
-		const [dealAddress, dealBump] = await Deal.generatePDA(borrower, dealNumber, this);
+		const dealNumber = borrowerInfo ? borrowerInfo.numberOfDeals : 0;
+		const [dealAddress] = await Deal.generatePDA(borrower, dealNumber, this);
 		const [credixPassAddress] = await CredixPass.generatePDA(borrower, this);
 
-		const principalAmount = new BN(principal.toNumber());
-		// TODO: do we need this dependency?
-		const financingFreeFraction = new Fraction(financingFee);
-		const financingFeeRatio = new Ratio(financingFreeFraction.n, financingFreeFraction.d * 100);
+		const principalAmount = new BN(principal);
+		const financingFeeRatio = Ratio.fromNumber(financingFee);
 
 		return this.program.rpc.createDeal(
-			dealBump,
-			borrowerInfoBump,
 			principalAmount,
 			financingFeeRatio.toIDLRatio(),
 			0,
-			0,
+			{ numerator: 0, denominator: 100 },
 			timeToMaturity,
 			dealName,
 			{
@@ -194,14 +192,14 @@ export class Market {
 	 * Address of the base mint for this market. Base tokens are the currency deals are created for (e.g. USDC)
 	 */
 	get baseMintPK() {
-		return this.programVersion.liquidityPoolTokenMintAccount;
+		return this.programVersion.baseTokenMint;
 	}
 
 	/**
 	 * Address of the mint of LP token.
 	 */
 	get lpMintPK() {
-		return this.programVersion.lpTokenMintAccount;
+		return this.programVersion.lpTokenMint;
 	}
 
 	/**
@@ -215,7 +213,10 @@ export class Market {
 	 * Withdrawal fee for this market
 	 */
 	get withdrawFee() {
-		return this.programVersion.withdrawalFee;
+		return new Ratio(
+			this.programVersion.withdrawalFee.numerator,
+			this.programVersion.withdrawalFee.denominator
+		);
 	}
 
 	/**
@@ -226,8 +227,7 @@ export class Market {
 	}
 
 	/**
-	 * Gets the current supply of LP tokens for the lp mint this market uses
-	 * @returns
+	 * @returns current supply of LP tokens for the lp mint this market uses
 	 */
 	getLPSupply() {
 		const lpTokenMint = this.lpMintPK;
@@ -237,25 +237,31 @@ export class Market {
 	}
 
 	/**
-	 * Gets the current price of LP tokens in base
-	 * @returns
+	 * @returns current price of base in LP
 	 */
 	async getLPPrice() {
-		const tvl = await this.calculateTVL();
+		const tvl = Big(await this.calculateTVL());
 		const lpSupply = await this.getLPSupply();
 		const lpSupplyBig = new Big(lpSupply.amount);
 
-		if (lpSupplyBig.eq(ZERO)) {
-			return ZERO;
+		if (tvl.eq(ZERO)) {
+			return 1;
 		}
 
-		return tvl.div(lpSupplyBig);
+		return lpSupplyBig.div(tvl).toNumber();
 	}
 
 	/**
-	 * Calculates the associated token account for the base mint of this market
+	 * @returns current price of lp in base
+	 */
+	async getBasePrice() {
+		const lpPrice = await this.getLPPrice();
+		return Big(1).div(Big(lpPrice)).toNumber();
+	}
+
+	/**
 	 * @param pk Public key to find the associated token account for
-	 * @returns
+	 * @returns an associated token address for the base mint
 	 */
 	// TODO: move to Mint class when available
 	findBaseTokenAccount(pk: PublicKey) {
@@ -269,9 +275,8 @@ export class Market {
 	}
 
 	/**
-	 * Calculates the associated token account for the lp mint of this market
 	 * @param pk Public key to find the associated token account for
-	 * @returns
+	 * @returns an associated token address for the lp mint
 	 */
 	// TODO: move to Mint class when available
 	findLPTokenAccount(pk: PublicKey) {
@@ -285,9 +290,8 @@ export class Market {
 	}
 
 	/**
-	 * Gets the amount of 'base' the user has
 	 * @param user Public key for which we find the base balance
-	 * @returns
+	 * @returns the amount of 'base' the user has
 	 */
 	async userBaseBalance(user: PublicKey) {
 		const userBaseTokenAccount = await this.findBaseTokenAccount(user);
@@ -298,9 +302,8 @@ export class Market {
 	}
 
 	/**
-	 * Gets the amount of LP the user has
 	 * @param user Public key for which we find the LP amount
-	 * @returns
+	 * @returns the amount of LP the user has
 	 */
 	async userLPBalance(user: PublicKey) {
 		const userLPTokenAccount = await this.findLPTokenAccount(user);
@@ -312,8 +315,7 @@ export class Market {
 	}
 
 	/**
-	 * Gets how base is currently in the liquidity pool
-	 * @returns
+	 * @returns the amount of base in the liquidity pool
 	 */
 	async fetchLiquidityPoolBalance() {
 		const liquidityPoolBaseTokenAccountPK = await this.findLiquidityPoolTokenAccount();
@@ -327,7 +329,7 @@ export class Market {
 	 * Gets how much principal is currently being lend out in deals
 	 */
 	get totalOutstandingCredit() {
-		return new Big(this.programVersion.totalOutstandingCredit.toNumber());
+		return this.programVersion.totalOutstandingCredit.toNumber();
 	}
 
 	/**
@@ -338,10 +340,9 @@ export class Market {
 	}
 
 	/**
-	 * Fetches deal data
 	 * @param borrower Borrower to which the deal belongs
 	 * @param dealNumber The id of the deal, scoped to the borrower
-	 * @returns
+	 * @returns a Deal instance or null if the deal doesn't exist
 	 */
 	async fetchDeal(borrower: PublicKey, dealNumber: number) {
 		const [dealAddress] = await Deal.generatePDA(borrower, dealNumber, this);
@@ -388,10 +389,11 @@ export class Market {
 	 * @returns
 	 */
 	async calculateTVL() {
-		const liquidityPoolBalance = await this.fetchLiquidityPoolBalance();
-		const base_in_liquidity_pool = new Big(liquidityPoolBalance.amount);
+		const liquidityPoolBalanceTokenAmount = await this.fetchLiquidityPoolBalance();
+		const liquidityPoolBalance = Big(liquidityPoolBalanceTokenAmount.amount);
+		const tvl = Big(this.totalOutstandingCredit).add(liquidityPoolBalance);
 
-		return this.totalOutstandingCredit.add(base_in_liquidity_pool);
+		return tvl.toNumber();
 	}
 
 	/**
@@ -442,7 +444,7 @@ export class Market {
 		const pass = await this.program.account.credixPass.fetchNullable(passAddress);
 
 		if (!pass) {
-			return pass;
+			return null;
 		}
 
 		return new CredixPass(pass, passAddress);
@@ -459,6 +461,18 @@ export class Market {
 		return PublicKey.findProgramAddress([seed], programId);
 	}
 
+	/**
+	 * @param marketName
+	 * @param programId
+	 * @returns the lp token mint address that would belong to a market with a certain name
+	 */
+	// TODO: add tests for wrong mint and pda check
+	static async generateLPTokenMintPDA(marketName: string, programId: PublicKey) {
+		const [marketAddress] = await Market.generatePDA(marketName, programId);
+		const lpTokenMintSeed = [marketAddress.toBuffer(), encodeSeedString("lp-token-mint")];
+		return PublicKey.findProgramAddress(lpTokenMintSeed, programId);
+	}
+
 	// TODO: add pda generation tests with static, know, reference addresses
 	private generateCredixPassPDA(pk: PublicKey) {
 		const credixSeed = encodeSeedString("credix-pass");
@@ -471,8 +485,7 @@ export class Market {
 	 * @returns
 	 */
 	generateSigningAuthorityPDA() {
-		const seed = [this.address.toBuffer()];
-		return PublicKey.findProgramAddress(seed, this.programId);
+		return findSigningAuthorityPDA(this.address, this.programId);
 	}
 
 	/**
@@ -498,44 +511,74 @@ export class Market {
 	}
 
 	/**
-	 * Issue a credix pass. This function requires that the client wallet to belong to a management address
-	 * @param pk Public key for which we issue a credix pass
-	 * @param underwriter Enable underwriter functionality.
-	 * @param borrower Enable borrower functionality (creation of deals)
+	 *
+	 * @param pk
 	 * @returns
 	 */
-	async issueCredixPass(pk: PublicKey, underwriter: boolean, borrower: boolean) {
-		const [credixPassAddress, credixPassBump] = await CredixPass.generatePDA(pk, this);
+	/**
+	 * Issue a credix pass. This function requires that the client wallet to belong to a management address
+	 * @param pk Public key for which we issue a credix pass
+	 * @param credixPassConfig Configuration of the credix pass. @see {@link CredixPassConfig}
+	 * @returns a promise with the transaction signature
+	 */
+	async issueCredixPass(pk: PublicKey, credixPassConfig: CredixPassConfig) {
+		const [credixPassAddress] = await CredixPass.generatePDA(pk, this);
 
-		return this.program.rpc.createCredixPass(credixPassBump, underwriter, borrower, {
-			accounts: {
-				owner: this.program.provider.wallet.publicKey,
-				passHolder: pk,
-				credixPass: credixPassAddress,
-				systemProgram: SystemProgram.programId,
-				rent: SYSVAR_RENT_PUBKEY,
-				globalMarketState: this.address,
-			},
-		});
+		return this.program.rpc.createCredixPass(
+			credixPassConfig.underwriter,
+			credixPassConfig.borrower,
+			new BN(credixPassConfig.releaseTimestamp),
+			{
+				accounts: {
+					owner: this.program.provider.wallet.publicKey,
+					passHolder: pk,
+					credixPass: credixPassAddress,
+					systemProgram: SystemProgram.programId,
+					rent: SYSVAR_RENT_PUBKEY,
+					globalMarketState: this.address,
+				},
+			}
+		);
 	}
 
 	/**
-	 * Update a credix pass. This function requires that the client wallet to belong to a management address
-	 * @param pk Public key for which we issue a credix pass
-	 * @param underwriter Enable underwriter functionality.
-	 * @param borrower Enable borrower functionality (creation of deals)
-	 * @returns
+	 * Update a credix pass. This function requires that the client wallet belongs to a management address
+	 * @param pk Public key for which we update a credix pass
+	 * @param credixPassConfig Configuration of the credix pass. @see {@link CredixPassConfig}
+	 * @returns a promise with the transaction signature
 	 */
-	async updateCredixPass(pk: PublicKey, active: boolean, underwriter: boolean, borrower: boolean) {
+	async updateCredixPass(pk: PublicKey, credixPassConfig: CredixPassConfig) {
 		const [credixPassAddress] = await CredixPass.generatePDA(pk, this);
 
-		return this.program.rpc.updateCredixPass(active, underwriter, borrower, {
-			accounts: {
-				owner: this.program.provider.wallet.publicKey,
-				passHolder: pk,
-				credixPass: credixPassAddress,
-				globalMarketState: this.address,
-			},
+		return this.program.rpc.updateCredixPass(
+			credixPassConfig.active !== false,
+			credixPassConfig.underwriter,
+			credixPassConfig.borrower,
+			new BN(credixPassConfig.releaseTimestamp),
+			{
+				accounts: {
+					owner: this.program.provider.wallet.publicKey,
+					passHolder: pk,
+					credixPass: credixPassAddress,
+					globalMarketState: this.address,
+				},
+			}
+		);
+	}
+
+	async freeze() {
+		return this.program.rpc.freezeGlobalMarketState({
+			accounts: { owner: this.program.provider.wallet.publicKey, globalMarketState: this.address },
 		});
+	}
+
+	async thaw() {
+		return this.program.rpc.thawGlobalMarketState({
+			accounts: { owner: this.program.provider.wallet.publicKey, globalMarketState: this.address },
+		});
+	}
+
+	get isFrozen() {
+		return this.programVersion.frozen;
 	}
 }

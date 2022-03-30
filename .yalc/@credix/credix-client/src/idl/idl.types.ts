@@ -1,5 +1,5 @@
 import { AnchorTypes } from "@saberhq/anchor-contrib";
-import { Credix } from "../idl/credix";
+import { Credix } from "./credix";
 
 export type CredixTypes = AnchorTypes<
 	Credix,

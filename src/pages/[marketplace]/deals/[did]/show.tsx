@@ -7,6 +7,7 @@ import { Deal as DealType, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
 import { useRouter } from "next/router";
 import { NextPageWithLayout } from "pages/_app";
+import { multisigUrl } from "@consts";
 
 const Deal: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -34,13 +35,7 @@ const Deal: NextPageWithLayout = () => {
 	}, [getDealFromStore]);
 
 	const activateDeal = async () => {
-		try {
-			await deal.activate();
-			// TODO: trigger success message
-			// TODO: refresh deal in store
-		} catch {
-			// TODO: trigger error message
-		}
+		window.open(multisigUrl, "_blank") || window.location.replace(multisigUrl);
 	};
 
 	if (!deal) {
@@ -50,7 +45,7 @@ const Deal: NextPageWithLayout = () => {
 	return (
 		<div className="px-4 py-5 md:pt-20 max-w-3xl flex flex-col justify-self-center">
 			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
-			<div className="text-4xl font-sans pt-3 pb-5">{deal.name}</div>
+			<div className="text-4xl font-sans pt-3 pb-5 break-words">{deal.name}</div>
 			<div className="bg-neutral-0 pb-12">
 				<DealDetails deal={deal} />
 				{isAdmin && deal.isPending() && (

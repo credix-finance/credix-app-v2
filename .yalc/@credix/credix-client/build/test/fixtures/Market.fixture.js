@@ -15,8 +15,8 @@ const web3_js_1 = require("@solana/web3.js");
 const util_1 = require("../util");
 exports.globalMarketFixture = {
     gatekeeperNetwork: web3_js_1.Keypair.generate().publicKey,
-    liquidityPoolTokenMintAccount: web3_js_1.Keypair.generate().publicKey,
-    lpTokenMintAccount: web3_js_1.Keypair.generate().publicKey,
+    baseTokenMint: web3_js_1.Keypair.generate().publicKey,
+    lpTokenMint: web3_js_1.Keypair.generate().publicKey,
     treasuryPoolTokenAccount: web3_js_1.Keypair.generate().publicKey,
     totalOutstandingCredit: new anchor_1.BN(10),
     signingAuthorityBump: 255,
@@ -24,6 +24,7 @@ exports.globalMarketFixture = {
     interestFee: { numerator: 10, denominator: 100 },
     withdrawalFee: { numerator: 5, denominator: 1000 },
     frozen: false,
+    seed: "seed",
 };
 const programMarketFixture = (market) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield util_1.testProgram.coder.accounts.encode("globalMarketState", market);

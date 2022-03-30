@@ -20,7 +20,8 @@
 			"@credix_types/*": ["types/*"],
 			"@consts": ["consts"],
 			"@state/*": ["state/*"],
-			"@utils/*": ["utils/*"]
+			"@utils/*": ["utils/*"],
+			"@hooks/*": ["hooks/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

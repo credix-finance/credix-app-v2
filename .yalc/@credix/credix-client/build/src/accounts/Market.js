@@ -17,11 +17,10 @@ const anchor_1 = require("@project-serum/anchor");
 const spl_token_1 = require("@solana/spl-token");
 const web3_js_1 = require("@solana/web3.js");
 const big_js_1 = __importDefault(require("big.js"));
-const fraction_js_1 = __importDefault(require("fraction.js"));
 const __1 = require("..");
-const pda_utils_1 = require("../utils/pda.utils");
 const async_utils_1 = require("../utils/async.utils");
 const math_utils_1 = require("../utils/math.utils");
+const pda_utils_1 = require("../utils/pda.utils");
 /**
  * Represents a Credix market. Main entrypoint for market interactions
  */
@@ -41,7 +40,7 @@ class Market {
     /**
      * Deposit into the market's liquidity pool
      * @param amount Amount to deposit
-     * @returns
+     * @returns promise with the transaction signature
      */
     deposit(amount) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -55,7 +54,7 @@ class Market {
             const liquidityPoolTokenAccount = yield this.findLiquidityPoolTokenAccount();
             const investorLPTokenAccount = yield this.findLPTokenAccount(investor);
             const [credixPass] = yield this.generateCredixPassPDA(investor);
-            return this.program.rpc.depositFunds(new anchor_1.BN(amount.toNumber()), {
+            return this.program.rpc.depositFunds(new anchor_1.BN(amount), {
                 accounts: {
                     investor,
                     gatewayToken: gatewayToken.publicKey,
@@ -63,9 +62,9 @@ class Market {
                     signingAuthority: signingAuthority,
                     investorTokenAccount: investorTokenAccount,
                     liquidityPoolTokenAccount: liquidityPoolTokenAccount,
-                    lpTokenMintAccount: this.lpMintPK,
+                    lpTokenMint: this.lpMintPK,
                     investorLpTokenAccount: investorLPTokenAccount,
-                    baseMintAccount: this.baseMintPK,
+                    baseTokenMint: this.baseMintPK,
                     tokenProgram: spl_token_1.TOKEN_PROGRAM_ID,
                     credixPass,
                     systemProgram: web3_js_1.SystemProgram.programId,
@@ -77,8 +76,8 @@ class Market {
     }
     /**
      * Withdraw from the market's liquidity pool
-     * @param amount Amount to withdraw
-     * @returns
+     * @param amount to withdraw
+     * @returns promise with the transaction signature
      */
     withdraw(amount) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -92,7 +91,7 @@ class Market {
             const liquidityPoolTokenAccount = yield this.findLiquidityPoolTokenAccount();
             const investorLPTokenAccount = yield this.findLPTokenAccount(investor);
             const [credixPass] = yield this.generateCredixPassPDA(investor);
-            return this.program.rpc.withdrawFunds(new anchor_1.BN(amount.toNumber()), {
+            return this.program.rpc.withdrawFunds(new anchor_1.BN(amount), {
                 accounts: {
                     investor,
                     gatewayToken: gatewayToken.publicKey,
@@ -102,15 +101,17 @@ class Market {
                     investorTokenAccount: investorTokenAccount,
                     liquidityPoolTokenAccount: liquidityPoolTokenAccount,
                     treasuryPoolTokenAccount: this.treasury,
-                    lpTokenMintAccount: this.lpMintPK,
+                    lpTokenMint: this.lpMintPK,
                     credixPass,
-                    baseMintAccount: this.baseMintPK,
+                    baseTokenMint: this.baseMintPK,
                     tokenProgram: spl_token_1.TOKEN_PROGRAM_ID,
                     associatedTokenProgram: spl_token_1.ASSOCIATED_TOKEN_PROGRAM_ID,
                 },
             });
         });
     }
+    // TODO: use ratio for financingFee
+    // TODO: create deal config for creation
     /**
      * Create a deal for this market
      * @param principal Principal of the deal
@@ -118,7 +119,7 @@ class Market {
      * @param timeToMaturity Time until the principal has to be repaid. Should be a multiple of 30.
      * @param borrower Borrower for which we create the deal.
      * @param dealName Name of the deal.
-     * @returns
+     * @returns promise with the transaction signature
      */
     createDeal(principal, financingFee, timeToMaturity, borrower, dealName) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -130,16 +131,14 @@ class Market {
             if (!gatewayToken) {
                 throw new Error("No valid Civic gateway token found");
             }
-            const [borrowerInfoAddress, borrowerInfoBump] = yield __1.BorrowerInfo.generatePDA(borrower, this);
+            const [borrowerInfoAddress] = yield __1.BorrowerInfo.generatePDA(borrower, this);
             const borrowerInfo = yield this.fetchBorrowerInfo(borrower);
-            const dealNumber = borrowerInfo ? borrowerInfo.numberOfDeals + 1 : 0;
-            const [dealAddress, dealBump] = yield __1.Deal.generatePDA(borrower, dealNumber, this);
+            const dealNumber = borrowerInfo ? borrowerInfo.numberOfDeals : 0;
+            const [dealAddress] = yield __1.Deal.generatePDA(borrower, dealNumber, this);
             const [credixPassAddress] = yield __1.CredixPass.generatePDA(borrower, this);
-            const principalAmount = new anchor_1.BN(principal.toNumber());
-            // TODO: do we need this dependency?
-            const financingFreeFraction = new fraction_js_1.default(financingFee);
-            const financingFeeRatio = new __1.Ratio(financingFreeFraction.n, financingFreeFraction.d * 100);
-            return this.program.rpc.createDeal(dealBump, borrowerInfoBump, principalAmount, financingFeeRatio.toIDLRatio(), 0, 0, timeToMaturity, dealName, {
+            const principalAmount = new anchor_1.BN(principal);
+            const financingFeeRatio = __1.Ratio.fromNumber(financingFee);
+            return this.program.rpc.createDeal(principalAmount, financingFeeRatio.toIDLRatio(), 0, { numerator: 0, denominator: 100 }, timeToMaturity, dealName, {
                 accounts: {
                     owner: this.program.provider.wallet.publicKey,
                     gatewayToken: gatewayToken.publicKey,
@@ -163,13 +162,13 @@ class Market {
      * Address of the base mint for this market. Base tokens are the currency deals are created for (e.g. USDC)
      */
     get baseMintPK() {
-        return this.programVersion.liquidityPoolTokenMintAccount;
+        return this.programVersion.baseTokenMint;
     }
     /**
      * Address of the mint of LP token.
      */
     get lpMintPK() {
-        return this.programVersion.lpTokenMintAccount;
+        return this.programVersion.lpTokenMint;
     }
     /**
      * Address of the treasury of this market
@@ -181,7 +180,7 @@ class Market {
      * Withdrawal fee for this market
      */
     get withdrawFee() {
-        return this.programVersion.withdrawalFee;
+        return new __1.Ratio(this.programVersion.withdrawalFee.numerator, this.programVersion.withdrawalFee.denominator);
     }
     /**
      * Interest repayment fee for this market. This is taken from the repayments, not added on top.
@@ -190,8 +189,7 @@ class Market {
         return this.programVersion.interestFee;
     }
     /**
-     * Gets the current supply of LP tokens for the lp mint this market uses
-     * @returns
+     * @returns current supply of LP tokens for the lp mint this market uses
      */
     getLPSupply() {
         const lpTokenMint = this.lpMintPK;
@@ -200,42 +198,47 @@ class Market {
             .then((response) => response.value);
     }
     /**
-     * Gets the current price of LP tokens in base
-     * @returns
+     * @returns current price of base in LP
      */
     getLPPrice() {
         return __awaiter(this, void 0, void 0, function* () {
-            const tvl = yield this.calculateTVL();
+            const tvl = (0, big_js_1.default)(yield this.calculateTVL());
             const lpSupply = yield this.getLPSupply();
             const lpSupplyBig = new big_js_1.default(lpSupply.amount);
-            if (lpSupplyBig.eq(math_utils_1.ZERO)) {
-                return math_utils_1.ZERO;
+            if (tvl.eq(math_utils_1.ZERO)) {
+                return 1;
             }
-            return tvl.div(lpSupplyBig);
+            return lpSupplyBig.div(tvl).toNumber();
         });
     }
     /**
-     * Calculates the associated token account for the base mint of this market
+     * @returns current price of lp in base
+     */
+    getBasePrice() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const lpPrice = yield this.getLPPrice();
+            return (0, big_js_1.default)(1).div((0, big_js_1.default)(lpPrice)).toNumber();
+        });
+    }
+    /**
      * @param pk Public key to find the associated token account for
-     * @returns
+     * @returns an associated token address for the base mint
      */
     // TODO: move to Mint class when available
     findBaseTokenAccount(pk) {
         return spl_token_1.Token.getAssociatedTokenAddress(spl_token_1.ASSOCIATED_TOKEN_PROGRAM_ID, spl_token_1.TOKEN_PROGRAM_ID, this.baseMintPK, pk, true);
     }
     /**
-     * Calculates the associated token account for the lp mint of this market
      * @param pk Public key to find the associated token account for
-     * @returns
+     * @returns an associated token address for the lp mint
      */
     // TODO: move to Mint class when available
     findLPTokenAccount(pk) {
         return spl_token_1.Token.getAssociatedTokenAddress(spl_token_1.ASSOCIATED_TOKEN_PROGRAM_ID, spl_token_1.TOKEN_PROGRAM_ID, this.lpMintPK, pk, true);
     }
     /**
-     * Gets the amount of 'base' the user has
      * @param user Public key for which we find the base balance
-     * @returns
+     * @returns the amount of 'base' the user has
      */
     userBaseBalance(user) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -245,9 +248,8 @@ class Market {
         });
     }
     /**
-     * Gets the amount of LP the user has
      * @param user Public key for which we find the LP amount
-     * @returns
+     * @returns the amount of LP the user has
      */
     userLPBalance(user) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -257,8 +259,7 @@ class Market {
         });
     }
     /**
-     * Gets how base is currently in the liquidity pool
-     * @returns
+     * @returns the amount of base in the liquidity pool
      */
     fetchLiquidityPoolBalance() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -271,7 +272,7 @@ class Market {
      * Gets how much principal is currently being lend out in deals
      */
     get totalOutstandingCredit() {
-        return new big_js_1.default(this.programVersion.totalOutstandingCredit.toNumber());
+        return this.programVersion.totalOutstandingCredit.toNumber();
     }
     /**
      * The gatekeeper network this market uses for identity identification
@@ -280,10 +281,9 @@ class Market {
         return this.programVersion.gatekeeperNetwork;
     }
     /**
-     * Fetches deal data
      * @param borrower Borrower to which the deal belongs
      * @param dealNumber The id of the deal, scoped to the borrower
-     * @returns
+     * @returns a Deal instance or null if the deal doesn't exist
      */
     fetchDeal(borrower, dealNumber) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -326,9 +326,10 @@ class Market {
      */
     calculateTVL() {
         return __awaiter(this, void 0, void 0, function* () {
-            const liquidityPoolBalance = yield this.fetchLiquidityPoolBalance();
-            const base_in_liquidity_pool = new big_js_1.default(liquidityPoolBalance.amount);
-            return this.totalOutstandingCredit.add(base_in_liquidity_pool);
+            const liquidityPoolBalanceTokenAmount = yield this.fetchLiquidityPoolBalance();
+            const liquidityPoolBalance = (0, big_js_1.default)(liquidityPoolBalanceTokenAmount.amount);
+            const tvl = (0, big_js_1.default)(this.totalOutstandingCredit).add(liquidityPoolBalance);
+            return tvl.toNumber();
         });
     }
     /**
@@ -370,7 +371,7 @@ class Market {
             const [passAddress] = yield __1.CredixPass.generatePDA(borrower, this);
             const pass = yield this.program.account.credixPass.fetchNullable(passAddress);
             if (!pass) {
-                return pass;
+                return null;
             }
             return new __1.CredixPass(pass, passAddress);
         });
@@ -385,6 +386,19 @@ class Market {
         const seed = (0, pda_utils_1.encodeSeedString)(marketName);
         return web3_js_1.PublicKey.findProgramAddress([seed], programId);
     }
+    /**
+     * @param marketName
+     * @param programId
+     * @returns the lp token mint address that would belong to a market with a certain name
+     */
+    // TODO: add tests for wrong mint and pda check
+    static generateLPTokenMintPDA(marketName, programId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [marketAddress] = yield Market.generatePDA(marketName, programId);
+            const lpTokenMintSeed = [marketAddress.toBuffer(), (0, pda_utils_1.encodeSeedString)("lp-token-mint")];
+            return web3_js_1.PublicKey.findProgramAddress(lpTokenMintSeed, programId);
+        });
+    }
     // TODO: add pda generation tests with static, know, reference addresses
     generateCredixPassPDA(pk) {
         const credixSeed = (0, pda_utils_1.encodeSeedString)("credix-pass");
@@ -396,8 +410,7 @@ class Market {
      * @returns
      */
     generateSigningAuthorityPDA() {
-        const seed = [this.address.toBuffer()];
-        return web3_js_1.PublicKey.findProgramAddress(seed, this.programId);
+        return (0, pda_utils_1.findSigningAuthorityPDA)(this.address, this.programId);
     }
     /**
      * Calculates the associated token account address for the liquidity pool
@@ -423,16 +436,20 @@ class Market {
         });
     }
     /**
-     * Issue a credix pass. This function requires that the client wallet to belong to a management address
-     * @param pk Public key for which we issue a credix pass
-     * @param underwriter Enable underwriter functionality.
-     * @param borrower Enable borrower functionality (creation of deals)
+     *
+     * @param pk
      * @returns
      */
-    issueCredixPass(pk, underwriter, borrower) {
+    /**
+     * Issue a credix pass. This function requires that the client wallet to belong to a management address
+     * @param pk Public key for which we issue a credix pass
+     * @param credixPassConfig Configuration of the credix pass. @see {@link CredixPassConfig}
+     * @returns a promise with the transaction signature
+     */
+    issueCredixPass(pk, credixPassConfig) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [credixPassAddress, credixPassBump] = yield __1.CredixPass.generatePDA(pk, this);
-            return this.program.rpc.createCredixPass(credixPassBump, underwriter, borrower, {
+            const [credixPassAddress] = yield __1.CredixPass.generatePDA(pk, this);
+            return this.program.rpc.createCredixPass(credixPassConfig.underwriter, credixPassConfig.borrower, new anchor_1.BN(credixPassConfig.releaseTimestamp), {
                 accounts: {
                     owner: this.program.provider.wallet.publicKey,
                     passHolder: pk,
@@ -445,16 +462,15 @@ class Market {
         });
     }
     /**
-     * Update a credix pass. This function requires that the client wallet to belong to a management address
-     * @param pk Public key for which we issue a credix pass
-     * @param underwriter Enable underwriter functionality.
-     * @param borrower Enable borrower functionality (creation of deals)
-     * @returns
+     * Update a credix pass. This function requires that the client wallet belongs to a management address
+     * @param pk Public key for which we update a credix pass
+     * @param credixPassConfig Configuration of the credix pass. @see {@link CredixPassConfig}
+     * @returns a promise with the transaction signature
      */
-    updateCredixPass(pk, active, underwriter, borrower) {
+    updateCredixPass(pk, credixPassConfig) {
         return __awaiter(this, void 0, void 0, function* () {
             const [credixPassAddress] = yield __1.CredixPass.generatePDA(pk, this);
-            return this.program.rpc.updateCredixPass(active, underwriter, borrower, {
+            return this.program.rpc.updateCredixPass(credixPassConfig.active !== false, credixPassConfig.underwriter, credixPassConfig.borrower, new anchor_1.BN(credixPassConfig.releaseTimestamp), {
                 accounts: {
                     owner: this.program.provider.wallet.publicKey,
                     passHolder: pk,
@@ -463,6 +479,23 @@ class Market {
                 },
             });
         });
+    }
+    freeze() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.program.rpc.freezeGlobalMarketState({
+                accounts: { owner: this.program.provider.wallet.publicKey, globalMarketState: this.address },
+            });
+        });
+    }
+    thaw() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.program.rpc.thawGlobalMarketState({
+                accounts: { owner: this.program.provider.wallet.publicKey, globalMarketState: this.address },
+            });
+        });
+    }
+    get isFrozen() {
+        return this.programVersion.frozen;
     }
 }
 exports.Market = Market;

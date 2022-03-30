@@ -97,7 +97,7 @@ describe("Deal", () => {
 		const dealAddress = Keypair.generate();
 		const deal = new Deal(dealFixture, market, dealAddress.publicKey, testProgram, testClient);
 
-		expect(deal.createdAt).to.equal(dealFixture.createdAt);
+		expect(deal.createdAt).to.equal(dealFixture.createdAt.toNumber());
 	});
 
 	it("returns the leverage ratio", () => {
@@ -166,7 +166,7 @@ describe("Deal", () => {
 		const dealAddress = Keypair.generate();
 		const deal = new Deal(dealFixture, market, dealAddress.publicKey, testProgram, testClient);
 
-		expect(deal.lateFees).to.equal(dealFixture.lateFees);
+		expect(deal.lateFees).to.equal(dealFixture.lateFees.toNumber());
 	});
 
 	it("returns the late fees repaid", () => {
@@ -181,7 +181,7 @@ describe("Deal", () => {
 		const dealAddress = Keypair.generate();
 		const deal = new Deal(dealFixture, market, dealAddress.publicKey, testProgram, testClient);
 
-		expect(deal.lateFeesRepaid).to.equal(dealFixture.lateFeesRepaid);
+		expect(deal.lateFeesRepaid).to.equal(dealFixture.lateFeesRepaid.toNumber());
 	});
 
 	it("returns if the deal is private", () => {
@@ -226,7 +226,7 @@ describe("Deal", () => {
 		const dealAddress = Keypair.generate();
 		const deal = new Deal(dealFixture, market, dealAddress.publicKey, testProgram, testClient);
 
-		expect(deal.principal.eq(new Big(dealFixture.principal.toNumber()))).to.be.true;
+		expect(Big(deal.principal).eq(new Big(dealFixture.principal.toNumber()))).to.be.true;
 	});
 
 	it("returns principal repaid", () => {
@@ -241,8 +241,9 @@ describe("Deal", () => {
 		const dealAddress = Keypair.generate();
 		const deal = new Deal(dealFixture, market, dealAddress.publicKey, testProgram, testClient);
 
-		expect(deal.principalAmountRepaid.eq(new Big(dealFixture.principalAmountRepaid.toNumber()))).to
-			.be.true;
+		expect(
+			Big(deal.principalAmountRepaid).eq(new Big(dealFixture.principalAmountRepaid.toNumber()))
+		).to.be.true;
 	});
 
 	it("returns principal principal to repay", () => {
@@ -274,7 +275,8 @@ describe("Deal", () => {
 		const dealAddress = Keypair.generate();
 		const deal = new Deal(dealFixture, market, dealAddress.publicKey, testProgram, testClient);
 
-		expect(deal.interestRepaid.eq(new Big(dealFixture.interestAmountRepaid.toNumber()))).to.be.true;
+		expect(Big(deal.interestRepaid).eq(new Big(dealFixture.interestAmountRepaid.toNumber()))).to.be
+			.true;
 	});
 
 	it("returns the financing fee percentage", () => {
@@ -346,8 +348,8 @@ describe("Deal", () => {
 			dealFixture.financingFeePercentage.numerator,
 			dealFixture.financingFeePercentage.denominator
 		);
-		const interest = financingFeePercentage.apply(new Big(dealFixture.principal.toNumber()));
-		const totalInterest = timeToMaturity.apply(interest);
+		const interest = financingFeePercentage.apply(dealFixture.principal.toNumber());
+		const totalInterest = timeToMaturity.apply(interest.toNumber());
 		const deal = new Deal(
 			{
 				...dealFixture,

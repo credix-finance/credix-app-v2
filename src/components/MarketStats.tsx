@@ -17,7 +17,7 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 		const tvl = await market?.calculateTVL();
 
 		if (tvl) {
-			setTvl(toUIAmount(tvl).toNumber() || 0);
+			setTvl(toUIAmount(new Big(tvl)).toNumber() || 0);
 		}
 	}, [market]);
 
@@ -28,14 +28,14 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 			return;
 		}
 
-		setApy(weightedAverageFinancingFee.apply(new Big(1)).toNumber());
+		setApy(weightedAverageFinancingFee.apply(1).toNumber());
 	}, [market]);
 
 	const getCreditOutstanding = useCallback(async () => {
 		const totalOutstandingCredit = market?.totalOutstandingCredit;
 
 		if (totalOutstandingCredit) {
-			setCreditOutstanding(toUIAmount(totalOutstandingCredit).toNumber());
+			setCreditOutstanding(toUIAmount(new Big(totalOutstandingCredit)).toNumber());
 		}
 	}, [market]);
 

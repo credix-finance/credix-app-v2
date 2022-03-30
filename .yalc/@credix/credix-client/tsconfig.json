@@ -33,5 +33,6 @@
 		"declaration": true,
 		"declarationMap": true,
 		"skipLibCheck": true,
-	},
+		"composite": true
+	}
 }

@@ -1,5 +1,3 @@
-/// <reference types="bn.js" />
-import { BN } from "@project-serum/anchor";
 import { PublicKey } from "@solana/web3.js";
 import { Big } from "big.js";
 import { CredixProgram, Deal as ProgramDeal } from "../idl/idl.types";
@@ -48,7 +46,7 @@ export declare class Deal {
     /**
      * Timestamp of deal creation
      */
-    get createdAt(): BN;
+    get createdAt(): number;
     get leverageRatio(): number;
     /**
      * Fee for the underwriters for underwriting the deal
@@ -61,18 +59,18 @@ export declare class Deal {
     /**
      * Fees accrued by missed payments
      */
-    get lateFees(): BN;
-    get lateFeesRepaid(): BN;
+    get lateFees(): number;
+    get lateFeesRepaid(): number;
     get isPrivate(): boolean;
     get defaulted(): boolean;
     /**
      * How much was lent
      */
-    get principal(): Big;
+    get principal(): number;
     /**
      * How much of the principal was repaid
      */
-    get principalAmountRepaid(): Big;
+    get principalAmountRepaid(): number;
     /**
      * The principal that is yet to be repaid
      */
@@ -80,7 +78,7 @@ export declare class Deal {
     /**
      * How much of the interest was repaid
      */
-    get interestRepaid(): Big;
+    get interestRepaid(): number;
     /**
      * Total interest accrued by the deal
      */
@@ -117,13 +115,13 @@ export declare class Deal {
      * @param amount
      * @returns
      */
-    repayPrincipal(amount: Big): Promise<string>;
+    repayPrincipal(amount: number): Promise<string>;
     /**
      * Repays interest of the deal. This needs to happen before principal repayments.
      * @param amount
      * @returns
      */
-    repayInterest(amount: Big): Promise<string>;
+    repayInterest(amount: number): Promise<string>;
     private repay;
 }
 //# sourceMappingURL=Deal.d.ts.map

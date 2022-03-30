@@ -1,7 +1,7 @@
 import { ReactElement, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Deal, Ratio, useCredixClient } from "@credix/credix-client";
-import { toUIAmount, formatTimestamp } from "../../utils/format.utils";
+import { toUIAmount, formatTimestamp } from "@utils/format.utils";
 import { Tabs } from "@components/Tabs";
 import { TabPane } from "@components/TabPane";
 import { Table, ColumnsProps } from "@components/Table";
@@ -10,7 +10,7 @@ import { Slider } from "@components/Slider";
 import { Button } from "@components/Button";
 import Link from "next/link";
 import Big from "big.js";
-import { useLocales } from "../../hooks/useLocales";
+import { useLocales } from "@hooks/useLocales";
 import { useStore } from "@state/useStore";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
@@ -22,12 +22,15 @@ const dealsTableColumns: ColumnsProps[] = [
 		icon: "stacked-column-down",
 		dataIndex: "name",
 		key: "name",
+		width: "40%",
+		ellipsis: true,
 	},
 	{
 		title: "Amount",
 		icon: "coins-alt",
 		dataIndex: "amount",
 		key: "amount",
+		width: "20%",
 		render: (text) => <span className="font-medium text-lg">{text} USDC</span>,
 	},
 	{
@@ -35,12 +38,14 @@ const dealsTableColumns: ColumnsProps[] = [
 		icon: "calendar",
 		dataIndex: "date",
 		key: "date",
+		width: "20%",
 		render: (text) => <span className="font-medium text-lg">{text}</span>,
 	},
 	{
 		title: "Paid",
 		dataIndex: "paid",
 		key: "paid",
+		width: "20%",
 		render: (value: number) => <Slider value={value} fullLabel="Full" />,
 	},
 ];
@@ -74,7 +79,7 @@ const Deals: NextPageWithLayout = () => {
 
 		const repaidRatio = new Ratio(principal.toNumber(), principalAmountRepaid.toNumber());
 
-		return repaidRatio.apply(new Big(100));
+		return repaidRatio.apply(100);
 	};
 
 	const mapDeal = useCallback(
@@ -82,9 +87,9 @@ const Deals: NextPageWithLayout = () => {
 			return {
 				key: address.toString(),
 				name: name,
-				amount: toUIAmount(principal).toNumber(),
-				date: formatTimestamp(goLiveAt, locales as string[]),
-				paid: dealRepaidRatio(principal, principalAmountRepaid),
+				amount: toUIAmount(new Big(principal)).toNumber(),
+				date: goLiveAt && formatTimestamp(goLiveAt, locales as string[]),
+				paid: dealRepaidRatio(new Big(principal), new Big(principalAmountRepaid)),
 			};
 		},
 		[locales]
@@ -99,16 +104,31 @@ const Deals: NextPageWithLayout = () => {
 			</a>
 		</Link>
 	);
+
+	const newDealButton = (
+		<Link href={`/${marketplace}/deals/new`}>
+			<a>
+				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
+					<span className="text-lg capitalize">create new deal</span>
+				</Button>
+			</a>
+		</Link>
+	);
+
+	const actionButton = isAdmin ? newDealButton : investButton;
+
+	const dealShowRoute = (marketplace: string, id: string) => `/${marketplace}/deals/${id}/show`;
+
 	return (
 		<div className="space-y-14 py-5 px-4 md:pt-12 md:px-28">
-			<Tabs tabBarExtraContent={investButton}>
+			<Tabs tabBarExtraContent={actionButton}>
 				<TabPane tab="Active Deals" key="activeDealsTab">
 					<Table
 						loading={isLoadingDeals}
 						onRow={(record) => {
 							return {
 								onClick: () => {
-									router.push(`/${marketplace}/deals/${record?.key}`);
+									router.push(dealShowRoute(marketplace as string, record?.key));
 								},
 							};
 						}}
@@ -123,7 +143,7 @@ const Deals: NextPageWithLayout = () => {
 							onRow={(record) => {
 								return {
 									onClick: () => {
-										router.push(`/${marketplace}/deals/${record?.key}`);
+										router.push(dealShowRoute(marketplace as string, record?.key));
 									},
 								};
 							}}
@@ -138,7 +158,7 @@ const Deals: NextPageWithLayout = () => {
 						onRow={(record) => {
 							return {
 								onClick: () => {
-									router.push(`/${marketplace}/deals/${record?.key}`);
+									router.push(dealShowRoute(marketplace as string, record?.key));
 								},
 							};
 						}}

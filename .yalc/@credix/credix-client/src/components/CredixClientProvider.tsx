@@ -6,7 +6,7 @@ import { ClientContext } from "./useCredixClient";
 
 export interface CredixClientProviderProps {
 	connection: Connection;
-	wallet: typeof Wallet;
+	wallet: Wallet;
 	config: CredixClientConfig;
 	children: React.ReactNode;
 }

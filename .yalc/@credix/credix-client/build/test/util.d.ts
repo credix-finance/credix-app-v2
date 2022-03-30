@@ -18,8 +18,8 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             denominator: number;
         };
         timeToMaturityDays: number;
-        bump: number;
         name: string;
+        bump: number;
         principalAmountRepaid: import("bn.js");
         interestAmountRepaid: import("bn.js");
         goLiveAt: import("bn.js");
@@ -33,8 +33,8 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
     globalMarketState: {
         gatekeeperNetwork: PublicKey;
         treasuryPoolTokenAccount: PublicKey;
-        lpTokenMintAccount: PublicKey;
-        signingAuthorityBump: number;
+        lpTokenMint: PublicKey;
+        baseTokenMint: PublicKey;
         interestFee: {
             numerator: number;
             denominator: number;
@@ -44,9 +44,10 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             denominator: number;
         };
         bump: number;
-        liquidityPoolTokenMintAccount: PublicKey;
         totalOutstandingCredit: import("bn.js");
+        signingAuthorityBump: number;
         frozen: boolean;
+        seed: string;
     };
     borrowerInfo: {
         numOfDeals: number;
@@ -55,8 +56,10 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
     credixPass: {
         isUnderwriter: boolean;
         isBorrower: boolean;
+        releaseTimestamp: import("bn.js");
         bump: number;
         active: boolean;
+        user: PublicKey;
     };
 }, import("@saberhq/anchor-contrib").AnchorDefined<import("../src/idl/credix").Credix, {
     DealRepaymentType: import("../src/idl/idl.types").RepaymentType;
@@ -75,10 +78,25 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "globalMarketState";
             isMut: true;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "arg";
+                    type: "string";
+                    path: "global_market_seed";
+                }];
+            };
         }, {
             name: "signingAuthority";
             isMut: false;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }];
+            };
         }, {
             name: "liquidityPoolTokenAccount";
             isMut: true;
@@ -92,11 +110,23 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             isMut: true;
             isSigner: false;
         }, {
-            name: "lpTokenMintAccount";
+            name: "lpTokenMint";
             isMut: true;
-            isSigner: true;
+            isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "lp-token-mint";
+                }];
+            };
         }, {
-            name: "baseMintAccount";
+            name: "baseTokenMint";
             isMut: false;
             isSigner: false;
         }, {
@@ -116,7 +146,7 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             isMut: false;
             isSigner: false;
         }];
-        args: [number, number, string, {
+        args: [string, {
             numerator: number;
             denominator: number;
         }, {
@@ -124,8 +154,6 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             denominator: number;
         }] & unknown[];
         namedArgs: {
-            signingAuthorityBump: number;
-            globalMarketStateBump: number;
             globalMarketSeed: string;
             interestFee: {
                 numerator: number;
@@ -154,6 +182,14 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "signingAuthority";
             isMut: false;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }];
+            };
         }, {
             name: "investorTokenAccount";
             isMut: true;
@@ -163,7 +199,7 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             isMut: true;
             isSigner: false;
         }, {
-            name: "lpTokenMintAccount";
+            name: "lpTokenMint";
             isMut: true;
             isSigner: false;
         }, {
@@ -174,8 +210,24 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "credixPass";
             isMut: false;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "investor";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "credix-pass";
+                }];
+            };
         }, {
-            name: "baseMintAccount";
+            name: "baseTokenMint";
             isMut: false;
             isSigner: false;
         }, {
@@ -217,6 +269,22 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "borrowerInfo";
             isMut: true;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "borrower";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "borrower-info";
+                }];
+            };
         }, {
             name: "globalMarketState";
             isMut: false;
@@ -225,16 +293,53 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "deal";
             isMut: true;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "borrower";
+                }, {
+                    kind: "account";
+                    type: "u16";
+                    account: "BorrowerInfo";
+                    path: "borrower_info.num_of_deals";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "deal-info";
+                }];
+            };
         }, {
             name: "credixPass";
             isMut: false;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "borrower";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "credix-pass";
+                }];
+            };
         }, {
             name: "systemProgram";
             isMut: false;
             isSigner: false;
         }];
-        args: [number, number, import("bn.js"), {
+        args: [import("bn.js"), {
             numerator: number;
             denominator: number;
         }, number, {
@@ -242,8 +347,6 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             denominator: number;
         }, number, string] & unknown[];
         namedArgs: {
-            dealBump: number;
-            borrowerInfoBump: number;
             principal: import("bn.js");
             financingFeePercentage: {
                 numerator: number;
@@ -275,10 +378,39 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "signingAuthority";
             isMut: false;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }];
+            };
         }, {
             name: "deal";
             isMut: true;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "borrower";
+                }, {
+                    kind: "account";
+                    type: "u16";
+                    account: "Deal";
+                    path: "deal.deal_number";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "deal-info";
+                }];
+            };
         }, {
             name: "liquidityPoolTokenAccount";
             isMut: true;
@@ -295,8 +427,24 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "credixPass";
             isMut: false;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "borrower";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "credix-pass";
+                }];
+            };
         }, {
-            name: "baseMintAccount";
+            name: "baseTokenMint";
             isMut: false;
             isSigner: false;
         }, {
@@ -340,6 +488,27 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "deal";
             isMut: true;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "borrower";
+                }, {
+                    kind: "account";
+                    type: "u16";
+                    account: "Deal";
+                    path: "deal.deal_number";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "deal-info";
+                }];
+            };
         }, {
             name: "liquidityPoolTokenAccount";
             isMut: true;
@@ -352,17 +521,37 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "signingAuthority";
             isMut: false;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }];
+            };
         }, {
             name: "credixPass";
             isMut: false;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "borrower";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "credix-pass";
+                }];
+            };
         }, {
-            name: "baseMintAccount";
+            name: "baseTokenMint";
             isMut: false;
-            isSigner: false;
-        }, {
-            name: "lpTokenMintAccount";
-            isMut: true;
             isSigner: false;
         }, {
             name: "associatedTokenProgram";
@@ -396,6 +585,14 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "signingAuthority";
             isMut: false;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }];
+            };
         }, {
             name: "investorLpTokenAccount";
             isMut: true;
@@ -413,15 +610,31 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             isMut: true;
             isSigner: false;
         }, {
-            name: "lpTokenMintAccount";
+            name: "lpTokenMint";
             isMut: true;
             isSigner: false;
         }, {
             name: "credixPass";
             isMut: false;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "investor";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "credix-pass";
+                }];
+            };
         }, {
-            name: "baseMintAccount";
+            name: "baseTokenMint";
             isMut: false;
             isSigner: false;
         }, {
@@ -451,6 +664,22 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "credixPass";
             isMut: true;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "pass_holder";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "credix-pass";
+                }];
+            };
         }, {
             name: "globalMarketState";
             isMut: false;
@@ -464,11 +693,11 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             isMut: false;
             isSigner: false;
         }];
-        args: [number, boolean, boolean] & unknown[];
+        args: [boolean, boolean, import("bn.js")] & unknown[];
         namedArgs: {
-            passBump: number;
             isUnderwriter: boolean;
             isBorrower: boolean;
+            releaseTimestamp: import("bn.js");
         };
     };
     updateCredixPass: {
@@ -484,15 +713,32 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
             name: "credixPass";
             isMut: true;
             isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }, {
+                    kind: "account";
+                    type: "publicKey";
+                    path: "pass_holder";
+                }, {
+                    kind: "const";
+                    type: "string";
+                    value: "credix-pass";
+                }];
+            };
         }, {
             name: "globalMarketState";
             isMut: false;
             isSigner: false;
         }];
-        args: [boolean, boolean, boolean] & unknown[];
+        args: [boolean, boolean, boolean, import("bn.js")] & unknown[];
         namedArgs: {
             isUnderwriter: boolean;
             isBorrower: boolean;
+            releaseTimestamp: import("bn.js");
             isActive: boolean;
         };
     };
@@ -521,6 +767,54 @@ export declare const testProgram: import("@saberhq/anchor-contrib").AnchorProgra
         }];
         args: [] & unknown[];
         namedArgs: {};
+    };
+    updateLpTokenMetadata: {
+        accounts: [{
+            name: "owner";
+            isMut: true;
+            isSigner: true;
+        }, {
+            name: "globalMarketState";
+            isMut: false;
+            isSigner: false;
+        }, {
+            name: "metadataPda";
+            isMut: true;
+            isSigner: false;
+        }, {
+            name: "lpTokenMint";
+            isMut: true;
+            isSigner: false;
+        }, {
+            name: "signingAuthority";
+            isMut: false;
+            isSigner: false;
+            pda: {
+                seeds: [{
+                    kind: "account";
+                    type: "publicKey";
+                    account: "GlobalMarketState";
+                    path: "global_market_state";
+                }];
+            };
+        }, {
+            name: "tokenMetadataProgram";
+            isMut: false;
+            isSigner: false;
+        }, {
+            name: "rent";
+            isMut: false;
+            isSigner: false;
+        }, {
+            name: "systemProgram";
+            isMut: false;
+            isSigner: false;
+        }];
+        args: [string, string] & unknown[];
+        namedArgs: {
+            symbol: string;
+            name: string;
+        };
     };
 }, {}>;
 //# sourceMappingURL=util.d.ts.map

@@ -77,7 +77,7 @@ describe("Market", () => __awaiter(void 0, void 0, void 0, function* () {
         // Act
         const baseMintPK = market === null || market === void 0 ? void 0 : market.baseMintPK;
         // Assert
-        (0, chai_1.expect)(baseMintPK === null || baseMintPK === void 0 ? void 0 : baseMintPK.equals(Market_fixture_1.globalMarketFixture.liquidityPoolTokenMintAccount)).to.be.true;
+        (0, chai_1.expect)(baseMintPK === null || baseMintPK === void 0 ? void 0 : baseMintPK.equals(Market_fixture_1.globalMarketFixture.baseTokenMint)).to.be.true;
     }));
     it("returns the lp mint public key", () => __awaiter(void 0, void 0, void 0, function* () {
         // Arrange
@@ -89,7 +89,7 @@ describe("Market", () => __awaiter(void 0, void 0, void 0, function* () {
         // Act
         const lpMintPK = market === null || market === void 0 ? void 0 : market.lpMintPK;
         // Assert
-        (0, chai_1.expect)(lpMintPK === null || lpMintPK === void 0 ? void 0 : lpMintPK.equals(Market_fixture_1.globalMarketFixture.lpTokenMintAccount)).to.be.true;
+        (0, chai_1.expect)(lpMintPK === null || lpMintPK === void 0 ? void 0 : lpMintPK.equals(Market_fixture_1.globalMarketFixture.lpTokenMint)).to.be.true;
     }));
     it("returns the treasury public key", () => __awaiter(void 0, void 0, void 0, function* () {
         // Arrange
@@ -113,8 +113,8 @@ describe("Market", () => __awaiter(void 0, void 0, void 0, function* () {
         // Act
         const withdrawFee = market === null || market === void 0 ? void 0 : market.withdrawFee;
         // Assert
-        (0, chai_1.expect)(withdrawFee === null || withdrawFee === void 0 ? void 0 : withdrawFee.numerator).to.equal(Market_fixture_1.globalMarketFixture.withdrawalFee.numerator);
-        (0, chai_1.expect)(withdrawFee === null || withdrawFee === void 0 ? void 0 : withdrawFee.denominator).to.equal(Market_fixture_1.globalMarketFixture.withdrawalFee.denominator);
+        (0, chai_1.expect)(withdrawFee === null || withdrawFee === void 0 ? void 0 : withdrawFee.numerator.toNumber()).to.equal(Market_fixture_1.globalMarketFixture.withdrawalFee.numerator);
+        (0, chai_1.expect)(withdrawFee === null || withdrawFee === void 0 ? void 0 : withdrawFee.denominator.toNumber()).to.equal(Market_fixture_1.globalMarketFixture.withdrawalFee.denominator);
     }));
     it("returns the interest fee", () => __awaiter(void 0, void 0, void 0, function* () {
         // Arrange
@@ -167,7 +167,7 @@ describe("Market", () => __awaiter(void 0, void 0, void 0, function* () {
         const totalOutstandingCredit = market.totalOutstandingCredit;
         const liquidityPoolBalance = yield market.fetchLiquidityPoolBalance();
         const expectedTVL = new big_js_1.default(liquidityPoolBalance.amount).add(totalOutstandingCredit);
-        (0, chai_1.expect)(tvl.toNumber()).to.equal(expectedTVL.toNumber());
+        (0, chai_1.expect)(tvl).to.equal(expectedTVL.toNumber());
     }));
     it("fetches the liquidity pool balance", () => __awaiter(void 0, void 0, void 0, function* () {
         // Arrange
@@ -210,7 +210,7 @@ describe("Market", () => __awaiter(void 0, void 0, void 0, function* () {
         const lpPrice = yield market.getLPPrice();
         // Assert
         const tvl = yield market.calculateTVL();
-        (0, chai_1.expect)(lpPrice.eq(tvl.div(new big_js_1.default(100)))).to.be.true;
+        (0, chai_1.expect)((0, big_js_1.default)(lpPrice).eq((0, big_js_1.default)(100).div((0, big_js_1.default)(tvl)).toNumber())).to.be.true;
     }));
     it("returns the LP price 0 when no supply yet", () => __awaiter(void 0, void 0, void 0, function* () {
         // Arrange
@@ -232,7 +232,7 @@ describe("Market", () => __awaiter(void 0, void 0, void 0, function* () {
         // Act
         const lpPrice = yield market.getLPPrice();
         // Assert
-        (0, chai_1.expect)(lpPrice.eq(0)).to.be.true;
+        (0, chai_1.expect)((0, big_js_1.default)(lpPrice).eq(0)).to.be.true;
     }));
     it("finds a base token account", () => __awaiter(void 0, void 0, void 0, function* () {
         // Arrange
@@ -355,7 +355,7 @@ describe("Market", () => __awaiter(void 0, void 0, void 0, function* () {
         // Act
         const totalOutstandingCredit = market.totalOutstandingCredit;
         // Assert
-        (0, chai_1.expect)(totalOutstandingCredit.eq(new big_js_1.default(Market_fixture_1.globalMarketFixture.totalOutstandingCredit.toNumber()))).to.be.true;
+        (0, chai_1.expect)((0, big_js_1.default)(totalOutstandingCredit).eq(new big_js_1.default(Market_fixture_1.globalMarketFixture.totalOutstandingCredit.toNumber()))).to.be.true;
     }));
     it("returns the gatekeeper network", () => __awaiter(void 0, void 0, void 0, function* () {
         // Arrange
