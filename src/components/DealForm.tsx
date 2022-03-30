@@ -36,7 +36,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 	};
 
 	return (
-		<Form name="deal" form={form} onFinish={onSubmit} layout="vertical" className="max-w-[624px]">
+		<Form name="deal" form={form} onFinish={onSubmit} layout="vertical">
 			<Input
 				name="dealName"
 				label="Deal Name"

@@ -76,10 +76,10 @@ const New: NextPageWithLayout = () => {
 	};
 
 	return (
-		<div className="py-5 px-4 md:pt-12 md:px-20 md:grid md:justify-self-center md:w-full md:max-w-7xl lg:max-w-5xl">
+		<div className="py-5 px-4 md:px-20 md:justify-self-center md:w-full md:max-w-7xl lg:max-w-5xl">
 			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
-			<div className="text-4xl font-sans pt-3 pb-5">New Deal</div>
-			<div className="bg-neutral-0 py-10 px-24 space-y-7">
+			<div className="text-4xl font-sans pt-3 mb-9">New Deal</div>
+			<div className="bg-neutral-0 py-10 px-14 space-y-7">
 				<DealForm onSubmit={onSubmit} />
 			</div>
 		</div>
