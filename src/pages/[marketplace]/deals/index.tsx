@@ -120,7 +120,7 @@ const Deals: NextPageWithLayout = () => {
 	const dealShowRoute = (marketplace: string, id: string) => `/${marketplace}/deals/${id}/show`;
 
 	return (
-		<div className="space-y-14 py-5 px-4 md:pt-12 md:px-28">
+		<div className="space-y-14 py-5 px-4 md:pt-20 md:px-28">
 			<Tabs tabBarExtraContent={actionButton}>
 				<TabPane tab="Active Deals" key="activeDealsTab">
 					<Table
