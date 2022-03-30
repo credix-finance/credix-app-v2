@@ -250,6 +250,10 @@ body {
 	@apply pl-6 pr-10 !important;
 }
 
+.ant-select-selection-item {
+	@apply pr-5 !important;
+}
+
 .ant-input-group.ant-input-group-compact {
 	@apply grid grid-cols-select !important;
 }

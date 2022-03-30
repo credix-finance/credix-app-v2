@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent } from "react";
 import { Form, Select, Input as AntdInput } from "antd";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
@@ -11,14 +11,16 @@ export enum DEAL_REPAYMENT_TYPE {
 	PRINCIPAL = "principal",
 }
 export interface RepayDealFormInput {
-	type: DEAL_REPAYMENT_TYPE;
-	amount: number;
+	repayment: {
+		type: DEAL_REPAYMENT_TYPE;
+		amount: number;
+	};
 }
 
 interface RepayDealFormProps {
-	onSubmit: ({ type, amount }: RepayDealFormInput) => void;
-	maxInterestRepayment?: number;
-	maxPrincipalRepayment?: number;
+	onSubmit: ({ repayment: { type, amount } }: RepayDealFormInput) => void;
+	maxInterestRepayment: number;
+	maxPrincipalRepayment: number;
 }
 
 const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
@@ -27,72 +29,57 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 	maxPrincipalRepayment,
 }) => {
 	const [form] = Form.useForm();
-	const [submitDisabled, setSubmitDisabled] = useState(null);
-	const repaymentOptions: Option[] = [
+	const repaymentOptions: any[] = [
 		{ label: DEAL_REPAYMENT_TYPE.INTEREST, value: DEAL_REPAYMENT_TYPE.INTEREST },
 		{ label: DEAL_REPAYMENT_TYPE.PRINCIPAL, value: DEAL_REPAYMENT_TYPE.PRINCIPAL },
 	];
 
 	const onAddMax = () => {
-		form.getFieldValue("repaymentType") === DEAL_REPAYMENT_TYPE.INTEREST
-			? form.setFieldsValue({ amount: maxInterestRepayment })
-			: form.setFieldsValue({ amount: maxPrincipalRepayment });
-
-		setSubmitDisabled(false);
+		form.getFieldValue(["repayment", "type"]) === DEAL_REPAYMENT_TYPE.INTEREST
+			? form.setFieldsValue({ repayment: { amount: maxInterestRepayment } })
+			: form.setFieldsValue({ repayment: { amount: maxPrincipalRepayment } });
 	};
-
-	useEffect(() => setSubmitDisabled(true), []);
 
 	return (
 		<Form
 			name="deal"
 			form={form}
+			initialValues={{ repayment: { type: "interest" } }}
 			onFinish={onSubmit}
 			layout="vertical"
-			onFieldsChange={(_changedFields, fields) =>
-				setSubmitDisabled(fields.some((field) => !field.value))
-			}
 			className="max-w-[624px]"
 		>
 			<AntdInput.Group compact>
 				<Form.Item
-					label="AMOUNT"
-					className={`
-				font-bold text-base
-			`}
+					name={["repayment", "type"]}
+					label={"Amount"}
+					className={`font-bold text-base capitalize`}
 				>
 					<Select
-						defaultValue="interest"
-						suffixIcon={() => (
-							<Icon name="arrow-down-square-solid" className="bg-neutral-60 w-6 h-6" />
-						)}
+						suffixIcon={<Icon name="arrow-down-square-solid" className="bg-neutral-60 w-6 h-6" />}
 					>
-						<Option value="interest">
-							<span className="uppercase">interest</span>
-						</Option>
-						<Option value="principal">
-							<span className="uppercase">principal</span>
-						</Option>
+						{repaymentOptions.map(({ label, value }) => (
+							<Option key={label} value={value}>
+								<span className="uppercase">{label}</span>
+							</Option>
+						))}
 					</Select>
 				</Form.Item>
 				<Input
-					name="amount"
+					name={["repayment", "amount"]}
 					label=" "
 					className="bg-neutral-0 w-full deal-repay-input"
-					placeholder="Amount"
+					placeholder="amount"
 					type="number"
 					suffix={
-						<div
-							onClick={onAddMax}
-							className="pl-[14.5px] hover:cursor-pointer hover:font-semibold"
-						>
+						<div onClick={onAddMax} className="pr-6 hover:cursor-pointer hover:font-semibold">
 							MAX
 						</div>
 					}
 				/>
 			</AntdInput.Group>
 			<Form.Item className="mb-0">
-				<Button disabled={submitDisabled} htmlType="submit" className="w-full md:w-max capitalize">
+				<Button htmlType="submit" className="w-full md:w-max capitalize">
 					Make Repayment
 				</Button>
 			</Form.Item>
