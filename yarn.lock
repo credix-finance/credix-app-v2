@@ -2739,10 +2739,10 @@ __metadata:
   linkType: hard
 
 "@saberhq/anchor-contrib@npm:^1.12.55":
-  version: 1.12.56
-  resolution: "@saberhq/anchor-contrib@npm:1.12.56"
+  version: 1.12.57
+  resolution: "@saberhq/anchor-contrib@npm:1.12.57"
   dependencies:
-    "@saberhq/solana-contrib": ^1.12.56
+    "@saberhq/solana-contrib": ^1.12.57
     eventemitter3: ^4.0.7
     lodash.camelcase: ^4.3.0
     lodash.mapvalues: ^4.6.0
@@ -2751,14 +2751,15 @@ __metadata:
     "@project-serum/anchor": ^0.22
     "@solana/web3.js": ">=1.29.2"
     bn.js: ^4 || ^5
-  checksum: 5da734ea26693059a29033a6dc39286aaa560c8e20646b2895af1c0661080e35d9ca1a30350ce6e71ef95b4516c62b54b1dfb603783262272a3377e525314634
+  checksum: ced83c1c2347048998fdb41dddeebd675a67e0c6160b8c0ba5028cf84a3273f3a0eaf0c845ee3a999cff6dff142617450b3590e8bcdf269e6f8f9b100ad3cd5a
   languageName: node
   linkType: hard
 
-"@saberhq/solana-contrib@npm:^1.12.56":
-  version: 1.12.56
-  resolution: "@saberhq/solana-contrib@npm:1.12.56"
+"@saberhq/solana-contrib@npm:^1.12.57":
+  version: 1.12.57
+  resolution: "@saberhq/solana-contrib@npm:1.12.57"
   dependencies:
+    "@solana/buffer-layout": ^4.0.0
     "@types/promise-retry": ^1.1.3
     "@types/retry": ^0.12.1
     promise-retry: ^2.0.1
@@ -2768,7 +2769,7 @@ __metadata:
   peerDependencies:
     "@solana/web3.js": ^1.29.2
     bn.js: ^4 || ^5
-  checksum: 21dd734def36415260f2c4478ea5afdeecde7e2c0b6723c71995375e5507534df24d7b4516d40dec36ce259958ce025f8a7cb1080cd1ae3db52b57d777f59a3c
+  checksum: 55b2dcf64372658d717bb0b9894297b77ef9bb9dec834e4d7f9480616441eaacf6471facff645d6d90f641923dc69e0eb783ad0dd6824579c2eacf246d0d2dfc
   languageName: node
   linkType: hard
 
@@ -2796,6 +2797,15 @@ __metadata:
   dependencies:
     buffer: ~6.0.3
   checksum: 72384aeff35ad6ae3bc1aed10be4f55205179d9eba6a3f0df9bf6bcb27613d6f661f6cb84691dd4dbc354f07bf9f7f8113ededceb1aee03b479e4a1847d86ae1
+  languageName: node
+  linkType: hard
+
+"@solana/buffer-layout@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@solana/buffer-layout@npm:4.0.0"
+  dependencies:
+    buffer: ~6.0.3
+  checksum: f244e9c42425477ded1fb5295252d7cb093cd591a14552e89271000ad5c01a5b5c0f2f83c7253d640414b600d4b31d95e9f3fcaec6d8280d3d6cb7f3d0a88565
   languageName: node
   linkType: hard
 

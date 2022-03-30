@@ -14,6 +14,7 @@ export const iconNames = [
 	"ellipsis",
 	"stacked-column-down",
 	"coins-alt",
+	"coin-insert",
 	"calendar",
 	"trend-up-circle",
 	"trend-down-circle",
@@ -319,6 +320,27 @@ export const Icon = ({ name, className, size }: IconProps) => {
 						d="M15.0428 10.0429L12.2499 12.8358L9.45703 10.0429L8.04282 11.4571L11.5428 14.9571C11.9333 15.3476 12.5665 15.3476 12.957 14.9571L16.457 11.4571L15.0428 10.0429Z"
 						fill="white"
 						fillOpacity="0.58"
+					/>
+				</svg>
+			);
+		case "coin-insert":
+			return (
+				<svg
+					width="30"
+					height="30"
+					viewBox="0 0 30 30"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						fillRule="evenodd"
+						clipRule="evenodd"
+						d="M15 23.75C19.8325 23.75 23.75 19.8325 23.75 15C23.75 10.1675 19.8325 6.25 15 6.25C10.1675 6.25 6.25 10.1675 6.25 15C6.25 19.8325 10.1675 23.75 15 23.75ZM15 26.25C21.2132 26.25 26.25 21.2132 26.25 15C26.25 8.7868 21.2132 3.75 15 3.75C8.7868 3.75 3.75 8.7868 3.75 15C3.75 21.2132 8.7868 26.25 15 26.25Z"
+						fill="currentColor"
+					/>
+					<path
+						d="M3.75 25C3.75 24.3096 4.30964 23.75 5 23.75H25C25.6904 23.75 26.25 24.3096 26.25 25V25C26.25 25.6904 25.6904 26.25 25 26.25H5C4.30964 26.25 3.75 25.6904 3.75 25V25Z"
+						fill="currentColor"
 					/>
 				</svg>
 			);

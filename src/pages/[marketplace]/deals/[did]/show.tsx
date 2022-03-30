@@ -43,10 +43,10 @@ const Deal: NextPageWithLayout = () => {
 	}
 
 	return (
-		<div className="px-4 py-5 md:pt-20 max-w-3xl flex flex-col justify-self-center">
+		<div className="px-4 py-5 md:pt-20 w-full max-w-3xl flex flex-col justify-self-center">
 			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
 			<div className="text-4xl font-sans pt-3 pb-5 break-words">{deal.name}</div>
-			<div className="bg-neutral-0 pb-12">
+			<div className="bg-neutral-0">
 				<DealDetails deal={deal} />
 				{isAdmin && deal.isPending() && (
 					<Button type="default" className="ml-12" onClick={activateDeal}>
@@ -59,7 +59,11 @@ const Deal: NextPageWithLayout = () => {
 };
 
 Deal.getLayout = function getLayout(page: ReactElement) {
-	return <Layout.WithMainMenu showLogo={false}>{page}</Layout.WithMainMenu>;
+	return (
+		<Layout.WithSideMenu>
+			<Layout.WithMainMenu showLogo={false}>{page}</Layout.WithMainMenu>
+		</Layout.WithSideMenu>
+	);
 };
 
 export default Deal;

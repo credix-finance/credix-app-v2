@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Form, Select, Input as AntdInput } from "antd";
+import { Form, Input as AntdInput, Select } from "antd";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { Icon } from "@components/Icon";
@@ -11,62 +11,58 @@ export enum DEAL_REPAYMENT_TYPE {
 	PRINCIPAL = "principal",
 }
 export interface RepayDealFormInput {
-	repayment: {
-		type: DEAL_REPAYMENT_TYPE;
-		amount: number;
-	};
+	type: DEAL_REPAYMENT_TYPE;
+	amount: number;
 }
 
 interface RepayDealFormProps {
-	onSubmit: ({ repayment: { type, amount } }: RepayDealFormInput) => void;
+	onSubmit: ({ type, amount }: RepayDealFormInput) => void;
 	maxInterestRepayment: number;
 	maxPrincipalRepayment: number;
+	className?: string;
 }
 
 const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 	onSubmit,
 	maxInterestRepayment,
 	maxPrincipalRepayment,
+	className,
 }) => {
 	const [form] = Form.useForm();
-	const repaymentOptions: any[] = [
+	const repaymentOptions = [
 		{ label: DEAL_REPAYMENT_TYPE.INTEREST, value: DEAL_REPAYMENT_TYPE.INTEREST },
 		{ label: DEAL_REPAYMENT_TYPE.PRINCIPAL, value: DEAL_REPAYMENT_TYPE.PRINCIPAL },
 	];
 
 	const onAddMax = () => {
-		form.getFieldValue(["repayment", "type"]) === DEAL_REPAYMENT_TYPE.INTEREST
-			? form.setFieldsValue({ repayment: { amount: maxInterestRepayment } })
-			: form.setFieldsValue({ repayment: { amount: maxPrincipalRepayment } });
+		form.getFieldValue("type") === DEAL_REPAYMENT_TYPE.INTEREST
+			? form.setFieldsValue({ amount: maxInterestRepayment })
+			: form.setFieldsValue({ amount: maxPrincipalRepayment });
 	};
 
 	return (
 		<Form
 			name="deal"
+			initialValues={{ type: DEAL_REPAYMENT_TYPE.INTEREST }}
 			form={form}
-			initialValues={{ repayment: { type: "interest" } }}
 			onFinish={onSubmit}
 			layout="vertical"
-			className="max-w-[624px]"
+			className={className}
 		>
 			<AntdInput.Group compact>
-				<Form.Item
-					name={["repayment", "type"]}
-					label={"Amount"}
-					className={`font-bold text-base capitalize`}
-				>
+				<Form.Item name="type" label="amount" className={`font-bold text-base capitalize`}>
 					<Select
 						suffixIcon={<Icon name="arrow-down-square-solid" className="bg-neutral-60 w-6 h-6" />}
 					>
 						{repaymentOptions.map(({ label, value }) => (
-							<Option key={label} value={value}>
+							<Option key={label.toString()} value={value}>
 								<span className="uppercase">{label}</span>
 							</Option>
 						))}
 					</Select>
 				</Form.Item>
 				<Input
-					name={["repayment", "amount"]}
+					name="amount"
 					label=" "
 					className="bg-neutral-0 w-full deal-repay-input"
 					placeholder="amount"
