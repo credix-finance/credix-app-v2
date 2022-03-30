@@ -50,7 +50,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				name="borrower"
 				label="Borrower Key"
 				className="bg-neutral-0"
-				placeholder="Key"
+				placeholder="Public key"
 				type="text"
 				required={true}
 				rules={[{ required: true, message: "'borrower key' is required" }]}
@@ -59,7 +59,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				name="principal"
 				label="Principal"
 				className="bg-neutral-0"
-				placeholder="Amount"
+				placeholder="USDC amount"
 				type="number"
 				lang="en"
 				step="1"
@@ -88,7 +88,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				name="timeToMaturity"
 				label="Time To Maturity"
 				className="bg-neutral-0"
-				placeholder="days"
+				placeholder="Number of days"
 				type="number"
 				required={true}
 				step="1"
