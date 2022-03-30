@@ -6,13 +6,13 @@ import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { InvestmentDetails } from "@components/InvestmentDetails";
 import { useCredixClient } from "@credix/credix-client";
-import { defaultMarketplace } from "../consts";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
 import { validateMaxValue, validateMinValue } from "utils/validation.utils";
 import { useStore } from "state/useStore";
 import { toUIAmount } from "@utils/format.utils";
+import { useRouter } from "next/router";
 
 export interface LiquidityPoolInteractionForm {
 	amount: number;
@@ -40,6 +40,8 @@ export const LiquidityPoolInteraction = ({
 	onSubmit,
 	onSubmitFailed,
 }: LiquidityPoolInteractionProps) => {
+	const router = useRouter();
+	const { marketplace } = router.query;
 	const client = useCredixClient();
 	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const market = useStore((state) => state.market);
@@ -77,8 +79,8 @@ export const LiquidityPoolInteraction = ({
 	}, [market, publicKey]);
 
 	useEffect(() => {
-		maybeFetchMarket(client, defaultMarketplace);
-	}, [client, maybeFetchMarket]);
+		maybeFetchMarket(client, marketplace as string);
+	}, [client, maybeFetchMarket, marketplace]);
 
 	useEffect(() => {
 		getUserBaseBalance();

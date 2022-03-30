@@ -6,21 +6,23 @@ import {
 } from "@components/LiquidityPoolInteraction";
 import { TabPane } from "@components/TabPane";
 import { Tabs } from "@components/Tabs";
-import { defaultMarketplace } from "../consts";
 import { Big } from "big.js";
 import message from "../message";
 import { useStore } from "state/useStore";
 import { numberFormatter, toProgramAmount } from "@utils/format.utils";
+import { useRouter } from "next/router";
 
 export const InvestWithdraw = () => {
+	const router = useRouter();
+	const { marketplace } = router.query;
 	const client = useCredixClient();
 	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
 
 	useEffect(() => {
-		maybeFetchMarket(client, defaultMarketplace);
-	}, [client, maybeFetchMarket]);
+		maybeFetchMarket(client, marketplace as string);
+	}, [client, maybeFetchMarket, marketplace]);
 
 	const withdraw = async ({ amount }: LiquidityPoolInteractionForm) => {
 		const formattedNumber = numberFormatter.format(amount);
@@ -30,7 +32,7 @@ export const InvestWithdraw = () => {
 			await market.withdraw(toProgramAmount(new Big(amount)));
 			hide();
 			message.success({ content: `Successfully withdrew ${formattedNumber} USDC` });
-			await fetchMarket(client, defaultMarketplace);
+			await fetchMarket(client, marketplace as string);
 		} catch (error) {
 			hide();
 			message.error({ content: `Failed to withdraw ${formattedNumber} USDC` });
@@ -45,7 +47,7 @@ export const InvestWithdraw = () => {
 			await market.deposit(toProgramAmount(new Big(amount)));
 			hide();
 			message.success({ content: `Successfully deposited ${formattedNumber} USDC` });
-			await fetchMarket(client, defaultMarketplace);
+			await fetchMarket(client, marketplace as string);
 		} catch (error) {
 			hide();
 			message.error({ content: `Failed to deposit ${formattedNumber} USDC` });
