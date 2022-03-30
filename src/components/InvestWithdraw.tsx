@@ -54,6 +54,7 @@ export const InvestWithdraw = () => {
 		}
 	};
 
+	// TODO: fix missing prop
 	return (
 		<Tabs>
 			<TabPane tab="Invest" key="1">

@@ -163,7 +163,7 @@ export const LiquidityPoolInteraction = ({
 					suffix={
 						<div
 							onClick={onAddMax}
-							className="md:pr-20 hover:cursor-pointer font-medium hover:font-semibold"
+							className="md:pr-5 hover:cursor-pointer font-medium hover:font-semibold"
 						>
 							MAX
 						</div>
