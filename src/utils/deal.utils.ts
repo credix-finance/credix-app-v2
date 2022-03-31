@@ -11,16 +11,13 @@ export const calculateMonthlyRepaymentAmount = (deal: Deal) => {
 };
 
 export const calculateInterestRepaidRatio = (deal: Deal) => {
-	return new Ratio(
-		toUIAmount(new Big(deal.interestRepaid)).toNumber(),
-		toUIAmount(deal.totalInterest).toNumber()
-	);
+	return new Ratio(new Big(deal.interestRepaid).toNumber(), deal.totalInterest.toNumber());
 };
 
 export const calculatePrincipalRepaidRatio = (deal: Deal) => {
 	return new Ratio(
-		toUIAmount(new Big(deal.principalAmountRepaid)).toNumber(),
-		toUIAmount(new Big(deal.principal)).toNumber()
+		new Big(deal.principalAmountRepaid).toNumber(),
+		new Big(deal.principal).toNumber()
 	);
 };
 
