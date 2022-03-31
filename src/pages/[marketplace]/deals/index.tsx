@@ -15,40 +15,7 @@ import { useStore } from "@state/useStore";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
 import { selectActiveDeals, selectEndedDeals, selectPendingDeals } from "@state/selectors";
-
-const dealsTableColumns: ColumnsProps[] = [
-	{
-		title: "Name",
-		icon: "stacked-column-down",
-		dataIndex: "name",
-		key: "name",
-		width: "40%",
-		ellipsis: true,
-	},
-	{
-		title: "Amount",
-		icon: "coins-alt",
-		dataIndex: "amount",
-		key: "amount",
-		width: "20%",
-		render: (text) => <span className="font-medium text-lg">{text} USDC</span>,
-	},
-	{
-		title: "Date",
-		icon: "calendar",
-		dataIndex: "date",
-		key: "date",
-		width: "20%",
-		render: (text) => <span className="font-medium text-lg">{text}</span>,
-	},
-	{
-		title: "Paid",
-		dataIndex: "paid",
-		key: "paid",
-		width: "20%",
-		render: (value: number) => <Slider value={value} fullLabel="Full" />,
-	},
-];
+import { useWallet } from "@solana/wallet-adapter-react";
 
 const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -63,6 +30,73 @@ const Deals: NextPageWithLayout = () => {
 	const pendingDeals = useStore((state) => selectPendingDeals(state));
 	const isLoadingDeals = useStore((state) => state.isLoadingDeals);
 	const isAdmin = useStore((state) => state.isAdmin);
+	const { publicKey } = useWallet();
+
+	const dealsTableColumns: ColumnsProps[] = [
+		{
+			title: "Name",
+			icon: "stacked-column-down",
+			dataIndex: "name",
+			key: "name",
+			ellipsis: true,
+			className: "hover:cursor-pointer hover:bg-neutral-10",
+			onCell: (record) => {
+				return {
+					onClick: () => {
+						router.push(dealShowRoute(marketplace as string, record?.key));
+					},
+				};
+			},
+		},
+		{
+			title: "Amount",
+			icon: "coins-alt",
+			dataIndex: "amount",
+			key: "amount",
+			width: "15%",
+			render: (text) => <span className="font-medium text-lg">{text} USDC</span>,
+		},
+		{
+			title: "Date",
+			icon: "calendar",
+			dataIndex: "date",
+			key: "date",
+			width: "15%",
+			render: (text) => <span className="font-medium text-lg">{text}</span>,
+		},
+		{
+			title: "Paid",
+			dataIndex: "paid",
+			key: "paid",
+			width: "10%",
+			render: (value: number) => <Slider value={value} fullLabel="Full" />,
+		},
+		{
+			dataIndex: "repay",
+			key: "repay",
+			width: "15%",
+			className: "flex justify-end",
+			// Invisible title so that the table layout isn't messed up
+			title: () => <div className="invisible">Repay</div>,
+			titleClassName: "table-cell",
+			render: ({ isRepayable, path }) => (
+				<>
+					{isRepayable ? (
+						<Link href={path}>
+							<a>
+								<Button size="large">
+									<span>Repay</span>
+								</Button>
+							</a>
+						</Link>
+					) : (
+						// Invisible button so that the table layout isn't messed up
+						<Button size="large" className="invisible"></Button>
+					)}
+				</>
+			),
+		},
+	];
 
 	useEffect(() => {
 		fetchMarket(client, marketplace as string);
@@ -72,31 +106,32 @@ const Deals: NextPageWithLayout = () => {
 		maybeFetchDeals(market);
 	}, [market, maybeFetchDeals]);
 
-	const dealRepaidRatio = (principal: Big, principalAmountRepaid: Big) => {
-		if (!principalAmountRepaid.toNumber()) {
-			return 0;
-		}
-
-		const repaidRatio = new Ratio(principal.toNumber(), principalAmountRepaid.toNumber());
-
-		return repaidRatio.apply(100);
-	};
-
 	const mapDeal = useCallback(
-		({ address, name, principal, goLiveAt, principalAmountRepaid }: Deal) => {
+		({ address, name, principal, goLiveAt, interestRepaid, totalInterest, borrower }: Deal) => {
 			return {
 				key: address.toString(),
 				name: name,
 				amount: numberFormatter.format(toUIAmount(new Big(principal)).toNumber()),
 				date: goLiveAt && formatTimestamp(goLiveAt, locales as string[]),
-				paid: dealRepaidRatio(new Big(principal), new Big(principalAmountRepaid)),
+				paid: numberFormatter.format(
+					new Ratio(
+						toUIAmount(new Big(interestRepaid)).toNumber(),
+						toUIAmount(totalInterest).toNumber()
+					)
+						.apply(100)
+						.toNumber()
+				),
+				repay: {
+					isRepayable: borrower.toString() === publicKey?.toString(),
+					path: `/${marketplace}/deals/${address.toString()}/repay`,
+				},
 			};
 		},
-		[locales]
+		[locales, marketplace, publicKey]
 	);
 
 	const investButton = (
-		<Link href={`/${marketplace}/invest`}>
+		<Link href={`/${marketplace}/invest-withdraw`}>
 			<a>
 				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
 					<span className="text-lg">Invest</span>
@@ -125,13 +160,6 @@ const Deals: NextPageWithLayout = () => {
 				<TabPane tab="Active Deals" key="activeDealsTab">
 					<Table
 						loading={isLoadingDeals}
-						onRow={(record) => {
-							return {
-								onClick: () => {
-									router.push(dealShowRoute(marketplace as string, record?.key));
-								},
-							};
-						}}
 						dataSource={activeDeals?.map((deal) => mapDeal(deal))}
 						columns={dealsTableColumns}
 					/>
@@ -140,13 +168,6 @@ const Deals: NextPageWithLayout = () => {
 					<TabPane tab="Pending Deals" key="2">
 						<Table
 							loading={isLoadingDeals}
-							onRow={(record) => {
-								return {
-									onClick: () => {
-										router.push(dealShowRoute(marketplace as string, record?.key));
-									},
-								};
-							}}
 							dataSource={pendingDeals?.map((deal) => mapDeal(deal))}
 							columns={dealsTableColumns}
 						/>
@@ -155,13 +176,6 @@ const Deals: NextPageWithLayout = () => {
 				<TabPane tab="Ended Deals" key="3">
 					<Table
 						loading={isLoadingDeals}
-						onRow={(record) => {
-							return {
-								onClick: () => {
-									router.push(dealShowRoute(marketplace as string, record?.key));
-								},
-							};
-						}}
 						dataSource={endedDeals?.map((deal) => mapDeal(deal))}
 						columns={dealsTableColumns}
 					/>
