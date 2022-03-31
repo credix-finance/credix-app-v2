@@ -1,6 +1,6 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Deal as DealType, useCredixClient } from "@credix/credix-client";
+import { Deal, Deal as DealType, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
 import { Link } from "@components/Link";
 import RepayDealForm, { DEAL_REPAYMENT_TYPE, RepayDealFormInput } from "@components/RepayDealForm";
@@ -18,6 +18,7 @@ const Repay: NextPageWithLayout = () => {
 	const client = useCredixClient();
 	const getDeal = useStore((state) => state.getDeal);
 	const [deal, setDeal] = useState<DealType>();
+	const [monthlyRepaymentAmount, setMonthlyRepaymentAmount] = useState<number>();
 	const market = useStore((state) => state.market);
 	const fetchMarket = useStore((state) => state.fetchMarket);
 
@@ -27,6 +28,21 @@ const Repay: NextPageWithLayout = () => {
 			setDeal(dealFromStore);
 		}
 	}, [market, did, getDeal]);
+
+	const calculateMonthlyRepaymentAmount = (deal: Deal) => {
+		if (!deal) {
+			return;
+		}
+
+		return toUIAmount(
+			new Big(deal.totalInterest.toNumber() / (deal.timeToMaturity / 30))
+		).toNumber();
+	};
+
+	useEffect(() => {
+		const amount = calculateMonthlyRepaymentAmount(deal);
+		setMonthlyRepaymentAmount(amount);
+	}, [deal]);
 
 	useEffect(() => {
 		fetchMarket(client, marketplace as string);
@@ -110,6 +126,7 @@ const Repay: NextPageWithLayout = () => {
 					onSubmit={onSubmit}
 					maxInterestRepayment={toUIAmount(deal.interestToRepay).toNumber()}
 					maxPrincipalRepayment={toUIAmount(deal.principalToRepay).toNumber()}
+					monthlyRepaymentAmount={monthlyRepaymentAmount}
 				/>
 			</div>
 		</div>

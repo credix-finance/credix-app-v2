@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { Form, Input as AntdInput, Select } from "antd";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
@@ -20,6 +20,7 @@ interface RepayDealFormProps {
 	onSubmit: ({ type, amount }: RepayDealFormInput) => void;
 	maxInterestRepayment: number;
 	maxPrincipalRepayment: number;
+	monthlyRepaymentAmount: number;
 	className?: string;
 }
 
@@ -27,6 +28,7 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 	onSubmit,
 	maxInterestRepayment,
 	maxPrincipalRepayment,
+	monthlyRepaymentAmount,
 	className,
 }) => {
 	const [form] = Form.useForm();
@@ -61,6 +63,11 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 		const validationMessage = "'amount' cannot be greater than the remaining principal";
 		return validateMaxValue(value, maxPrincipalRepayment, validationMessage);
 	};
+
+	useEffect(() => {
+		// We can't use initial values here because initially monthlyRepaymentAmount is undefined
+		form.setFieldsValue({ amount: monthlyRepaymentAmount });
+	}, [form, monthlyRepaymentAmount]);
 
 	return (
 		<Form
