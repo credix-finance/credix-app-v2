@@ -53,7 +53,7 @@ const Deals: NextPageWithLayout = () => {
 			icon: "coins-alt",
 			dataIndex: "amount",
 			key: "amount",
-			width: "15%",
+			width: 200,
 			render: (text) => <span className="font-medium text-lg">{text} USDC</span>,
 		},
 		{
@@ -61,20 +61,20 @@ const Deals: NextPageWithLayout = () => {
 			icon: "calendar",
 			dataIndex: "date",
 			key: "date",
-			width: "15%",
+			width: 150,
 			render: (text) => <span className="font-medium text-lg">{text}</span>,
 		},
 		{
 			title: "Paid",
 			dataIndex: "paid",
 			key: "paid",
-			width: "10%",
+			width: 150,
 			render: (value: number) => <Slider value={value} fullLabel="Full" />,
 		},
 		{
 			dataIndex: "repay",
 			key: "repay",
-			width: "15%",
+			width: 138,
 			className: "flex justify-end",
 			// Invisible title so that the table layout isn't messed up
 			title: () => <div className="invisible">Repay</div>,
