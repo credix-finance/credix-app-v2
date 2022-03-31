@@ -1,7 +1,7 @@
 import { ReactElement, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Deal, Ratio, useCredixClient } from "@credix/credix-client";
-import { toUIAmount, formatTimestamp } from "@utils/format.utils";
+import { toUIAmount, formatTimestamp, numberFormatter } from "@utils/format.utils";
 import { Tabs } from "@components/Tabs";
 import { TabPane } from "@components/TabPane";
 import { Table, ColumnsProps } from "@components/Table";
@@ -87,7 +87,7 @@ const Deals: NextPageWithLayout = () => {
 			return {
 				key: address.toString(),
 				name: name,
-				amount: toUIAmount(new Big(principal)).toNumber(),
+				amount: numberFormatter.format(toUIAmount(new Big(principal)).toNumber()),
 				date: goLiveAt && formatTimestamp(goLiveAt, locales as string[]),
 				paid: dealRepaidRatio(new Big(principal), new Big(principalAmountRepaid)),
 			};
