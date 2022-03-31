@@ -1,9 +1,29 @@
-import React, { useCallback, useMemo, useState, useEffect } from "react";
+import React, { useCallback, useMemo, useState, useEffect, FunctionComponent } from "react";
 import { useWalletModal, WalletIcon } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useStore } from "@state/useStore";
 import { Button } from "@components/Button";
 import { Icon, IconDimension } from "@components/Icon";
+import message from "@message";
+
+interface DropDownOptionProps {
+	onClick: () => void;
+	buttonText: string;
+}
+
+const DropDownOption: FunctionComponent<DropDownOptionProps> = ({ onClick, buttonText }) => {
+	return (
+		<div className="border-solid border-0">
+			<Button
+				type="default"
+				className="w-full border-none bg-credix-primary hover:bg-neutral-10"
+				onClick={onClick}
+			>
+				<span className="capitalize">{buttonText}</span>
+			</Button>
+		</div>
+	);
+};
 
 interface WalletButtonProps {
 	className?: string;
@@ -26,9 +46,23 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 
 	const copyAddress = useCallback(async () => {
 		if (base58) {
-			await navigator.clipboard.writeText(base58);
+			try {
+				await navigator.clipboard.writeText(base58);
+				message.success({ content: "Copied to clipboard!" });
+			} catch {
+				message.error({ content: "Failed to copy address to clipboard" });
+			}
 		}
 	}, [base58]);
+
+	const disconnectWallet = async () => {
+		try {
+			await disconnect();
+			message.success({ content: "Wallet disconnected" });
+		} catch {
+			message.error({ content: "Failed to disconnect wallet" });
+		}
+	};
 
 	useEffect(() => setIsAdmin(publicKey), [setIsAdmin, publicKey]);
 
@@ -61,34 +95,9 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 					dropdownVisible ? "block" : "hidden"
 				}`}
 			>
-				<div className="border-solid border-0">
-					<Button
-						type="default"
-						className="w-full border-none bg-credix-primary"
-						onClick={copyAddress}
-					>
-						{/* TODO: add feedback when copied */}
-						Copy Address
-					</Button>
-				</div>
-				<div className="border-solid border-0">
-					<Button
-						type="default"
-						className="w-full border-none bg-credix-primary"
-						onClick={() => setVisible(true)}
-					>
-						Change Wallet
-					</Button>
-				</div>
-				<div className="border-solid border-0">
-					<Button
-						type="default"
-						className="w-full border-none bg-credix-primary"
-						onClick={disconnect}
-					>
-						Disconnect
-					</Button>
-				</div>
+				<DropDownOption onClick={copyAddress} buttonText="copy address" />
+				<DropDownOption onClick={() => setVisible(true)} buttonText="change wallet" />
+				<DropDownOption onClick={disconnectWallet} buttonText="disconnect" />
 			</div>
 		</div>
 	);
