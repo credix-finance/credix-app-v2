@@ -49,6 +49,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 		<div className="relative" onBlur={() => setTimeout(() => setDropdownVisible(false), 100)}>
 			<Button
 				type="default"
+				size="large"
 				onClick={() => setDropdownVisible(!dropdownVisible)}
 				icon={<WalletIcon wallet={wallet} className="w-6" />}
 				className={`${className} w-56`}
