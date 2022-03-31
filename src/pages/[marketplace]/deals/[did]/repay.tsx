@@ -2,7 +2,6 @@ import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Deal as DealType, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
-import { Link } from "@components/Link";
 import RepayDealForm, { DEAL_REPAYMENT_TYPE, RepayDealFormInput } from "@components/RepayDealForm";
 import { NextPageWithLayout } from "pages/_app";
 import Layout from "@components/Layout";
@@ -12,6 +11,7 @@ import Big from "big.js";
 import DealAspectGrid from "@components/DealAspectGrid";
 import { Icon } from "@components/Icon";
 import { calculateMonthlyRepaymentAmount } from "@utils/deal.utils";
+import { DealCard } from "@components/DealCard";
 
 const Repay: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -104,10 +104,8 @@ const Repay: NextPageWithLayout = () => {
 	}
 
 	return (
-		<div className="px-4 py-5 md:pt-20 w-full max-w-3xl flex flex-col justify-self-center">
-			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
-			<div className="text-4xl font-sans pt-3 pb-9">{deal.name}</div>
-			<div className="bg-neutral-0 py-10 px-14 space-y-6">
+		<DealCard marketplace={marketplace as string} deal={deal}>
+			<div className="space-y-6">
 				<div className="flex items-center space-x-5">
 					<Icon name="coin-insert" className="w-7 h-7" />
 					<div className="uppercase text-2xl font-bold">make repayment</div>
@@ -120,7 +118,7 @@ const Repay: NextPageWithLayout = () => {
 					monthlyRepaymentAmount={monthlyRepaymentAmount}
 				/>
 			</div>
-		</div>
+		</DealCard>
 	);
 };
 

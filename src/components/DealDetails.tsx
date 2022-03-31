@@ -9,7 +9,7 @@ interface DealDetailsProps {
 
 export const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {
 	return (
-		<div className="bg-neutral-0 py-10 px-14 space-y-7">
+		<div className="space-y-7">
 			<DealStatus deal={deal} />
 			<div className="text-neutral-60 w-max">
 				<div>Borrower Key</div>
