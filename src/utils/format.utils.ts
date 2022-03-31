@@ -1,4 +1,3 @@
-import { Ratio } from "@credix/credix-client";
 import Big, { RoundingMode } from "big.js";
 
 type formatter = (value: number) => string;
