@@ -3,6 +3,11 @@ import { Deal, Ratio } from "@credix/credix-client";
 import { DealAspect } from "@components/DealAspect";
 import { numberFormatter, toUIAmount } from "@utils/format.utils";
 import Big from "big.js";
+import {
+	calculateDaysRemainingRatio,
+	calculateInterestRepaidRatio,
+	calculatePrincipalRepaidRatio,
+} from "@utils/deal.utils";
 
 interface DealAspectGridProps {
 	deal: Deal;
@@ -14,19 +19,13 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal }) => {
 	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Ratio>();
 
 	useEffect(() => {
-		const principalRatio = new Ratio(
-			toUIAmount(new Big(deal.principalAmountRepaid)).toNumber(),
-			toUIAmount(new Big(deal.principal)).toNumber()
-		);
+		const principalRatio = calculatePrincipalRepaidRatio(deal);
 		setPrincipalRepaidRatio(principalRatio);
 
-		const interestRatio = new Ratio(
-			toUIAmount(new Big(deal.interestRepaid)).toNumber(),
-			toUIAmount(deal.totalInterest).toNumber()
-		);
+		const interestRatio = calculateInterestRepaidRatio(deal);
 		setInterestRepaidRatio(interestRatio);
 
-		const daysRatio = new Ratio(deal.daysRemaining, deal.timeToMaturity);
+		const daysRatio = calculateDaysRemainingRatio(deal);
 		setDaysRemainingRatio(daysRatio);
 	}, [deal]);
 

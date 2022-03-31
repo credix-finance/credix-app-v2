@@ -1,6 +1,6 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Deal, Deal as DealType, useCredixClient } from "@credix/credix-client";
+import { Deal as DealType, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
 import { Link } from "@components/Link";
 import RepayDealForm, { DEAL_REPAYMENT_TYPE, RepayDealFormInput } from "@components/RepayDealForm";
@@ -11,6 +11,7 @@ import message from "message";
 import Big from "big.js";
 import DealAspectGrid from "@components/DealAspectGrid";
 import { Icon } from "@components/Icon";
+import { calculateMonthlyRepaymentAmount } from "@utils/deal.utils";
 
 const Repay: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -28,16 +29,6 @@ const Repay: NextPageWithLayout = () => {
 			setDeal(dealFromStore);
 		}
 	}, [market, did, getDeal]);
-
-	const calculateMonthlyRepaymentAmount = (deal: Deal) => {
-		if (!deal) {
-			return;
-		}
-
-		return toUIAmount(
-			new Big(deal.totalInterest.toNumber() / (deal.timeToMaturity / 30))
-		).toNumber();
-	};
 
 	useEffect(() => {
 		const amount = calculateMonthlyRepaymentAmount(deal);
