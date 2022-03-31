@@ -38,7 +38,7 @@ const getTargetClusterFromEnv = (): SolanaCluster => {
 		return targetCluster as SolanaCluster;
 	}
 
-	return SolanaCluster.DEVNET;
+	return SolanaCluster.LOCALNET;
 };
 
 const getClusterConfig = (): ClusterConfig => {
