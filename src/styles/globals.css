@@ -33,7 +33,7 @@ body {
 }
 
 .identity-button > button {
-	@apply bg-credix-primary text-neutral-100 h-[42px] flex justify-center items-center;
+	@apply bg-credix-primary text-neutral-100 h-[50px] flex justify-center items-center;
 }
 
 .identity-button > button > svg {
