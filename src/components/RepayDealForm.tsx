@@ -3,6 +3,7 @@ import { Form, Input as AntdInput, Select } from "antd";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { Icon } from "@components/Icon";
+import { validateMaxValue, validateMinValue } from "@utils/validation.utils";
 
 const { Option } = Select;
 
@@ -40,6 +41,27 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 			: form.setFieldsValue({ amount: maxPrincipalRepayment });
 	};
 
+	const validateMinAmount = (value): Promise<void> => {
+		const validationMessage = "'amount' needs to be greater than 0";
+		return validateMinValue(value, 0, validationMessage);
+	};
+
+	const validateMaxAmount = (value): Promise<void> => {
+		return form.getFieldValue("type") === DEAL_REPAYMENT_TYPE.INTEREST
+			? validateMaxInterest(value)
+			: validateMaxPrincipal(value);
+	};
+
+	const validateMaxInterest = (value): Promise<void> => {
+		const validationMessage = "'amount' cannot be greater than the remaining interest";
+		return validateMaxValue(value, maxInterestRepayment, validationMessage);
+	};
+
+	const validateMaxPrincipal = (value): Promise<void> => {
+		const validationMessage = "'amount' cannot be greater than the remaining principal";
+		return validateMaxValue(value, maxPrincipalRepayment, validationMessage);
+	};
+
 	return (
 		<Form
 			name="deal"
@@ -50,7 +72,12 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 			className={className}
 		>
 			<AntdInput.Group compact>
-				<Form.Item name="type" label="amount" className={`font-bold text-base capitalize`}>
+				<Form.Item
+					required={true}
+					name="type"
+					label="amount"
+					className={`font-bold text-base capitalize`}
+				>
 					<Select
 						suffixIcon={<Icon name="arrow-down-square-solid" className="bg-neutral-60 w-6 h-6" />}
 					>
@@ -63,8 +90,9 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 				</Form.Item>
 				<Input
 					name="amount"
-					label=" "
+					label="amount"
 					className="bg-neutral-0 w-full deal-repay-input"
+					labelClassName="label-hidden w-full"
 					placeholder="amount"
 					type="number"
 					suffix={
@@ -72,6 +100,20 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 							MAX
 						</div>
 					}
+					required={true}
+					rules={[
+						{ required: true },
+						{
+							validator(_, value) {
+								return validateMaxAmount(value);
+							},
+						},
+						{
+							validator(_, value) {
+								return validateMinAmount(value);
+							},
+						},
+					]}
 				/>
 			</AntdInput.Group>
 			<Form.Item className="mb-0">

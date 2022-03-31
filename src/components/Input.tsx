@@ -41,6 +41,7 @@ interface InputProps {
 	addonBefore?: AntInputProps["addonBefore"];
 	suffix?: AntInputProps["suffix"];
 	className?: AntInputProps["className"];
+	labelClassName?: AntInputProps["className"];
 	children?: AntInputProps["children"];
 	value?: AntInputProps["value"];
 	rules?: FormItemProps["rules"];
@@ -67,6 +68,7 @@ export const Input = ({
 	help,
 	rules,
 	className = "",
+	labelClassName = "",
 	isDisplay = false,
 	disabled = false,
 	required = false,
@@ -91,6 +93,7 @@ export const Input = ({
 				font-bold text-base mb-7
 				${disabled && "text-neutral-60/40"}
 				${hasFeedback && validateStatus === "error" && "border-error"}
+				${labelClassName}
 			`}
 		>
 			{description && <div className="font-normal text-sm mt-0 mb-[10px]">{description}</div>}

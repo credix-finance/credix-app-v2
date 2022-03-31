@@ -255,9 +255,17 @@ body {
 }
 
 .ant-input-group.ant-input-group-compact {
-	@apply grid grid-cols-select !important;
+	@apply flex !important;
 }
 
 .deal-repay-input .ant-input {
 	@apply text-2xl font-bold !important;
+}
+
+.label-hidden > .ant-form-item-label {
+	@apply invisible !important;
+}
+
+.ant-form-item-label:has(".label-hidden") {
+	@apply invisible !important;
 }
