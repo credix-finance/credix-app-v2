@@ -7,7 +7,7 @@ export const calculateMonthlyRepaymentAmount = (deal: Deal) => {
 		return;
 	}
 
-	return toUIAmount(new Big(deal.totalInterest.toNumber() / (deal.timeToMaturity / 30))).toNumber();
+	return toUIAmount(deal.totalInterest.div(new Big(deal.timeToMaturity).div(30))).toNumber();
 };
 
 export const calculateInterestRepaidRatio = (deal: Deal) => {
