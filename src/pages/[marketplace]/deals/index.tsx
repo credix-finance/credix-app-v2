@@ -39,7 +39,7 @@ const Deals: NextPageWithLayout = () => {
 			dataIndex: "name",
 			key: "name",
 			ellipsis: true,
-			className: "hover:cursor-pointer hover:bg-neutral-10",
+			className: "hover:cursor-pointer hover:bg-neutral-10 table-header-no-hover",
 			onCell: (record) => {
 				return {
 					onClick: () => {

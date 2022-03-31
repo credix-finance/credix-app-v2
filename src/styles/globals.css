@@ -269,3 +269,7 @@ body {
 .ant-form-item-label:has(".label-hidden") {
 	@apply invisible !important;
 }
+
+th.table-header-no-hover {
+	@apply hover:cursor-default hover:bg-darker !important;
+}
