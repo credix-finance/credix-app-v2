@@ -54,6 +54,8 @@ const Deals: NextPageWithLayout = () => {
 			dataIndex: "amount",
 			key: "amount",
 			width: 200,
+			titleClassName: "justify-end",
+			align: "right",
 			render: (text) => <span className="font-medium text-lg">{text} USDC</span>,
 		},
 		{
