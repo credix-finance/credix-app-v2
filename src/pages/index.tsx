@@ -1,17 +1,15 @@
+import { ReactElement } from "react";
 import Layout from "@components/Layout";
-import React, { ReactElement } from "react";
+import { NextPageWithLayout } from "pages/_app";
+import Marketplace from "@components/Marketplace";
+import { defaultMarketplace } from "@consts";
 
-// We don't actually use this page because a redirect happens but we need it anyways because otherwise we don't have an index.html to serve
-function Dummy() {
-	return <div className="px-28 py-11">Something went wrong</div>;
-}
-
-Dummy.getLayout = function getLayout(page: ReactElement) {
-	return (
-		<Layout.WithSideMenu>
-			<Layout.WithMainMenu showLogo={false}>{page}</Layout.WithMainMenu>
-		</Layout.WithSideMenu>
-	);
+const Overview: NextPageWithLayout = () => {
+	return <Marketplace marketplace={defaultMarketplace} />;
 };
 
-export default Dummy;
+Overview.getLayout = function getLayout(page: ReactElement) {
+	return <Layout.WithMainMenu>{page}</Layout.WithMainMenu>;
+};
+
+export default Overview;

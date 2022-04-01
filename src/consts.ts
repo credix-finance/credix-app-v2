@@ -1,6 +1,7 @@
 import { IconName } from "@components/Icon";
 import { Route } from "types/route.types";
 
+export const defaultMarketplace = "credix-marketplace";
 export const multisigUrl = "https://multisig.credix.finance/#/";
 
 export const investWithdrawRoute: Route = {
