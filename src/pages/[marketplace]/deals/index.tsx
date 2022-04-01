@@ -64,7 +64,11 @@ const Deals: NextPageWithLayout = () => {
 			dataIndex: "date",
 			key: "date",
 			width: 150,
-			render: (text) => <span className="font-medium text-lg">{text}</span>,
+			render: (text) => (
+				<span className="font-medium text-lg">
+					{text && formatTimestamp(text, locales as string[])}
+				</span>
+			),
 		},
 		{
 			title: "Paid",
@@ -114,7 +118,7 @@ const Deals: NextPageWithLayout = () => {
 				key: address.toString(),
 				name: name,
 				amount: numberFormatter.format(toUIAmount(new Big(principal)).toNumber()),
-				date: goLiveAt && formatTimestamp(goLiveAt, locales as string[]),
+				date: goLiveAt,
 				paid: numberFormatter.format(
 					new Ratio(
 						toUIAmount(new Big(interestRepaid)).toNumber(),
@@ -129,8 +133,14 @@ const Deals: NextPageWithLayout = () => {
 				},
 			};
 		},
-		[locales, marketplace, publicKey]
+		[marketplace, publicKey]
 	);
+
+	const mapDeals = (deals: Deal[]) =>
+		deals
+			.slice()
+			.map(mapDeal)
+			.sort((a, b) => (a.date <= b.date ? 1 : -1));
 
 	const investButton = (
 		<Link href={`/${marketplace}/invest-withdraw`}>
@@ -162,7 +172,7 @@ const Deals: NextPageWithLayout = () => {
 				<TabPane tab="Active Deals" key="activeDealsTab">
 					<Table
 						loading={isLoadingDeals}
-						dataSource={activeDeals?.map((deal) => mapDeal(deal))}
+						dataSource={activeDeals && mapDeals(activeDeals)}
 						columns={dealsTableColumns}
 					/>
 				</TabPane>
@@ -170,7 +180,7 @@ const Deals: NextPageWithLayout = () => {
 					<TabPane tab="Pending Deals" key="2">
 						<Table
 							loading={isLoadingDeals}
-							dataSource={pendingDeals?.map((deal) => mapDeal(deal))}
+							dataSource={pendingDeals && mapDeals(pendingDeals)}
 							columns={dealsTableColumns}
 						/>
 					</TabPane>
@@ -178,7 +188,7 @@ const Deals: NextPageWithLayout = () => {
 				<TabPane tab="Ended Deals" key="3">
 					<Table
 						loading={isLoadingDeals}
-						dataSource={endedDeals?.map((deal) => mapDeal(deal))}
+						dataSource={endedDeals && mapDeals(endedDeals)}
 						columns={dealsTableColumns}
 					/>
 				</TabPane>
