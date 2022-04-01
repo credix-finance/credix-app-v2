@@ -54,9 +54,8 @@ export const InvestWithdraw = () => {
 		}
 	};
 
-	// TODO: fix missing prop
 	return (
-		<Tabs tabBarExtraContent={undefined}>
+		<Tabs>
 			<TabPane tab="Invest" key="1">
 				<LiquidityPoolInteraction action="invest" onSubmit={invest} />
 			</TabPane>

@@ -150,7 +150,7 @@ WithPagination.args = {
 export const WithTabs = Template.bind({});
 WithTabs.decorators = [
 	(Story) => (
-		<Tabs tabBarExtraContent={undefined}>
+		<Tabs>
 			<TabPane tab="Investments 1" key="1">
 				<Story />
 			</TabPane>
