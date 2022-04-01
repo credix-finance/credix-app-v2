@@ -154,7 +154,7 @@ jobs:
       # Push
       - name: Push files to target repository
         run: |
-          cp -r out/* deploy
+          cp -r * deploy
           cd deploy
           echo ${{ secrets.DEPLOY_URL }} > CNAME
           touch .nojekyll
