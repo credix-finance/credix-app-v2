@@ -19,6 +19,7 @@
 			"@components/*": ["components/*"],
 			"@credix_types/*": ["types/*"],
 			"@consts": ["consts"],
+			"@message": ["message"],
 			"@state/*": ["state/*"],
 			"@utils/*": ["utils/*"],
 			"@hooks/*": ["hooks/*"]

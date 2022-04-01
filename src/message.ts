@@ -23,6 +23,7 @@ const loading = (props: MessageProps) => {
 
 const success = (props: MessageProps) => {
 	antdMessage.success({
+		duration: 1,
 		onClose: defaultOnClose,
 		icon: React.createElement(Icon, {
 			name: "check-circle" as IconName,

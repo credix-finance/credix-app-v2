@@ -9,8 +9,8 @@ import { useCredixClient } from "@credix/credix-client";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
-import { validateMaxValue, validateMinValue } from "utils/validation.utils";
-import { useStore } from "state/useStore";
+import { validateMaxValue, validateMinValue } from "@utils/validation.utils";
+import { useStore } from "@state/useStore";
 import { toUIAmount } from "@utils/format.utils";
 import { useRouter } from "next/router";
 
@@ -70,11 +70,16 @@ export const LiquidityPoolInteraction = ({
 			return;
 		}
 
-		const userStake = await market?.getUserStake(publicKey);
+		try {
+			const userStake = await market?.getUserStake(publicKey);
 
-		if (userStake) {
-			setUserStake(toUIAmount(userStake));
-			setMaxWithdrawalAmount(toUIAmount(userStake).toNumber());
+			if (userStake) {
+				setUserStake(toUIAmount(userStake));
+				setMaxWithdrawalAmount(toUIAmount(userStake).toNumber());
+			}
+		} catch (err) {
+			setUserStake(new Big(0));
+			setMaxWithdrawalAmount(0);
 		}
 	}, [market, publicKey]);
 

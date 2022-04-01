@@ -33,7 +33,7 @@ body {
 }
 
 .identity-button > button {
-	@apply bg-credix-primary text-neutral-100 h-[42px] flex justify-center items-center;
+	@apply bg-credix-primary text-neutral-100 h-[50px] flex justify-center items-center;
 }
 
 .identity-button > button > svg {
@@ -61,6 +61,10 @@ body {
 
 .ant-input-wrapper.ant-input-group > .ant-input-group-addon:last-child {
 	@apply rounded-l-none border-l-0 !important;
+}
+
+.ant-input-wrapper.ant-input-group > .ant-input-affix-wrapper-lg {
+	@apply h-full !important;
 }
 
 .ant-input-affix-wrapper {
