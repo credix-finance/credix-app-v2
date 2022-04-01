@@ -63,6 +63,10 @@ body {
 	@apply rounded-l-none border-l-0 !important;
 }
 
+.ant-input-wrapper.ant-input-group > .ant-input-affix-wrapper-lg {
+	@apply h-full !important;
+}
+
 .ant-input-affix-wrapper {
 	@apply border rounded rounded-l-none border-neutral-40 bg-neutral-0 !important;
 }
