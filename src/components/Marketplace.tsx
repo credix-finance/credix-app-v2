@@ -1,11 +1,18 @@
-import { FunctionComponent, useEffect } from "react";
-import { Button } from "@components/Button";
+import { FunctionComponent, useEffect, useState, useCallback } from "react";
 import { Card } from "@components/Card";
 import { MarketStats } from "@components/MarketStats";
 import { useCredixClient } from "@credix/credix-client";
 import Link from "next/link";
-import { dealsRoute, investWithdrawRoute } from "@consts";
+import { dealsRoute, investWithdrawRoute, typeformID } from "@consts";
 import { useStore } from "@state/useStore";
+import {
+	Button,
+	buttonSizeStyles,
+	buttonTypeStyles,
+	defaultButtonStyles,
+} from "@components/Button";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { PopupButton } from "@typeform/embed-react";
 
 interface MarketplaceProps {
 	marketplace: string;
@@ -13,12 +20,28 @@ interface MarketplaceProps {
 
 const Marketplace: FunctionComponent<MarketplaceProps> = ({ marketplace }) => {
 	const client = useCredixClient();
+	const { publicKey } = useWallet();
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
+	const [hasCredixPass, setHasCredixPass] = useState<boolean>(false);
+
+	const fetchHasCredixPass = useCallback(async () => {
+		try {
+			const credixPass = await market.fetchCredixPass(publicKey);
+
+			setHasCredixPass(!!credixPass);
+		} catch {
+			setHasCredixPass(false);
+		}
+	}, [publicKey, market]);
 
 	useEffect(() => {
 		fetchMarket(client, marketplace);
 	}, [client, fetchMarket, marketplace]);
+
+	useEffect(() => {
+		fetchHasCredixPass();
+	}, [fetchHasCredixPass]);
 
 	const parties = [
 		{
@@ -60,13 +83,22 @@ const Marketplace: FunctionComponent<MarketplaceProps> = ({ marketplace }) => {
 				{parties.map(({ name, action, buttonAction, buttonLink, description }) => (
 					<Card key={name} topTitle={name} title={action} offset="large">
 						<div className="mb-14 text-base">{description}</div>
-						<Link href={`/${marketplace}${buttonLink}`}>
-							<a>
-								<Button block={true} className="capitalize">
-									{buttonAction}
-								</Button>
-							</a>
-						</Link>
+						{hasCredixPass ? (
+							<Link href={`/${marketplace}${buttonLink}`}>
+								<a>
+									<Button block={true} className="capitalize">
+										{buttonAction}
+									</Button>
+								</a>
+							</Link>
+						) : (
+							<PopupButton
+								id={typeformID}
+								className={`${defaultButtonStyles} ${buttonTypeStyles["primary"]} ${buttonSizeStyles["middle"]} w-full capitalize hover:cursor-pointer border-b-0 border-r-0`}
+							>
+								{buttonAction}
+							</PopupButton>
+						)}
 					</Card>
 				))}
 			</div>

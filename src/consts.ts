@@ -3,6 +3,7 @@ import { Route } from "types/route.types";
 
 export const defaultMarketplace = "credix-marketplace";
 export const multisigUrl = "https://multisig.credix.finance/#/";
+export const typeformID = "E98Qjiw9";
 
 export const investWithdrawRoute: Route = {
 	icon: "line-chart" as IconName,
