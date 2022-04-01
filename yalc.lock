@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@credix/credix-client": {
+      "version": "0.1.0",
+      "signature": "4f517ee39b53d8b1d0c908e77c96f947",
+      "file": true
+    }
+  }
+}

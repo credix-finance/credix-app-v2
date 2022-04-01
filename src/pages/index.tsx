@@ -1,17 +1,15 @@
-import type {NextPage} from 'next'
-import {
-  WalletDisconnectButton,
-  WalletMultiButton,
-} from '@solana/wallet-adapter-react-ui'
-import styles from '../styles/Overview.module.css'
+import { ReactElement } from "react";
+import Layout from "@components/Layout";
+import { NextPageWithLayout } from "pages/_app";
+import Marketplace from "@components/Marketplace";
+import { defaultMarketplace } from "@consts";
 
-const Overview: NextPage = () => <div className={styles.container}>
-  <main className={styles.main}>
-    <div className={styles.walletButtons}>
-      <WalletMultiButton className="bg-white text-gray-900 hover:text-white"/>
-      <WalletDisconnectButton className="bg-white text-gray-900 hover:text-white"/>
-    </div>
-  </main>
-</div>
+const Overview: NextPageWithLayout = () => {
+	return <Marketplace marketplace={defaultMarketplace} />;
+};
 
-export default Overview
+Overview.getLayout = function getLayout(page: ReactElement) {
+	return <Layout.WithMainMenu>{page}</Layout.WithMainMenu>;
+};
+
+export default Overview;
