@@ -21,7 +21,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 			return "Connecting";
 		}
 
-		return base58.slice(0, 4) + ".." + base58.slice(-4);
+		return base58.slice(0, 5) + ".." + base58.slice(-5);
 	}, [wallet, base58]);
 
 	const copyAddress = useCallback(async () => {
@@ -49,14 +49,15 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 		<div className="relative" onBlur={() => setTimeout(() => setDropdownVisible(false), 100)}>
 			<Button
 				type="default"
+				size="large"
 				onClick={() => setDropdownVisible(!dropdownVisible)}
 				icon={<WalletIcon wallet={wallet} className="w-6" />}
-				className={className}
+				className={`${className} w-56`}
 			>
 				{address}
 			</Button>
 			<div
-				className={`absolute z-10 whitespace-nowrap right-0 grid grid-cols-1 bg-credix-primary rounded-sm w-56 border border-solid border-neutral-100 divide-y divide-neutral-100 ${
+				className={`absolute top-[60px] z-10 whitespace-nowrap right-0 grid grid-cols-1 bg-credix-primary rounded-sm w-56 border border-solid border-neutral-100 divide-y divide-neutral-100 ${
 					dropdownVisible ? "block" : "hidden"
 				}`}
 			>
