@@ -14,11 +14,13 @@ interface MainMenuProps {
 export const MainMenu = ({ showLogo = true }: MainMenuProps) => {
 	const router = useRouter();
 
+	const path = (router?.query?.marketplace as string) || "/";
+
 	return (
 		<div className="w-full bg-credix-primary flex justify-between items-center p-5">
 			<div>
 				{showLogo && (
-					<Link href={`/${router?.query?.marketplace}`}>
+					<Link href={path}>
 						<a>
 							<CredixLogo mode="dark" />
 						</a>

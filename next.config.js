@@ -17,13 +17,4 @@ module.exports = withLess({
 	reactStrictMode: false,
 	basePath: process.env.NEXT_PUBLIC_BASE_PATH,
 	assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH,
-	async redirects() {
-		return [
-			{
-				source: "/",
-				destination: "/credix-marketplace",
-				permanent: true,
-			},
-		];
-	},
 });
