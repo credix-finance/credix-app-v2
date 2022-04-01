@@ -2,19 +2,274 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@layer utilities {
+	.text-shadow-none {
+		text-shadow: none;
+	}
+	.grid-auto-rows-min {
+		grid-auto-rows: min-content;
+	}
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#__next {
+	@apply grid grid-rows-layout h-full;
+}
+
+#index {
+	background-image: url(/abstract_shape.svg);
+	background-position: center;
+}
+
+.identity-button > button {
+	@apply bg-credix-primary text-neutral-100 h-[42px] flex justify-center items-center;
+}
+
+.identity-button > button > svg {
+	@apply relative top-[unset] left-[unset] !important;
+}
+.identity-button > button > span {
+	@apply text-neutral-100 !important;
+}
+
+/* Antdesign overrides */
+.ant-form-item-label > label {
+	/* Unset label color so it displays the correct color when disabled */
+	color: unset !important;
+	/* Unset label font size so it displays the correct size that get set on the parent */
+	font-size: unset !important;
+}
+
+.ant-input-wrapper.ant-input-group > .ant-input-group-addon {
+	@apply bg-neutral-0 py-4 px-[14.5px] border-neutral-40 rounded border border-solid text-base font-normal !important;
+}
+
+.ant-input-wrapper.ant-input-group > .ant-input-group-addon:first-child {
+	@apply rounded-r-none border-r-0 !important;
+}
+
+.ant-input-wrapper.ant-input-group > .ant-input-group-addon:last-child {
+	@apply rounded-l-none border-l-0 !important;
+}
+
+.ant-input-affix-wrapper {
+	@apply border rounded rounded-l-none border-neutral-40 bg-neutral-0 !important;
+}
+.ant-input-affix-wrapper.ant-input-affix-wrapper-lg .ant-input {
+	@apply py-4 px-[14.5px] bg-neutral-0 font-normal !important;
+}
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+	@apply border border-neutral-40 !important;
+}
+
+.ant-input-affix-wrapper-focused {
+	@apply shadow-none ring-1 ring-neutral-40 border-neutral-40 !important;
+}
+
+.ant-input-group-wrapper {
+	@apply p-0 !important;
+}
+
+.anticon-close-circle {
+	/* Don't show error icon in input fields with validation errors */
+	display: none !important;
+}
+
+.ant-slider {
+	@apply mt-0 ml-0 cursor-default !important;
+}
+.ant-slider-track {
+	@apply bg-action-primary rounded-none !important;
+}
+.ant-slider-rail {
+	@apply bg-neutral-90 rounded-none !important;
+}
+.ant-slider-handle {
+	@apply bg-action-primary border-action-primary cursor-default !important;
+}
+.ant-slider-handle:focus {
+	@apply shadow-none !important;
+}
+
+.ant-table-cell {
+	@apply bg-neutral-0 font-bold text-base !important;
+}
+
+.ant-table-pagination {
+	@apply gap-1 !important;
+}
+
+.ant-table-pagination > * {
+	@apply w-[39px] h-[36px] border-none m-0 rounded-none !important;
+}
+
+.ant-pagination-item-active a,
+.ant-pagination-item-active {
+	@apply bg-neutral-100 text-credix-primary hover:text-credix-primary !important;
+}
+
+.ant-table-thead > tr > th {
+	@apply border-b-0 bg-darker text-credix-primary !important;
+}
+
+.ant-table-thead
+	> tr
+	> th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+	@apply hidden !important;
+}
+
+.ant-table-tbody > tr > td {
+	@apply border-b-0 !important;
+}
+.ant-table-tbody > tr > td {
+	box-shadow: inset 0px -1px 0px #d8deda !important;
+}
+
+.table-hoverable tr {
+	@apply cursor-pointer !important;
+}
+
+.table-hoverable tr:hover td {
+	@apply bg-neutral-10 !important;
+}
+
+.ant-tabs-tab {
+	@apply bg-neutral-0  py-6 w-44 justify-center font-bold text-base !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+	@apply text-neutral-80 text-shadow-none !important;
+}
+
+.ant-tabs-ink-bar {
+	@apply h-[6px] bg-action-hover !important;
+}
+
+.ant-tabs-tab:hover,
+.ant-tabs-tab-btn:hover,
+.ant-tabs-tab-remove:hover,
+.ant-tabs-tab-btn:focus,
+.ant-tabs-tab-remove:focus,
+.ant-tabs-tab-btn:active,
+.ant-tabs-tab-remove:active {
+	@apply text-neutral-80 !important;
+}
+
+.ant-tabs-top > .ant-tabs-nav {
+	@apply m-0 !important;
+}
+
+.ant-form-item-control-input-content .ant-input-affix-wrapper {
+	@apply py-0 px-0 !important;
+}
+
+.ant-form-item-control-input-content .ant-input {
+	@apply pl-4 pr-[25px] py-3 font-medium text-base bg-neutral-0 placeholder-neutral-100/70 !important;
+}
+
+.ant-form-item-control-input-content .ant-input-suffix {
+	@apply ml-0 !important;
+}
+
+.ant-spin-dot-item {
+	@apply bg-neutral-80 !important;
+}
+
+.ant-message {
+	@apply h-full top-0 grid place-items-center bg-neutral-80/50 !important;
+}
+
+.ant-message-notice {
+	@apply flex justify-center font-mono !important;
+}
+
+.ant-message-notice-content {
+	@apply px-7 py-5 shadow-none font-bold text-base border-[0.1px] rounded border-solid border-neutral-60 bg-credix-primary !important;
+}
+
+.ant-message-custom-content {
+	@apply flex items-center space-x-3 !important;
+}
+
+.anticon {
+	@apply text-current !important;
+}
+
+.ant-input-group-addon {
+	@apply bg-neutral-0 !important;
+}
+
+.ant-input-affix-wrapper {
+	@apply h-14 border border-neutral-40 !important;
+}
+
+.ant-select-selector {
+	@apply h-14 flex items-center border border-neutral-40 rounded-[1px] !important;
+}
+
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+	.ant-select-selector {
+	@apply ring-1 ring-neutral-60 border border-neutral-40 shadow-none z-10 !important;
+}
+
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+	@apply border-neutral-60  !important;
+}
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+	@apply ring-1 ring-neutral-60 border-neutral-40 shadow-none z-10 !important;
+}
+
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+	@apply border-r !important;
+}
+.ant-input-affix-wrapper:hover {
+	@apply border-r border-neutral-60 !important;
+}
+
+.ant-select-selector {
+	@apply pr-8 !important;
+}
+
+.ant-select-arrow {
+	@apply w-max h-max -mt-3 mr-4 z-10 !important;
+}
+
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+	@apply pl-6 pr-10 !important;
+}
+
+.ant-select-selection-item {
+	@apply pr-5 !important;
+}
+
+.ant-input-group.ant-input-group-compact {
+	@apply flex !important;
+}
+
+.deal-repay-input .ant-input {
+	@apply text-2xl font-bold !important;
+}
+
+.label-hidden > .ant-form-item-label {
+	@apply invisible !important;
+}
+
+.ant-form-item-label:has(".label-hidden") {
+	@apply invisible !important;
+}
+
+th.table-header-no-hover {
+	@apply hover:cursor-default hover:bg-darker !important;
 }

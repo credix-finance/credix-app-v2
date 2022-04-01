@@ -1,0 +1,186 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Default slider 1`] = `
+<div
+  className="flex flex-col"
+>
+  <div
+    className="font-semibold"
+  >
+    <span>
+      50
+      %
+    </span>
+  </div>
+  <div
+    className="block cursor-default"
+  >
+    <div
+      className="ant-slider ant-slider-horizontal"
+      onMouseDown={[Function]}
+    >
+      <div
+        className="ant-slider-rail"
+      />
+      <div
+        className="ant-slider-track"
+        onMouseDown={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "left": "0%",
+            "width": "50%",
+          }
+        }
+      />
+      <div
+        className="ant-slider-step"
+      />
+      <div
+        aria-disabled={false}
+        aria-valuemax={100}
+        aria-valuemin={0}
+        aria-valuenow={50}
+        className="ant-slider-handle"
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        role="slider"
+        style={
+          Object {
+            "left": "50%",
+            "transform": "translateX(-50%)",
+          }
+        }
+        tabIndex={0}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Full slider 1`] = `
+<div
+  className="flex flex-col"
+>
+  <div
+    className="font-semibold"
+  >
+    <span>
+      100
+      %
+    </span>
+  </div>
+  <div
+    className="block cursor-default"
+  >
+    <div
+      className="ant-slider ant-slider-horizontal"
+      onMouseDown={[Function]}
+    >
+      <div
+        className="ant-slider-rail"
+      />
+      <div
+        className="ant-slider-track"
+        onMouseDown={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "left": "0%",
+            "width": "100%",
+          }
+        }
+      />
+      <div
+        className="ant-slider-step"
+      />
+      <div
+        aria-disabled={false}
+        aria-valuemax={100}
+        aria-valuemin={0}
+        aria-valuenow={100}
+        className="ant-slider-handle"
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        role="slider"
+        style={
+          Object {
+            "display": "none",
+            "left": "100%",
+            "transform": "translateX(-50%)",
+          }
+        }
+        tabIndex={0}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Overfull slider without fullLabel 1`] = `
+<div
+  className="flex flex-col"
+>
+  <div
+    className="font-semibold"
+  >
+    <span>
+      200
+      %
+    </span>
+  </div>
+  <div
+    className="block cursor-default"
+  >
+    <div
+      className="ant-slider ant-slider-horizontal"
+      onMouseDown={[Function]}
+    >
+      <div
+        className="ant-slider-rail"
+      />
+      <div
+        className="ant-slider-track"
+        onMouseDown={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Object {
+            "left": "0%",
+            "width": "100%",
+          }
+        }
+      />
+      <div
+        className="ant-slider-step"
+      />
+      <div
+        aria-disabled={false}
+        aria-valuemax={100}
+        aria-valuemin={0}
+        aria-valuenow={100}
+        className="ant-slider-handle"
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        role="slider"
+        style={
+          Object {
+            "display": "none",
+            "left": "100%",
+            "transform": "translateX(-50%)",
+          }
+        }
+        tabIndex={0}
+      />
+    </div>
+  </div>
+</div>
+`;

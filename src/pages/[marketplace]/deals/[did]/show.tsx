@@ -1,0 +1,65 @@
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
+import { Button } from "@components/Button";
+import { DealDetails } from "@components/DealDetails";
+import Layout from "@components/Layout";
+import { Deal as DealType, useCredixClient } from "@credix/credix-client";
+import { useStore } from "@state/useStore";
+import { useRouter } from "next/router";
+import { NextPageWithLayout } from "pages/_app";
+import { multisigUrl } from "@consts";
+import { DealCard } from "@components/DealCard";
+
+const Deal: NextPageWithLayout = () => {
+	const router = useRouter();
+	const { marketplace, did } = router.query;
+	const client = useCredixClient();
+	const fetchMarket = useStore((state) => state.fetchMarket);
+	const market = useStore((state) => state.market);
+	const getDeal = useStore((state) => state.getDeal);
+	const [deal, setDeal] = useState<DealType>();
+	const isAdmin = useStore((state) => state.isAdmin);
+
+	const getDealFromStore = useCallback(async () => {
+		if (market) {
+			const dealFromStore = await getDeal(market, did as string);
+			setDeal(dealFromStore);
+		}
+	}, [market, did, getDeal]);
+
+	useEffect(() => {
+		fetchMarket(client, marketplace as string);
+	}, [fetchMarket, client, marketplace]);
+
+	useEffect(() => {
+		getDealFromStore();
+	}, [getDealFromStore]);
+
+	const activateDeal = async () => {
+		window.open(multisigUrl, "_blank") || window.location.replace(multisigUrl);
+	};
+
+	if (!deal) {
+		return null;
+	}
+
+	return (
+		<DealCard marketplace={marketplace as string} deal={deal}>
+			<DealDetails deal={deal} />
+			{isAdmin && deal.isPending() && (
+				<Button type="default" className="ml-12" onClick={activateDeal}>
+					Activate Deal
+				</Button>
+			)}
+		</DealCard>
+	);
+};
+
+Deal.getLayout = function getLayout(page: ReactElement) {
+	return (
+		<Layout.WithSideMenu>
+			<Layout.WithMainMenu showLogo={false}>{page}</Layout.WithMainMenu>
+		</Layout.WithSideMenu>
+	);
+};
+
+export default Deal;
