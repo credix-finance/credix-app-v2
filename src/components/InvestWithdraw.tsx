@@ -29,7 +29,7 @@ export const InvestWithdraw = () => {
 		const hide = message.loading({ content: `Withdrawing ${formattedNumber} USDC` });
 
 		try {
-			await market.withdraw(toProgramAmount(new Big(amount)));
+			await market.withdraw(toProgramAmount(new Big(amount)).toNumber());
 			hide();
 			message.success({ content: `Successfully withdrew ${formattedNumber} USDC` });
 			await fetchMarket(client, marketplace as string);
@@ -44,7 +44,7 @@ export const InvestWithdraw = () => {
 		const hide = message.loading({ content: `Depositing ${formattedNumber} USDC` });
 
 		try {
-			await market.deposit(toProgramAmount(new Big(amount)));
+			await market.deposit(toProgramAmount(new Big(amount)).toNumber());
 			hide();
 			message.success({ content: `Successfully deposited ${formattedNumber} USDC` });
 			await fetchMarket(client, marketplace as string);
@@ -54,7 +54,6 @@ export const InvestWithdraw = () => {
 		}
 	};
 
-	// TODO: fix missing prop
 	return (
 		<Tabs>
 			<TabPane tab="Invest" key="1">
