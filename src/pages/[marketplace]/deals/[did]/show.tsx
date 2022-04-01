@@ -46,7 +46,7 @@ const Deal: NextPageWithLayout = () => {
 		<DealCard marketplace={marketplace as string} deal={deal}>
 			<DealDetails deal={deal} />
 			{isAdmin && deal.isPending() && (
-				<Button type="default" className="ml-12" onClick={activateDeal}>
+				<Button type="default" size="large" className="mt-14 bg-neutral-0" onClick={activateDeal}>
 					Activate Deal
 				</Button>
 			)}
