@@ -39,14 +39,6 @@ const Deals: NextPageWithLayout = () => {
 			dataIndex: "name",
 			key: "name",
 			ellipsis: true,
-			className: "hover:cursor-pointer hover:bg-neutral-10 table-header-no-hover",
-			onCell: (record) => {
-				return {
-					onClick: () => {
-						router.push(dealShowRoute(marketplace as string, record?.key));
-					},
-				};
-			},
 		},
 		{
 			title: "Amount",
@@ -96,8 +88,13 @@ const Deals: NextPageWithLayout = () => {
 							</a>
 						</Link>
 					) : (
-						// Invisible button so that the table layout isn't messed up
-						<Button size="large" className="invisible"></Button>
+						<Link href={path}>
+							<a className="w-full">
+								<Button size="large" className="w-full">
+									<span>Info</span>
+								</Button>
+							</a>
+						</Link>
 					)}
 				</>
 			),
@@ -114,6 +111,9 @@ const Deals: NextPageWithLayout = () => {
 
 	const mapDeal = useCallback(
 		({ address, name, principal, goLiveAt, interestRepaid, totalInterest, borrower }: Deal) => {
+			const isRepayable = borrower.toString() === publicKey?.toString();
+			const path = `/${marketplace}/deals/${address.toString()}/${isRepayable ? "repay" : "show"}`;
+
 			return {
 				key: address.toString(),
 				name: name,
@@ -128,8 +128,8 @@ const Deals: NextPageWithLayout = () => {
 						.toNumber()
 				),
 				repay: {
-					isRepayable: borrower.toString() === publicKey?.toString(),
-					path: `/${marketplace}/deals/${address.toString()}/repay`,
+					isRepayable,
+					path,
 				},
 			};
 		},
@@ -163,8 +163,6 @@ const Deals: NextPageWithLayout = () => {
 	);
 
 	const actionButton = isAdmin ? newDealButton : investButton;
-
-	const dealShowRoute = (marketplace: string, id: string) => `/${marketplace}/deals/${id}/show`;
 
 	return (
 		<div className="space-y-14 py-5 px-4 md:pt-20 md:px-28">
