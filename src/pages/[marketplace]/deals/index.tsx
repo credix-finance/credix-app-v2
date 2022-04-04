@@ -16,6 +16,7 @@ import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
 import { selectActiveDeals, selectEndedDeals, selectPendingDeals } from "@state/selectors";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { getMarketsPaths } from "@utils/export.utils";
 
 const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -202,5 +203,16 @@ Deals.getLayout = function getLayout(page: ReactElement) {
 		</Layout.WithSideMenu>
 	);
 };
+
+export async function getStaticPaths() {
+	return {
+		paths: getMarketsPaths(),
+		fallback: true,
+	};
+}
+
+export async function getStaticProps({ params }) {
+	return { props: params };
+}
 
 export default Deals;
