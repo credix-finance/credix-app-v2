@@ -7,7 +7,7 @@ exports[`Wallet button 1`] = `
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
-			 text-lg font-semibold h-[50px] "
+			 text-lg font-semibold h-[50px]"
   onClick={[Function]}
   type="button"
 >

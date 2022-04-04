@@ -9,6 +9,7 @@ export const marketplaces: string[] = [
 export const defaultMarketplace = marketplaces[0];
 
 export const multisigUrl = "https://multisig.credix.finance/#/";
+export const typeformID = "E98Qjiw9";
 
 export const investWithdrawRoute: Route = {
 	icon: "line-chart" as IconName,
