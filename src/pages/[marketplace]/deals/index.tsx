@@ -113,7 +113,7 @@ const Deals: NextPageWithLayout = () => {
 	const mapDeal = useCallback(
 		({ address, name, principal, goLiveAt, interestRepaid, totalInterest, borrower }: Deal) => {
 			const isRepayable = borrower.toString() === publicKey?.toString();
-			const path = `/${marketplace}/deals/${address.toString()}/${isRepayable ? "repay" : "show"}`;
+			const path = `/${marketplace}/deals/${isRepayable ? "repay" : "show"}?did=${address.toString()}`;
 
 			return {
 				key: address.toString(),
