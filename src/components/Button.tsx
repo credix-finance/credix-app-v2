@@ -36,7 +36,7 @@ interface ButtonProps {
 	htmlType?: AntButtonProps["htmlType"];
 }
 
-const buttonTypeStyles = {
+export const buttonTypeStyles = {
 	primary: `
 				bg-action-primary border-action-primary text-credix-primary
 				hover:bg-neutral-60 hover:border-neutral-60
@@ -51,26 +51,28 @@ const buttonTypeStyles = {
 			`,
 };
 
-const buttonSizeStyles = {
+export const buttonSizeStyles = {
 	small: "text-sm font-semibold h-10",
 	middle: "text-base font-medium h-[42px]",
 	large: "text-lg font-semibold h-[50px]",
 };
 
+export const defaultButtonStyles =
+	"rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px]";
+
 export const Button = ({
 	children,
-	className = "",
+	className,
 	size = "middle",
 	type = "primary",
 	...props
 }: ButtonProps) => {
+	className = [defaultButtonStyles, buttonTypeStyles[type], buttonSizeStyles[size], className]
+		.filter(Boolean)
+		.join(" ");
+
 	return (
-		<AntdButton
-			className={`rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px] ${buttonTypeStyles[type]} ${buttonSizeStyles[size]} ${className}`}
-			size={size}
-			type={type}
-			{...props}
-		>
+		<AntdButton className={className} size={size} type={type} {...props}>
 			{children}
 		</AntdButton>
 	);

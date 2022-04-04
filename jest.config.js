@@ -16,6 +16,7 @@ const customJestConfig = {
 		"^@components/(.*)": "<rootDir>/src/components/$1",
 		"^@credix_types/(.*)": "<rootDir>/src/types/$1",
 		"^@config/(.*)": "<rootDir>/src/config/$1",
+		"^@consts": "<rootDir>/src/consts",
 		"^@message": "<rootDir>/src/message",
 		"^@state/(.*)": "<rootDir>/src/state/$1",
 		"^@utils/(.*)": "<rootDir>/src/utils/$1",

@@ -7,7 +7,7 @@ exports[`Outline button 1`] = `
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled
-			 text-base font-medium h-[42px] "
+			 text-base font-medium h-[42px]"
   onClick={[Function]}
   type="button"
 >
@@ -24,7 +24,7 @@ exports[`Outline button disabled 1`] = `
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled
-			 text-base font-medium h-[42px] "
+			 text-base font-medium h-[42px]"
   disabled={true}
   onClick={[Function]}
   type="button"
@@ -42,7 +42,7 @@ exports[`Outline button with icon 1`] = `
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled
-			 text-base font-medium h-[42px] "
+			 text-base font-medium h-[42px]"
   onClick={[Function]}
   type="button"
 >
@@ -68,7 +68,7 @@ exports[`Primary button 1`] = `
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
-			 text-base font-medium h-[42px] "
+			 text-base font-medium h-[42px]"
   onClick={[Function]}
   type="button"
 >
@@ -85,7 +85,7 @@ exports[`Primary button disabled 1`] = `
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
-			 text-base font-medium h-[42px] "
+			 text-base font-medium h-[42px]"
   disabled={true}
   onClick={[Function]}
   type="button"
@@ -103,7 +103,7 @@ exports[`Primary button with icon 1`] = `
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
-			 text-base font-medium h-[42px] "
+			 text-base font-medium h-[42px]"
   onClick={[Function]}
   type="button"
 >
