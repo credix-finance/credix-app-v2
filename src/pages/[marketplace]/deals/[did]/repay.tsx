@@ -12,6 +12,7 @@ import DealAspectGrid from "@components/DealAspectGrid";
 import { Icon } from "@components/Icon";
 import { calculateMonthlyRepaymentAmount } from "@utils/deal.utils";
 import { DealCard } from "@components/DealCard";
+import { getMarketDealsPaths } from "@utils/export.utils";
 
 const Repay: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -129,5 +130,16 @@ Repay.getLayout = function getLayout(page: ReactElement) {
 		</Layout.WithSideMenu>
 	);
 };
+
+export async function getStaticPaths() {
+	return {
+		paths: await getMarketDealsPaths(),
+		fallback: true,
+	};
+}
+
+export async function getStaticProps({ params }) {
+	return { props: params };
+}
 
 export default Repay;
