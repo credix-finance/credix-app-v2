@@ -69,7 +69,7 @@ const New: NextPageWithLayout = () => {
 			const borrowerInfo = await market.fetchBorrowerInfo(borrowerPK);
 			const deal = await borrowerInfo.fetchDeal(borrowerInfo.numberOfDeals - 1);
 
-			router.push(`/${marketplace}/deals/${deal.address.toString()}/show`);
+			router.push(`/${marketplace}/deals/show?did=${deal.address.toString()}`);
 		} catch {
 			message.error({ content: `Failed to get deal info` });
 			router.push(`/${marketplace}/deals`);

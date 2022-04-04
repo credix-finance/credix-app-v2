@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
-import { getMarketDealsPaths } from "@utils/export.utils";
+import { getMarketsPaths } from "@utils/export.utils";
 import ShowDeal from "@components/ShowDeal";
 
 const Show: NextPageWithLayout = () => {
@@ -18,7 +18,7 @@ Show.getLayout = function getLayout(page: ReactElement) {
 
 export async function getStaticPaths() {
 	return {
-		paths: await getMarketDealsPaths(),
+		paths: getMarketsPaths(),
 		fallback: true,
 	};
 }
