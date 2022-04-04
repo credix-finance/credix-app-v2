@@ -1,15 +1,16 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { Button } from "@components/Button";
 import { DealDetails } from "@components/DealDetails";
-import Layout from "@components/Layout";
 import { Deal as DealType, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
 import { useRouter } from "next/router";
-import { NextPageWithLayout } from "pages/_app";
 import { multisigUrl } from "@consts";
 import { DealCard } from "@components/DealCard";
+import { NextPageWithLayout } from "pages/_app"
+import { getMarketsPaths } from "@utils/export.utils"
+import Layout from "@components/Layout";
 
-const Deal: NextPageWithLayout = () => {
+const Show: NextPageWithLayout = () => {
 	const router = useRouter();
 	const { marketplace, did } = router.query;
 	const client = useCredixClient();
@@ -54,7 +55,7 @@ const Deal: NextPageWithLayout = () => {
 	);
 };
 
-Deal.getLayout = function getLayout(page: ReactElement) {
+Show.getLayout = function getLayout(page: ReactElement) {
 	return (
 		<Layout.WithSideMenu>
 			<Layout.WithMainMenu showLogo={false}>{page}</Layout.WithMainMenu>
@@ -62,4 +63,15 @@ Deal.getLayout = function getLayout(page: ReactElement) {
 	);
 };
 
-export default Deal;
+export async function getStaticPaths() {
+	return {
+		paths: getMarketsPaths(),
+		fallback: true,
+	};
+}
+
+export async function getStaticProps({ params }) {
+	return { props: params };
+}
+
+export default Show;
