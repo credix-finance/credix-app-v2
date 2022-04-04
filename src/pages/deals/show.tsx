@@ -6,8 +6,7 @@ import { useStore } from "@state/useStore";
 import { useRouter } from "next/router";
 import { multisigUrl } from "@consts";
 import { DealCard } from "@components/DealCard";
-import { NextPageWithLayout } from "pages/_app"
-import { getMarketsPaths } from "@utils/export.utils"
+import { NextPageWithLayout } from "pages/_app";
 import Layout from "@components/Layout";
 
 const Show: NextPageWithLayout = () => {
@@ -62,16 +61,5 @@ Show.getLayout = function getLayout(page: ReactElement) {
 		</Layout.WithSideMenu>
 	);
 };
-
-export async function getStaticPaths() {
-	return {
-		paths: getMarketsPaths(),
-		fallback: true,
-	};
-}
-
-export async function getStaticProps({ params }) {
-	return { props: params };
-}
 
 export default Show;

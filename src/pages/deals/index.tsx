@@ -16,7 +16,6 @@ import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
 import { selectActiveDeals, selectEndedDeals, selectPendingDeals } from "@state/selectors";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { getMarketsPaths } from "@utils/export.utils";
 
 const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -113,7 +112,9 @@ const Deals: NextPageWithLayout = () => {
 	const mapDeal = useCallback(
 		({ address, name, principal, goLiveAt, interestRepaid, totalInterest, borrower }: Deal) => {
 			const isRepayable = borrower.toString() === publicKey?.toString();
-			const path = `/${marketplace}/deals/${isRepayable ? "repay" : "show"}?did=${address.toString()}`;
+			const path = `/${marketplace}/deals/${
+				isRepayable ? "repay" : "show"
+			}?did=${address.toString()}`;
 
 			return {
 				key: address.toString(),
@@ -203,16 +204,5 @@ Deals.getLayout = function getLayout(page: ReactElement) {
 		</Layout.WithSideMenu>
 	);
 };
-
-export async function getStaticPaths() {
-	return {
-		paths: getMarketsPaths(),
-		fallback: true,
-	};
-}
-
-export async function getStaticProps({ params }) {
-	return { props: params };
-}
 
 export default Deals;

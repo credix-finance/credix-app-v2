@@ -6,7 +6,6 @@ import Layout from "@components/Layout";
 import { useStore } from "state/useStore";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/router";
-import { getMarketsPaths } from "@utils/export.utils";
 
 function InvestWithdraw() {
 	const router = useRouter();
@@ -39,16 +38,5 @@ InvestWithdraw.getLayout = function getLayout(page: ReactElement) {
 		</Layout.WithSideMenu>
 	);
 };
-
-export async function getStaticPaths() {
-	return {
-		paths: getMarketsPaths(),
-		fallback: true,
-	};
-}
-
-export async function getStaticProps({ params }) {
-	return { props: params };
-}
 
 export default InvestWithdraw;

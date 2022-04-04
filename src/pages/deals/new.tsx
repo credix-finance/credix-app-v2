@@ -3,7 +3,6 @@ import Layout from "@components/Layout";
 import { Link } from "@components/Link";
 import { useCredixClient } from "@credix/credix-client";
 import { PublicKey } from "@solana/web3.js";
-import { getMarketsPaths } from "@utils/export.utils";
 import { numberFormatter, toProgramAmount } from "@utils/format.utils";
 import Big from "big.js";
 import message from "message";
@@ -94,16 +93,5 @@ New.getLayout = function getLayout(page: ReactElement) {
 		</Layout.WithSideMenu>
 	);
 };
-
-export async function getStaticPaths() {
-	return {
-		paths: getMarketsPaths(),
-		fallback: true,
-	};
-}
-
-export async function getStaticProps({ params }) {
-	return { props: params };
-}
 
 export default New;
