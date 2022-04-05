@@ -64,10 +64,10 @@ const Deals: NextPageWithLayout = () => {
 			),
 		},
 		{
-			title: "Paid",
+			title: "Interest paid",
 			dataIndex: "paid",
 			key: "paid",
-			width: 150,
+			width: 160,
 			render: (value: number) => <Slider value={value} fullLabel="Full" />,
 		},
 		{

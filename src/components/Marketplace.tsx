@@ -44,23 +44,23 @@ const Marketplace: FunctionComponent<MarketplaceProps> = ({ marketplace }) => {
 	}, [fetchHasCredixPass]);
 
 	const parties = [
-		{
-			name: "liquidity providers",
-			action: "invest",
-			buttonAction: "Invest",
-			buttonLink: investWithdrawRoute.path,
-			description:
-				"Stable return, flexibility to withdraw at any moment and invest in senior tranche = liquidity pool.",
-		},
-		{
-			name: "Borrowers",
-			action: "borrow",
-			buttonAction: "deals",
-			buttonLink: dealsRoute.path,
-			description:
-				"Stable return, flexibility to withdraw at any moment and invest in senior tranche = liquidity pool.",
-		},
-	];
+        {
+            name: "liquidity providers",
+            action: "invest",
+            buttonAction: "Invest",
+            buttonLink: investWithdrawRoute.path,
+            description:
+                "Invest USDC in real-world-assets and earn attractive, risk adjusted returns.",
+        },
+        {
+            name: "Borrowers",
+            action: "borrow",
+            buttonAction: "deals",
+            buttonLink: dealsRoute.path,
+            description:
+                "Borrow USDC against real-world-assets in weeks, not months.",
+        },
+    ];
 
 	return (
 		<main
