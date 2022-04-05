@@ -1774,7 +1774,7 @@ __metadata:
 
 "@credix/credix-client@file:.yalc/@credix/credix-client::locator=credix-app%40workspace%3A.":
   version: 0.1.0
-  resolution: "@credix/credix-client@file:.yalc/@credix/credix-client#.yalc/@credix/credix-client::hash=949ade&locator=credix-app%40workspace%3A."
+  resolution: "@credix/credix-client@file:.yalc/@credix/credix-client#.yalc/@credix/credix-client::hash=8c66d0&locator=credix-app%40workspace%3A."
   dependencies:
     "@identity.com/solana-gateway-ts": ^0.8.2
     "@project-serum/anchor": 0.22.1
@@ -1786,7 +1786,7 @@ __metadata:
     fraction.js: ^4.2.0
   peerDependencies:
     react: ^17.0.2
-  checksum: fae857269cedac93ed48171aff71c2e5395737d203e06db920ebe7bed39a6cf31556470fde47083540e411e2347f5c5637a4e1cb430b0bb25d969596689e9d27
+  checksum: 90a0c57d83ebed65eb04e4a65ba4e52ae04db73a5d84c6dac2dae4cb8aa77e479ca92ff17f9de477d8172371edda02bf6e9db3be8dd191e6b01f4a801bf31d75
   languageName: node
   linkType: hard
 

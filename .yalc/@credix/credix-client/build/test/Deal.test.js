@@ -22,6 +22,7 @@ const anchor_1 = require("@project-serum/anchor");
 const big_js_1 = __importDefault(require("big.js"));
 const src_1 = require("../src");
 const pda_utils_1 = require("../src/utils/pda.utils");
+const math_utils_1 = require("./../src/utils/math.utils");
 describe("Deal", () => {
     const sandbox = sinon_1.default.createSandbox();
     afterEach(() => {
@@ -173,6 +174,18 @@ describe("Deal", () => {
         const dealAddress = web3_js_1.Keypair.generate();
         const deal = new src_1.Deal(Deal_fixture_1.dealFixture, market, dealAddress.publicKey, util_1.testProgram, util_1.testClient);
         (0, chai_1.expect)(deal.goLiveAt).to.equal(Deal_fixture_1.dealFixture.goLiveAt.toNumber());
+    });
+    it("returns the days remaining", () => {
+        const marketAddress = web3_js_1.Keypair.generate();
+        const market = new src_1.Market(Market_fixture_1.globalMarketFixture, "market", util_1.testProgram, marketAddress.publicKey, util_1.testClient);
+        const dealAddress = web3_js_1.Keypair.generate();
+        /**
+         * The timestamp we get from the program doesn't contain milliseconds
+         * To emulate this we divide the date by 1000
+         */
+        const tenDaysAgo = (Date.now() - 10 * math_utils_1.MILLISECONDS_IN_DAY) / 1000;
+        const deal = new src_1.Deal(Object.assign(Object.assign({}, Deal_fixture_1.dealFixture), { goLiveAt: new anchor_1.BN(tenDaysAgo), timeToMaturityDays: 300 }), market, dealAddress.publicKey, util_1.testProgram, util_1.testClient);
+        (0, chai_1.expect)(deal.daysRemaining).to.equal(290);
     });
     it("has status closed when repaid", () => {
         const marketAddress = web3_js_1.Keypair.generate();

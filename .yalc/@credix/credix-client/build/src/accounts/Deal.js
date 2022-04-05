@@ -182,7 +182,9 @@ class Deal {
         if (this.isClosed()) {
             return 0;
         }
-        const daysRemaining = (this.goLiveAt + this.timeToMaturity * math_utils_1.SECONDS_IN_DAY - Date.now()) / math_utils_1.SECONDS_IN_DAY;
+        // The goLiveAt timestamp we get from the program doesn't contain milliseconds
+        const dateNowInSeconds = Date.now() / 1000;
+        const daysRemaining = (this.goLiveAt + this.timeToMaturity * math_utils_1.SECONDS_IN_DAY - dateNowInSeconds) / math_utils_1.SECONDS_IN_DAY;
         return Math.max(Math.round(daysRemaining * 10) / 10, 0);
     }
     /**

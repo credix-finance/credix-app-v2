@@ -222,8 +222,10 @@ export class Deal {
 			return 0;
 		}
 
+		// The goLiveAt timestamp we get from the program doesn't contain milliseconds
+		const dateNowInSeconds = Date.now() / 1000;
 		const daysRemaining =
-			(this.goLiveAt + this.timeToMaturity * SECONDS_IN_DAY - Date.now()) / SECONDS_IN_DAY;
+			(this.goLiveAt + this.timeToMaturity * SECONDS_IN_DAY - dateNowInSeconds) / SECONDS_IN_DAY;
 
 		return Math.max(Math.round(daysRemaining * 10) / 10, 0);
 	}

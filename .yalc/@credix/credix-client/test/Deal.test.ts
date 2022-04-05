@@ -8,6 +8,7 @@ import { BN } from "@project-serum/anchor";
 import Big from "big.js";
 import { Deal, DealStatus, Market, Ratio } from "../src";
 import { encodeSeedString } from "../src/utils/pda.utils";
+import { MILLISECONDS_IN_DAY } from "./../src/utils/math.utils";
 
 describe("Deal", () => {
 	const sandbox = Sinon.createSandbox();
@@ -331,6 +332,32 @@ describe("Deal", () => {
 		const deal = new Deal(dealFixture, market, dealAddress.publicKey, testProgram, testClient);
 
 		expect(deal.goLiveAt).to.equal(dealFixture.goLiveAt.toNumber());
+	});
+
+	it("returns the days remaining", () => {
+		const marketAddress = Keypair.generate();
+		const market = new Market(
+			globalMarketFixture,
+			"market",
+			testProgram,
+			marketAddress.publicKey,
+			testClient
+		);
+		const dealAddress = Keypair.generate();
+
+		/**
+		 * The timestamp we get from the program doesn't contain milliseconds
+		 * To emulate this we divide the date by 1000
+		 */
+		const tenDaysAgo = (Date.now() - 10 * MILLISECONDS_IN_DAY) / 1000;
+
+		const deal = new Deal({
+			...dealFixture,
+			goLiveAt: new BN(tenDaysAgo),
+			timeToMaturityDays: 300,
+		}, market, dealAddress.publicKey, testProgram, testClient);
+
+		expect(deal.daysRemaining).to.equal(290);
 	});
 
 	it("has status closed when repaid", () => {
