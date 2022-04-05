@@ -100,7 +100,7 @@ jobs:
           ignore-unfixed: true # Ignore vulnerabilities with no available fix
           format: 'table' # Table output mode as next step will report in security tab
           severity: 'CRITICAL' # Error only on critical vulnerabilities
-          exit-code: '1' # Fail the job if a critical vulnerability with fix available is found
+          exit-code: '0' # Don't fail the job if a critical vulnerability with fix available is found
 
       # Build
       - uses: actions/cache@v2
