@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useEffect } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Deal, Ratio, useCredixClient } from "@credix/credix-client";
 import { toUIAmount, formatTimestamp, numberFormatter } from "@utils/format.utils";
@@ -31,6 +31,7 @@ const Deals: NextPageWithLayout = () => {
 	const pendingDeals = useStore((state) => selectPendingDeals(state));
 	const isLoadingDeals = useStore((state) => state.isLoadingDeals);
 	const isAdmin = useStore((state) => state.isAdmin);
+	const [isUnderwriter, setIsUnderwriter] = useState<boolean>(null);
 	const { publicKey } = useWallet();
 
 	const dealsTableColumns: ColumnsProps[] = [
@@ -163,11 +164,30 @@ const Deals: NextPageWithLayout = () => {
 		</Link>
 	);
 
-	const actionButton = isAdmin ? newDealButton : investButton;
+	const fetchIsBorrower = useCallback(async () => {
+		try {
+			const credixPass = await market.fetchCredixPass(publicKey);
+
+			setIsUnderwriter(credixPass.isUnderwriter);
+		} catch (err) {
+			setIsUnderwriter(null);
+		}
+	}, [market, publicKey]);
+
+	useEffect(() => {
+		fetchIsBorrower();
+	}, [fetchIsBorrower]);
 
 	return (
 		<div className="space-y-14 py-5 px-4 md:pt-20 md:px-28">
-			<Tabs tabBarExtraContent={actionButton}>
+			<Tabs
+				tabBarExtraContent={
+					<div className="flex space-x-2">
+						{isAdmin && newDealButton}
+						{isUnderwriter && investButton}
+					</div>
+				}
+			>
 				<TabPane tab="Active Deals" key="activeDealsTab">
 					<Table
 						loading={isLoadingDeals}
