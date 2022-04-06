@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Link } from "@components/Link";
 import { Deal } from "@credix/credix-client";
 

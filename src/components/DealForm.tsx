@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { Form } from "antd";

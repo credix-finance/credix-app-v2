@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
 import Marketplace from "@components/Marketplace";
