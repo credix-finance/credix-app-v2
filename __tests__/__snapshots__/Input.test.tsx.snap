@@ -7,12 +7,7 @@ exports[`Default input 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="ant-row ant-form-item 
-				font-bold text-base mb-7
-				false
-				undefined
-				
-			"
+    className="ant-row ant-form-item font-bold text-base mb-7"
     style={Object {}}
   >
     <div
@@ -51,13 +46,7 @@ exports[`Default input 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <input
-                    className="ant-input ant-input-lg 
-						border-[0.5px] rounded-[1px]
-						focus:shadow-none
-						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
-						
-					"
+                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
                     disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -85,12 +74,7 @@ exports[`Disabled input 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="ant-row ant-form-item 
-				font-bold text-base mb-7
-				text-neutral-60/40
-				undefined
-				
-			"
+    className="ant-row ant-form-item font-bold text-base mb-7 text-neutral-60/40"
     style={Object {}}
   >
     <div
@@ -129,13 +113,7 @@ exports[`Disabled input 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <input
-                    className="ant-input ant-input-disabled ant-input-lg 
-						border-[0.5px] rounded-[1px]
-						focus:shadow-none
-						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
-						
-					"
+                    className="ant-input ant-input-disabled ant-input-lg border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
                     disabled={true}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -206,12 +184,7 @@ exports[`Input with description 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="ant-row ant-form-item 
-				font-bold text-base mb-7
-				false
-				undefined
-				
-			"
+    className="ant-row ant-form-item font-bold text-base mb-7"
     style={Object {}}
   >
     <div
@@ -255,13 +228,7 @@ exports[`Input with description 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <input
-                    className="ant-input ant-input-lg 
-						border-[0.5px] rounded-[1px]
-						focus:shadow-none
-						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
-						
-					"
+                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
                     disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -289,12 +256,7 @@ exports[`Input with error feedback 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="ant-row ant-form-item 
-				font-bold text-base mb-7
-				false
-				border-error
-				
-			 ant-form-item-has-feedback ant-form-item-has-error"
+    className="ant-row ant-form-item font-bold text-base mb-7 border-error ant-form-item-has-feedback ant-form-item-has-error"
     style={Object {}}
   >
     <div
@@ -333,13 +295,7 @@ exports[`Input with error feedback 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <input
-                    className="ant-input ant-input-lg 
-						border-[0.5px] rounded-[1px]
-						focus:shadow-none
-						disabled:border-neutral-60/40
-						border-error focus:ring-error focus:border-error
-						
-					"
+                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40 border-error focus:ring-error focus:border-error"
                     disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -367,12 +323,7 @@ exports[`Input with text 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="ant-row ant-form-item 
-				font-bold text-base mb-7
-				false
-				undefined
-				
-			"
+    className="ant-row ant-form-item font-bold text-base mb-7"
     style={Object {}}
   >
     <div
@@ -411,13 +362,7 @@ exports[`Input with text 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <input
-                    className="ant-input ant-input-lg 
-						border-[0.5px] rounded-[1px]
-						focus:shadow-none
-						disabled:border-neutral-60/40
-						border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100
-						
-					"
+                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
                     disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
