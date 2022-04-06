@@ -28,6 +28,30 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
 
+      # Install Yarn
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
+      - name: Yarn Cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-modules-
+
+      # Install Node
+      - name: Setup Node
+        uses: actions/setup-node@v2
+
+      # Install dependencies
+      - name: Yarn install
+        run: yarn
+
+      - name: Lint
+        run: yarn lint
+
   ci:
     runs-on: ubuntu-latest
     steps:
