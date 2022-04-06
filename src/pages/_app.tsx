@@ -1,4 +1,4 @@
-import { FC, ReactElement, ReactNode, useEffect, useMemo } from "react";
+import React, { FC, ReactElement, ReactNode, useMemo, useEffect } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";

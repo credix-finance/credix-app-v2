@@ -5,7 +5,7 @@ interface CredixLogoProps {
 	mode?: "dark" | "light";
 }
 
-const CredixLogoLight = ({ className = "" }) => {
+const CredixLogoLight = ({ className = "" }: Pick<CredixLogoProps, "className">) => {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +26,7 @@ const CredixLogoLight = ({ className = "" }) => {
 	);
 };
 
-const CredixLogoDark = ({ className = "" }) => {
+const CredixLogoDark = ({ className = "" }: Pick<CredixLogoProps, "className">) => {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"

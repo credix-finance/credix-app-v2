@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState, useCallback } from "react";
+import React, { FunctionComponent, useEffect, useState, useCallback } from "react";
 import { Card } from "@components/Card";
 import { MarketStats } from "@components/MarketStats";
 import { useCredixClient } from "@credix/credix-client";
