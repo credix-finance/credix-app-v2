@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { Form, Input as AntdInput, Select } from "antd";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";

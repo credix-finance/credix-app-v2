@@ -1,5 +1,5 @@
+import React, { FunctionComponent } from "react";
 import { Deal } from "@credix/credix-client";
-import { FunctionComponent } from "react";
 import { DealStatus } from "@components/DealStatus";
 import DealAspectGrid from "@components/DealAspectGrid";
 

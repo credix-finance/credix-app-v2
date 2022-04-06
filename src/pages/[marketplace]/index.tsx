@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
