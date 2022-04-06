@@ -1772,9 +1772,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@credix/credix-client@file:.yalc/@credix/credix-client::locator=credix-app%40workspace%3A.":
-  version: 0.1.0
-  resolution: "@credix/credix-client@file:.yalc/@credix/credix-client#.yalc/@credix/credix-client::hash=949ade&locator=credix-app%40workspace%3A."
+"@credix/credix-client@npm:^0.1.0-beta.3":
+  version: 0.1.0-beta.3
+  resolution: "@credix/credix-client@npm:0.1.0-beta.3"
   dependencies:
     "@identity.com/solana-gateway-ts": ^0.8.2
     "@project-serum/anchor": 0.22.1
@@ -1786,7 +1786,7 @@ __metadata:
     fraction.js: ^4.2.0
   peerDependencies:
     react: ^17.0.2
-  checksum: fae857269cedac93ed48171aff71c2e5395737d203e06db920ebe7bed39a6cf31556470fde47083540e411e2347f5c5637a4e1cb430b0bb25d969596689e9d27
+  checksum: 1b040afb9942b51fcd404623697a3bea136a36e0e7d60e0cff5e49f18088352c68cc28f076ba29d100385589262144b7f9c3fd52ad0e1ead249ab2c1f1b0ed05
   languageName: node
   linkType: hard
 
@@ -2739,10 +2739,10 @@ __metadata:
   linkType: hard
 
 "@saberhq/anchor-contrib@npm:^1.12.55":
-  version: 1.12.57
-  resolution: "@saberhq/anchor-contrib@npm:1.12.57"
+  version: 1.12.58
+  resolution: "@saberhq/anchor-contrib@npm:1.12.58"
   dependencies:
-    "@saberhq/solana-contrib": ^1.12.57
+    "@saberhq/solana-contrib": ^1.12.58
     eventemitter3: ^4.0.7
     lodash.camelcase: ^4.3.0
     lodash.mapvalues: ^4.6.0
@@ -2751,13 +2751,13 @@ __metadata:
     "@project-serum/anchor": ^0.22
     "@solana/web3.js": ">=1.29.2"
     bn.js: ^4 || ^5
-  checksum: ced83c1c2347048998fdb41dddeebd675a67e0c6160b8c0ba5028cf84a3273f3a0eaf0c845ee3a999cff6dff142617450b3590e8bcdf269e6f8f9b100ad3cd5a
+  checksum: 0acfb8f842627c872e4ac41c9c45352efb73cdd9cedd4d749e1ee37426e35a7dea4cbe29e739b8dc4fa3b2e9cf72276b7bba9d605e1cdc02366fc7bab6ffb31d
   languageName: node
   linkType: hard
 
-"@saberhq/solana-contrib@npm:^1.12.57":
-  version: 1.12.57
-  resolution: "@saberhq/solana-contrib@npm:1.12.57"
+"@saberhq/solana-contrib@npm:^1.12.58":
+  version: 1.12.58
+  resolution: "@saberhq/solana-contrib@npm:1.12.58"
   dependencies:
     "@solana/buffer-layout": ^4.0.0
     "@types/promise-retry": ^1.1.3
@@ -2769,7 +2769,7 @@ __metadata:
   peerDependencies:
     "@solana/web3.js": ^1.29.2
     bn.js: ^4 || ^5
-  checksum: 55b2dcf64372658d717bb0b9894297b77ef9bb9dec834e4d7f9480616441eaacf6471facff645d6d90f641923dc69e0eb783ad0dd6824579c2eacf246d0d2dfc
+  checksum: 1623ed2888f7f62b305f48ccf0483a8107342f1537dac1c0bf5ee1a6db587f8d65fd48d48ed9397f435775b7059d2488878ce3672fcd242717e46ce5b0223767
   languageName: node
   linkType: hard
 
@@ -7643,7 +7643,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.8
     "@civic/solana-gateway-react": 0.4.13
-    "@credix/credix-client": "file:.yalc/@credix/credix-client"
+    "@credix/credix-client": ^0.1.0-beta.3
     "@solana/wallet-adapter-base": ^0.9.5
     "@solana/wallet-adapter-react": 0.15.3
     "@solana/wallet-adapter-react-ui": ^0.9.6
