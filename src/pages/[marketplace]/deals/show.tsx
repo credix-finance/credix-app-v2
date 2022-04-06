@@ -6,8 +6,8 @@ import { useStore } from "@state/useStore";
 import { useRouter } from "next/router";
 import { multisigUrl } from "@consts";
 import { DealCard } from "@components/DealCard";
-import { NextPageWithLayout } from "pages/_app"
-import { getMarketsPaths } from "@utils/export.utils"
+import { NextPageWithLayout } from "pages/_app";
+import { getMarketsPaths } from "@utils/export.utils";
 import Layout from "@components/Layout";
 
 const Show: NextPageWithLayout = () => {
