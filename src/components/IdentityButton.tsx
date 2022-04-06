@@ -25,9 +25,7 @@ export const IdentityButton = () => {
 			case SolanaCluster.LOCALNET: {
 				return "local";
 			}
-			case SolanaCluster.DEVNET: {
-				return "preprod";
-			}
+			case SolanaCluster.DEVNET:
 			case SolanaCluster.MAINNET: {
 				return "prod";
 			}
