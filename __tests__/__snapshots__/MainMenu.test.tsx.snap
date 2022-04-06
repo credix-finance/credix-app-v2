@@ -6,6 +6,7 @@ exports[`Main menu 1`] = `
 >
   <div>
     <a
+      className="flex items-center"
       href="/"
       onClick={[Function]}
       onMouseEnter={[Function]}
