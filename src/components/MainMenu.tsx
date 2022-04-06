@@ -21,7 +21,7 @@ export const MainMenu = ({ showLogo = true }: MainMenuProps) => {
 			<div>
 				{showLogo && (
 					<Link href={path}>
-						<a>
+						<a className="flex items-center">
 							<CredixLogo mode="dark" />
 						</a>
 					</Link>
