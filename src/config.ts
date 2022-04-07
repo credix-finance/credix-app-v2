@@ -54,6 +54,18 @@ const getClusterConfig = (): ClusterConfig => {
 	}
 };
 
+const getManagementKeys = () => {
+	const managementKeys = process.env.NEXT_PUBLIC_MANAGEMENT_KEYS;
+
+	if (managementKeys) {
+		return managementKeys.split(",")
+	}
+
+	return [
+		"Ej5zJzej7rrUoDngsJ3jcpfuvfVyWpcDcK7uv9cE2LdL",
+	]
+}
+
 export const config: Config = ((): Config => {
 	const clusterConfig = getClusterConfig();
 	// TODO: make these configurable with environment variables
@@ -61,10 +73,7 @@ export const config: Config = ((): Config => {
 		commitment: "confirmed",
 		preflightCommitment: "processed",
 	};
-	const MANAGEMENT_KEYS = [
-		"Ej5zJzej7rrUoDngsJ3jcpfuvfVyWpcDcK7uv9cE2LdL",
-		"Ej5zJzej7rrUoDngsJ3jcpfuvfVyWpcDcK7uv9cE2LdL",
-	];
+	const MANAGEMENT_KEYS = getManagementKeys();
 
 	return {
 		clusterConfig,
