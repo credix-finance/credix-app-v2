@@ -87,15 +87,19 @@ export const Input = ({
 		hasFeedback && validateStatus == "error"
 			? "border-error focus:ring-error focus:border-error"
 			: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100",
-		className
-	].filter(Boolean).join(" ");
+		className,
+	]
+		.filter(Boolean)
+		.join(" ");
 
 	labelClassName = [
 		"font-bold text-base mb-7",
 		disabled && "text-neutral-60/40",
 		hasFeedback && validateStatus === "error" && "border-error",
-		labelClassName
-	].filter(Boolean).join(" ");
+		labelClassName,
+	]
+		.filter(Boolean)
+		.join(" ");
 
 	return (
 		<Form.Item
