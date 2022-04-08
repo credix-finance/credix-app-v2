@@ -49,8 +49,13 @@ jobs:
       - name: Yarn install
         run: yarn
 
+      # Lint
       - name: Lint
         run: yarn lint
+
+      # Format
+      - name: Check formatting
+        run: yarn format
 
   ci:
     runs-on: ubuntu-latest

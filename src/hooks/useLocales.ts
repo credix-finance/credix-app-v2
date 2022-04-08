@@ -4,8 +4,8 @@ export const useLocales = () => {
 	const [locales, setLocales] = useState<readonly string[]>();
 
 	useEffect(() => {
-		setLocales(navigator.languages)
-	}, [])
+		setLocales(navigator.languages);
+	}, []);
 
-	return locales
-}
+	return locales;
+};
