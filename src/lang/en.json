@@ -1,0 +1,350 @@
+{
+  "+9D5ik": {
+    "defaultMessage": "Failed to get Credix pass for given public key",
+    "description": "New deal: Credix Pass request failed"
+  },
+  "/Qux8K": {
+    "defaultMessage": "principal",
+    "description": "RepayDealForm: principal repayment type"
+  },
+  "1Lz1pR": {
+    "defaultMessage": "The new decentralized credit marketplace connecting investors with FinTechs in emerging markets",
+    "description": "Marketplace component: subtitle"
+  },
+  "1m4XXl": {
+    "defaultMessage": "time left",
+    "description": "Deal aspect: time left"
+  },
+  "2nji3Q": {
+    "defaultMessage": "{daysRemaining} DAYS",
+    "description": "Deal aspect: days remaining"
+  },
+  "5o3Iif": {
+    "defaultMessage": "principal repaid",
+    "description": "Deal aspect: principal repaid"
+  },
+  "6AHY9h": {
+    "defaultMessage": "make repayment",
+    "description": "Repay deal: title"
+  },
+  "6s8yfM": {
+    "defaultMessage": "Failed to disconnect wallet",
+    "description": "WalletButton: disconnect wallet failed"
+  },
+  "7bw1Ax": {
+    "defaultMessage": "'time to maturity' is required",
+    "description": "Deal form: time to maturity required validation message"
+  },
+  "8WSg4V": {
+    "defaultMessage": "Pending Deals",
+    "description": "Deals: pending deals tab"
+  },
+  "9RUwk0": {
+    "defaultMessage": "Active Deals",
+    "description": "Deals: active deals tab"
+  },
+  "ANSa0B": {
+    "defaultMessage": "Successfully deposited {amount} USDC",
+    "description": "InvestWithdraw: deposit success"
+  },
+  "CpfQaP": {
+    "defaultMessage": "Current balance",
+    "description": "Investment details: current balance"
+  },
+  "D8pStH": {
+    "defaultMessage": "principal",
+    "description": "Deal aspect: principal"
+  },
+  "DL9VT+": {
+    "defaultMessage": "Average financing fee",
+    "description": "MarketStats: average financing fee"
+  },
+  "DxkuDc": {
+    "defaultMessage": "Go back to all deals",
+    "description": "Deal card: back to all deals link"
+  },
+  "F3kO1A": {
+    "defaultMessage": "Name",
+    "description": "Deal form: deal name input placeholder"
+  },
+  "FOydbn": {
+    "defaultMessage": "Repaying {amount} USDC of principal",
+    "description": "Repay deal: principal repayment loading"
+  },
+  "G/QEGZ": {
+    "defaultMessage": "'time to maturity' needs to be greater than 0",
+    "description": "Deal form: min time to maturity validation message"
+  },
+  "GRjVRe": {
+    "defaultMessage": "Copied to clipboard!",
+    "description": "WalletButton: copy address success"
+  },
+  "GZacaG": {
+    "defaultMessage": "Successfully payed {amount} USDC of principal",
+    "description": "Repay deal: principal repayment success"
+  },
+  "GqVxu+": {
+    "defaultMessage": "Invest USDC in real-world-assets and earn attractive, risk adjusted returns.",
+    "description": "Marketplace component: invest description"
+  },
+  "I18m8v": {
+    "defaultMessage": "Withdraw",
+    "description": "InvestWithdraw: withdraw tab title"
+  },
+  "IAW+c9": {
+    "defaultMessage": "'deal name' is required",
+    "description": "Deal form: deal name required validation message"
+  },
+  "J1v4S2": {
+    "defaultMessage": "Interest needs to be repaid in full before the principal can be repaid.",
+    "description": "Repay deal: principal repayment validation failed"
+  },
+  "KD5syJ": {
+    "defaultMessage": "disconnect",
+    "description": "WalletButton: disconnect button"
+  },
+  "M+mgTR": {
+    "defaultMessage": "'financing fee' is required",
+    "description": "Deal form: financing fee required validation message"
+  },
+  "MFUfHQ": {
+    "defaultMessage": "Ended Deals",
+    "description": "Deals: ended deals tab"
+  },
+  "N5qcn5": {
+    "defaultMessage": "interest",
+    "description": "RepayDealForm: interest repayment type"
+  },
+  "ObMY9H": {
+    "defaultMessage": "Welcome to Credix",
+    "description": "Marketplace component: title"
+  },
+  "OhEQpO": {
+    "defaultMessage": "create new deal",
+    "description": "Deals: new deal button"
+  },
+  "P/WA7X": {
+    "defaultMessage": "invest",
+    "description": "Deals: invest button"
+  },
+  "QMHPQR": {
+    "defaultMessage": "time to maturity",
+    "description": "Deal aspect: time to maturity"
+  },
+  "Rf4Ph6": {
+    "defaultMessage": "Borrower Key",
+    "description": "Deal form: borrower key input label"
+  },
+  "RiWJ3M": {
+    "defaultMessage": "TVL",
+    "description": "MarketStats: total value locked"
+  },
+  "RwwYBz": {
+    "defaultMessage": "'borrower key' isn't valid",
+    "description": "Deal form: borrower key validation message"
+  },
+  "SM6fj1": {
+    "defaultMessage": "Withdrawing {amount} USDC",
+    "description": "InvestWithdraw: withdraw loading"
+  },
+  "T89fPb": {
+    "defaultMessage": "Invest",
+    "description": "InvestWithdraw: invest tab title"
+  },
+  "TgE3H7": {
+    "defaultMessage": "liquidity providers",
+    "description": "Marketplace component: invest party name"
+  },
+  "UcZI5j": {
+    "defaultMessage": "USDC amount",
+    "description": "Deal form: principal input placeholder"
+  },
+  "V14Pc8": {
+    "defaultMessage": "Create Deal",
+    "description": "Deal form: submit button"
+  },
+  "V8THDD": {
+    "defaultMessage": "Public key",
+    "description": "Deal form: borrower key input placeholder"
+  },
+  "WWo+my": {
+    "defaultMessage": "copy address",
+    "description": "WalletButton: copy address button"
+  },
+  "WlW5F3": {
+    "defaultMessage": "Credit outstanding",
+    "description": "MarketStats: credit outstanding"
+  },
+  "X741C1": {
+    "defaultMessage": "Failed to copy address to clipboard",
+    "description": "WalletButton: copy address failed"
+  },
+  "YdaYqq": {
+    "defaultMessage": "Principal",
+    "description": "Deal form: principal input label"
+  },
+  "ZBXOvN": {
+    "defaultMessage": "Deal Name",
+    "description": "Deal form: deal name input label"
+  },
+  "ZR9tEp": {
+    "defaultMessage": "Repaying {amount} USDC of interest",
+    "description": "Repay deal: interest repayment loading"
+  },
+  "b55ljI": {
+    "defaultMessage": "'borrower key' is required",
+    "description": "Deal form: borrower key required validation message"
+  },
+  "bbnitU": {
+    "defaultMessage": "Successfully payed {amount} USDC of interest",
+    "description": "Repay deal: interest repayment success"
+  },
+  "bs1iQG": {
+    "defaultMessage": "Connecting",
+    "description": "WalletButton: connecting"
+  },
+  "czxr97": {
+    "defaultMessage": "Successfully withdrew {amount} USDC",
+    "description": "InvestWithdraw: withdraw success"
+  },
+  "dWV/uP": {
+    "defaultMessage": "'principal' needs to be greater than 0",
+    "description": "Deal form: min principal validation message"
+  },
+  "e3m0JB": {
+    "defaultMessage": "Time To Maturity",
+    "description": "Deal form: time to maturity input label"
+  },
+  "eFFjtH": {
+    "defaultMessage": "Failed to pay {amount} USDC of interest",
+    "description": "Repay deal: interest repayment failed"
+  },
+  "fFvp3a": {
+    "defaultMessage": "activate deal",
+    "description": "Activate deal: button"
+  },
+  "fOFidt": {
+    "defaultMessage": "'amount' cannot be greater than the remaining interest",
+    "description": "RepayDealForm: max interest validation"
+  },
+  "g+hxaT": {
+    "defaultMessage": "Number of days",
+    "description": "Deal form: time to maturity input placeholder"
+  },
+  "gHnrHN": {
+    "defaultMessage": "Wallet disconnected",
+    "description": "WalletButton: disconnect wallet success"
+  },
+  "gl4cQK": {
+    "defaultMessage": "amount",
+    "description": "RepayDealForm: amount input label"
+  },
+  "hBPVMj": {
+    "defaultMessage": "Creating deal for {amount} USDC",
+    "description": "New deal: create deal loading"
+  },
+  "hUjLIL": {
+    "defaultMessage": "change wallet",
+    "description": "WalletButton: change wallet button"
+  },
+  "he+MXw": {
+    "defaultMessage": "Failed to get deal info",
+    "description": "New deal: deal info request failed"
+  },
+  "hndYPN": {
+    "defaultMessage": "info",
+    "description": "Deals: info button"
+  },
+  "i56R4B": {
+    "defaultMessage": "Successfully created deal for {amount} USDC",
+    "description": "New deal: deal creation success"
+  },
+  "iJHzb/": {
+    "defaultMessage": "Failed to create deal for {amount} USDC",
+    "description": "New deal: deal creation failed"
+  },
+  "j5Wz21": {
+    "defaultMessage": "'amount' cannot be greater than the remaining principal",
+    "description": "RepayDealForm: max principal validation"
+  },
+  "kP4sb0": {
+    "defaultMessage": "Failed to pay {amount} USDC of principal",
+    "description": "Repay deal: principal repayment failed"
+  },
+  "lNcjsB": {
+    "defaultMessage": "Failed to withdraw {amount} USDC",
+    "description": "InvestWithdraw: withdraw failed"
+  },
+  "lXCkjH": {
+    "defaultMessage": "Pending",
+    "description": "Deal status: pending"
+  },
+  "lgm+3p": {
+    "defaultMessage": "Ended",
+    "description": "Deal status: ended"
+  },
+  "lxIa8X": {
+    "defaultMessage": "Current investments",
+    "description": "Investment details: current investments"
+  },
+  "mTsTip": {
+    "defaultMessage": "Active",
+    "description": "Deal status: active"
+  },
+  "n8kIHA": {
+    "defaultMessage": "repay",
+    "description": "Deals: repay button"
+  },
+  "nSTY9Y": {
+    "defaultMessage": "borrower key",
+    "description": "Deal details: borrower key"
+  },
+  "pEuC0I": {
+    "defaultMessage": "'amount' needs to be greater than 0",
+    "description": "RepayDealForm: min amount validation"
+  },
+  "r7tsvD": {
+    "defaultMessage": "Failed to deposit {amount} USDC",
+    "description": "InvestWithdraw: deposit failed"
+  },
+  "rE1zhE": {
+    "defaultMessage": "%",
+    "description": "Deal form: financing fee input placeholder"
+  },
+  "sOSMWL": {
+    "defaultMessage": "connect wallet",
+    "description": "WalletButton: connect button"
+  },
+  "tifnHS": {
+    "defaultMessage": "Depositing {amount} USDC",
+    "description": "InvestWithdraw: deposit loading"
+  },
+  "u9Nzuz": {
+    "defaultMessage": "amount",
+    "description": "RepayDealForm: amount input placeholder"
+  },
+  "uww4+d": {
+    "defaultMessage": "interest repaid",
+    "description": "Deal aspect: interest repaid"
+  },
+  "uza38R": {
+    "defaultMessage": "No Credix Pass found for given public key",
+    "description": "New deal: Credix Pass validation failed"
+  },
+  "v54nhe": {
+    "defaultMessage": "Borrow USDC against real-world-assets in weeks, not months.",
+    "description": "Marketplace component: borrow description"
+  },
+  "wZ3nFS": {
+    "defaultMessage": "financing fee",
+    "description": "Deal aspect: financing fee"
+  },
+  "xvJhCa": {
+    "defaultMessage": "Financing Fee",
+    "description": "Deal form: financing fee input label"
+  },
+  "yA5Fu+": {
+    "defaultMessage": "new deal",
+    "description": "New deal: title"
+  }
+}
