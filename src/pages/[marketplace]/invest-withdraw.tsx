@@ -7,6 +7,7 @@ import { useStore } from "state/useStore";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/router";
 import { getMarketsPaths } from "@utils/export.utils";
+import loadIntlMessages from "@utils/i18n.utils";
 
 function InvestWithdraw() {
 	const router = useRouter();
@@ -47,8 +48,14 @@ export async function getStaticPaths() {
 	};
 }
 
-export async function getStaticProps({ params }) {
-	return { props: params };
+export async function getStaticProps(ctx) {
+	const { params } = ctx;
+	return {
+		props: {
+			intlMessages: await loadIntlMessages(ctx),
+			...params,
+		},
+	};
 }
 
 export default InvestWithdraw;

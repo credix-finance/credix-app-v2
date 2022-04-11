@@ -17,6 +17,8 @@ import { NextPageWithLayout } from "pages/_app";
 import { selectActiveDeals, selectEndedDeals, selectPendingDeals } from "@state/selectors";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { getMarketsPaths } from "@utils/export.utils";
+import loadIntlMessages from "@utils/i18n.utils";
+import { useIntl } from "react-intl";
 
 const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -33,6 +35,7 @@ const Deals: NextPageWithLayout = () => {
 	const isAdmin = useStore((state) => state.isAdmin);
 	const [isUnderwriter, setIsUnderwriter] = useState<boolean>(null);
 	const { publicKey } = useWallet();
+	const intl = useIntl();
 
 	const dealsTableColumns: ColumnsProps[] = [
 		{
@@ -85,7 +88,12 @@ const Deals: NextPageWithLayout = () => {
 						<Link href={path}>
 							<a>
 								<Button size="large">
-									<span>Repay</span>
+									<span className="capitalize">
+										{intl.formatMessage({
+											defaultMessage: "repay",
+											description: "Deals: repay button",
+										})}
+									</span>
 								</Button>
 							</a>
 						</Link>
@@ -93,7 +101,12 @@ const Deals: NextPageWithLayout = () => {
 						<Link href={path}>
 							<a className="w-full">
 								<Button size="large" className="w-full">
-									<span>Info</span>
+									<span className="capitalize">
+										{intl.formatMessage({
+											defaultMessage: "info",
+											description: "Deals: info button",
+										})}
+									</span>
 								</Button>
 							</a>
 						</Link>
@@ -152,7 +165,9 @@ const Deals: NextPageWithLayout = () => {
 		<Link href={`/${marketplace}/invest-withdraw`}>
 			<a>
 				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
-					<span className="text-lg">Invest</span>
+					<span className="text-lg capitalize">
+						{intl.formatMessage({ defaultMessage: "invest", description: "Deals: invest button" })}
+					</span>
 				</Button>
 			</a>
 		</Link>
@@ -162,7 +177,12 @@ const Deals: NextPageWithLayout = () => {
 		<Link href={`/${marketplace}/deals/new`}>
 			<a>
 				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
-					<span className="text-lg capitalize">create new deal</span>
+					<span className="text-lg capitalize">
+						{intl.formatMessage({
+							defaultMessage: "create new deal",
+							description: "Deals: new deal button",
+						})}
+					</span>
 				</Button>
 			</a>
 		</Link>
@@ -192,7 +212,13 @@ const Deals: NextPageWithLayout = () => {
 					</div>
 				}
 			>
-				<TabPane tab="Active Deals" key="activeDealsTab">
+				<TabPane
+					tab={intl.formatMessage({
+						defaultMessage: "Active Deals",
+						description: "Deals: active deals tab",
+					})}
+					key="activeDealsTab"
+				>
 					<Table
 						loading={isLoadingDeals}
 						dataSource={activeDeals && mapDeals(activeDeals)}
@@ -200,7 +226,13 @@ const Deals: NextPageWithLayout = () => {
 					/>
 				</TabPane>
 				{isAdmin && (
-					<TabPane tab="Pending Deals" key="2">
+					<TabPane
+						tab={intl.formatMessage({
+							defaultMessage: "Pending Deals",
+							description: "Deals: pending deals tab",
+						})}
+						key="2"
+					>
 						<Table
 							loading={isLoadingDeals}
 							dataSource={pendingDeals && mapDeals(pendingDeals)}
@@ -208,7 +240,13 @@ const Deals: NextPageWithLayout = () => {
 						/>
 					</TabPane>
 				)}
-				<TabPane tab="Ended Deals" key="3">
+				<TabPane
+					tab={intl.formatMessage({
+						defaultMessage: "Ended Deals",
+						description: "Deals: ended deals tab",
+					})}
+					key="3"
+				>
 					<Table
 						loading={isLoadingDeals}
 						dataSource={endedDeals && mapDeals(endedDeals)}
@@ -235,8 +273,14 @@ export async function getStaticPaths() {
 	};
 }
 
-export async function getStaticProps({ params }) {
-	return { props: params };
+export async function getStaticProps(ctx) {
+	const { params } = ctx;
+	return {
+		props: {
+			intlMessages: await loadIntlMessages(ctx),
+			...params,
+		},
+	};
 }
 
 export default Deals;

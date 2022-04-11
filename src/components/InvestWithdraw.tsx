@@ -11,6 +11,7 @@ import message from "../message";
 import { useStore } from "state/useStore";
 import { numberFormatter, toProgramAmount } from "@utils/format.utils";
 import { useRouter } from "next/router";
+import { useIntl } from "react-intl";
 
 export const InvestWithdraw = () => {
 	const router = useRouter();
@@ -19,6 +20,7 @@ export const InvestWithdraw = () => {
 	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
+	const intl = useIntl();
 
 	useEffect(() => {
 		maybeFetchMarket(client, marketplace as string);
@@ -26,40 +28,100 @@ export const InvestWithdraw = () => {
 
 	const withdraw = async ({ amount }: LiquidityPoolInteractionForm) => {
 		const formattedNumber = numberFormatter.format(amount);
-		const hide = message.loading({ content: `Withdrawing ${formattedNumber} USDC` });
+		const hide = message.loading({
+			content: intl.formatMessage(
+				{
+					defaultMessage: "Withdrawing {amount} USDC",
+					description: "InvestWithdraw: withdraw loading",
+				},
+				{ amount: formattedNumber }
+			),
+		});
 
 		try {
 			await market.withdraw(toProgramAmount(new Big(amount)).toNumber());
 			hide();
-			message.success({ content: `Successfully withdrew ${formattedNumber} USDC` });
+			message.success({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Successfully withdrew {amount} USDC",
+						description: "InvestWithdraw: withdraw success",
+					},
+					{ amount: formattedNumber }
+				),
+			});
 			await fetchMarket(client, marketplace as string);
 		} catch (error) {
 			hide();
-			message.error({ content: `Failed to withdraw ${formattedNumber} USDC` });
+			message.error({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Failed to withdraw {amount} USDC",
+						description: "InvestWithdraw: withdraw failed",
+					},
+					{ amount: formattedNumber }
+				),
+			});
 		}
 	};
 
 	const invest = async ({ amount }: LiquidityPoolInteractionForm) => {
 		const formattedNumber = numberFormatter.format(amount);
-		const hide = message.loading({ content: `Depositing ${formattedNumber} USDC` });
+		const hide = message.loading({
+			content: intl.formatMessage(
+				{
+					defaultMessage: "Depositing {amount} USDC",
+					description: "InvestWithdraw: deposit loading",
+				},
+				{ amount: formattedNumber }
+			),
+		});
 
 		try {
 			await market.deposit(toProgramAmount(new Big(amount)).toNumber());
 			hide();
-			message.success({ content: `Successfully deposited ${formattedNumber} USDC` });
+			message.success({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Successfully deposited {amount} USDC",
+						description: "InvestWithdraw: deposit success",
+					},
+					{ amount: formattedNumber }
+				),
+			});
 			await fetchMarket(client, marketplace as string);
 		} catch (error) {
 			hide();
-			message.error({ content: `Failed to deposit ${formattedNumber} USDC` });
+			message.error({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Failed to deposit {amount} USDC",
+						description: "InvestWithdraw: deposit failed",
+					},
+					{ amount: formattedNumber }
+				),
+			});
 		}
 	};
 
 	return (
 		<Tabs>
-			<TabPane tab="Invest" key="1">
+			<TabPane
+				tab={intl.formatMessage({
+					defaultMessage: "Invest",
+					description: "InvestWithdraw: invest tab title",
+				})}
+				key="1"
+			>
 				<LiquidityPoolInteraction action="invest" onSubmit={invest} />
 			</TabPane>
-			<TabPane tab="Withdraw" key="2">
+			<TabPane
+				tab={intl.formatMessage({
+					defaultMessage: "Withdraw",
+					description: "InvestWithdraw: withdraw tab title",
+				})}
+				key="2"
+			>
 				<LiquidityPoolInteraction action="withdraw" onSubmit={withdraw} />
 			</TabPane>
 		</Tabs>
