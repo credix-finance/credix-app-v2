@@ -111,7 +111,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
         run: |
-          NEXT_PUBLIC_REACT_APP_CLUSTER=devnet yarn build
+          NEXT_PUBLIC_REACT_APP_CLUSTER=devnet NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }} yarn build
           yarn export
 
       - name: Checkout target repository
@@ -174,7 +174,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
         run: |
-          NEXT_PUBLIC_REACT_APP_CLUSTER=mainnet-beta yarn build
+          NEXT_PUBLIC_REACT_APP_CLUSTER=mainnet-beta NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }} yarn build
           yarn export
 
       - name: Checkout target repository
