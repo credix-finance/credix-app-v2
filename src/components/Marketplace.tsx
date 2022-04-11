@@ -14,11 +14,14 @@ import {
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PopupButton } from "@typeform/embed-react";
 
+import { useIntl } from "react-intl";
+
 interface MarketplaceProps {
 	marketplace: string;
 }
 
-const Marketplace: FunctionComponent<MarketplaceProps> = ({ marketplace }) => {
+const Marketplace: FunctionComponent<MarketplaceProps> = (props) => {
+	const intl = useIntl();
 	const client = useCredixClient();
 	const { publicKey } = useWallet();
 	const fetchMarket = useStore((state) => state.fetchMarket);
@@ -36,8 +39,8 @@ const Marketplace: FunctionComponent<MarketplaceProps> = ({ marketplace }) => {
 	}, [publicKey, market]);
 
 	useEffect(() => {
-		fetchMarket(client, marketplace);
-	}, [client, fetchMarket, marketplace]);
+		fetchMarket(client, props.marketplace);
+	}, [client, fetchMarket, props.marketplace]);
 
 	useEffect(() => {
 		fetchHasCredixPass();
@@ -45,20 +48,30 @@ const Marketplace: FunctionComponent<MarketplaceProps> = ({ marketplace }) => {
 
 	const parties = [
 		{
-			name: "liquidity providers",
+			name: intl.formatMessage({
+				defaultMessage: "liquidity providers",
+				description: "Marketplace component: invest party name",
+			}),
+			typeformId: investorTypeformId,
 			action: "invest",
 			buttonAction: "Invest",
 			buttonLink: investWithdrawRoute.path,
-			typeformId: investorTypeformId,
-			description: "Invest USDC in real-world-assets and earn attractive, risk adjusted returns.",
+			description: intl.formatMessage({
+				defaultMessage:
+					"Invest USDC in real-world-assets and earn attractive, risk adjusted returns.",
+				description: "Marketplace component: invest description",
+			}),
 		},
 		{
 			name: "Borrowers",
+			typeformId: borrowerTypeformId,
 			action: "borrow",
 			buttonAction: "deals",
 			buttonLink: dealsRoute.path,
-			typeformId: borrowerTypeformId,
-			description: "Borrow USDC against real-world-assets in weeks, not months.",
+			description: intl.formatMessage({
+				defaultMessage: "Borrow USDC against real-world-assets in weeks, not months.",
+				description: "Marketplace component: borrow description",
+			}),
 		},
 	];
 
@@ -69,11 +82,17 @@ const Marketplace: FunctionComponent<MarketplaceProps> = ({ marketplace }) => {
 		>
 			<div className="text-center md:col-span-12 md:max-w-3xl grid justify-items-center">
 				<h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold font-sans">
-					Welcome to Credix
+					{intl.formatMessage({
+						defaultMessage: "Welcome to Credix",
+						description: "Marketplace component: title",
+					})}
 				</h1>
 				<div className="font-normal text-base md:max-w-lg">
-					The new decentralized credit marketplace connecting investors with FinTechs in emerging
-					markets
+					{intl.formatMessage({
+						defaultMessage:
+							"The new decentralized credit marketplace connecting investors with FinTechs in emerging markets",
+						description: "Marketplace component: subtitle",
+					})}
 				</div>
 			</div>
 			<div className="md:col-span-12 w-full">
@@ -84,7 +103,7 @@ const Marketplace: FunctionComponent<MarketplaceProps> = ({ marketplace }) => {
 					<Card key={name} topTitle={name} title={action} offset="large">
 						<div className="mb-14 text-base">{description}</div>
 						{hasCredixPass ? (
-							<Link href={`/${marketplace}${buttonLink}`}>
+							<Link href={`/${props.marketplace}${buttonLink}`}>
 								<a>
 									<Button block={true} className="capitalize">
 										{buttonAction}
