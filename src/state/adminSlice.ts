@@ -1,4 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
+import nacl from "tweetnacl"
 import { config } from "../config";
 import { StoreSlice } from "./useStore";
 
@@ -15,6 +16,14 @@ export const createAdminSlice: StoreSlice<AdminSlice> = (set) => ({
 			return;
 		}
 
-		set({ isAdmin: config.managementKeys.includes(publicKey?.toString()) });
+		const hashedPublicKey = nacl.hash(publicKey.toBytes())
+
+		const isAdmin = config.managementKeys.some(key => {
+			const hashedKey = nacl.hash(new PublicKey(key).toBytes())
+
+			return nacl.verify(hashedPublicKey, hashedKey)
+		})
+
+		set({ isAdmin });
 	},
 });
