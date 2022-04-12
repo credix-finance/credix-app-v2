@@ -273,3 +273,27 @@ body {
 .ant-form-item-label:has(".label-hidden") {
 	@apply invisible !important;
 }
+
+.ant-radio-group.ant-radio-group-solid {
+	@apply flex gap-5 !important;
+}
+
+.ant-radio-button-wrapper {
+	@apply text-base font-medium capitalize text-neutral-100 grid place-content-center w-20 h-11 border border-neutral-60 hover:text-neutral-100 focus:ring-neutral-100 focus:border-neutral-100 !important;
+}
+
+.ant-radio-button-wrapper:not(:first-child)::before {
+	@apply fixed !important;
+}
+
+.ant-radio-button-wrapper-checked {
+	@apply bg-neutral-60 text-neutral-0 hover:text-neutral-0 !important;
+}
+
+.ant-radio-button-wrapper:focus-within {
+	@apply shadow-none !important;
+}
+
+.ant-form-item-has-feedback.ant-form-item-has-error .ant-radio-button-wrapper {
+	@apply border border-error !important;
+}
