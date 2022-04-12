@@ -45,3 +45,7 @@ export const formatDate = (date: Date, locale: string[]) => {
 		date
 	);
 };
+
+export const classNames = (input: (string | boolean | null)[]) => {
+	return input.filter(Boolean).join(" ");
+};
