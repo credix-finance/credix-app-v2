@@ -33,6 +33,7 @@ module.exports = {
 			"@components": path.resolve(__dirname, "../src/components"),
 			"@credix_types": path.resolve(__dirname, "../src/types"),
 			"@consts": path.resolve(__dirname, "../src/consts"),
+			"@config": path.resolve(__dirname, "../src/config"),
 			"@message": path.resolve(__dirname, "../src/message"),
 			"@state": path.resolve(__dirname, "../src/state"),
 			"@utils": path.resolve(__dirname, "../src/utils"),
