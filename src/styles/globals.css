@@ -74,11 +74,7 @@ body {
 	@apply py-4 px-[14.5px] bg-neutral-0 font-normal !important;
 }
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
-	@apply border border-neutral-40 !important;
-}
-
-.ant-input-affix-wrapper-focused {
-	@apply shadow-none ring-1 ring-neutral-40 border-neutral-40 !important;
+	@apply border border-neutral-60 !important;
 }
 
 .ant-input-group-wrapper {
@@ -222,9 +218,28 @@ body {
 	@apply h-14 flex items-center border border-neutral-40 rounded-[1px] !important;
 }
 
+.ant-form-item-has-error .ant-select:not(.ant-select-disabled):hover .ant-select-selector,
+.ant-form-item-has-error .ant-select .ant-select-selector {
+	@apply border border-error shadow-none z-10 !important;
+}
+
+.ant-form-item-has-error
+	.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+	.ant-select-selector {
+	@apply ring-1 ring-error border border-error shadow-none z-10 !important;
+}
+
 .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
 	.ant-select-selector {
-	@apply ring-1 ring-neutral-60 border border-neutral-40 shadow-none z-10 !important;
+	@apply ring-1 ring-neutral-60 border border-neutral-60 shadow-none z-10 !important;
+}
+
+.ant-select-selection-placeholder {
+	@apply font-medium text-base !important;
+}
+
+.ant-select-item-option-content {
+	@apply font-medium text-base font-mono text-darker !important;
 }
 
 .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
@@ -232,7 +247,7 @@ body {
 }
 .ant-input-affix-wrapper:focus,
 .ant-input-affix-wrapper-focused {
-	@apply ring-1 ring-neutral-60 border-neutral-40 shadow-none z-10 !important;
+	@apply ring-1 ring-neutral-60 border-neutral-60 shadow-none z-10 !important;
 }
 
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
@@ -255,7 +270,7 @@ body {
 }
 
 .ant-select-selection-item {
-	@apply pr-5 !important;
+	@apply pr-5 text-base !important;
 }
 
 .ant-input-group.ant-input-group-compact {
