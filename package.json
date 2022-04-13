@@ -24,6 +24,7 @@
 		"@civic/solana-gateway-react": "0.4.13",
 		"@credix/credix-client": "^0.1.0-beta.4",
 		"@credix/prettier-config": "^1.0.0",
+		"@sentry/nextjs": "^6.19.6",
 		"@solana/wallet-adapter-base": "^0.9.5",
 		"@solana/wallet-adapter-react": "0.15.4",
 		"@solana/wallet-adapter-react-ui": "^0.9.6",
