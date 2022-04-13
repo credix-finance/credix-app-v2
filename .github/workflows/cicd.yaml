@@ -158,6 +158,7 @@ jobs:
           NEXT_PUBLIC_REACT_APP_CLUSTER=devnet
           NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}
           NEXT_PUBLIC_PROGRAM_ID=${{ secrets.NEXT_PUBLIC_PRE_MAINNET_PROGRAM_ID }}
+          NEXT_PUBLIC_SENTRY_TOKEN=${{ secrets.NEXT_PUBLIC_SENTRY_TOKEN }}
           yarn build
 
       - name: Export app
@@ -253,6 +254,7 @@ jobs:
           NEXT_PUBLIC_SYNDICA_TOKEN=${{secrets.NEXT_PUBLIC_SYNDICA_TOKEN}}
           NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}
           NEXT_PUBLIC_PROGRAM_ID=${{ secrets.NEXT_PUBLIC_DEVNET_AND_MAINNET_PROGRAM_ID }}
+          NEXT_PUBLIC_SENTRY_TOKEN=${{ secrets.NEXT_PUBLIC_SENTRY_TOKEN }}
           yarn build
 
       - name: Export app
