@@ -23,7 +23,7 @@ const devnetConfig: ClusterConfig = {
 const mainnetConfig: ClusterConfig = {
 	...baseConfig,
 	name: SolanaCluster.MAINNET,
-	RPCEndpoint: RPCEndpoint.MAINNET,
+	RPCEndpoint: `${RPCEndpoint.MAINNET}/access-token/${process.env.NEXT_PUBLIC_SYNDICA_TOKEN}/rpc/`,
 };
 ///
 
