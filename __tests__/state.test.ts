@@ -25,7 +25,7 @@ describe("Admin state", () => {
 		let state = store.getState();
 		expect(state.isAdmin).toBeFalsy();
 
-		const managementKey = new PublicKey(config.managementKeys[0]);
+		const managementKey = new PublicKey("Ej5zJzej7rrUoDngsJ3jcpfuvfVyWpcDcK7uv9cE2LdL");
 		state.setIsAdmin(managementKey);
 
 		state = store.getState();
@@ -36,8 +36,8 @@ describe("Admin state", () => {
 		let state = store.getState();
 		expect(state.isAdmin).toBeFalsy();
 
-		const managementKey = new PublicKey("CRDx2YkdtYtGZXGHZ59wNv1EwKHQndnRc1gT4p8i2vPX");
-		state.setIsAdmin(managementKey);
+		const nonManagementKey = new Keypair().publicKey;
+		state.setIsAdmin(nonManagementKey);
 
 		state = store.getState();
 		expect(state.isAdmin).toBeFalsy();

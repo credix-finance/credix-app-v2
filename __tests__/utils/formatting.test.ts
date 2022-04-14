@@ -6,6 +6,7 @@ import {
 	clamp,
 	numberFormatter,
 	ratioFormatter,
+	classNames,
 } from "@utils/format.utils";
 
 describe("date formatting", () => {
@@ -112,5 +113,28 @@ describe("Format utils", () => {
 		formattedValue = ratioFormatter.format(value);
 
 		expect(formattedValue).toBe(expected);
+	});
+});
+
+describe("classnames", () => {
+	it("joins an array of strings separated by a space", () => {
+		const input = ["a", "b", "c"];
+		const expected = "a b c";
+
+		expect(classNames(input)).toEqual(expected);
+	});
+
+	it("filters out false values", () => {
+		const input = ["a", "b", "c", false && "d"];
+		const expected = "a b c";
+
+		expect(classNames(input)).toEqual(expected);
+	});
+
+	it("filters out null values", () => {
+		const input = ["a", "b", "c", null && "d"];
+		const expected = "a b c";
+
+		expect(classNames(input)).toEqual(expected);
 	});
 });
