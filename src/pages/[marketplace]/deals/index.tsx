@@ -141,6 +141,8 @@ const Deals: NextPageWithLayout = () => {
 	const mapDeals = (deals: Deal[]) =>
 		deals
 			.slice()
+			// TODO: move this to the client
+			.filter((deal) => isUnderwriter || deal.borrower.toString() === publicKey.toString())
 			.map(mapDeal)
 			.sort((a, b) => (a.date <= b.date ? 1 : -1));
 
@@ -164,7 +166,7 @@ const Deals: NextPageWithLayout = () => {
 		</Link>
 	);
 
-	const fetchIsBorrower = useCallback(async () => {
+	const fetchCredixPass = useCallback(async () => {
 		try {
 			const credixPass = await market.fetchCredixPass(publicKey);
 
@@ -175,8 +177,8 @@ const Deals: NextPageWithLayout = () => {
 	}, [market, publicKey]);
 
 	useEffect(() => {
-		fetchIsBorrower();
-	}, [fetchIsBorrower]);
+		fetchCredixPass();
+	}, [fetchCredixPass]);
 
 	return (
 		<div className="space-y-14 py-5 px-4 md:pt-20 md:px-28">
