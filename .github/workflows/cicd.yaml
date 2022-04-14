@@ -92,6 +92,11 @@ jobs:
       - name: Run yarn install
         run: yarn install
 
+      - name: Set GitHub Actions as commit author
+        run: |
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
+
       # Critical
       - name: Run Trivy for critical vulnerabilities
         uses: aquasecurity/trivy-action@master
@@ -102,7 +107,7 @@ jobs:
           severity: 'CRITICAL' # Error only on critical vulnerabilities
           exit-code: '0' # Don't fail the job if a critical vulnerability with fix available is found
 
-      # Build
+      # Build app
       - uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/.next/cache
@@ -111,7 +116,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
         run: |
-          NEXT_PUBLIC_REACT_APP_CLUSTER=devnet yarn build
+          NEXT_PUBLIC_REACT_APP_CLUSTER=devnet NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }} yarn build
           yarn export
 
       - name: Checkout target repository
@@ -121,18 +126,40 @@ jobs:
           path: "deploy"
           token: ${{ secrets.PAT }}
 
-      - name: Set GitHub Actions as commit author
-        run: |
-          git config --global user.name github-actions
-          git config --global user.email github-actions@github.com
-
-      # Push
+      # Push app
       - name: Push files to target repository
         run: |
           cp -r out/* deploy
           cd deploy
           echo ${{ secrets.DEPLOY_URL }} > CNAME
           touch .nojekyll
+          git add .
+          git commit -m $GITHUB_SHA
+          git push
+
+      # Build storybook
+      - uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      - name: Build storybook
+        run: |
+          yarn build-storybook
+
+      - name: Checkout target repository
+        uses: actions/checkout@v2
+        with:
+          repository: credix-finance/credix-app-v2-devnet-storybook
+          path: 'deploy'
+          token: ${{ secrets.PAT }}
+
+      # Push storybook
+      - name: Push files to target repository
+        run: |
+          cp -r storybook-static/* deploy
+          cd deploy
           git add .
           git commit -m $GITHUB_SHA
           git push
@@ -165,7 +192,12 @@ jobs:
       - name: Run yarn install
         run: yarn install
 
-      # Build
+      - name: Set GitHub Actions as commit author
+        run: |
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
+
+      # Build app
       - uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/.next/cache
@@ -174,7 +206,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
         run: |
-          NEXT_PUBLIC_REACT_APP_CLUSTER=mainnet-beta yarn build
+          NEXT_PUBLIC_REACT_APP_CLUSTER=mainnet-beta NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }} yarn build
           yarn export
 
       - name: Checkout target repository
@@ -189,13 +221,40 @@ jobs:
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
 
-      # Push
+      # Push app
       - name: Push files to target repository
         run: |
           cp -r out/* deploy
           cd deploy
           echo ${{ secrets.DEPLOY_URL }} > CNAME
           touch .nojekyll
+          git add .
+          git commit -m $GITHUB_SHA
+          git push
+
+      # Build storybook
+      - uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      - name: Build storybook
+        run: |
+          yarn build-storybook
+
+      - name: Checkout target repository
+        uses: actions/checkout@v2
+        with:
+          repository: credix-finance/credix-app-v2-mainnet-storybook
+          path: 'deploy'
+          token: ${{ secrets.PAT }}
+
+      # Push storybook
+      - name: Push files to target repository
+        run: |
+          cp -r storybook-static/* deploy
+          cd deploy
           git add .
           git commit -m $GITHUB_SHA
           git push

@@ -54,6 +54,37 @@ const getClusterConfig = (): ClusterConfig => {
 	}
 };
 
+// base58 encoded hashed management keys
+const getManagementKeys = () => {
+	const targetCluster = getTargetClusterFromEnv();
+
+	switch (targetCluster) {
+		case SolanaCluster.MAINNET:
+			return [
+				"3prR2qTzooeAzrZoT7fdNmHCxmJeeNuJ4Ha2ifJTSyCCm9tBiYFqtFT5KNd4d7jQK9yRks5DGtuHQbJQb3FXHkz6",
+				"5c98jiV2tMk98xzYAptcUJ646tQPhquUkBq46qXZRbyidewbmUKVk6fvhujaHFSP2xThZQt54VqtNL9cJX5stZ3s",
+				"4d8bKejBFXbj81NjNHGtxq4P4biJbndiD196dWZjb87A3vELbXSxmJdfjMkw3hHF3uEGgpKu51BMVw2Zq6RVk2Xa"
+			]
+		case SolanaCluster.DEVNET:
+			return [
+				"2Xh8gVVVsRkNFCVcp5ZWZHvizS5hsV9ATVWqFEjbXJV45VuZbmM9hJwvS3scREyfRhtzNa5jfEmrYsgMAr6UNebJ",
+				"4AMczxCpwnFzEaExvAR3tnBf2a6Du2zys7UMbqzBBdSuV27Fm3gaGLuxJ2cabwk33HqkVVDtwDcBedXTotoe9Lz1",
+				"3prR2qTzooeAzrZoT7fdNmHCxmJeeNuJ4Ha2ifJTSyCCm9tBiYFqtFT5KNd4d7jQK9yRks5DGtuHQbJQb3FXHkz6",
+				"5c98jiV2tMk98xzYAptcUJ646tQPhquUkBq46qXZRbyidewbmUKVk6fvhujaHFSP2xThZQt54VqtNL9cJX5stZ3s",
+				"4d8bKejBFXbj81NjNHGtxq4P4biJbndiD196dWZjb87A3vELbXSxmJdfjMkw3hHF3uEGgpKu51BMVw2Zq6RVk2Xa",
+				"3mnKw8yhSskDnQCLMk7eUPxES7YbNRDVPTF6UtG99yrSrKJzBEqPwD7qbt7ELV2p7HcyM3XNRNwa9tFkVXQKDpiQ",
+				"3q3HPkzBrQPSQanquLrcTvV3hExVyMiFA3dcv4Vh1ndZzxVprct1qVdqDQVzrchkiFpwsgx7CoiuDG2zoy1BnfYU",
+				"JiUUxTD8HLJUvGjap7uxTNtNq2kpg9fDwC6nknRpukmavzgfNy8MJD47tn2QD8bm7YTximbccnAPhqdNBmKX6gM",
+				"2WzHf9QXhGi2Kficiy3ApLtxULcDBfZYmCXuJc9c2YmJXH2CUeymyVAn2KznRF2rs8BMoRj2x6oZQMJdz7HqG24E",
+			]
+		case SolanaCluster.LOCALNET:
+		default:
+			return [
+				"2WzHf9QXhGi2Kficiy3ApLtxULcDBfZYmCXuJc9c2YmJXH2CUeymyVAn2KznRF2rs8BMoRj2x6oZQMJdz7HqG24E"
+			];
+	}
+}
+
 export const config: Config = ((): Config => {
 	const clusterConfig = getClusterConfig();
 	// TODO: make these configurable with environment variables
@@ -61,10 +92,7 @@ export const config: Config = ((): Config => {
 		commitment: "confirmed",
 		preflightCommitment: "processed",
 	};
-	const MANAGEMENT_KEYS = [
-		"Ej5zJzej7rrUoDngsJ3jcpfuvfVyWpcDcK7uv9cE2LdL",
-		"Ej5zJzej7rrUoDngsJ3jcpfuvfVyWpcDcK7uv9cE2LdL",
-	];
+	const MANAGEMENT_KEYS = getManagementKeys();
 
 	return {
 		clusterConfig,
