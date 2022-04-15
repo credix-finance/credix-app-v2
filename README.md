@@ -107,3 +107,11 @@ The build is minified and the filenames include the hashes. Your app is ready to
 
 Runs storybook in development mode. Open [http://localhost:6006](http://localhost:6006) to view it in the browser.
 Components are located in `src/components` and stories can be found in `src/stories`.
+
+# Husky
+
+Install [Husky](https://github.com/typicode/husky). We use a pre-push hook to perform linting before hitting the CI/CD pipelines.
+
+Don't forget to run `husky install` once or after new hooks are added.
+
+If you want to bypass this check you can end your git commit with `--no-verify`.
