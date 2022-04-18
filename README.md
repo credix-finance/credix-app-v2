@@ -64,6 +64,27 @@ Maximum connection rate per 10 seconds per IP: 40
 Maximum amount of data per 30 second: 100 MB
 ```
 
+## I18n
+
+### Tagging strings for extraction
+
+When adding new text strings, always wrap them in a `intl.formatMessage()` function call with a default message to mark them for extraction.
+
+Messages are declared inline along with their usages as per the docs:
+
+> 1. Messages colocated with their usages become self-managed, as their usages change/removed, so are the messages.
+> 2. Messages are highly contextual. We've seen a lot of cases where developers assume a certain grammar when they write their messages. Buttons/Call-To-Actions and labels are also translated differently.
+> 3. Text styling is also dependent on the message itself. Things like truncation, capitalization... certainly affect the messages themselves.
+> 4. Better integrations with toolchains. Most toolchains cannot verify cross-file references to validate syntax/usage.
+
+### Extraction
+
+To extract the tagged strings run `yarn i18n:extract`. This command will aggregate all `defaultMessage`s from the application into a single `.json` file (`en.json` in our case).
+
+### Compilation
+
+Running `yarn i18n:compile` will compile the lang files from a folder into a `react-intl` consumable `.json` file.
+
 ## Editors
 
 We use eslint and prettier to lint and format our codebase. An editorconfig file is also provided.
