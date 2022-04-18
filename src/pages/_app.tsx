@@ -11,10 +11,10 @@ import {
 	TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { config } from "config";
-import { NextPage } from "next"
-import { ClientProvider } from "@components/ClientProvider"
-import { useRouter } from "next/router"
-import { pageview } from "@utils/analytics.utils"
+import { NextPage } from "next";
+import { ClientProvider } from "@components/ClientProvider";
+import { useRouter } from "next/router";
+import { pageview } from "@utils/analytics.utils";
 import { IntlProvider } from "react-intl";
 
 // Use require instead of import since order matters
@@ -31,7 +31,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const CredixApp: FC<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
-	const router = useRouter()
+	const router = useRouter();
 	const { locale, defaultLocale } = useRouter();
 
 	useEffect(() => {
