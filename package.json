@@ -2,7 +2,8 @@
 	"name": "credix-app",
 	"private": true,
 	"resolutions": {
-		"webpack": "^5"
+		"webpack": "^5",
+		"@types/react": "17.0.41"
 	},
 	"scripts": {
 		"dev": "next dev",
