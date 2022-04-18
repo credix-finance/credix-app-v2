@@ -29,7 +29,7 @@ export const createAdminSlice: StoreSlice<AdminSlice> = (set) => ({
 		const hashedPublicKey = nacl.hash(forceUint8Array(pubkeyBytes))
 
 		const isAdmin = config.managementKeys.some(key => {
-			const keyBytes = Uint8Array.from(forceUint8Array(base58.decode(key)));
+			const keyBytes = forceUint8Array(base58.decode(key));
 
 			return nacl.verify(hashedPublicKey, keyBytes)
 		})
