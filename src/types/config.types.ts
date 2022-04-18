@@ -1,9 +1,9 @@
 import { ConfirmOptions, PublicKey } from "@solana/web3.js";
-import { RPCEndpoint, SolanaCluster } from "./solana.types";
+import { SyndicaRpcEndpoint, RPCEndpoint, SolanaCluster } from "./solana.types";
 
 export interface ClusterConfig {
 	name: SolanaCluster;
-	RPCEndpoint: RPCEndpoint;
+	RPCEndpoint: RPCEndpoint | SyndicaRpcEndpoint;
 	programId: PublicKey;
 	gatewayProgramId: PublicKey;
 }
