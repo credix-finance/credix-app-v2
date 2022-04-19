@@ -18,13 +18,13 @@ class MyDocument extends Document {
 						rel="stylesheet"
 					/>
 					{/* Global Site Tag (gtag.js) - Google Analytics */}
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+					<script
+						async
+						src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+					/>
+					<script
+						dangerouslySetInnerHTML={{
+							__html: `
 							window.dataLayer = window.dataLayer || [];
 							function gtag(){dataLayer.push(arguments);}
 							gtag('js', new Date());
@@ -32,8 +32,8 @@ class MyDocument extends Document {
 								page_path: window.location.pathname,
 							});
 						`,
-            }}
-          />
+						}}
+					/>
 				</Head>
 				<body className="bg-credix-primary font-mono min-h-screen">
 					<Main />
