@@ -1860,16 +1860,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@credix/eslint-config@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@credix/eslint-config@npm:1.0.0"
+"@credix/eslint-config@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@credix/eslint-config@npm:1.1.0"
   peerDependencies:
     "@typescript-eslint/eslint-plugin": ^5.12.1
     "@typescript-eslint/parser": ^5.12.1
     eslint: ^8.9.0
     eslint-config-prettier: ^8.4.0
     eslint-plugin-react: ^7.29.0
-  checksum: 768fb577935d3b0742996f73ad1390b5173a1af5a81f6ace67020b3a67027bc5f3c0078d4161c469a5773ece687e2bd498446f8243e7e7bc778a89ca3d41f22f
+  checksum: 26a2d387dfdc937a884c9cc1b53b82c1809a64b7e0b0468a1f5f7c6e54e9e1b9b8c5c2a389593fcd6f8223ba4df7aa65d5b5d4a0c1ce29e9211d582a134c3165
   languageName: node
   linkType: hard
 
@@ -7847,7 +7847,7 @@ __metadata:
     "@commitlint/cli": ^16.2.3
     "@commitlint/config-conventional": ^16.2.1
     "@credix/credix-client": ^0.1.0-beta.4
-    "@credix/eslint-config": ^1.0.0
+    "@credix/eslint-config": ^1.1.0
     "@credix/prettier-config": ^1.0.0
     "@solana/wallet-adapter-base": ^0.9.5
     "@solana/wallet-adapter-react": 0.15.3

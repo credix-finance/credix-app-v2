@@ -2,8 +2,5 @@
 	"extends": [
 		"@credix/eslint-config",
 		"next"
-	],
-	"rules": {
-		"indent": ["error", "tab", {"SwitchCase": 1}]
-	}
+	]
 }
