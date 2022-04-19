@@ -10,11 +10,15 @@ import { useRouter } from "next/router";
 
 export const IdentityButton = () => {
 	const router = useRouter();
-	const { marketplace } = router.query;
 	const wallet = useWallet();
 	const client = useCredixClient();
 	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
 	const market = useStore((state) => state.market);
+	let marketplace;
+
+	if (router) {
+		marketplace = router.query.marketplace;
+	}
 
 	useEffect(() => {
 		maybeFetchMarket(client, marketplace as string);
