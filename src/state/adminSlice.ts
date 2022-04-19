@@ -1,12 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
-import {
-	encodePublicKeyList,
-	forceUint8Array,
-	hashPublicKey,
-	verifyEncodedKey,
-} from "@utils/hash.utils";
-import base58 from "bs58";
-import nacl from "tweetnacl";
+import { verifyEncodedKey } from "@utils/hash.utils";
 import { config } from "../config";
 import { StoreSlice } from "./useStore";
 
