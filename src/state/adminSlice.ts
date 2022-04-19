@@ -1,16 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
-import base58 from "bs58"
-import nacl from "tweetnacl"
+import { verifyEncodedKey } from "@utils/hash.utils";
 import { config } from "../config";
 import { StoreSlice } from "./useStore";
-
-const forceUint8Array = (key: Uint8Array | Buffer) => {
-	if (key instanceof Uint8Array) {
-		return key
-	}
-
-	return Uint8Array.from(key)
-}
 
 export type AdminSlice = {
 	isAdmin?: boolean;
@@ -25,14 +16,7 @@ export const createAdminSlice: StoreSlice<AdminSlice> = (set) => ({
 			return;
 		}
 
-		const pubkeyBytes = publicKey.toBytes();
-		const hashedPublicKey = nacl.hash(forceUint8Array(pubkeyBytes))
-
-		const isAdmin = config.managementKeys.some(key => {
-			const keyBytes = Uint8Array.from(forceUint8Array(base58.decode(key)));
-
-			return nacl.verify(hashedPublicKey, keyBytes)
-		})
+		const isAdmin = config.managementKeys.some((key) => verifyEncodedKey(publicKey, key));
 
 		set({ isAdmin });
 	},
