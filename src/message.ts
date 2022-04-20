@@ -14,11 +14,13 @@ interface MessageProps {
 const defaultOnClose = () => antdMessage.destroy();
 
 const loading = (props: MessageProps) => {
-	return antdMessage.loading({
+	antdMessage.loading({
 		duration: 0,
 		onClose: defaultOnClose,
 		...props,
 	});
+
+	return defaultOnClose
 };
 
 const success = (props: MessageProps) => {
