@@ -12,6 +12,7 @@ import { useStore } from "state/useStore";
 import { numberFormatter, toProgramAmount } from "@utils/format.utils";
 import { useRouter } from "next/router";
 import { useIntl } from "react-intl";
+import notification from "notification";
 
 export const InvestWithdraw = () => {
 	const router = useRouter();
@@ -41,27 +42,23 @@ export const InvestWithdraw = () => {
 		try {
 			await market.withdraw(toProgramAmount(new Big(amount)).toNumber());
 			hide();
-			message.success({
-				content: intl.formatMessage(
-					{
-						defaultMessage: "Successfully withdrew {amount} USDC",
-						description: "InvestWithdraw: withdraw success",
-					},
-					{ amount: formattedNumber }
-				),
-			});
+			notification.success({ message: intl.formatMessage(
+				{
+					defaultMessage: "Successfully withdrew {amount} USDC",
+					description: "InvestWithdraw: withdraw success",
+				},
+				{ amount: formattedNumber }
+			) });
 			await fetchMarket(client, marketplace as string);
 		} catch (error) {
 			hide();
-			message.error({
-				content: intl.formatMessage(
-					{
-						defaultMessage: "Failed to withdraw {amount} USDC",
-						description: "InvestWithdraw: withdraw failed",
-					},
-					{ amount: formattedNumber }
-				),
-			});
+			notification.error({ message: intl.formatMessage(
+				{
+					defaultMessage: "Failed to withdraw {amount} USDC",
+					description: "InvestWithdraw: withdraw failed",
+				},
+				{ amount: formattedNumber }
+			), error });
 		}
 	};
 
@@ -80,27 +77,23 @@ export const InvestWithdraw = () => {
 		try {
 			await market.deposit(toProgramAmount(new Big(amount)).toNumber());
 			hide();
-			message.success({
-				content: intl.formatMessage(
-					{
-						defaultMessage: "Successfully deposited {amount} USDC",
-						description: "InvestWithdraw: deposit success",
-					},
-					{ amount: formattedNumber }
-				),
-			});
+			notification.success({ message: intl.formatMessage(
+				{
+					defaultMessage: "Successfully deposited {amount} USDC",
+					description: "InvestWithdraw: deposit success",
+				},
+				{ amount: formattedNumber }
+			) });
 			await fetchMarket(client, marketplace as string);
 		} catch (error) {
 			hide();
-			message.error({
-				content: intl.formatMessage(
-					{
-						defaultMessage: "Failed to deposit {amount} USDC",
-						description: "InvestWithdraw: deposit failed",
-					},
-					{ amount: formattedNumber }
-				),
-			});
+			notification.error({ message: intl.formatMessage(
+				{
+					defaultMessage: "Failed to deposit {amount} USDC",
+					description: "InvestWithdraw: deposit failed",
+				},
+				{ amount: formattedNumber }
+			), error });
 		}
 	};
 

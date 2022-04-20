@@ -20,6 +20,7 @@ const customJestConfig = {
 		"^@config/(.*)": "<rootDir>/src/config/$1",
 		"^@consts": "<rootDir>/src/consts",
 		"^@message": "<rootDir>/src/message",
+		"^@notification": "<rootDir>/src/notification",
 		"^@state/(.*)": "<rootDir>/src/state/$1",
 		"^@utils/(.*)": "<rootDir>/src/utils/$1",
 	},

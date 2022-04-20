@@ -20,7 +20,7 @@ const loading = (props: MessageProps) => {
 		...props,
 	});
 
-	return defaultOnClose
+	return defaultOnClose;
 };
 
 const success = (props: MessageProps) => {

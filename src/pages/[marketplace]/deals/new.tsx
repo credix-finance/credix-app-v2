@@ -49,7 +49,7 @@ const New: NextPageWithLayout = () => {
 		const borrowerPK = new PublicKey(borrower);
 
 		try {
-			const credixPass = market.fetchCredixPass(null);
+			const credixPass = await market.fetchCredixPass(borrowerPK);
 
 			if (!credixPass) {
 				hide();
@@ -65,10 +65,8 @@ const New: NextPageWithLayout = () => {
 		} catch (error) {
 			hide();
 			notification.error({
-				message: intl.formatMessage({
-					defaultMessage: "Failed to get Credix pass for given public key",
-					description: error.toString()
-				})
+				message: "Failed to get Credix pass for given public key",
+				error,
 			});
 
 			return;
@@ -117,13 +115,8 @@ const New: NextPageWithLayout = () => {
 			const deal = await borrowerInfo.fetchDeal(borrowerInfo.numberOfDeals - 1);
 
 			router.push(`/${marketplace}/deals/show?dealId=${deal.address.toString()}`);
-		} catch {
-			message.error({
-				content: intl.formatMessage({
-					defaultMessage: "Failed to get deal info",
-					description: "New deal: deal info request failed",
-				}),
-			});
+		} catch (error) {
+			notification.error({ message: "Failed to get deal info", description: error });
 			router.push(`/${marketplace}/deals`);
 		}
 	};
