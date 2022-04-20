@@ -14,7 +14,7 @@ on:
       - ready_for_review
 
 jobs:
-  analyze:
+  validate:
     runs-on: ubuntu-latest
     if: (github.actor != 'dependabot[bot]' && github.event.pull_request.draft == false)
     permissions:
@@ -23,15 +23,6 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@v2
-
-      - name: Initialise CodeQL
-        uses: github/codeql-action/init@v1
-        with:
-          languages: javascript
-
-      # Analysis
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
 
       # Install Yarn
       - name: Get yarn cache directory path
@@ -62,9 +53,28 @@ jobs:
       - name: Check formatting
         run: yarn format
 
-  ci:
+  analyze:
     runs-on: ubuntu-latest
     if: (github.actor != 'dependabot[bot]' && github.event.pull_request.draft == false)
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Initialise CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: javascript
+
+      # Analysis
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
+  ci:
+    runs-on: ubuntu-latest
+    needs: [validate]
     steps:
       - uses: actions/checkout@v2
         with:
