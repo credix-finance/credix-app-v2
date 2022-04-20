@@ -157,7 +157,7 @@ const Deals: NextPageWithLayout = () => {
 		deals
 			.slice()
 			// TODO: move this to the client
-			.filter((deal) => isUnderwriter || deal.borrower.toString() === publicKey.toString())
+			.filter((deal) => isUnderwriter || deal.borrower.toString() === publicKey?.toString())
 			.map(mapDeal)
 			.sort((a, b) => (a.date <= b.date ? 1 : -1));
 
