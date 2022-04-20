@@ -67,8 +67,8 @@ export const Input = ({
 	validateStatus,
 	help,
 	rules,
-	className = "",
-	labelClassName = "",
+	className,
+	labelClassName,
 	isDisplay = false,
 	disabled = false,
 	required = false,
@@ -82,6 +82,25 @@ export const Input = ({
 		);
 	}
 
+	const inputClassName = [
+		"border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40",
+		hasFeedback && validateStatus == "error"
+			? "border-error focus:ring-error focus:border-error"
+			: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100",
+		className,
+	]
+		.filter(Boolean)
+		.join(" ");
+
+	labelClassName = [
+		"font-bold text-base mb-7",
+		disabled && "text-neutral-60/40",
+		hasFeedback && validateStatus === "error" && "border-error",
+		labelClassName,
+	]
+		.filter(Boolean)
+		.join(" ");
+
 	return (
 		<Form.Item
 			label={label}
@@ -89,12 +108,7 @@ export const Input = ({
 			hasFeedback={hasFeedback}
 			validateStatus={validateStatus}
 			required={required}
-			className={`
-				font-bold text-base mb-7
-				${disabled && "text-neutral-60/40"}
-				${hasFeedback && validateStatus === "error" && "border-error"}
-				${labelClassName}
-			`}
+			className={labelClassName}
 		>
 			{description && <div className="font-normal text-sm mt-0 mb-[10px]">{description}</div>}
 			<Form.Item name={name} className="mb-0" rules={rules}>
@@ -102,17 +116,7 @@ export const Input = ({
 					disabled={disabled}
 					value={value}
 					size="large"
-					className={`
-						border-[0.5px] rounded-[1px]
-						focus:shadow-none
-						disabled:border-neutral-60/40
-						${
-							hasFeedback && validateStatus == "error"
-								? "border-error focus:ring-error focus:border-error"
-								: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
-						}
-						${className}
-					`}
+					className={inputClassName}
 					{...props}
 				>
 					{children}

@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState, useCallback } from "react";
+import React, { FunctionComponent, useEffect, useState, useCallback } from "react";
 import { Card } from "@components/Card";
 import { MarketStats } from "@components/MarketStats";
 import { useCredixClient } from "@credix/credix-client";
@@ -44,25 +44,23 @@ const Marketplace: FunctionComponent<MarketplaceProps> = ({ marketplace }) => {
 	}, [fetchHasCredixPass]);
 
 	const parties = [
-        {
-            name: "liquidity providers",
-            action: "invest",
-            buttonAction: "Invest",
-            buttonLink: investWithdrawRoute.path,
-            typeformId: investorTypeformId,
-            description:
-                "Invest USDC in real-world-assets and earn attractive, risk adjusted returns.",
-        },
-        {
-            name: "Borrowers",
-            action: "borrow",
-            buttonAction: "deals",
-            buttonLink: dealsRoute.path,
-            typeformId: borrowerTypeformId,
-            description:
-                "Borrow USDC against real-world-assets in weeks, not months.",
-        },
-    ];
+		{
+			name: "liquidity providers",
+			action: "invest",
+			buttonAction: "Invest",
+			buttonLink: investWithdrawRoute.path,
+			typeformId: investorTypeformId,
+			description: "Invest USDC in real-world-assets and earn attractive, risk adjusted returns.",
+		},
+		{
+			name: "Borrowers",
+			action: "borrow",
+			buttonAction: "deals",
+			buttonLink: dealsRoute.path,
+			typeformId: borrowerTypeformId,
+			description: "Borrow USDC against real-world-assets in weeks, not months.",
+		},
+	];
 
 	return (
 		<main

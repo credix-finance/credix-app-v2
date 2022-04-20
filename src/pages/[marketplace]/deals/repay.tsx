@@ -76,7 +76,7 @@ const Repay: NextPageWithLayout = () => {
 	const repayPrincipal = async (amount: number) => {
 		if (!deal.interestToRepay.eq(0)) {
 			message.error({
-				content: `Interest needs to be repaid in full before the principal can be repaid.`,
+				content: "Interest needs to be repaid in full before the principal can be repaid.",
 			});
 			return;
 		}

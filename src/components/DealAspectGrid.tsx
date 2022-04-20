@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { Deal, Ratio } from "@credix/credix-client";
 import { DealAspect } from "@components/DealAspect";
 import { numberFormatter, toUIAmount } from "@utils/format.utils";

@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { Form, Input as AntdInput, Select } from "antd";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
@@ -83,7 +83,7 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 					required={true}
 					name="type"
 					label="amount"
-					className={`font-bold text-base capitalize`}
+					className="font-bold text-base capitalize"
 				>
 					<Select
 						suffixIcon={<Icon name="arrow-down-square-solid" className="bg-neutral-60 w-6 h-6" />}

@@ -44,7 +44,7 @@ const New: NextPageWithLayout = () => {
 			}
 		} catch {
 			hide();
-			message.error({ content: `Failed to get Credix pass for given public key` });
+			message.error({ content: "Failed to get Credix pass for given public key" });
 			return;
 		}
 
@@ -71,7 +71,7 @@ const New: NextPageWithLayout = () => {
 
 			router.push(`/${marketplace}/deals/show?did=${deal.address.toString()}`);
 		} catch {
-			message.error({ content: `Failed to get deal info` });
+			message.error({ content: "Failed to get deal info" });
 			router.push(`/${marketplace}/deals`);
 		}
 	};
