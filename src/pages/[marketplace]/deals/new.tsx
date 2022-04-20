@@ -8,6 +8,7 @@ import { numberFormatter, toProgramAmount } from "@utils/format.utils";
 import Big from "big.js";
 import message from "message";
 import { useRouter } from "next/router";
+import notification from "notification";
 import { NextPageWithLayout } from "pages/_app";
 import React, { ReactElement, useEffect } from "react";
 import { useStore } from "state/useStore";
@@ -48,26 +49,28 @@ const New: NextPageWithLayout = () => {
 		const borrowerPK = new PublicKey(borrower);
 
 		try {
-			const credixPass = await market.fetchCredixPass(borrowerPK);
+			const credixPass = market.fetchCredixPass(null);
 
 			if (!credixPass) {
 				hide();
-				message.error({
-					content: intl.formatMessage({
+				notification.error({
+					message: intl.formatMessage({
 						defaultMessage: "No Credix Pass found for given public key",
 						description: "New deal: Credix Pass validation failed",
-					}),
+					})
 				});
+
 				return;
 			}
-		} catch {
+		} catch (error) {
 			hide();
-			message.error({
-				content: intl.formatMessage({
+			notification.error({
+				message: intl.formatMessage({
 					defaultMessage: "Failed to get Credix pass for given public key",
-					description: "New deal: Credix Pass request failed",
-				}),
+					description: error.toString()
+				})
 			});
+
 			return;
 		}
 
@@ -81,8 +84,8 @@ const New: NextPageWithLayout = () => {
 				dealName
 			);
 			hide();
-			message.success({
-				content: intl.formatMessage(
+			notification.success({
+				message: intl.formatMessage(
 					{
 						defaultMessage: "Successfully created deal for {amount} USDC",
 						description: "New deal: deal creation success",
@@ -92,10 +95,11 @@ const New: NextPageWithLayout = () => {
 					}
 				),
 			});
-		} catch {
+
+		} catch (error) {
 			hide();
-			message.error({
-				content: intl.formatMessage(
+			notification.error({
+				message: intl.formatMessage(
 					{
 						defaultMessage: "Failed to create deal for {amount} USDC",
 						description: "New deal: deal creation failed",
@@ -103,8 +107,8 @@ const New: NextPageWithLayout = () => {
 					{
 						amount: formattedPrincipal,
 					}
-				),
-			});
+				), description: error.toString() });
+
 			return;
 		}
 
