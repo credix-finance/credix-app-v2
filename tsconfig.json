@@ -19,6 +19,7 @@
 			"@components/*": ["components/*"],
 			"@credix_types/*": ["types/*"],
 			"@consts": ["consts"],
+			"@config": ["config"],
 			"@message": ["message"],
 			"@state/*": ["state/*"],
 			"@utils/*": ["utils/*"],
