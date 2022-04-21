@@ -1,8 +1,14 @@
 import React from "react";
 
-type TagTypes = "active" | "pending" | "inactive" | "ended";
+export enum TagType {
+	ACTIVE = "active",
+	PENDING = "pending",
+	INACTIVE = "inactive",
+	ENDED = "ended",
+}
+
 interface TagProps {
-	type: TagTypes;
+	type: TagType;
 	children?: React.ReactNode;
 }
 

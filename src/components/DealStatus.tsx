@@ -1,6 +1,6 @@
 import React from "react";
 import { Deal } from "@credix/credix-client";
-import { Tag } from "./Tag";
+import { Tag, TagType } from "@components/Tag";
 
 interface DealStatusProps {
 	deal: Deal;
@@ -8,10 +8,10 @@ interface DealStatusProps {
 
 export const DealStatus = ({ deal }: DealStatusProps) => {
 	if (deal.isInProgress()) {
-		return <Tag type="active">Active</Tag>;
+		return <Tag type={TagType.ACTIVE}>Active</Tag>;
 	} else if (deal.isPending()) {
-		return <Tag type="pending">Pending</Tag>;
+		return <Tag type={TagType.PENDING}>Pending</Tag>;
 	}
 
-	return <Tag type="ended">Ended</Tag>;
+	return <Tag type={TagType.ENDED}>Ended</Tag>;
 };
