@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState, useEffect, FunctionComponent } f
 import { useWalletModal, WalletIcon } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useStore } from "@state/useStore";
-import { Button } from "@components/Button";
+import { Button, ButtonType } from "@components/Button";
 import { Icon, IconDimension } from "@components/Icon";
 import message from "@message";
 
@@ -15,7 +15,7 @@ const DropDownOption: FunctionComponent<DropDownOptionProps> = ({ onClick, butto
 	return (
 		<div className="border-solid border-0">
 			<Button
-				type="default"
+				type={ButtonType.DEFAULT}
 				className="w-full border-none bg-credix-primary hover:bg-neutral-10"
 				onClick={onClick}
 			>
@@ -82,7 +82,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 	return (
 		<div className="relative" onBlur={() => setTimeout(() => setDropdownVisible(false), 100)}>
 			<Button
-				type="default"
+				type={ButtonType.DEFAULT}
 				size="large"
 				onClick={() => setDropdownVisible(!dropdownVisible)}
 				icon={<WalletIcon wallet={wallet} className="w-6" />}

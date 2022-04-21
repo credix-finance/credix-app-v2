@@ -2,6 +2,10 @@ import React from "react";
 import { Button as AntdButton } from "antd";
 import { ButtonProps as AntButtonProps } from "antd/lib/button";
 
+export enum ButtonType {
+	DEFAULT = "default",
+	PRIMARY = "primary",
+}
 interface ButtonProps {
 	/**
 	 * Optional size of the button.
@@ -29,7 +33,7 @@ interface ButtonProps {
 	/**
 	 * The type of the button. Only "default" and "primary" are supported.
 	 */
-	type?: "default" | "primary";
+	type?: ButtonType;
 	/**
 	 * The html type of the button.
 	 */
@@ -64,7 +68,7 @@ export const Button = ({
 	children,
 	className,
 	size = "middle",
-	type = "primary",
+	type = ButtonType.PRIMARY,
 	...props
 }: ButtonProps) => {
 	className = [defaultButtonStyles, buttonTypeStyles[type], buttonSizeStyles[size], className]

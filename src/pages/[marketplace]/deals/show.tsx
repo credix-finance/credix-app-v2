@@ -1,5 +1,5 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
-import { Button } from "@components/Button";
+import { Button, ButtonType } from "@components/Button";
 import { DealDetails } from "@components/DealDetails";
 import { Deal as DealType, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
@@ -47,7 +47,12 @@ const Show: NextPageWithLayout = () => {
 		<DealCard marketplace={marketplace as string} deal={deal}>
 			<DealDetails deal={deal} />
 			{isAdmin && deal.isPending() && (
-				<Button type="default" size="large" className="mt-14 bg-neutral-0" onClick={activateDeal}>
+				<Button
+					type={ButtonType.DEFAULT}
+					size="large"
+					className="mt-14 bg-neutral-0"
+					onClick={activateDeal}
+				>
 					Activate Deal
 				</Button>
 			)}
