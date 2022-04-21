@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState, useCallback } from "react";
-import { Card } from "@components/Card";
+import { Card, CardOffset } from "@components/Card";
 import { MarketStats } from "@components/MarketStats";
 import { useCredixClient } from "@credix/credix-client";
 import Link from "next/link";
@@ -81,7 +81,7 @@ const Marketplace: FunctionComponent<MarketplaceProps> = ({ marketplace }) => {
 			</div>
 			<div className="ml-6 md:col-span-12 md:flex md:justify-between md:space-x-20 space-y-8 md:space-y-0">
 				{parties.map(({ name, action, buttonAction, buttonLink, description, typeformId }) => (
-					<Card key={name} topTitle={name} title={action} offset="large">
+					<Card key={name} topTitle={name} title={action} offset={CardOffset.LARGE}>
 						<div className="mb-14 text-base">{description}</div>
 						{hasCredixPass ? (
 							<Link href={`/${marketplace}${buttonLink}`}>

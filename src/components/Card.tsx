@@ -1,13 +1,18 @@
 import React from "react";
 
+export enum CardOffset {
+	SMALL = "small",
+	MIDDLE = "middle",
+	LARGE = "large",
+}
 interface CardProps {
 	topTitle?: string;
 	title: string;
-	offset?: "small" | "middle" | "large";
+	offset?: CardOffset;
 	children: React.ReactNode;
 }
 
-export const Card = ({ topTitle, title, offset = "middle", children }: CardProps) => {
+export const Card = ({ topTitle, title, offset = CardOffset.MIDDLE, children }: CardProps) => {
 	const offsetValues = {
 		small: "-ml-9",
 		middle: "-ml-12",
