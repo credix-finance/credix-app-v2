@@ -1,7 +1,7 @@
 import React from "react";
 import { config } from "../config";
 import { SolanaCluster } from "@credix_types/solana.types";
-import { CredixLogo } from "@components/CredixLogo";
+import { CredixLogo, CredixLogoType } from "@components/CredixLogo";
 import { WalletButton } from "@components/WalletButton";
 import { IdentityButton } from "@components/IdentityButton";
 import Link from "next/link";
@@ -22,7 +22,7 @@ export const MainMenu = ({ showLogo = true }: MainMenuProps) => {
 				{showLogo && (
 					<Link href={path}>
 						<a className="flex items-center">
-							<CredixLogo mode="dark" />
+							<CredixLogo mode={CredixLogoType.DARK} />
 						</a>
 					</Link>
 				)}

@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { CredixLogo } from "@components/CredixLogo";
+import { CredixLogo, CredixLogoType } from "@components/CredixLogo";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -14,7 +14,7 @@ const Template: ComponentStory<typeof CredixLogo> = (args) => <CredixLogo {...ar
 
 export const Light = Template.bind({});
 Light.args = {
-	mode: "light",
+	mode: CredixLogoType.LIGHT,
 	className: "w-12 h-12",
 };
 Light.parameters = {
@@ -23,7 +23,7 @@ Light.parameters = {
 
 export const Dark = Template.bind({});
 Dark.args = {
-	mode: "dark",
+	mode: CredixLogoType.DARK,
 	className: "w-12 h-12",
 };
 Dark.parameters = {

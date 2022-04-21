@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { CredixLogo } from "@components/CredixLogo";
+import { CredixLogo, CredixLogoType } from "@components/CredixLogo";
 import { SideMenuItem } from "@components/SideMenuItem";
 import { Route } from "../types/route.types";
 
@@ -19,7 +19,7 @@ export const SideMenu = ({ menuItems }: SideMenuProps) => {
 			<div className="text-credix-primary ml-5 h-[50px] flex">
 				<Link href={marketplace}>
 					<a className="flex items-center">
-						<CredixLogo mode="light" />
+						<CredixLogo mode={CredixLogoType.LIGHT} />
 					</a>
 				</Link>
 			</div>

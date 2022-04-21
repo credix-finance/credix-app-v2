@@ -1,8 +1,12 @@
 import React from "react";
 
+export enum CredixLogoType {
+	DARK = "dark",
+	LIGHT = "light",
+}
 interface CredixLogoProps {
 	className?: string;
-	mode?: "dark" | "light";
+	mode?: CredixLogoType;
 }
 
 const CredixLogoLight = ({ className = "" }: Pick<CredixLogoProps, "className">) => {
@@ -57,7 +61,7 @@ export const CredixLogo = ({ className = "", mode }: CredixLogoProps) => {
 		);
 	}
 
-	if (mode === "light") {
+	if (mode === CredixLogoType.LIGHT) {
 		return <CredixLogoDark className={className} />;
 	} else {
 		return <CredixLogoLight className={className} />;
