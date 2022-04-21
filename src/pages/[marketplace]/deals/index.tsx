@@ -116,7 +116,7 @@ const Deals: NextPageWithLayout = () => {
 			const isRepayable = borrower.toString() === publicKey?.toString();
 			const path = `/${marketplace}/deals/${
 				isRepayable ? "repay" : "show"
-			}?did=${address.toString()}`;
+			}?dealId=${address.toString()}`;
 
 			return {
 				key: address.toString(),

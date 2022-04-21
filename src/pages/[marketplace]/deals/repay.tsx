@@ -16,7 +16,7 @@ import { getMarketsPaths } from "@utils/export.utils";
 
 const Repay: NextPageWithLayout = () => {
 	const router = useRouter();
-	const { marketplace, did } = router.query;
+	const { marketplace, dealId } = router.query;
 	const client = useCredixClient();
 	const getDeal = useStore((state) => state.getDeal);
 	const [deal, setDeal] = useState<DealType>();
@@ -26,10 +26,10 @@ const Repay: NextPageWithLayout = () => {
 
 	const getDealFromStore = useCallback(async () => {
 		if (market) {
-			const dealFromStore = await getDeal(market, did as string);
+			const dealFromStore = await getDeal(market, dealId as string);
 			setDeal(dealFromStore);
 		}
-	}, [market, did, getDeal]);
+	}, [market, dealId, getDeal]);
 
 	useEffect(() => {
 		const amount = calculateMonthlyRepaymentAmount(deal);
