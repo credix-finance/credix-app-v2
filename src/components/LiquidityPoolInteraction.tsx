@@ -14,6 +14,11 @@ import { useStore } from "@state/useStore";
 import { toUIAmount } from "@utils/format.utils";
 import { useRouter } from "next/router";
 
+export enum LPInteractionType {
+	INVEST = "invest",
+	WITHDRAW = "withdraw",
+}
+
 export interface LiquidityPoolInteractionForm {
 	amount: number;
 }
@@ -24,7 +29,7 @@ interface LiquidityPoolInteractionProps {
 	 * "invest" will transfer USDC from the user's wallet to the liquidity pool in exchange for LP tokens
 	 * "withdraw" will transfer USDC from the liquidity pool in exchange for LP tokens
 	 */
-	action: "invest" | "withdraw";
+	action: LPInteractionType;
 	/**
 	 * Action to perform when form is submitted
 	 */

@@ -3,6 +3,7 @@ import { useCredixClient } from "@credix/credix-client";
 import {
 	LiquidityPoolInteraction,
 	LiquidityPoolInteractionForm,
+	LPInteractionType,
 } from "@components/LiquidityPoolInteraction";
 import { TabPane } from "@components/TabPane";
 import { Tabs } from "@components/Tabs";
@@ -57,10 +58,10 @@ export const InvestWithdraw = () => {
 	return (
 		<Tabs>
 			<TabPane tab="Invest" key="1">
-				<LiquidityPoolInteraction action="invest" onSubmit={invest} />
+				<LiquidityPoolInteraction action={LPInteractionType.INVEST} onSubmit={invest} />
 			</TabPane>
 			<TabPane tab="Withdraw" key="2">
-				<LiquidityPoolInteraction action="withdraw" onSubmit={withdraw} />
+				<LiquidityPoolInteraction action={LPInteractionType.WITHDRAW} onSubmit={withdraw} />
 			</TabPane>
 		</Tabs>
 	);
