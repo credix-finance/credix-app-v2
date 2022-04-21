@@ -7,7 +7,7 @@ import { TabPane } from "@components/TabPane";
 import { Table, ColumnsProps } from "@components/Table";
 import { Icon } from "@components/Icon";
 import { Slider } from "@components/Slider";
-import { Button } from "@components/Button";
+import { Button, ButtonSize } from "@components/Button";
 import Link from "next/link";
 import Big from "big.js";
 import { useLocales } from "@hooks/useLocales";
@@ -84,7 +84,7 @@ const Deals: NextPageWithLayout = () => {
 					{isRepayable ? (
 						<Link href={path}>
 							<a>
-								<Button size="large">
+								<Button size={ButtonSize.LARGE}>
 									<span>Repay</span>
 								</Button>
 							</a>
@@ -92,7 +92,7 @@ const Deals: NextPageWithLayout = () => {
 					) : (
 						<Link href={path}>
 							<a className="w-full">
-								<Button size="large" className="w-full">
+								<Button size={ButtonSize.LARGE} className="w-full">
 									<span>Info</span>
 								</Button>
 							</a>
@@ -151,7 +151,7 @@ const Deals: NextPageWithLayout = () => {
 	const investButton = (
 		<Link href={`/${marketplace}/invest-withdraw`}>
 			<a>
-				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
+				<Button size={ButtonSize.LARGE} icon={<Icon name="plus-square" className="w-5 h-5" />}>
 					<span className="text-lg">Invest</span>
 				</Button>
 			</a>
@@ -161,7 +161,7 @@ const Deals: NextPageWithLayout = () => {
 	const newDealButton = (
 		<Link href={`/${marketplace}/deals/new`}>
 			<a>
-				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
+				<Button size={ButtonSize.LARGE} icon={<Icon name="plus-square" className="w-5 h-5" />}>
 					<span className="text-lg capitalize">create new deal</span>
 				</Button>
 			</a>

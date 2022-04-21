@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState, useEffect, FunctionComponent } f
 import { useWalletModal, WalletIcon } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useStore } from "@state/useStore";
-import { Button, ButtonType } from "@components/Button";
+import { Button, ButtonSize, ButtonType } from "@components/Button";
 import { Icon, IconDimension } from "@components/Icon";
 import message from "@message";
 
@@ -69,7 +69,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 	if (!wallet && !publicKey) {
 		return (
 			<Button
-				size="large"
+				size={ButtonSize.LARGE}
 				onClick={() => setVisible(true)}
 				icon={<Icon name="wallet" size={IconDimension.MIDDLE} />}
 				className={className}
@@ -83,7 +83,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 		<div className="relative" onBlur={() => setTimeout(() => setDropdownVisible(false), 100)}>
 			<Button
 				type={ButtonType.DEFAULT}
-				size="large"
+				size={ButtonSize.LARGE}
 				onClick={() => setDropdownVisible(!dropdownVisible)}
 				icon={<WalletIcon wallet={wallet} className="w-6" />}
 				className={`${className} w-56`}

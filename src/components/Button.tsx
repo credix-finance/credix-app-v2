@@ -6,11 +6,17 @@ export enum ButtonType {
 	DEFAULT = "default",
 	PRIMARY = "primary",
 }
+
+export enum ButtonSize {
+	SMALL = "small",
+	MIDDLE = "middle",
+	LARGE = "large",
+}
 interface ButtonProps {
 	/**
 	 * Optional size of the button.
 	 */
-	size?: AntButtonProps["size"];
+	size?: ButtonSize;
 	/**
 	 * Controls whether the button is disabled or not.
 	 */
@@ -67,7 +73,7 @@ export const defaultButtonStyles =
 export const Button = ({
 	children,
 	className,
-	size = "middle",
+	size = ButtonSize.MIDDLE,
 	type = ButtonType.PRIMARY,
 	...props
 }: ButtonProps) => {
