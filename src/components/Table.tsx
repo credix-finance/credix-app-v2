@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Table as AntdTable } from "antd";
 import { TableProps as AntdTableProps } from "antd/lib/table";
-import { PageItem } from "@components/PageItem";
+import { PageItem, PageItemType } from "@components/PageItem";
 import { ColumnType } from "antd/lib/table";
 import { TableHeaderCell } from "./TableHeaderCell";
 import { IconName } from "@components/Icon";
@@ -65,9 +65,11 @@ export const Table = ({ columns, ...props }: TableProps) => {
 			pagination={{
 				hideOnSinglePage: true,
 				pageSize: 5,
-				itemRender: (page, type, originalElement) => (
-					<PageItem page={page} type={type} originalElement={originalElement} />
-				),
+				itemRender: (page, type, originalElement) => {
+					return (
+						<PageItem page={page} type={type as PageItemType} originalElement={originalElement} />
+					);
+				},
 			}}
 			columns={parsedColumns}
 			{...props}

@@ -1,15 +1,23 @@
 import React from "react";
 import { Icon, IconDimension } from "./Icon";
 
+export enum PageItemType {
+	PREV = "prev",
+	NEXT = "next",
+	PAGE = "page",
+	JUMP_PREV = "jump-prev",
+	JUMP_NEXT = "jump-next",
+}
+
 interface PageItemProps {
 	page: number;
-	type: "prev" | "next" | "page" | "jump-prev" | "jump-next";
+	type: PageItemType;
 	originalElement: React.ReactNode;
 }
 
 export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 	switch (type) {
-		case "prev":
+		case PageItemType.PREV:
 			return React.cloneElement(
 				originalElement as React.ReactElement,
 				{
@@ -18,7 +26,7 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 				},
 				<Icon name="chevron-left" size={IconDimension.SMALL} />
 			);
-		case "page":
+		case PageItemType.PAGE:
 			return React.cloneElement(
 				originalElement as React.ReactElement,
 				{
@@ -27,7 +35,7 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 				},
 				<span>{page}</span>
 			);
-		case "next":
+		case PageItemType.NEXT:
 			return React.cloneElement(
 				originalElement as React.ReactElement,
 				{
@@ -36,8 +44,8 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 				},
 				<Icon name="chevron-right" size={IconDimension.SMALL} />
 			);
-		case "jump-prev":
-		case "jump-next":
+		case PageItemType.JUMP_NEXT:
+		case PageItemType.JUMP_PREV:
 			return React.cloneElement(
 				originalElement as React.ReactElement,
 				{
