@@ -1,6 +1,6 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Deal, Ratio, useCredixClient } from "@credix/credix-client";
+import { CredixPass, Deal, Ratio, useCredixClient } from "@credix/credix-client";
 import { toUIAmount, formatTimestamp, numberFormatter } from "@utils/format.utils";
 import { Tabs } from "@components/Tabs";
 import { TabPane } from "@components/TabPane";
@@ -33,7 +33,7 @@ const Deals: NextPageWithLayout = () => {
 	const pendingDeals = useStore((state) => selectPendingDeals(state));
 	const isLoadingDeals = useStore((state) => state.isLoadingDeals);
 	const isAdmin = useStore((state) => state.isAdmin);
-	const [isUnderwriter, setIsUnderwriter] = useState<boolean>(null);
+	const [credixPass, setCredixPass] = useState<CredixPass>(null);
 	const { publicKey } = useWallet();
 	const intl = useIntl();
 
@@ -153,11 +153,27 @@ const Deals: NextPageWithLayout = () => {
 		[marketplace, publicKey]
 	);
 
+	const isAllowedToSeeDeal = (deal: Deal) => {
+		if (isAdmin) {
+			return true;
+		}
+
+		if (!credixPass || !credixPass.isActive) {
+			return false;
+		}
+
+		if (credixPass.isUnderwriter) {
+			return true;
+		}
+
+		return deal.borrower.toString() === publicKey?.toString();
+	};
+
 	const mapDeals = (deals: Deal[]) =>
 		deals
 			.slice()
 			// TODO: move this to the client
-			.filter((deal) => isUnderwriter || deal.borrower.toString() === publicKey?.toString())
+			.filter(isAllowedToSeeDeal)
 			.map(mapDeal)
 			.sort((a, b) => (a.date <= b.date ? 1 : -1));
 
@@ -192,9 +208,9 @@ const Deals: NextPageWithLayout = () => {
 		try {
 			const credixPass = await market.fetchCredixPass(publicKey);
 
-			setIsUnderwriter(credixPass.isUnderwriter);
+			setCredixPass(credixPass);
 		} catch (err) {
-			setIsUnderwriter(null);
+			setCredixPass(null);
 		}
 	}, [market, publicKey]);
 
@@ -208,7 +224,7 @@ const Deals: NextPageWithLayout = () => {
 				tabBarExtraContent={
 					<div className="flex space-x-2">
 						{isAdmin && newDealButton}
-						{isUnderwriter && investButton}
+						{credixPass?.isUnderwriter && investButton}
 					</div>
 				}
 			>
