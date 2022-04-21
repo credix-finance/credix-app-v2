@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useEffect, FunctionComponent } from "react";
+import React, { useCallback, useMemo, useEffect } from "react";
 import { useWalletModal, WalletIcon } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useStore } from "@state/useStore";
@@ -6,25 +6,7 @@ import { Button } from "@components/Button";
 import { Icon, IconDimension } from "@components/Icon";
 import message from "@message";
 import { useIntl } from "react-intl";
-
-interface DropDownOptionProps {
-	onClick: () => void;
-	buttonText: string;
-}
-
-const DropDownOption: FunctionComponent<DropDownOptionProps> = ({ onClick, buttonText }) => {
-	return (
-		<div className="border-solid border-0">
-			<Button
-				type="default"
-				className="w-full border-none bg-credix-primary hover:bg-neutral-10"
-				onClick={onClick}
-			>
-				<span className="capitalize">{buttonText}</span>
-			</Button>
-		</div>
-	);
-};
+import { Menu, Dropdown } from "antd";
 
 interface WalletButtonProps {
 	className?: string;
@@ -33,7 +15,6 @@ interface WalletButtonProps {
 export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 	const { wallet, publicKey, disconnect } = useWallet();
 	const { setVisible } = useWalletModal();
-	const [dropdownVisible, setDropdownVisible] = useState(false);
 	const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
 	const setIsAdmin = useStore((state) => state.setIsAdmin);
 	const intl = useIntl();
@@ -109,44 +90,40 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 		);
 	}
 
+	const menu = (
+		<Menu className="bg-credix-primary shadow-none border-solid border-[1px]">
+			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={copyAddress}>
+				{intl.formatMessage({
+					defaultMessage: "copy address",
+					description: "WalletButton: copy address button",
+				})}
+			</Menu.Item>
+			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={() => setVisible(true)}>
+				{intl.formatMessage({
+					defaultMessage: "change wallet",
+					description: "WalletButton: change wallet button",
+				})}
+			</Menu.Item>
+			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={disconnectWallet}>
+				{intl.formatMessage({
+					defaultMessage: "disconnect",
+					description: "WalletButton: disconnect button",
+				})}
+			</Menu.Item>
+		</Menu>
+	);
+
 	return (
-		<div className="relative" onBlur={() => setTimeout(() => setDropdownVisible(false), 100)}>
+		<Dropdown overlay={menu} trigger={["click"]}>
 			<Button
 				type="default"
 				size="large"
-				onClick={() => setDropdownVisible(!dropdownVisible)}
+				onClick={(event) => event.preventDefault()}
 				icon={<WalletIcon wallet={wallet} className="w-6" />}
 				className={`${className} w-56`}
 			>
 				{address}
 			</Button>
-			<div
-				className={`absolute top-[60px] z-10 whitespace-nowrap right-0 grid grid-cols-1 bg-credix-primary rounded-sm w-56 border border-solid border-neutral-100 divide-y divide-neutral-100 ${
-					dropdownVisible ? "block" : "hidden"
-				}`}
-			>
-				<DropDownOption
-					onClick={copyAddress}
-					buttonText={intl.formatMessage({
-						defaultMessage: "copy address",
-						description: "WalletButton: copy address button",
-					})}
-				/>
-				<DropDownOption
-					onClick={() => setVisible(true)}
-					buttonText={intl.formatMessage({
-						defaultMessage: "change wallet",
-						description: "WalletButton: change wallet button",
-					})}
-				/>
-				<DropDownOption
-					onClick={disconnectWallet}
-					buttonText={intl.formatMessage({
-						defaultMessage: "disconnect",
-						description: "WalletButton: disconnect button",
-					})}
-				/>
-			</div>
-		</div>
+		</Dropdown>
 	);
 };
