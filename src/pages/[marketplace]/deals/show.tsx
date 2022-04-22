@@ -12,7 +12,7 @@ import Layout from "@components/Layout";
 
 const Show: NextPageWithLayout = () => {
 	const router = useRouter();
-	const { marketplace, did } = router.query;
+	const { marketplace, dealId } = router.query;
 	const client = useCredixClient();
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
@@ -22,10 +22,10 @@ const Show: NextPageWithLayout = () => {
 
 	const getDealFromStore = useCallback(async () => {
 		if (market) {
-			const dealFromStore = await getDeal(market, did as string);
+			const dealFromStore = await getDeal(market, dealId as string);
 			setDeal(dealFromStore);
 		}
-	}, [market, did, getDeal]);
+	}, [market, dealId, getDeal]);
 
 	useEffect(() => {
 		fetchMarket(client, marketplace as string);
