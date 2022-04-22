@@ -8,7 +8,7 @@ exports[`Card with large offset 1`] = `
     className="bg-transparent -ml-14 py-[18.5px] w-max relative"
   >
     <div
-      className="left-5 absolute w-3 h-20 z-10 bg-credix-primary"
+      className="left-4 absolute top-1 w-3 h-20 z-10 bg-credix-primary"
     />
     <div
       className="text-xs font-normal capitalize relative z-20"
@@ -37,7 +37,7 @@ exports[`Card with middle offset 1`] = `
     className="bg-transparent -ml-12 py-[18.5px] w-max relative"
   >
     <div
-      className="left-5 absolute w-3 h-20 z-10 bg-credix-primary"
+      className="left-4 absolute top-1 w-3 h-20 z-10 bg-credix-primary"
     />
     <div
       className="text-xs font-normal capitalize relative z-20"
@@ -66,7 +66,7 @@ exports[`Card with small offset 1`] = `
     className="bg-transparent -ml-9 py-[18.5px] w-max relative"
   >
     <div
-      className="left-5 absolute w-3 h-20 z-10 bg-credix-primary"
+      className="left-4 absolute top-1 w-3 h-20 z-10 bg-credix-primary"
     />
     <div
       className="text-xs font-normal capitalize relative z-20"
