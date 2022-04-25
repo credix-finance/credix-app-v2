@@ -5,6 +5,7 @@ import { useStore } from "@state/useStore";
 import { Button } from "@components/Button";
 import { Icon, IconDimension } from "@components/Icon";
 import message from "@message";
+import { useIntl } from "react-intl";
 
 interface DropDownOptionProps {
 	onClick: () => void;
@@ -35,32 +36,56 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 	const [dropdownVisible, setDropdownVisible] = useState(false);
 	const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
 	const setIsAdmin = useStore((state) => state.setIsAdmin);
+	const intl = useIntl();
 
 	const address = useMemo(() => {
 		if (!wallet || !base58) {
-			return "Connecting";
+			return intl.formatMessage({
+				defaultMessage: "Connecting",
+				description: "WalletButton: connecting",
+			});
 		}
 
 		return base58.slice(0, 5) + ".." + base58.slice(-5);
-	}, [wallet, base58]);
+	}, [wallet, base58, intl]);
 
 	const copyAddress = useCallback(async () => {
 		if (base58) {
 			try {
 				await navigator.clipboard.writeText(base58);
-				message.success({ content: "Copied to clipboard!" });
+				message.success({
+					content: intl.formatMessage({
+						defaultMessage: "Copied to clipboard!",
+						description: "WalletButton: copy address success",
+					}),
+				});
 			} catch {
-				message.error({ content: "Failed to copy address to clipboard" });
+				message.error({
+					content: intl.formatMessage({
+						defaultMessage: "Failed to copy address to clipboard",
+						description: "WalletButton: copy address failed",
+					}),
+				});
 			}
 		}
-	}, [base58]);
+	}, [base58, intl]);
 
 	const disconnectWallet = async () => {
 		try {
 			await disconnect();
-			message.success({ content: "Wallet disconnected" });
+			message.success({
+				content: intl.formatMessage({
+					defaultMessage: "Wallet disconnected",
+					description: "WalletButton: disconnect wallet success",
+				}),
+			});
 		} catch {
-			message.error({ content: "Failed to disconnect wallet" });
+			message.error({
+				content: intl.formatMessage({
+					defaultMessage: "Failed to disconnect wallet",
+					description: "WalletButton: disconnect wallet failed",
+				}),
+			});
 		}
 	};
 
@@ -74,7 +99,12 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 				icon={<Icon name="wallet" size={IconDimension.MIDDLE} />}
 				className={className}
 			>
-				<span className="text-lg font-semibold">Connect Wallet</span>
+				<span className="text-lg font-semibold capitalize">
+					{intl.formatMessage({
+						defaultMessage: "connect wallet",
+						description: "WalletButton: connect button",
+					})}
+				</span>
 			</Button>
 		);
 	}
@@ -95,9 +125,27 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 					dropdownVisible ? "block" : "hidden"
 				}`}
 			>
-				<DropDownOption onClick={copyAddress} buttonText="copy address" />
-				<DropDownOption onClick={() => setVisible(true)} buttonText="change wallet" />
-				<DropDownOption onClick={disconnectWallet} buttonText="disconnect" />
+				<DropDownOption
+					onClick={copyAddress}
+					buttonText={intl.formatMessage({
+						defaultMessage: "copy address",
+						description: "WalletButton: copy address button",
+					})}
+				/>
+				<DropDownOption
+					onClick={() => setVisible(true)}
+					buttonText={intl.formatMessage({
+						defaultMessage: "change wallet",
+						description: "WalletButton: change wallet button",
+					})}
+				/>
+				<DropDownOption
+					onClick={disconnectWallet}
+					buttonText={intl.formatMessage({
+						defaultMessage: "disconnect",
+						description: "WalletButton: disconnect button",
+					})}
+				/>
 			</div>
 		</div>
 	);

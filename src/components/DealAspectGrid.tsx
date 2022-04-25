@@ -8,6 +8,7 @@ import {
 	calculateInterestRepaidRatio,
 	calculatePrincipalRepaidRatio,
 } from "@utils/deal.utils";
+import { useIntl } from "react-intl";
 
 interface DealAspectGridProps {
 	deal: Deal;
@@ -17,6 +18,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal }) => {
 	const [interestRepaidRatio, setInterestRepaidRatio] = useState<Ratio>();
 	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<Ratio>();
 	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Ratio>();
+	const intl = useIntl();
 
 	useEffect(() => {
 		const principalRatio = calculatePrincipalRepaidRatio(deal);
@@ -32,33 +34,57 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal }) => {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 			<DealAspect
-				title="principal"
+				title={intl.formatMessage({
+					defaultMessage: "principal",
+					description: "Deal aspect: principal",
+				})}
 				value={`${numberFormatter.format(toUIAmount(new Big(deal.principal)).toNumber())} USDC`}
 			/>
 			<DealAspect
-				title="financing fee"
+				title={intl.formatMessage({
+					defaultMessage: "financing fee",
+					description: "Deal aspect: financing fee",
+				})}
 				value={`${
 					deal.financingFeePercentage && deal.financingFeePercentage.apply(100)?.toNumber()
 				}%`}
 			/>
-			<DealAspect title="time to maturity" value={`${deal.timeToMaturity} DAYS`} />
 			<DealAspect
-				title="principal repaid"
+				title={intl.formatMessage({
+					defaultMessage: "time to maturity",
+					description: "Deal aspect: time to maturity",
+				})}
+				value={`${deal.timeToMaturity} DAYS`}
+			/>
+			<DealAspect
+				title={intl.formatMessage({
+					defaultMessage: "principal repaid",
+					description: "Deal aspect: principal repaid",
+				})}
 				value={`${numberFormatter.format(
 					toUIAmount(new Big(deal.principalAmountRepaid)).toNumber()
 				)} USDC`}
 				ratio={principalRepaidRatio}
 			/>
 			<DealAspect
-				title="interest repaid"
+				title={intl.formatMessage({
+					defaultMessage: "interest repaid",
+					description: "Deal aspect: interest repaid",
+				})}
 				value={`${numberFormatter.format(
 					toUIAmount(new Big(deal.interestRepaid)).toNumber()
 				)} USDC`}
 				ratio={interestRepaidRatio}
 			/>
 			<DealAspect
-				title="time left"
-				value={`${deal.daysRemaining} DAYS`}
+				title={intl.formatMessage({
+					defaultMessage: "time left",
+					description: "Deal aspect: time left",
+				})}
+				value={intl.formatMessage(
+					{ defaultMessage: "{daysRemaining} DAYS", description: "Deal aspect: days remaining" },
+					{ daysRemaining: deal.daysRemaining }
+				)}
 				ratio={daysRemainingRatio}
 				showRatio={false}
 			/>

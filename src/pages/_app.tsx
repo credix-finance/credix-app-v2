@@ -11,10 +11,11 @@ import {
 	TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { config } from "config";
-import { useRouter } from "next/router";
-import { pageview } from "@utils/analytics.utils";
 import { NextPage } from "next";
 import { ClientProvider } from "@components/ClientProvider";
+import { useRouter } from "next/router";
+import { pageview } from "@utils/analytics.utils";
+import { IntlProvider } from "react-intl";
 
 // Use require instead of import since order matters
 require("@solana/wallet-adapter-react-ui/styles.css");
@@ -31,6 +32,7 @@ type AppPropsWithLayout = AppProps & {
 
 const CredixApp: FC<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
 	const router = useRouter();
+	const { locale, defaultLocale } = useRouter();
 
 	useEffect(() => {
 		const handleRouteChange = (url) => {
@@ -74,7 +76,15 @@ const CredixApp: FC<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) =
 			<ConnectionProvider endpoint={config.clusterConfig.RPCEndpoint}>
 				<WalletProvider wallets={wallets} autoConnect>
 					<WalletModalProvider>
-						<ClientProvider>{layoutComponent}</ClientProvider>
+						<ClientProvider>
+							<IntlProvider
+								locale={locale}
+								defaultLocale={defaultLocale}
+								messages={pageProps.intlMessages}
+							>
+								{layoutComponent}
+							</IntlProvider>
+						</ClientProvider>
 					</WalletModalProvider>
 				</WalletProvider>
 			</ConnectionProvider>
