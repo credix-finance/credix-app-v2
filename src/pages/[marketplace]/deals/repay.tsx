@@ -133,7 +133,7 @@ const Repay: NextPageWithLayout = () => {
 			hide();
 			notification.success({ message: intl.formatMessage(
 				{
-					defaultMessage: "Successfully payed {amount} USDC of principal",
+					defaultMessage: "Successfully paid {amount} USDC of principal",
 					description: "Repay deal: principal repayment success",
 				},
 				{
