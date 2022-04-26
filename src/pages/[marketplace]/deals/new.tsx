@@ -57,7 +57,7 @@ const New: NextPageWithLayout = () => {
 					message: intl.formatMessage({
 						defaultMessage: "No Credix Pass found for given public key",
 						description: "New deal: Credix Pass validation failed",
-					})
+					}),
 				});
 
 				return;
@@ -93,7 +93,6 @@ const New: NextPageWithLayout = () => {
 					}
 				),
 			});
-
 		} catch (error) {
 			hide();
 			notification.error({
@@ -105,7 +104,9 @@ const New: NextPageWithLayout = () => {
 					{
 						amount: formattedPrincipal,
 					}
-				), description: error.toString() });
+				),
+				description: error.toString(),
+			});
 
 			return;
 		}

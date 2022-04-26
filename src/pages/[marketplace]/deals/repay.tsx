@@ -79,27 +79,32 @@ const Repay: NextPageWithLayout = () => {
 			const programAmount = toProgramAmount(new Big(amount));
 			await deal.repayInterest(programAmount.toNumber());
 			hide();
-			notification.success({ message: intl.formatMessage(
-				{
-					defaultMessage: "Successfully paid {amount} USDC of interest",
-					description: "Repay deal: interest repayment success",
-				},
-				{
-					amount: formattedNumber,
-				}
-			) });
+			notification.success({
+				message: intl.formatMessage(
+					{
+						defaultMessage: "Successfully paid {amount} USDC of interest",
+						description: "Repay deal: interest repayment success",
+					},
+					{
+						amount: formattedNumber,
+					}
+				),
+			});
 			getDealFromStore();
 		} catch (error) {
 			hide();
-			notification.error({ message: intl.formatMessage(
-				{
-					defaultMessage: "Failed to pay {amount} USDC of interest",
-					description: "Repay deal: interest repayment failed",
-				},
-				{
-					amount: formattedNumber,
-				}
-			), error });
+			notification.error({
+				message: intl.formatMessage(
+					{
+						defaultMessage: "Failed to pay {amount} USDC of interest",
+						description: "Repay deal: interest repayment failed",
+					},
+					{
+						amount: formattedNumber,
+					}
+				),
+				error,
+			});
 		}
 	};
 
@@ -131,27 +136,32 @@ const Repay: NextPageWithLayout = () => {
 			const programAmount = toProgramAmount(new Big(amount));
 			await deal.repayPrincipal(programAmount.toNumber());
 			hide();
-			notification.success({ message: intl.formatMessage(
-				{
-					defaultMessage: "Successfully paid {amount} USDC of principal",
-					description: "Repay deal: principal repayment success",
-				},
-				{
-					amount: formattedNumber,
-				}
-			) });
+			notification.success({
+				message: intl.formatMessage(
+					{
+						defaultMessage: "Successfully paid {amount} USDC of principal",
+						description: "Repay deal: principal repayment success",
+					},
+					{
+						amount: formattedNumber,
+					}
+				),
+			});
 			getDealFromStore();
 		} catch (error) {
 			hide();
-			notification.error({ message: intl.formatMessage(
-				{
-					defaultMessage: "Failed to pay {amount} USDC of principal",
-					description: "Repay deal: principal repayment failed",
-				},
-				{
-					amount: formattedNumber,
-				}
-			), error });
+			notification.error({
+				message: intl.formatMessage(
+					{
+						defaultMessage: "Failed to pay {amount} USDC of principal",
+						description: "Repay deal: principal repayment failed",
+					},
+					{
+						amount: formattedNumber,
+					}
+				),
+				error,
+			});
 		}
 	};
 
