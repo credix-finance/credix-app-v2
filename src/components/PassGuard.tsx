@@ -47,7 +47,14 @@ export const PassGuard = (props: Props) => {
 		getCredixPass();
 	}, [getCredixPass]);
 
-	let content = <h1>Checking Credix Pass...</h1>;
+	let content = (
+		<h1 className="text-center">
+			{intl.formatMessage({
+				defaultMessage: "Checking Credix Pass...",
+				description: "PassGuard: credix pass check",
+			})}
+		</h1>
+	);
 
 	if (!wallet.connected && !wallet.connecting) {
 		content = (
@@ -55,7 +62,7 @@ export const PassGuard = (props: Props) => {
 				<h1>
 					{intl.formatMessage({
 						defaultMessage: "Please connect your wallet",
-						description: "Pass Guard: connect wallet",
+						description: "PassGuard: connect wallet",
 					})}
 				</h1>
 				<div className="flex justify-center">
@@ -71,7 +78,7 @@ export const PassGuard = (props: Props) => {
 				<h1>
 					{intl.formatMessage({
 						defaultMessage: "No Credix Pass found",
-						description: "Pass Guard: no credix pass",
+						description: "PassGuard: no credix pass",
 					})}
 				</h1>
 				<div className="flex justify-center">
@@ -87,7 +94,7 @@ export const PassGuard = (props: Props) => {
 				<h1>
 					{intl.formatMessage({
 						defaultMessage: "Credix Pass not active",
-						description: "Pass Guard: credix pass not active",
+						description: "PassGuard: credix pass not active",
 					})}
 				</h1>
 			</div>
@@ -97,6 +104,26 @@ export const PassGuard = (props: Props) => {
 	return isMarketIndexPage() || credixPass?.isActive ? (
 		<>{props.children}</>
 	) : (
-		<div className="grid h-screen place-items-center">{content}</div>
+		<div className="grid h-screen place-items-center">
+			<div className="space-y-4">
+				<div className="text-center">
+					<div>
+						{intl.formatMessage({
+							defaultMessage:
+								"The Credix Marketplace is now open to accredited investors and fintech lenders.",
+							description: "PassGuard: credix access statement",
+						})}
+					</div>
+					<div>
+						{intl.formatMessage({
+							defaultMessage:
+								"You will be able to interact with the protocol if you're whitelisted.",
+							description: "PassGuard: credix access statement part two",
+						})}
+					</div>
+				</div>
+				{content}
+			</div>
+		</div>
 	);
 };
