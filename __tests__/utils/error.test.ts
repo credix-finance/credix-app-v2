@@ -14,8 +14,7 @@ describe("error parsing", () => {
 	it("should parse typescript errors", () => {
 		const errorMessage = "Something wrong";
 		const error = new Error(errorMessage);
-		const expected = `Error: ${errorMessage}`;
 
-		expect(parseError(error)).toEqual(expected);
+		expect(parseError(error)).toBeNull();
 	});
 });

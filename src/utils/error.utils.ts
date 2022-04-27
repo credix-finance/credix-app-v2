@@ -6,7 +6,7 @@ export const parseError = (error: Error | ProgramError) => {
 	}
 
 	if (error instanceof Error) {
-		return error.toString();
+		return null;
 	}
 
 	return parseProgramError(error);
