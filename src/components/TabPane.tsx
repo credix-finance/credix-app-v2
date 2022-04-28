@@ -7,6 +7,7 @@ const { TabPane: AntdTabPane } = AntdTabs;
 interface TabPaneProps {
 	children?: AntdTabPaneProps["children"];
 	tab?: AntdTabPaneProps["tab"];
+	id?: AntdTabPaneProps["id"];
 }
 
 export const TabPane = ({ children, ...props }: TabPaneProps) => {
