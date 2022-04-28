@@ -109,7 +109,7 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 						defaultMessage: "amount",
 						description: "RepayDealForm: amount input label",
 					})}
-					className="font-bold text-base capitalize"
+					className="font-bold text-base capitalize interest-select"
 				>
 					<Select
 						suffixIcon={<Icon name="arrow-down-square-solid" className="bg-neutral-60 w-6 h-6" />}
