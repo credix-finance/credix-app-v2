@@ -80,6 +80,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 				onClick={() => setVisible(true)}
 				icon={<Icon name="wallet" size={IconDimension.MIDDLE} />}
 				className={className}
+				data-cy="wallet-button"
 			>
 				<span className="text-lg font-semibold capitalize">
 					{intl.formatMessage({

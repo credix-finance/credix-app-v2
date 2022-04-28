@@ -157,7 +157,7 @@ const Deals: NextPageWithLayout = () => {
 		deals
 			.slice()
 			// TODO: move this to the client
-			.filter((deal) => isUnderwriter || deal.borrower.toString() === publicKey.toString())
+			.filter((deal) => isUnderwriter || deal.borrower.toString() === publicKey?.toString())
 			.map(mapDeal)
 			.sort((a, b) => (a.date <= b.date ? 1 : -1));
 
@@ -176,7 +176,7 @@ const Deals: NextPageWithLayout = () => {
 	const newDealButton = (
 		<Link href={`/${marketplace}/deals/new`}>
 			<a>
-				<Button icon={<Icon name="plus-square" className="w-5 h-5" />}>
+				<Button icon={<Icon name="plus-square" className="w-5 h-5" />} data-cy="create-deal-button">
 					<span className="text-lg capitalize">
 						{intl.formatMessage({
 							defaultMessage: "create new deal",
@@ -218,6 +218,7 @@ const Deals: NextPageWithLayout = () => {
 						description: "Deals: active deals tab",
 					})}
 					key="activeDealsTab"
+					id="deals-table-active"
 				>
 					<Table
 						loading={isLoadingDeals}
@@ -231,7 +232,8 @@ const Deals: NextPageWithLayout = () => {
 							defaultMessage: "Pending Deals",
 							description: "Deals: pending deals tab",
 						})}
-						key="2"
+						key="pendingDealsTab"
+						id="deals-table-pending"
 					>
 						<Table
 							loading={isLoadingDeals}
@@ -245,7 +247,8 @@ const Deals: NextPageWithLayout = () => {
 						defaultMessage: "Ended Deals",
 						description: "Deals: ended deals tab",
 					})}
-					key="3"
+					key="endedDealsTab"
+					id="deals-table-ended"
 				>
 					<Table
 						loading={isLoadingDeals}
