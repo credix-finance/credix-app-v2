@@ -75,7 +75,6 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 	if (!wallet && !publicKey) {
 		return (
 			<Button
-				size="large"
 				onClick={() => setVisible(true)}
 				icon={<Icon name="wallet" size={IconDimension.MIDDLE} />}
 				className={className}
@@ -117,7 +116,6 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 		<Dropdown overlay={menu} trigger={["click"]}>
 			<Button
 				type="default"
-				size="large"
 				onClick={(event) => event.preventDefault()}
 				icon={<WalletIcon wallet={wallet} className="w-6" />}
 				className={`${className} w-56`}

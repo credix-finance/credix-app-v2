@@ -50,12 +50,7 @@ const Show: NextPageWithLayout = () => {
 		<DealCard marketplace={marketplace as string} deal={deal}>
 			<DealDetails deal={deal} />
 			{isAdmin && deal.isPending() && (
-				<Button
-					type="default"
-					size="large"
-					className="mt-14 bg-neutral-0 capitalize"
-					onClick={activateDeal}
-				>
+				<Button type="default" className="mt-14 bg-neutral-0 capitalize" onClick={activateDeal}>
 					{intl.formatMessage({
 						defaultMessage: "activate deal",
 						description: "Activate deal: button",

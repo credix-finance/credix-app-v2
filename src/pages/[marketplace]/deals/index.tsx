@@ -87,7 +87,7 @@ const Deals: NextPageWithLayout = () => {
 					{isRepayable ? (
 						<Link href={path}>
 							<a>
-								<Button size="large">
+								<Button>
 									<span className="capitalize">
 										{intl.formatMessage({
 											defaultMessage: "repay",
@@ -100,7 +100,7 @@ const Deals: NextPageWithLayout = () => {
 					) : (
 						<Link href={path}>
 							<a className="w-full">
-								<Button size="large" className="w-full">
+								<Button className="w-full">
 									<span className="capitalize">
 										{intl.formatMessage({
 											defaultMessage: "info",
@@ -164,7 +164,7 @@ const Deals: NextPageWithLayout = () => {
 	const investButton = (
 		<Link href={`/${marketplace}/invest-withdraw`}>
 			<a>
-				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
+				<Button icon={<Icon name="plus-square" className="w-5 h-5" />}>
 					<span className="text-lg capitalize">
 						{intl.formatMessage({ defaultMessage: "invest", description: "Deals: invest button" })}
 					</span>
@@ -176,7 +176,7 @@ const Deals: NextPageWithLayout = () => {
 	const newDealButton = (
 		<Link href={`/${marketplace}/deals/new`}>
 			<a>
-				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
+				<Button icon={<Icon name="plus-square" className="w-5 h-5" />}>
 					<span className="text-lg capitalize">
 						{intl.formatMessage({
 							defaultMessage: "create new deal",

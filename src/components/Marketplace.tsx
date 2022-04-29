@@ -5,12 +5,7 @@ import { useCredixClient } from "@credix/credix-client";
 import Link from "next/link";
 import { dealsRoute, investWithdrawRoute, borrowerTypeformId, investorTypeformId } from "@consts";
 import { useStore } from "@state/useStore";
-import {
-	Button,
-	buttonSizeStyles,
-	buttonTypeStyles,
-	defaultButtonStyles,
-} from "@components/Button";
+import { Button, buttonTypeStyles, defaultButtonStyles } from "@components/Button";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PopupButton } from "@typeform/embed-react";
 
@@ -113,7 +108,7 @@ const Marketplace: FunctionComponent<MarketplaceProps> = (props) => {
 						) : (
 							<PopupButton
 								id={typeformId}
-								className={`${defaultButtonStyles} ${buttonTypeStyles["primary"]} ${buttonSizeStyles["middle"]} w-full capitalize hover:cursor-pointer border-b-0 border-r-0`}
+								className={`${defaultButtonStyles} ${buttonTypeStyles["primary"]}} w-full capitalize hover:cursor-pointer border-b-0 border-r-0`}
 							>
 								{buttonAction}
 							</PopupButton>
