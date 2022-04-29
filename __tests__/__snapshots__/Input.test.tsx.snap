@@ -46,7 +46,7 @@ exports[`Default input 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <input
-                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
+                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
                     disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -113,7 +113,7 @@ exports[`Disabled input 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <input
-                    className="ant-input ant-input-disabled ant-input-lg border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
+                    className="ant-input ant-input-disabled ant-input-lg border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
                     disabled={true}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -209,11 +209,6 @@ exports[`Input with description 1`] = `
           className="ant-form-item-control-input-content"
         >
           <div
-            className="font-normal text-sm mt-0 mb-[10px]"
-          >
-            This is a short information text that gives more details about the question.
-          </div>
-          <div
             className="ant-row ant-form-item mb-0"
             style={Object {}}
           >
@@ -228,7 +223,7 @@ exports[`Input with description 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <input
-                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
+                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
                     disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -241,6 +236,11 @@ exports[`Input with description 1`] = `
                 </div>
               </div>
             </div>
+          </div>
+          <div
+            className="font-normal text-sm mt-2"
+          >
+            This is a short information text that gives more details about the question.
           </div>
         </div>
       </div>
@@ -295,7 +295,7 @@ exports[`Input with error feedback 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <input
-                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40 border-error focus:ring-error focus:border-error"
+                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40 border-error focus:ring-error focus:border-error"
                     disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -362,7 +362,7 @@ exports[`Input with text 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <input
-                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
+                    className="ant-input ant-input-lg border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
                     disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}

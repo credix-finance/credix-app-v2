@@ -71,7 +71,7 @@ body {
 	@apply border rounded rounded-l-none border-neutral-40 bg-neutral-0 !important;
 }
 .ant-input-affix-wrapper.ant-input-affix-wrapper-lg .ant-input {
-	@apply py-4 px-[14.5px] bg-neutral-0 font-normal !important;
+	@apply py-4 px-4 bg-neutral-0 font-normal !important;
 }
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
 	@apply border border-neutral-60 !important;
@@ -266,15 +266,15 @@ body {
 }
 
 .ant-select-arrow {
-	@apply w-max h-max -mt-3 mr-4 z-10 !important;
+	@apply w-max h-max -mt-3 right-4 z-10 !important;
 }
 
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
-	@apply pl-6 pr-10 !important;
+	@apply pl-4 pr-10 !important;
 }
 
 .ant-select-selection-item {
-	@apply pr-5 text-base !important;
+	@apply pr-4 text-base !important;
 }
 
 .ant-input-group.ant-input-group-compact {
