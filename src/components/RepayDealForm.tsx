@@ -132,7 +132,7 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 					})}
 					type="number"
 					suffix={
-						<div onClick={onAddMax} className="pr-6 hover:cursor-pointer hover:font-semibold">
+						<div onClick={onAddMax} className="pr-4 hover:cursor-pointer hover:font-semibold">
 							MAX
 						</div>
 					}
