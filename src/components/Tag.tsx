@@ -16,7 +16,7 @@ const tagTypeStyles = {
 export const Tag = ({ children, type }: TagProps) => {
 	return (
 		<div
-			className={`py-[2px] px-3 border rounded-full min-w-[88px] font-semibold w-min flex justify-center ${tagTypeStyles[type]}`}
+			className={`py-[2px] p-2 h-8 border rounded-full min-w-[88px] font-semibold w-min flex justify-center items-center ${tagTypeStyles[type]}`}
 		>
 			{children}
 		</div>
