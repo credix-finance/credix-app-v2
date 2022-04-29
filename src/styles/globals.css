@@ -329,7 +329,7 @@ body {
 }
 
 .ant-checkbox-inner {
-	@apply rounded-[1px]  border-neutral-60 w-7 h-7 !important;
+	@apply rounded-[1px]  border-neutral-60 w-6 h-6 !important;
 }
 
 .ant-checkbox-checked .ant-checkbox-inner {
@@ -341,9 +341,9 @@ body {
 }
 
 .ant-checkbox + span {
-	@apply mt-1 !important;
+	@apply mt-1 pl-4 !important;
 }
 
 .ant-checkbox-inner::after {
-	@apply left-[25.5%] w-[10px] h-[14px] !important;
+	@apply left-[23.5%] w-[10px] h-[14px] !important;
 }
