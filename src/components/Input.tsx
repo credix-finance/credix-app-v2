@@ -83,7 +83,7 @@ export const Input = ({
 	}
 
 	const inputClassName = [
-		"border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40",
+		"border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40",
 		hasFeedback && validateStatus == "error"
 			? "border-error focus:ring-error focus:border-error"
 			: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100",
