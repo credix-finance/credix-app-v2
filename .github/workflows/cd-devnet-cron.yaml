@@ -4,11 +4,11 @@ on:
   schedule:
     # run every day at noon
     - cron: '0 12 * * *'
+  workflow_dispatch:
 
 jobs:
   cd-devnet:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/devnet'
     environment:
       name: devnet
       url: https://app-v2.dev.credix.finance
@@ -104,5 +104,5 @@ jobs:
           cp -r storybook-static/* deploy
           cd deploy
           git add .
-          git commit -m $GITHUB_SHA
+          git commit -m $GITHUB_SHA --allow-empty
           git push
