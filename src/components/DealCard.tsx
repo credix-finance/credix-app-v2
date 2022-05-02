@@ -22,8 +22,8 @@ export const DealCard: FunctionComponent<DealCardProps> = ({ marketplace, deal, 
 				})}
 				icon="chevron-left-square"
 			/>
-			<div className="text-4xl font-sans pt-3 pb-9 break-words">{deal.name}</div>
-			<div className="bg-neutral-0 py-10 px-14 ">{children}</div>
+			<div className="text-4xl font-sans mt-4 break-words">{deal.name}</div>
+			<div className="bg-neutral-0 py-10 px-14 mt-8">{children}</div>
 		</div>
 	);
 };
