@@ -7,11 +7,16 @@ on:
       - devnet
       - mainnet
   pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    if: (github.actor != 'dependabot[bot]')
+    if: (github.actor != 'dependabot[bot]' && github.event.pull_request.draft == false)
     permissions:
       actions: read
       contents: read
@@ -30,6 +35,7 @@ jobs:
 
   ci:
     runs-on: ubuntu-latest
+    if: (github.actor != 'dependabot[bot]' && github.event.pull_request.draft == false)
     steps:
       - uses: actions/checkout@v2
         with:
