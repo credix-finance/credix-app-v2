@@ -77,7 +77,7 @@ jobs:
           echo ${{ secrets.DEPLOY_URL }} > CNAME
           touch .nojekyll
           git add .
-          git commit -m $GITHUB_SHA
+          git commit -m $GITHUB_SHA --allow-empty
           git push
 
       # Build storybook
