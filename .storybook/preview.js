@@ -1,4 +1,5 @@
 import React from "react";
+import { IntlProvider } from "react-intl";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import "../src/styles/globals.css";
 import "../src/styles/antd.less";
@@ -44,8 +45,10 @@ export const parameters = {
 
 export const decorators = [
 	(Story) => (
-		<div className="font-mono text-neutral-100">
-			<Story />
-		</div>
+		<IntlProvider locale="en">
+			<div className="font-mono text-neutral-100">
+				<Story />
+			</div>
+		</IntlProvider>
 	),
 ];

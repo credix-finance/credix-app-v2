@@ -14,6 +14,45 @@ on:
       - ready_for_review
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    if: (github.actor != 'dependabot[bot]' && github.event.pull_request.draft == false)
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v2
+
+      # Install Yarn
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
+      - name: Yarn Cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-modules-
+
+      # Install Node
+      - name: Setup Node
+        uses: actions/setup-node@v2
+
+      # Install dependencies
+      - name: Yarn install
+        run: yarn
+
+      # Lint
+      - name: Lint
+        run: yarn lint
+
+      # Format
+      - name: Check formatting
+        run: yarn format
+
   analyze:
     runs-on: ubuntu-latest
     if: (github.actor != 'dependabot[bot]' && github.event.pull_request.draft == false)
@@ -35,7 +74,7 @@ jobs:
 
   ci:
     runs-on: ubuntu-latest
-    if: (github.actor != 'dependabot[bot]' && github.event.pull_request.draft == false)
+    needs: [validate]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -70,13 +109,13 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
 
-  cd-devnet:
+  cd-pre-mainnet:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/devnet'
+    if: github.ref == 'refs/heads/pre-mainnet'
     needs: [ci]
     environment:
       name: devnet
-      url: https://app-v2.dev.credix.finance
+      url: https://app-v2.pre.credix.finance
     steps:
       - uses: actions/checkout@v2
 
@@ -103,16 +142,6 @@ jobs:
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
 
-      # Critical
-      - name: Run Trivy for critical vulnerabilities
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs' # Filesystem mode
-          ignore-unfixed: true # Ignore vulnerabilities with no available fix
-          format: 'table' # Table output mode as next step will report in security tab
-          severity: 'CRITICAL' # Error only on critical vulnerabilities
-          exit-code: '0' # Don't fail the job if a critical vulnerability with fix available is found
-
       # Build app
       - uses: actions/cache@v2
         with:
@@ -128,7 +157,7 @@ jobs:
       - name: Checkout target repository
         uses: actions/checkout@v2
         with:
-          repository: credix-finance/credix-app-v2-devnet
+          repository: credix-finance/credix-app-v2-pre-mainnet
           path: "deploy"
           token: ${{ secrets.PAT }}
 
@@ -140,7 +169,7 @@ jobs:
           echo ${{ secrets.DEPLOY_URL }} > CNAME
           touch .nojekyll
           git add .
-          git commit -m $GITHUB_SHA
+          git commit -m $GITHUB_SHA --allow-empty
           git push
 
       # Build storybook
@@ -157,7 +186,7 @@ jobs:
       - name: Checkout target repository
         uses: actions/checkout@v2
         with:
-          repository: credix-finance/credix-app-v2-devnet-storybook
+          repository: credix-finance/credix-app-v2-pre-mainnet-storybook
           path: 'deploy'
           token: ${{ secrets.PAT }}
 
@@ -167,7 +196,7 @@ jobs:
           cp -r storybook-static/* deploy
           cd deploy
           git add .
-          git commit -m $GITHUB_SHA
+          git commit -m $GITHUB_SHA --allow-empty
           git push
 
   cd-mainnet:
@@ -235,7 +264,7 @@ jobs:
           echo ${{ secrets.DEPLOY_URL }} > CNAME
           touch .nojekyll
           git add .
-          git commit -m $GITHUB_SHA
+          git commit -m $GITHUB_SHA --allow-empty
           git push
 
       # Build storybook
@@ -262,5 +291,5 @@ jobs:
           cp -r storybook-static/* deploy
           cd deploy
           git add .
-          git commit -m $GITHUB_SHA
+          git commit -m $GITHUB_SHA --allow-empty
           git push

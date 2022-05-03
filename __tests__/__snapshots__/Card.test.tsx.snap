@@ -2,18 +2,21 @@
 
 exports[`Card with large offset 1`] = `
 <div
-  className="md:col-span-3 border border-solid rounded-[1px] border-darker w-full p-7 pt-16"
+  className="md:col-span-3 border border-solid rounded-[1px] border-darker w-full p-7 pt-16 bg-transparent"
 >
   <div
-    className="bg-credix-primary -ml-14 py-[18.5px]"
+    className="bg-transparent -ml-14 py-[18.5px] w-max relative"
   >
     <div
-      className="text-xs font-normal capitalize"
+      className="left-4 absolute top-1 w-3 h-20 z-10 bg-credix-primary"
+    />
+    <div
+      className="text-xs font-normal capitalize relative z-20"
     >
       top title
     </div>
     <div
-      className="font-sans font-semibold text-[32px] capitalize"
+      className="font-sans font-semibold text-[32px] capitalize relative z-20"
     >
       title
     </div>
@@ -28,18 +31,21 @@ exports[`Card with large offset 1`] = `
 
 exports[`Card with middle offset 1`] = `
 <div
-  className="md:col-span-3 border border-solid rounded-[1px] border-darker w-full p-7 pt-16"
+  className="md:col-span-3 border border-solid rounded-[1px] border-darker w-full p-7 pt-16 bg-transparent"
 >
   <div
-    className="bg-credix-primary -ml-12 py-[18.5px]"
+    className="bg-transparent -ml-12 py-[18.5px] w-max relative"
   >
     <div
-      className="text-xs font-normal capitalize"
+      className="left-4 absolute top-1 w-3 h-20 z-10 bg-credix-primary"
+    />
+    <div
+      className="text-xs font-normal capitalize relative z-20"
     >
       top title
     </div>
     <div
-      className="font-sans font-semibold text-[32px] capitalize"
+      className="font-sans font-semibold text-[32px] capitalize relative z-20"
     >
       title
     </div>
@@ -54,18 +60,21 @@ exports[`Card with middle offset 1`] = `
 
 exports[`Card with small offset 1`] = `
 <div
-  className="md:col-span-3 border border-solid rounded-[1px] border-darker w-full p-7 pt-16"
+  className="md:col-span-3 border border-solid rounded-[1px] border-darker w-full p-7 pt-16 bg-transparent"
 >
   <div
-    className="bg-credix-primary -ml-9 py-[18.5px]"
+    className="bg-transparent -ml-9 py-[18.5px] w-max relative"
   >
     <div
-      className="text-xs font-normal capitalize"
+      className="left-4 absolute top-1 w-3 h-20 z-10 bg-credix-primary"
+    />
+    <div
+      className="text-xs font-normal capitalize relative z-20"
     >
       top title
     </div>
     <div
-      className="font-sans font-semibold text-[32px] capitalize"
+      className="font-sans font-semibold text-[32px] capitalize relative z-20"
     >
       title
     </div>

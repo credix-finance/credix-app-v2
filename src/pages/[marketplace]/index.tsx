@@ -1,9 +1,10 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
 import Marketplace from "@components/Marketplace";
 import { getMarketsPaths } from "@utils/export.utils";
+import loadIntlMessages from "@utils/i18n.utils";
 
 const Overview: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -23,8 +24,14 @@ export async function getStaticPaths() {
 	};
 }
 
-export async function getStaticProps({ params }) {
-	return { props: params };
+export async function getStaticProps(ctx) {
+	const { params } = ctx;
+	return {
+		props: {
+			intlMessages: await loadIntlMessages(ctx),
+			...params,
+		},
+	};
 }
 
 export default Overview;
