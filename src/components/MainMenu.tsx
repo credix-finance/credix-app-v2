@@ -17,7 +17,7 @@ export const MainMenu = ({ showLogo = true }: MainMenuProps) => {
 	const path = (router?.query?.marketplace as string) || "/";
 
 	return (
-		<div className="w-full bg-credix-primary flex justify-between items-center p-5">
+		<div className="w-full bg-credix-primary flex justify-between items-center py-4 px-20">
 			<div>
 				{showLogo && (
 					<Link href={path}>
@@ -27,9 +27,9 @@ export const MainMenu = ({ showLogo = true }: MainMenuProps) => {
 					</Link>
 				)}
 			</div>
-			<div className="flex">
+			<div className="flex items-center space-x-12">
 				{config.clusterConfig.name !== SolanaCluster.LOCALNET && <IdentityButton />}
-				<WalletButton className="ml-4" />
+				<WalletButton />
 			</div>
 		</div>
 	);

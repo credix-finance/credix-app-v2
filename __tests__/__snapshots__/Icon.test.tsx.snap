@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Icons: arrow-down 1`] = `
+<svg
+  className="w-4 h-4 fill-current"
+  fill="none"
+  viewBox="0 0 24 24"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M15.0428 9.54289L12.2499 12.3358L9.45703 9.54289L8.04282 10.9571L11.5428 14.4571C11.9333 14.8476 12.5665 14.8476 12.957 14.4571L16.457 10.9571L15.0428 9.54289Z"
+    fill="currentColor"
+  />
+</svg>
+`;
+
 exports[`Icons: arrow-down-square-solid 1`] = `
 <svg
   className="w-4 h-4 fill-current"

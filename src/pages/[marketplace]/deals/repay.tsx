@@ -13,23 +13,26 @@ import { Icon } from "@components/Icon";
 import { calculateMonthlyRepaymentAmount } from "@utils/deal.utils";
 import { DealCard } from "@components/DealCard";
 import { getMarketsPaths } from "@utils/export.utils";
+import loadIntlMessages from "@utils/i18n.utils";
+import { useIntl } from "react-intl";
 
 const Repay: NextPageWithLayout = () => {
 	const router = useRouter();
-	const { marketplace, did } = router.query;
+	const { marketplace, dealId } = router.query;
 	const client = useCredixClient();
 	const getDeal = useStore((state) => state.getDeal);
 	const [deal, setDeal] = useState<DealType>();
 	const [monthlyRepaymentAmount, setMonthlyRepaymentAmount] = useState<number>();
 	const market = useStore((state) => state.market);
 	const fetchMarket = useStore((state) => state.fetchMarket);
+	const intl = useIntl();
 
 	const getDealFromStore = useCallback(async () => {
 		if (market) {
-			const dealFromStore = await getDeal(market, did as string);
+			const dealFromStore = await getDeal(market, dealId as string);
 			setDeal(dealFromStore);
 		}
-	}, [market, did, getDeal]);
+	}, [market, dealId, getDeal]);
 
 	useEffect(() => {
 		const amount = calculateMonthlyRepaymentAmount(deal);
@@ -59,40 +62,103 @@ const Repay: NextPageWithLayout = () => {
 
 	const repayInterest = async (amount: number) => {
 		const formattedNumber = numberFormatter.format(amount);
-		const hide = message.loading({ content: `Repaying ${formattedNumber} USDC of interest` });
+		const hide = message.loading({
+			content: intl.formatMessage(
+				{
+					defaultMessage: "Repaying {amount} USDC of interest",
+					description: "Repay deal: interest repayment loading",
+				},
+				{
+					amount: formattedNumber,
+				}
+			),
+		});
 
 		try {
 			const programAmount = toProgramAmount(new Big(amount));
 			await deal.repayInterest(programAmount.toNumber());
 			hide();
-			message.success({ content: `Successfully payed ${formattedNumber} USDC of interest` });
+			message.success({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Successfully payed {amount} USDC of interest",
+						description: "Repay deal: interest repayment success",
+					},
+					{
+						amount: formattedNumber,
+					}
+				),
+			});
 			getDealFromStore();
 		} catch (error) {
 			hide();
-			message.error({ content: `Failed to pay ${formattedNumber} USDC of interest` });
+			message.error({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Failed to pay {amount} USDC of interest",
+						description: "Repay deal: interest repayment failed",
+					},
+					{
+						amount: formattedNumber,
+					}
+				),
+			});
 		}
 	};
 
 	const repayPrincipal = async (amount: number) => {
 		if (!deal.interestToRepay.eq(0)) {
 			message.error({
-				content: `Interest needs to be repaid in full before the principal can be repaid.`,
+				content: intl.formatMessage({
+					defaultMessage: "Interest needs to be repaid in full before the principal can be repaid.",
+					description: "Repay deal: principal repayment validation failed",
+				}),
 			});
 			return;
 		}
 
 		const formattedNumber = numberFormatter.format(amount);
-		const hide = message.loading({ content: `Repaying ${formattedNumber} USDC of principal` });
+		const hide = message.loading({
+			content: intl.formatMessage(
+				{
+					defaultMessage: "Repaying {amount} USDC of principal",
+					description: "Repay deal: principal repayment loading",
+				},
+				{
+					amount: formattedNumber,
+				}
+			),
+		});
 
 		try {
 			const programAmount = toProgramAmount(new Big(amount));
 			await deal.repayPrincipal(programAmount.toNumber());
 			hide();
-			message.success({ content: `Successfully payed ${formattedNumber} USDC of principal` });
+			message.success({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Successfully payed {amount} USDC of principal",
+						description: "Repay deal: principal repayment success",
+					},
+					{
+						amount: formattedNumber,
+					}
+				),
+			});
 			getDealFromStore();
 		} catch (error) {
 			hide();
-			message.error({ content: `Failed to pay ${formattedNumber} USDC of principal` });
+			message.error({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Failed to pay {amount} USDC of principal",
+						description: "Repay deal: principal repayment failed",
+					},
+					{
+						amount: formattedNumber,
+					}
+				),
+			});
 		}
 	};
 
@@ -109,7 +175,12 @@ const Repay: NextPageWithLayout = () => {
 			<div className="space-y-6">
 				<div className="flex items-center space-x-5">
 					<Icon name="coin-insert" className="w-7 h-7" />
-					<div className="uppercase text-2xl font-bold">make repayment</div>
+					<div className="uppercase text-2xl font-bold">
+						{intl.formatMessage({
+							defaultMessage: "make repayment",
+							description: "Repay deal: title",
+						})}
+					</div>
 				</div>
 				<DealAspectGrid deal={deal} />
 				<RepayDealForm
@@ -138,8 +209,14 @@ export async function getStaticPaths() {
 	};
 }
 
-export async function getStaticProps({ params }) {
-	return { props: params };
+export async function getStaticProps(ctx) {
+	const { params } = ctx;
+	return {
+		props: {
+			intlMessages: await loadIntlMessages(ctx),
+			...params,
+		},
+	};
 }
 
 export default Repay;
