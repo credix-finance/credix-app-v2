@@ -5,6 +5,7 @@ on:
     branches:
       - localnet
       - devnet
+      - pre-mainnet
       - mainnet
   pull_request:
     types:
