@@ -111,7 +111,7 @@ body {
 }
 
 .ant-table-pagination > * {
-	@apply w-[39px] h-[36px] border-none m-0 rounded-none !important;
+	@apply w-[39px] h-8 border-none m-0 rounded-none !important;
 }
 
 .ant-pagination-item-active a,
