@@ -169,7 +169,7 @@ jobs:
           echo ${{ secrets.DEPLOY_URL }} > CNAME
           touch .nojekyll
           git add .
-          git commit -m $GITHUB_SHA
+          git commit -m $GITHUB_SHA --allow-empty
           git push
 
       # Build storybook
@@ -196,7 +196,7 @@ jobs:
           cp -r storybook-static/* deploy
           cd deploy
           git add .
-          git commit -m $GITHUB_SHA
+          git commit -m $GITHUB_SHA --allow-empty
           git push
 
   cd-mainnet:
@@ -264,7 +264,7 @@ jobs:
           echo ${{ secrets.DEPLOY_URL }} > CNAME
           touch .nojekyll
           git add .
-          git commit -m $GITHUB_SHA
+          git commit -m $GITHUB_SHA --allow-empty
           git push
 
       # Build storybook
@@ -291,5 +291,5 @@ jobs:
           cp -r storybook-static/* deploy
           cd deploy
           git add .
-          git commit -m $GITHUB_SHA
+          git commit -m $GITHUB_SHA --allow-empty
           git push
