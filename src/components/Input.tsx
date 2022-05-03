@@ -83,7 +83,7 @@ export const Input = ({
 	}
 
 	const inputClassName = [
-		"border-[0.5px] rounded-[1px] focus:shadow-none disabled:border-neutral-60/40",
+		"border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40",
 		hasFeedback && validateStatus == "error"
 			? "border-error focus:ring-error focus:border-error"
 			: "border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100",
@@ -110,7 +110,6 @@ export const Input = ({
 			required={required}
 			className={labelClassName}
 		>
-			{description && <div className="font-normal text-sm mt-0 mb-[10px]">{description}</div>}
 			<Form.Item name={name} className="mb-0" rules={rules}>
 				<AntdInput
 					disabled={disabled}
@@ -122,6 +121,7 @@ export const Input = ({
 					{children}
 				</AntdInput>
 			</Form.Item>
+			{description && <div className="font-normal text-sm mt-2">{description}</div>}
 		</Form.Item>
 	);
 };
