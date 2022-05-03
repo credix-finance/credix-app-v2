@@ -103,7 +103,7 @@ body {
 }
 
 .ant-table-cell {
-	@apply bg-neutral-0 font-bold text-base !important;
+	@apply bg-neutral-0 font-bold text-base px-6 py-4 !important;
 }
 
 .ant-table-pagination {
