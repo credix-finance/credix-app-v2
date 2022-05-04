@@ -6,13 +6,17 @@ const actionPrimary = "#398D88";
 const actionDisable = "hsla(180, 9%, 74%, 0.51)";
 
 const neutral100 = "#1F1F1F";
+const neutral105 = "#1E1E1E";
 const neutral90 = "#C4C4C4";
 const neutral80 = "#0F0F0F";
 const neutral60 = "#444152";
 const neutral40 = "#9C99AE";
+const neutral30 = "#B2B2B2";
+const neutral35 = "#606060";
 const neutral20 = "#718879";
 const neutral10 = "#D8DEDA";
 const neutral0 = "#FFFFFF";
+
 
 const darker = "#151515";
 const disabled = "hsla(0, 0%, 8%, 0.4)";
@@ -35,11 +39,14 @@ module.exports = {
 		},
 		disabled: disabled,
 		neutral: {
+			105: neutral105,
 			100: neutral100,
 			90: neutral90,
 			80: neutral80,
 			60: neutral60,
 			40: neutral40,
+			30: neutral30,
+			35: neutral35,
 			20: neutral20,
 			10: neutral10,
 			0: neutral0,
