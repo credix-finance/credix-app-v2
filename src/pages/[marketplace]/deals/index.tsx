@@ -60,7 +60,7 @@ const Deals: NextPageWithLayout = () => {
 			icon: "calendar",
 			dataIndex: "date",
 			key: "date",
-			width: 150,
+			width: 160,
 			render: (text) => (
 				<span className="font-medium text-lg">
 					{text && formatTimestamp(text, locales as string[])}
@@ -71,7 +71,7 @@ const Deals: NextPageWithLayout = () => {
 			title: "Interest paid",
 			dataIndex: "paid",
 			key: "paid",
-			width: 160,
+			width: 180,
 			render: (value: number) => <Slider value={value} fullLabel="Full" />,
 		},
 		{
