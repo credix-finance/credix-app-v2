@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Pie } from "@ant-design/plots";
-import { Tranche } from "./TrancheOption";
+import { Tranche } from "@credix_types/tranche.types";
 
 interface TrancheDonutProps {
 	data: Tranche[];
