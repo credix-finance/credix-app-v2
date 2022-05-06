@@ -19,7 +19,7 @@ export const TrancheDonut: FunctionComponent<TrancheDonutProps> = ({
 		appendPadding: 10,
 		data,
 		angleField: "value",
-		colorField: "type",
+		colorField: "name",
 		color,
 		radius: 1,
 		innerRadius: 0.64,
