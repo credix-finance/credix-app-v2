@@ -27,10 +27,10 @@ export const RepaymentScheduleGraph: FunctionComponent<RepaymentScheduleGraphPro
 		xField: "month",
 		yField: "amount",
 		seriesField: "type",
-		legend: false,
+		legend: false as unknown as object,
 		colorField: "type",
 		color: ["#D8DEDA", "#718879"],
-		label: false,
+		label: false as unknown as object,
 	};
 
 	return <Column {...config} />;
