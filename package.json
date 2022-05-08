@@ -3,7 +3,8 @@
 	"private": true,
 	"resolutions": {
 		"webpack": "^5",
-		"@types/react": "17.0.41"
+		"@types/react": "17.0.41",
+		"@antv/g2": "4.1.50"
 	},
 	"scripts": {
 		"predev": "npm run i18n:compile",

@@ -360,9 +360,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@antv/g2@npm:^4.1.26":
-  version: 4.2.0
-  resolution: "@antv/g2@npm:4.2.0"
+"@antv/g2@npm:4.1.50":
+  version: 4.1.50
+  resolution: "@antv/g2@npm:4.1.50"
   dependencies:
     "@antv/adjust": ^0.2.1
     "@antv/attr": ^0.3.1
@@ -379,7 +379,7 @@ __metadata:
     "@antv/scale": ^0.3.14
     "@antv/util": ~2.0.5
     tslib: ^2.0.0
-  checksum: ba088605aeea1bc0485c6d52ffccb16060e8431aa93f88242cc4aa61510221a444c7af7382d1cb871fb4be024e41ce1e2724a7233bdff6f7dad26fcdc5826024
+  checksum: fc8217777145c78181dde30e274efbcddf53fec6b00cd3993bcdee4f36fe87226ce263e6047d50a081e564832ea48d7f16c0477ee42eaf84d728e46b9f2f3d70
   languageName: node
   linkType: hard
 
