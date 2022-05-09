@@ -59,7 +59,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
         run: |
-          NEXT_PUBLIC_REACT_APP_CLUSTER=devnet NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }} yarn build
+          SENTRY_ENVIRONMENT=devnet NEXT_PUBLIC_REACT_APP_CLUSTER=devnet NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }} yarn build
           yarn export
 
       - name: Checkout target repository
