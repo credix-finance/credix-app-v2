@@ -3531,7 +3531,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-actions@npm:6.4.22, @storybook/addon-actions@npm:^6.4.19":
+"@storybook/addon-actions@npm:6.4.22, @storybook/addon-actions@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/addon-actions@npm:6.4.22"
   dependencies:
@@ -3720,7 +3720,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-essentials@npm:^6.4.19":
+"@storybook/addon-essentials@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/addon-essentials@npm:6.4.22"
   dependencies:
@@ -3764,7 +3764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-links@npm:^6.4.19":
+"@storybook/addon-links@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/addon-links@npm:6.4.22"
   dependencies:
@@ -4037,7 +4037,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/builder-webpack5@npm:^6.4.19":
+"@storybook/builder-webpack5@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/builder-webpack5@npm:6.4.22"
   dependencies:
@@ -4505,7 +4505,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/manager-webpack5@npm:^6.4.19":
+"@storybook/manager-webpack5@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/manager-webpack5@npm:6.4.22"
   dependencies:
@@ -4619,7 +4619,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react@npm:^6.4.19":
+"@storybook/react@npm:^6.4.22":
   version: 6.4.22
   resolution: "@storybook/react@npm:6.4.22"
   dependencies:
@@ -8400,13 +8400,13 @@ __metadata:
     "@solana/wallet-adapter-react-ui": ^0.9.6
     "@solana/wallet-adapter-wallets": ^0.16.1
     "@solana/web3.js": ^1.36.0
-    "@storybook/addon-actions": ^6.4.19
-    "@storybook/addon-essentials": ^6.4.19
-    "@storybook/addon-links": ^6.4.19
+    "@storybook/addon-actions": ^6.4.22
+    "@storybook/addon-essentials": ^6.4.22
+    "@storybook/addon-links": ^6.4.22
     "@storybook/addon-postcss": ^2.0.0
-    "@storybook/builder-webpack5": ^6.4.19
-    "@storybook/manager-webpack5": ^6.4.19
-    "@storybook/react": ^6.4.19
+    "@storybook/builder-webpack5": ^6.4.22
+    "@storybook/manager-webpack5": ^6.4.22
+    "@storybook/react": ^6.4.22
     "@tailwindcss/forms": ^0.5.1
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^12.1.5
