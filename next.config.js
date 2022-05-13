@@ -7,7 +7,9 @@ module.exports = withLess({
 		lessOptions: theme.lessOptions,
 	},
 	// NextJS config
-	reactStrictMode: true,
+	// Disable strict mode as it made the active tab indicator dissapear
+	// See https://github.com/react-component/tabs/pull/530
+	reactStrictMode: false,
 	basePath: process.env.NEXT_PUBLIC_BASE_PATH,
 	assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH,
 	trailingSlash: true,
