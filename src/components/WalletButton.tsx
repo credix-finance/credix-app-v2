@@ -70,7 +70,9 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 		}
 	};
 
-	useEffect(() => setIsAdmin(publicKey), [setIsAdmin, publicKey]);
+	useEffect(() => {
+		setIsAdmin(publicKey), [setIsAdmin, publicKey];
+	});
 
 	if (!wallet && !publicKey) {
 		return (
