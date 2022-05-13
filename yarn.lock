@@ -3300,6 +3300,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@solana/wallet-adapter-exodus@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@solana/wallet-adapter-exodus@npm:0.1.0"
+  dependencies:
+    "@solana/wallet-adapter-base": ^0.9.4
+  peerDependencies:
+    "@solana/web3.js": ^1.36.0
+  checksum: 7dcb89117db40f94186b83593665933b13907d28e1ed7db56b806367621ca6dcea29587fcaf578923607071193062c006603174975abc737b64b84e24ddce7ab
+  languageName: node
+  linkType: hard
+
 "@solana/wallet-adapter-glow@npm:^0.1.0":
   version: 0.1.1
   resolution: "@solana/wallet-adapter-glow@npm:0.1.1"
@@ -3456,9 +3467,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/wallet-adapter-wallets@npm:^0.16.0":
-  version: 0.16.0
-  resolution: "@solana/wallet-adapter-wallets@npm:0.16.0"
+"@solana/wallet-adapter-wallets@npm:^0.16.1":
+  version: 0.16.1
+  resolution: "@solana/wallet-adapter-wallets@npm:0.16.1"
   dependencies:
     "@solana/wallet-adapter-base": ^0.9.4
     "@solana/wallet-adapter-bitkeep": ^0.3.2
@@ -3467,6 +3478,7 @@ __metadata:
     "@solana/wallet-adapter-clover": ^0.4.2
     "@solana/wallet-adapter-coin98": ^0.5.2
     "@solana/wallet-adapter-coinhub": ^0.3.2
+    "@solana/wallet-adapter-exodus": ^0.1.0
     "@solana/wallet-adapter-glow": ^0.1.0
     "@solana/wallet-adapter-huobi": ^0.1.0
     "@solana/wallet-adapter-ledger": ^0.9.8
@@ -3479,7 +3491,7 @@ __metadata:
     "@solana/wallet-adapter-solong": ^0.9.2
     "@solana/wallet-adapter-tokenpocket": ^0.4.2
     "@solana/wallet-adapter-torus": ^0.11.10
-  checksum: 9fc8b3e693c6e00342f514eec84197dcdb8956da55a40b26d67699ac499cb817adae36f696a57f8a0d294cbd1b5a8dfa86ec63eaa936aa8357821aa3beb2c771
+  checksum: a7c3c4dbaf2497264e06b7da0d31eb8840e0b16dbd07741e6a8d38195d2c24dca987e884aaea10ae471f49d65426ec39b683e90c9b223c246496693483b29046
   languageName: node
   linkType: hard
 
@@ -8386,7 +8398,7 @@ __metadata:
     "@solana/wallet-adapter-base": ^0.9.5
     "@solana/wallet-adapter-react": 0.15.4
     "@solana/wallet-adapter-react-ui": ^0.9.6
-    "@solana/wallet-adapter-wallets": ^0.16.0
+    "@solana/wallet-adapter-wallets": ^0.16.1
     "@solana/web3.js": ^1.36.0
     "@storybook/addon-actions": ^6.4.19
     "@storybook/addon-essentials": ^6.4.19
