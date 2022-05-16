@@ -20,7 +20,7 @@ jobs:
       - id: should-run
         name: check latest commit is less than a day
         run: |
-          test -z $(git rev-list --after="24 hours" ${{ github.sha }}) && echo "::set-output name=should-run::false"
+          test -z "$(git rev-list --after="24 hours" ${{ github.sha }})" && echo "::set-output name=should-run::false"
 
   cd-devnet:
     runs-on: ubuntu-latest
