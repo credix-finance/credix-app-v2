@@ -5,13 +5,14 @@ import { TableProps as AntdTableProps } from "antd/lib/table";
 import { PageItem } from "@components/PageItem";
 import { ColumnType } from "antd/lib/table";
 import { TableHeaderCell } from "./TableHeaderCell";
-import { IconName } from "@components/Icon";
+import { IconDimension, IconName } from "@components/Icon";
 
 export type ColumnsProps = ColumnType<any> & {
 	/**
 	 * Optional icon that will be displayed on the left of the column title
 	 */
 	icon?: IconName;
+	iconSize?: IconDimension;
 	titleClassName?: string;
 };
 
@@ -46,10 +47,15 @@ export const Table = ({ columns, ...props }: TableProps) => {
 				}
 
 				if (column.icon) {
-					const { icon, title, titleClassName } = column;
+					const { icon, title, titleClassName, iconSize } = column;
 					return Object.assign({}, column, {
 						title: () => (
-							<TableHeaderCell label={title as string} icon={icon} className={titleClassName} />
+							<TableHeaderCell
+								label={title as string}
+								icon={icon}
+								iconSize={iconSize}
+								className={titleClassName}
+							/>
 						),
 					});
 				}
