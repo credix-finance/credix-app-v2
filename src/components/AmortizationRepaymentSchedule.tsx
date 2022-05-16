@@ -1,65 +1,75 @@
-import React, { FunctionComponent, ReactNode, useState } from "react";
+import React, { FunctionComponent, ReactNode, useEffect, useState } from "react";
+import { useIntl } from "react-intl";
 import { Input } from "@components/Input";
 import { RepaymentScheduleGraph } from "@components/RepaymentScheduleGraph";
 import { RepaymentScheduleTable } from "@components/RepaymentScheduleTable";
-import { Button } from "@components/Button";
-import { ColumnsProps } from "@components/Table";
 import {
 	RepaymentScheduleGraphDataPoint,
 	RepaymentScheduleTableDataPoint,
 } from "@credix_types/repaymentschedule.types";
+import { Button } from "@components/Button";
+import { repaymentSchedule } from "@utils/amortization.utils";
+import { generateGraphAndTableData } from "@utils/repayment.utils";
+import { Ratio } from "@credix/credix-client";
 
 interface AmortizationRepaymentScheduleProps {
+	principal: number;
+	financingFee: number;
+	repaymentPeriod: number;
 	children?: ReactNode;
 }
 
 export const AmortizationRepaymentSchedule: FunctionComponent<
 	AmortizationRepaymentScheduleProps
-> = () => {
+> = ({ repaymentPeriod, principal, financingFee }) => {
+	const intl = useIntl();
 	const [showTable, setShowTable] = useState(false);
-	const [graphData] = useState<RepaymentScheduleGraphDataPoint[]>([]);
-	const [dataSource] = useState<RepaymentScheduleTableDataPoint[]>();
+	const [graphData, setGraphData] = useState<RepaymentScheduleGraphDataPoint[]>([]);
+	const [dataSource, setDataSource] = useState<RepaymentScheduleTableDataPoint[]>();
 
-	const columns: ColumnsProps[] = [
-		{
-			title: "Date",
-			icon: "calendar",
-			dataIndex: "date",
-			key: "date",
-		},
-		{
-			title: "Principal",
-			icon: "coins",
-			dataIndex: "principal",
-			key: "principal",
-		},
-		{
-			title: "Interest",
-			icon: "trend-up-circle",
-			dataIndex: "interest",
-			key: "interest",
-		},
-		{
-			title: "Balance",
-			icon: "trend-up-circle",
-			dataIndex: "balance",
-			key: "balance",
-		},
-	];
+	useEffect(() => {
+		if (principal && financingFee && repaymentPeriod) {
+			const financingFeeRatio = new Ratio(financingFee, 100);
+			const schedule = repaymentSchedule(principal, financingFeeRatio, repaymentPeriod);
+
+			const { graphData, dataSource } = generateGraphAndTableData(schedule);
+			setGraphData(graphData);
+			setDataSource(dataSource);
+		}
+	}, [principal, financingFee, repaymentPeriod]);
 
 	return (
 		<div>
 			<div className="grid grid-cols-2 gap-x-20 mb-8">
 				<div className="flex flex-col justify-between">
 					<Input
-						label="Grace period"
-						description="Grace period is a time period granted on which the borrower does not have to pay anything toward the loan"
-						placeholder="0 days"
+						label={intl.formatMessage({
+							defaultMessage: "Grace period",
+							description: "Deal form: repayment schedule grace period input label",
+						})}
+						description={intl.formatMessage({
+							defaultMessage:
+								"Grace period is a time period granted on which the borrower does not have to pay anything toward the loan",
+							description: "Deal form: repayment schedule grace period input description",
+						})}
+						placeholder={intl.formatMessage({
+							defaultMessage: "0 days",
+							description: "Deal form: repayment schedule grace period input placeholder",
+						})}
 						disabled={true}
 					/>
 					<div>
 						<Button onClick={() => setShowTable(!showTable)} type="text">
-							Show table
+							{showTable &&
+								intl.formatMessage({
+									defaultMessage: "Hide table",
+									description: "Deal form: repayment schedule hide table button",
+								})}
+							{!showTable &&
+								intl.formatMessage({
+									defaultMessage: "Show table",
+									description: "Deal form: repayment schedule show table button",
+								})}
 						</Button>
 					</div>
 				</div>
@@ -67,7 +77,7 @@ export const AmortizationRepaymentSchedule: FunctionComponent<
 					<RepaymentScheduleGraph data={graphData} />
 				</div>
 			</div>
-			{showTable && <RepaymentScheduleTable dataSource={dataSource} columns={columns} />}
+			{showTable && <RepaymentScheduleTable dataSource={dataSource} />}
 		</div>
 	);
 };

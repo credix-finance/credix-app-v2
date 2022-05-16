@@ -20,7 +20,6 @@ export interface RepaymentScheduleDataPoint {
 
 interface RepaymentScheduleTableProps {
 	dataSource: RepaymentScheduleTableDataPoint[];
-	columns: ColumnsProps[];
 }
 
 export const RepaymentScheduleTable: FunctionComponent<RepaymentScheduleTableProps> = ({
