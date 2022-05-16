@@ -2,6 +2,9 @@ import { IconName } from "@components/Icon";
 import { Route } from "types/route.types";
 import { colors as ThemeColors } from "../theme";
 
+export const DAYS_IN_REPAYMENT_PERIOD = 30;
+export const MONTHS_IN_YEAR = 12;
+
 export const marketplaces: string[] = [
 	"credix-marketplace",
 	"credix-test-marketplace",
