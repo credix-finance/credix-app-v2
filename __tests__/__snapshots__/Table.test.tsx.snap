@@ -176,7 +176,7 @@ exports[`Table headers with icons 1`] = `
                       className="space-x-1 flex items-center "
                     >
                       <svg
-                        className="w-4 h-4 fill-current"
+                        className="w-4 h-4 min-w-4 min-h-4 fill-current"
                         viewBox="0 0 16 16"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -203,7 +203,7 @@ exports[`Table headers with icons 1`] = `
                       className="space-x-1 flex items-center "
                     >
                       <svg
-                        className="w-4 h-4 fill-current"
+                        className="w-4 h-4 min-w-4 min-h-4 fill-current"
                         viewBox="0 0 16 16"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -230,7 +230,7 @@ exports[`Table headers with icons 1`] = `
                       className="space-x-1 flex items-center "
                     >
                       <svg
-                        className="w-4 h-4 fill-current"
+                        className="w-4 h-4 min-w-4 min-h-4 fill-current"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
