@@ -14,6 +14,11 @@ export const numberFormatter = Intl.NumberFormat("en", {
 	maximumFractionDigits: 1,
 });
 
+export const currencyFormatter = Intl.NumberFormat("en", {
+	minimumFractionDigits: 2,
+	maximumFractionDigits: 2,
+});
+
 export const round = (n: Big, roundingMode: RoundingMode, precision = roundingPrecision) =>
 	n.round(precision, roundingMode);
 
