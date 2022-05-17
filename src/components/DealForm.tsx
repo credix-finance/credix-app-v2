@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from "react";
 import { Form } from "antd";
 import { Stepper } from "@components/Stepper";
 import { DealDetailsStep } from "@components/DealDetailsStep";
+import { DealTranchesStep } from "@components/DealTranchesStep";
 import { useIntl } from "react-intl";
 
 export interface DealFormInput {
@@ -60,6 +61,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				<div className="w-full h-[1px] mt-10  bg-neutral-105"></div>
 				<Form name="deal" form={form} onFinish={onSubmit} layout="vertical">
 					<DealDetailsStep form={form} className={showStep(0)} onNextStep={onNextStep} />
+					<DealTranchesStep form={form} className={showStep(1)} setCurrentStep={setCurrentStep} />
 				</Form>
 			</div>
 		</>
