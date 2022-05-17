@@ -125,17 +125,15 @@ const New: NextPageWithLayout = () => {
 	};
 
 	return (
-		<div className="py-5 px-4 md:px-20 md:justify-self-center md:w-full md:max-w-7xl lg:max-w-5xl">
+		<div className="py-5 px-4 md:p-20 md:justify-self-center w-full">
 			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
-			<div className="text-4xl font-sans pt-3 mb-9 capitalize">
+			<div className="text-4xl font-sans pt-3 mb-8 capitalize">
 				{intl.formatMessage({
-					defaultMessage: "new deal",
+					defaultMessage: "create new deal",
 					description: "New deal: title",
 				})}
 			</div>
-			<div className="bg-neutral-0 py-10 px-14 space-y-7">
-				<DealForm onSubmit={onSubmit} />
-			</div>
+			<DealForm onSubmit={onSubmit} />
 		</div>
 	);
 };

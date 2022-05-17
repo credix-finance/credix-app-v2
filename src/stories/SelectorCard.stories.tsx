@@ -68,6 +68,26 @@ Selected.decorators = [
 ];
 Selected.args = {};
 
+const principal = 1_000_000;
+const financingFee = 0.15;
+const timeToMaturity = 360;
+
+const amortization = () => (
+	<AmortizationRepaymentSchedule
+		principal={principal}
+		financingFee={financingFee}
+		repaymentPeriod={timeToMaturity}
+	/>
+);
+
+const bullet = () => (
+	<BulletLoanRepaymentSchedule
+		principal={principal}
+		financingFee={financingFee}
+		repaymentPeriod={timeToMaturity}
+	/>
+);
+
 export const Amortization = Template.bind({});
 Amortization.decorators = [
 	() => (
@@ -76,14 +96,14 @@ Amortization.decorators = [
 				<Radio.Group>
 					<div className="space-y-4">
 						<SelectorCard
-							content={<AmortizationRepaymentSchedule />}
+							content={amortization}
 							value="amortization"
 							title="Amortization loan"
 							subtitle="Pay off a debt over time in equal installments"
 							checked={true}
 						/>
 						<SelectorCard
-							content={<BulletLoanRepaymentSchedule />}
+							content={bullet}
 							value="bullet"
 							title="Bullet loan"
 							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
@@ -103,13 +123,13 @@ BulletLoan.decorators = [
 				<Radio.Group>
 					<div className="space-y-4">
 						<SelectorCard
-							content={<AmortizationRepaymentSchedule />}
+							content={amortization}
 							value="amortization"
 							title="Amortization loan"
 							subtitle="Pay off a debt over time in equal installments"
 						/>
 						<SelectorCard
-							content={<BulletLoanRepaymentSchedule />}
+							content={bullet}
 							value="bullet"
 							title="Bullet loan"
 							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
