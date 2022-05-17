@@ -37,6 +37,7 @@ module.exports = {
 			"@message": path.resolve(__dirname, "../src/message"),
 			"@state": path.resolve(__dirname, "../src/state"),
 			"@utils": path.resolve(__dirname, "../src/utils"),
+			"@hooks": path.resolve(__dirname, "../src/hooks"),
 			"@": [path.resolve(__dirname, "../src/"), path.resolve(__dirname, "../")],
 		};
 
