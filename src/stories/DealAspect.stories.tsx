@@ -4,7 +4,7 @@ import { DealAspect } from "@components/DealAspect";
 import { Ratio } from "@credix/credix-client";
 
 export default {
-	title: "Components/DealAspect",
+	title: "DealAspect",
 	component: DealAspect,
 } as ComponentMeta<typeof DealAspect>;
 

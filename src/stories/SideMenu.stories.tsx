@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { SideMenu } from "@components/SideMenu";
 
 export default {
-	title: "Components/SideMenu",
+	title: "SideMenu",
 	component: SideMenu,
 	parameters: {
 		layout: "fullscreen",
