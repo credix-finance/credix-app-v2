@@ -62,11 +62,10 @@ const New: NextPageWithLayout = () => {
 
 				return;
 			}
-		} catch (error) {
+		} catch {
 			hide();
 			notification.error({
-				message: "Failed to get Credix pass for given public key",
-				error,
+				message: "Failed to fetch Credix pass",
 			});
 
 			return;
@@ -105,7 +104,7 @@ const New: NextPageWithLayout = () => {
 						amount: formattedPrincipal,
 					}
 				),
-				description: error.toString(),
+				error: error,
 			});
 
 			return;
@@ -117,7 +116,7 @@ const New: NextPageWithLayout = () => {
 
 			router.push(`/${marketplace}/deals/show?dealId=${deal.address.toString()}`);
 		} catch (error) {
-			notification.error({ message: "Failed to get deal info", description: error });
+			notification.error({ message: "Failed to get deal info", error: error });
 			router.push(`/${marketplace}/deals`);
 		}
 	};
