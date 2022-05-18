@@ -1,6 +1,7 @@
 import { DAYS_IN_YEAR } from "@consts";
 import { Ratio } from "@credix/credix-client";
 import Big from "big.js";
+import { round } from "./format.utils";
 
 /**
  * Based on the following formula:
@@ -41,4 +42,16 @@ export const seniorAPR = ({
 			.toNumber(),
 		Big(percentageOfPrincipal.toNumber()).times(totalPrincipal).times(timeToMaturity).toNumber()
 	);
+};
+
+export const calculateTotalInterest = (
+	timeToMaturity: number,
+	financingFee: Ratio,
+	principal: number
+) => {
+	const timeToMaturityRatio = new Ratio(timeToMaturity, 360);
+	const interest = financingFee.apply(principal);
+	const totalInterest = timeToMaturityRatio.apply(interest.toNumber());
+
+	return round(totalInterest, Big.roundDown);
 };

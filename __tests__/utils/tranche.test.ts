@@ -1,5 +1,18 @@
 import { Ratio } from "@credix/credix-client";
-import { seniorAPR } from "@utils/tranche.utils";
+import { calculateTotalInterest, seniorAPR } from "@utils/tranche.utils";
+
+describe("total interest", () => {
+	it("calculates correctly", () => {
+		const timeToMaturity = 360;
+		const financingFee = new Ratio(10, 100);
+		const principal = 1_000_000;
+
+		const result = calculateTotalInterest(timeToMaturity, financingFee, principal);
+		const expected = 100_000;
+
+		expect(result.eq(expected));
+	});
+});
 
 describe("one tranche", () => {
 	it("calculates the senior apr", () => {

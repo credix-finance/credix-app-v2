@@ -22,7 +22,6 @@ export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 }) => {
 	const selectedTranche = Form.useWatch("trancheStructure", form);
 	const intl = useIntl();
-
 	className = classNames([className, "space-y-8"]);
 
 	return (
