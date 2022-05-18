@@ -5,6 +5,7 @@ import { Button } from "@components/Button";
 import { Icon } from "@components/Icon";
 import { validateMaxValue, validateMinValue } from "@utils/validation.utils";
 import { useIntl } from "react-intl";
+import { Deal } from "@credix/credix-client";
 
 const { Option } = Select;
 
@@ -23,6 +24,7 @@ interface RepayDealFormProps {
 	maxPrincipalRepayment: number;
 	monthlyRepaymentAmount: number;
 	className?: string;
+	deal: Deal;
 }
 
 const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
@@ -31,6 +33,7 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 	maxPrincipalRepayment,
 	monthlyRepaymentAmount,
 	className,
+	deal,
 }) => {
 	const intl = useIntl();
 	const [form] = Form.useForm();
@@ -87,6 +90,18 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 		return validateMaxValue(value, maxPrincipalRepayment, validationMessage);
 	};
 
+	const validateInterestRepaid = (value): Promise<void> => {
+		if (value === DEAL_REPAYMENT_TYPE.PRINCIPAL && !deal.interestToRepay.eq(0)) {
+			return Promise.reject(
+				intl.formatMessage({
+					defaultMessage: "Interest needs to be repaid in full before the principal can be repaid.",
+					description: "Repay deal: principal repayment validation failed",
+				})
+			);
+		}
+		return Promise.resolve();
+	};
+
 	useEffect(() => {
 		// We can't use initial values here because initially monthlyRepaymentAmount is undefined
 		form.setFieldsValue({ amount: monthlyRepaymentAmount });
@@ -110,6 +125,14 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 						description: "RepayDealForm: amount input label",
 					})}
 					className="font-bold text-base capitalize interest-select"
+					rules={[
+						{ required: true },
+						{
+							validator(_, value) {
+								return validateInterestRepaid(value);
+							},
+						},
+					]}
 				>
 					<Select
 						suffixIcon={<Icon name="arrow-down-square-solid" className="bg-neutral-60 w-6 h-6" />}

@@ -109,16 +109,6 @@ const Repay: NextPageWithLayout = () => {
 	};
 
 	const repayPrincipal = async (amount: number) => {
-		if (!deal.interestToRepay.eq(0)) {
-			notification.error({
-				message: intl.formatMessage({
-					defaultMessage: "Interest needs to be repaid in full before the principal can be repaid.",
-					description: "Repay deal: principal repayment validation failed",
-				}),
-			});
-			return;
-		}
-
 		const formattedNumber = numberFormatter.format(amount);
 		const hide = message.loading({
 			content: intl.formatMessage(
@@ -187,6 +177,7 @@ const Repay: NextPageWithLayout = () => {
 				</div>
 				<DealAspectGrid deal={deal} />
 				<RepayDealForm
+					deal={deal}
 					onSubmit={onSubmit}
 					maxInterestRepayment={toUIAmount(deal.interestToRepay).toNumber()}
 					maxPrincipalRepayment={toUIAmount(deal.principalToRepay).toNumber()}
