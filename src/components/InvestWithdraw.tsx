@@ -27,6 +27,19 @@ export const InvestWithdraw = () => {
 		maybeFetchMarket(client, marketplace as string);
 	}, [client, maybeFetchMarket, marketplace]);
 
+	const refreshMarketStats = async () => {
+		try {
+			await fetchMarket(client, marketplace as string);
+		} catch {
+			notification.error({
+				message: intl.formatMessage({
+					defaultMessage: "Failed to refresh market stats",
+					description: "InvestWithdraw: refresh market failed",
+				}),
+			});
+		}
+	};
+
 	const withdraw = async ({ amount }: LiquidityPoolInteractionForm) => {
 		const formattedNumber = numberFormatter.format(amount);
 		const hide = message.loading({
@@ -51,7 +64,7 @@ export const InvestWithdraw = () => {
 					{ amount: formattedNumber }
 				),
 			});
-			await fetchMarket(client, marketplace as string);
+			refreshMarketStats();
 		} catch (error) {
 			hide();
 			notification.error({
@@ -91,7 +104,7 @@ export const InvestWithdraw = () => {
 					{ amount: formattedNumber }
 				),
 			});
-			await fetchMarket(client, marketplace as string);
+			refreshMarketStats();
 		} catch (error) {
 			hide();
 			notification.error({
