@@ -29,11 +29,20 @@ const Repay: NextPageWithLayout = () => {
 	const intl = useIntl();
 
 	const getDealFromStore = useCallback(async () => {
-		if (market) {
-			const dealFromStore = await getDeal(market, dealId as string);
-			setDeal(dealFromStore);
+		try {
+			if (market) {
+				const dealFromStore = await getDeal(market, dealId as string);
+				setDeal(dealFromStore);
+			}
+		} catch {
+			notification.error({
+				message: intl.formatMessage({
+					defaultMessage: "Failed to fetch deal",
+					description: "Repay deal: fetch deal failed",
+				}),
+			});
 		}
-	}, [market, dealId, getDeal]);
+	}, [market, dealId, getDeal, intl]);
 
 	useEffect(() => {
 		const amount = calculateMonthlyRepaymentAmount(deal);
