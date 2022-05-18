@@ -4,12 +4,23 @@ import { TrancheDonut } from "@components/TrancheDonut";
 import { Icon, IconDimension } from "@components/Icon";
 import { Tranche } from "@credix_types/tranche.types";
 import { trancheColors } from "@consts";
+import { Ratio } from "@credix/credix-client";
 
 interface TrancheOptionProps {
 	trancheData: Tranche[];
+	interestFee: Ratio;
+	totalPrincipal: number;
+	totalInterest: number;
+	timeToMaturity: number;
 }
 
-export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheData }) => {
+export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({
+	trancheData,
+	interestFee,
+	timeToMaturity,
+	totalPrincipal,
+	totalInterest,
+}) => {
 	const [highlightedElement, setHighlightedElement] = useState(null);
 
 	const highlightElement = (element) => {
@@ -55,6 +66,10 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheDa
 						tranche={tranche}
 						color={trancheColors[index]}
 						highlightedElement={highlightedElement}
+						interestFee={interestFee}
+						totalPrincipal={totalPrincipal}
+						timeToMaturity={timeToMaturity}
+						totalInterest={totalInterest}
 					/>
 				))}
 			</div>
