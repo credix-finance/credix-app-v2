@@ -2,14 +2,14 @@ import DealForm, { DealFormInput } from "@components/DealForm";
 import Layout from "@components/Layout";
 import { Link } from "@components/Link";
 import { useCredixClient } from "@credix/credix-client";
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, TokenAmount } from "@solana/web3.js";
 import { getMarketsPaths } from "@utils/export.utils";
 import { numberFormatter, toProgramAmount } from "@utils/format.utils";
 import Big from "big.js";
 import message from "message";
 import { useRouter } from "next/router";
 import { NextPageWithLayout } from "pages/_app";
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useStore } from "state/useStore";
 import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
@@ -21,10 +21,23 @@ const New: NextPageWithLayout = () => {
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
 	const intl = useIntl();
+	const [liquidityPoolBalance, setLiquidityPoolBalance] = useState<string>();
+
+	const fetchLPBalance = useCallback(async () => {
+		const lPBalance = await market.fetchLiquidityPoolBalance();
+		if (lPBalance) {
+			const formattedLPBalance = numberFormatter.format(lPBalance.uiAmount);
+			setLiquidityPoolBalance(formattedLPBalance);
+		}
+	}, [market]);
 
 	useEffect(() => {
 		fetchMarket(client, marketplace as string);
 	}, [client, fetchMarket, marketplace]);
+
+	useEffect(() => {
+		fetchLPBalance();
+	}, [fetchLPBalance]);
 
 	const onSubmit = async ({
 		principal,
@@ -134,7 +147,7 @@ const New: NextPageWithLayout = () => {
 				})}
 			</div>
 			<div className="bg-neutral-0 py-10 px-14 space-y-7">
-				<DealForm onSubmit={onSubmit} />
+				<DealForm onSubmit={onSubmit} borrowLimit={liquidityPoolBalance} />
 			</div>
 		</div>
 	);

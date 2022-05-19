@@ -4,10 +4,6 @@ import { ButtonProps as AntButtonProps } from "antd/lib/button";
 
 interface ButtonProps {
 	/**
-	 * Optional size of the button.
-	 */
-	size?: AntButtonProps["size"];
-	/**
 	 * Controls whether the button is disabled or not.
 	 */
 	disabled?: AntButtonProps["disabled"];
@@ -51,28 +47,14 @@ export const buttonTypeStyles = {
 			`,
 };
 
-export const buttonSizeStyles = {
-	small: "text-sm font-semibold h-10",
-	middle: "text-base font-medium h-[42px]",
-	large: "text-lg font-semibold h-[50px]",
-};
-
 export const defaultButtonStyles =
-	"rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px]";
+	"rounded-md h-12 text-base font-medium border text-shadow-none shadow-none flex items-center justify-center gap-2 px-6";
 
-export const Button = ({
-	children,
-	className,
-	size = "middle",
-	type = "primary",
-	...props
-}: ButtonProps) => {
-	className = [defaultButtonStyles, buttonTypeStyles[type], buttonSizeStyles[size], className]
-		.filter(Boolean)
-		.join(" ");
+export const Button = ({ children, className, type = "primary", ...props }: ButtonProps) => {
+	className = [defaultButtonStyles, buttonTypeStyles[type], className].filter(Boolean).join(" ");
 
 	return (
-		<AntdButton className={className} size={size} type={type} {...props}>
+		<AntdButton className={className} type={type} {...props}>
 			{children}
 		</AntdButton>
 	);
