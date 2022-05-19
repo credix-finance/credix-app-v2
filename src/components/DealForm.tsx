@@ -14,6 +14,7 @@ export interface DealFormInput {
 }
 
 interface DealFormProps {
+	borrowLimit: string;
 	onSubmit: ({
 		principal,
 		financingFee,
@@ -23,7 +24,7 @@ interface DealFormProps {
 	}: DealFormInput) => void;
 }
 
-const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
+const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit, borrowLimit }) => {
 	const [form] = Form.useForm();
 	const intl = useIntl();
 
@@ -112,6 +113,13 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 					defaultMessage: "USDC amount",
 					description: "Deal form: principal input placeholder",
 				})}
+				description={intl.formatMessage(
+					{
+						defaultMessage: "The total amount of USDC to borrow, borrow limit: {amount} USDC",
+						description: "Deal form: principal input description",
+					},
+					{ amount: borrowLimit }
+				)}
 				type="number"
 				lang="en"
 				step="1"
@@ -134,6 +142,11 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				placeholder={intl.formatMessage({
 					defaultMessage: "%",
 					description: "Deal form: financing fee input placeholder",
+				})}
+				description={intl.formatMessage({
+					defaultMessage:
+						"The annualized interest rate that needs to be repaid on top of the principal",
+					description: "Deal form: financing fee input description",
 				})}
 				type="number"
 				lang="en"
@@ -158,6 +171,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				placeholder={intl.formatMessage({
 					defaultMessage: "Number of days",
 					description: "Deal form: time to maturity input placeholder",
+				})}
+				description={intl.formatMessage({
+					defaultMessage: "How many days before you have to pay back the principal",
+					description: "Deal form: time to maturity input description",
 				})}
 				type="number"
 				required={true}
