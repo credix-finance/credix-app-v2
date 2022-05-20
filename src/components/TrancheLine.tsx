@@ -1,20 +1,22 @@
-import { Tranche } from "@credix_types/tranche.types";
+import { Ratio } from "@credix/credix-client";
 import { ratioFormatter } from "@utils/format.utils";
 import React, { FunctionComponent } from "react";
 
 interface TrancheLineProps {
-	tranche: Tranche;
+	name: string;
 	highlightedElement: string;
 	color: string;
+	apr: Ratio;
+	value: number;
 }
 
 export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
-	tranche,
 	highlightedElement,
+	name,
+	value,
 	color,
+	apr,
 }) => {
-	const { name, value, apr } = tranche;
-
 	const isDeEmphesised = () => {
 		return null !== highlightedElement && name !== highlightedElement;
 	};

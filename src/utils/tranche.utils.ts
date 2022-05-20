@@ -1,5 +1,6 @@
 import { DAYS_IN_YEAR } from "@consts";
 import { Ratio } from "@credix/credix-client";
+import { Tranche } from "@credix_types/tranche.types";
 import Big from "big.js";
 import { round } from "./format.utils";
 
@@ -278,4 +279,48 @@ export const twoTrancheJuniorPercentageOfInterest = ({
 			.times(Big(interestFee.toNumber() - 1).times(totalInterest))
 			.toNumber()
 	);
+};
+
+export const calculateTrancheAprs = (tranches: Tranche[], params: CalculateSeniorOnlyAPRParams) => {
+	const trancheCount = tranches.filter((t) => t.value).length;
+
+	switch (trancheCount) {
+		case 1:
+			return [calculateSeniorOnlyAPR(params)];
+		case 2:
+			return [
+				calculateTwoTrancheSeniorAPR({
+					percentageOfInterest: tranches[0].percentageOfInterest,
+					percentageOfPrincipal: tranches[0].percentageOfPrincipal,
+					...params,
+				}),
+				null,
+				calculateTwoTrancheJuniorAPR({
+					percentageOfInterest: tranches[2].percentageOfInterest,
+					percentageOfPrincipal: tranches[2].percentageOfPrincipal,
+					...params,
+				}),
+			];
+		case 3:
+			return [
+				calculateThreeTrancheSeniorAPR({
+					percentageOfInterest: tranches[0].percentageOfInterest,
+					percentageOfPrincipal: tranches[0].percentageOfPrincipal,
+					...params,
+				}),
+				calculateThreeTrancheMezAPR({
+					percentageOfInterest: tranches[1].percentageOfInterest,
+					percentageOfPrincipal: tranches[1].percentageOfPrincipal,
+					...params,
+				}),
+				calculateThreeTrancheJuniorAPR({
+					senior: tranches[0],
+					mez: tranches[1],
+					...params,
+				}),
+			];
+
+		default:
+			break;
+	}
 };
