@@ -35,6 +35,7 @@ module.exports = {
 			"@consts": path.resolve(__dirname, "../src/consts"),
 			"@config": path.resolve(__dirname, "../src/config"),
 			"@message": path.resolve(__dirname, "../src/message"),
+			"@notification": path.resolve(__dirname, "../src/notification"),
 			"@state": path.resolve(__dirname, "../src/state"),
 			"@utils": path.resolve(__dirname, "../src/utils"),
 			"@": [path.resolve(__dirname, "../src/"), path.resolve(__dirname, "../")],

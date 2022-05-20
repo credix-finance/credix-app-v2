@@ -4,9 +4,9 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useStore } from "@state/useStore";
 import { Button } from "@components/Button";
 import { Icon, IconDimension } from "@components/Icon";
-import message from "@message";
 import { useIntl } from "react-intl";
 import { Menu, Dropdown } from "antd";
+import notification from "@notification";
 
 interface WalletButtonProps {
 	className?: string;
@@ -34,18 +34,19 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 		if (base58) {
 			try {
 				await navigator.clipboard.writeText(base58);
-				message.success({
-					content: intl.formatMessage({
+				notification.success({
+					message: intl.formatMessage({
 						defaultMessage: "Copied to clipboard!",
 						description: "WalletButton: copy address success",
 					}),
 				});
-			} catch {
-				message.error({
-					content: intl.formatMessage({
+			} catch (error) {
+				notification.error({
+					message: intl.formatMessage({
 						defaultMessage: "Failed to copy address to clipboard",
 						description: "WalletButton: copy address failed",
 					}),
+					error,
 				});
 			}
 		}
@@ -54,18 +55,19 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 	const disconnectWallet = async () => {
 		try {
 			await disconnect();
-			message.success({
-				content: intl.formatMessage({
+			notification.success({
+				message: intl.formatMessage({
 					defaultMessage: "Wallet disconnected",
 					description: "WalletButton: disconnect wallet success",
 				}),
 			});
-		} catch {
-			message.error({
-				content: intl.formatMessage({
+		} catch (error) {
+			notification.error({
+				message: intl.formatMessage({
 					defaultMessage: "Failed to disconnect wallet",
 					description: "WalletButton: disconnect wallet failed",
 				}),
+				error,
 			});
 		}
 	};

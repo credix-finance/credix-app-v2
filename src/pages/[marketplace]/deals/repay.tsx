@@ -15,6 +15,7 @@ import { DealCard } from "@components/DealCard";
 import { getMarketsPaths } from "@utils/export.utils";
 import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
+import notification from "notification";
 
 const Repay: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -28,11 +29,20 @@ const Repay: NextPageWithLayout = () => {
 	const intl = useIntl();
 
 	const getDealFromStore = useCallback(async () => {
-		if (market) {
-			const dealFromStore = await getDeal(market, dealId as string);
-			setDeal(dealFromStore);
+		try {
+			if (market) {
+				const dealFromStore = await getDeal(market, dealId as string);
+				setDeal(dealFromStore);
+			}
+		} catch {
+			notification.error({
+				message: intl.formatMessage({
+					defaultMessage: "Failed to fetch deal",
+					description: "Repay deal: fetch deal failed",
+				}),
+			});
 		}
-	}, [market, dealId, getDeal]);
+	}, [market, dealId, getDeal, intl]);
 
 	useEffect(() => {
 		const amount = calculateMonthlyRepaymentAmount(deal);
@@ -78,10 +88,10 @@ const Repay: NextPageWithLayout = () => {
 			const programAmount = toProgramAmount(new Big(amount));
 			await deal.repayInterest(programAmount.toNumber());
 			hide();
-			message.success({
-				content: intl.formatMessage(
+			notification.success({
+				message: intl.formatMessage(
 					{
-						defaultMessage: "Successfully payed {amount} USDC of interest",
+						defaultMessage: "Successfully paid {amount} USDC of interest",
 						description: "Repay deal: interest repayment success",
 					},
 					{
@@ -92,8 +102,8 @@ const Repay: NextPageWithLayout = () => {
 			getDealFromStore();
 		} catch (error) {
 			hide();
-			message.error({
-				content: intl.formatMessage(
+			notification.error({
+				message: intl.formatMessage(
 					{
 						defaultMessage: "Failed to pay {amount} USDC of interest",
 						description: "Repay deal: interest repayment failed",
@@ -102,21 +112,12 @@ const Repay: NextPageWithLayout = () => {
 						amount: formattedNumber,
 					}
 				),
+				error,
 			});
 		}
 	};
 
 	const repayPrincipal = async (amount: number) => {
-		if (!deal.interestToRepay.eq(0)) {
-			message.error({
-				content: intl.formatMessage({
-					defaultMessage: "Interest needs to be repaid in full before the principal can be repaid.",
-					description: "Repay deal: principal repayment validation failed",
-				}),
-			});
-			return;
-		}
-
 		const formattedNumber = numberFormatter.format(amount);
 		const hide = message.loading({
 			content: intl.formatMessage(
@@ -134,10 +135,10 @@ const Repay: NextPageWithLayout = () => {
 			const programAmount = toProgramAmount(new Big(amount));
 			await deal.repayPrincipal(programAmount.toNumber());
 			hide();
-			message.success({
-				content: intl.formatMessage(
+			notification.success({
+				message: intl.formatMessage(
 					{
-						defaultMessage: "Successfully payed {amount} USDC of principal",
+						defaultMessage: "Successfully paid {amount} USDC of principal",
 						description: "Repay deal: principal repayment success",
 					},
 					{
@@ -148,8 +149,8 @@ const Repay: NextPageWithLayout = () => {
 			getDealFromStore();
 		} catch (error) {
 			hide();
-			message.error({
-				content: intl.formatMessage(
+			notification.error({
+				message: intl.formatMessage(
 					{
 						defaultMessage: "Failed to pay {amount} USDC of principal",
 						description: "Repay deal: principal repayment failed",
@@ -158,6 +159,7 @@ const Repay: NextPageWithLayout = () => {
 						amount: formattedNumber,
 					}
 				),
+				error,
 			});
 		}
 	};
@@ -184,6 +186,7 @@ const Repay: NextPageWithLayout = () => {
 				</div>
 				<DealAspectGrid deal={deal} />
 				<RepayDealForm
+					deal={deal}
 					onSubmit={onSubmit}
 					maxInterestRepayment={toUIAmount(deal.interestToRepay).toNumber()}
 					maxPrincipalRepayment={toUIAmount(deal.principalToRepay).toNumber()}

@@ -8,6 +8,7 @@ import { numberFormatter, toProgramAmount } from "@utils/format.utils";
 import Big from "big.js";
 import message from "message";
 import { useRouter } from "next/router";
+import notification from "notification";
 import { NextPageWithLayout } from "pages/_app";
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useStore } from "state/useStore";
@@ -65,22 +66,21 @@ const New: NextPageWithLayout = () => {
 
 			if (!credixPass) {
 				hide();
-				message.error({
-					content: intl.formatMessage({
+				notification.error({
+					message: intl.formatMessage({
 						defaultMessage: "No Credix Pass found for given public key",
 						description: "New deal: Credix Pass validation failed",
 					}),
 				});
+
 				return;
 			}
 		} catch {
 			hide();
-			message.error({
-				content: intl.formatMessage({
-					defaultMessage: "Failed to get Credix pass for given public key",
-					description: "New deal: Credix Pass request failed",
-				}),
+			notification.error({
+				message: "Failed to fetch Credix pass",
 			});
+
 			return;
 		}
 
@@ -94,8 +94,8 @@ const New: NextPageWithLayout = () => {
 				dealName
 			);
 			hide();
-			message.success({
-				content: intl.formatMessage(
+			notification.success({
+				message: intl.formatMessage(
 					{
 						defaultMessage: "Successfully created deal for {amount} USDC",
 						description: "New deal: deal creation success",
@@ -105,10 +105,10 @@ const New: NextPageWithLayout = () => {
 					}
 				),
 			});
-		} catch {
+		} catch (error) {
 			hide();
-			message.error({
-				content: intl.formatMessage(
+			notification.error({
+				message: intl.formatMessage(
 					{
 						defaultMessage: "Failed to create deal for {amount} USDC",
 						description: "New deal: deal creation failed",
@@ -117,7 +117,9 @@ const New: NextPageWithLayout = () => {
 						amount: formattedPrincipal,
 					}
 				),
+				error: error,
 			});
+
 			return;
 		}
 
@@ -126,13 +128,8 @@ const New: NextPageWithLayout = () => {
 			const deal = await borrowerInfo.fetchDeal(borrowerInfo.numberOfDeals - 1);
 
 			router.push(`/${marketplace}/deals/show?dealId=${deal.address.toString()}`);
-		} catch {
-			message.error({
-				content: intl.formatMessage({
-					defaultMessage: "Failed to get deal info",
-					description: "New deal: deal info request failed",
-				}),
-			});
+		} catch (error) {
+			notification.error({ message: "Failed to get deal info", error: error });
 			router.push(`/${marketplace}/deals`);
 		}
 	};

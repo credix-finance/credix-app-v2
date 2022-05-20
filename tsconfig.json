@@ -21,6 +21,7 @@
 			"@consts": ["consts"],
 			"@config": ["config"],
 			"@message": ["message"],
+			"@notification": ["notification"],
 			"@state/*": ["state/*"],
 			"@utils/*": ["utils/*"],
 			"@hooks/*": ["hooks/*"]
