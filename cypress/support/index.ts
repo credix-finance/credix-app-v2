@@ -13,7 +13,6 @@ declare global {
 }
 
 Cypress.on("window:before:load", (win) => {
-	console.log(Cypress.env("MGMT_KEY"));
 	const key = new Uint8Array(Cypress.env("MGMT_KEY"));
 	const payer = Keypair.fromSecretKey(key);
 	const wallet = PhantomWalletMock.create(RPCEndpoint.DEVNET, payer, "confirmed");

@@ -123,7 +123,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 				icon={<WalletIcon wallet={wallet} className="w-6" />}
 				className={`${className} w-56`}
 			>
-				{address}
+				<span data-cy="wallet-address">{address}</span>
 			</Button>
 		</Dropdown>
 	);
