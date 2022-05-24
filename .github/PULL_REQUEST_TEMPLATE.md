@@ -6,3 +6,4 @@
 
 - [ ] I used the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
 - [ ] Unit tests have been created if a new feature was added.
+- [ ] Translations have been added and extracted if a new feature was added.

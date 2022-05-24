@@ -1,6 +1,7 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Link } from "@components/Link";
 import { Deal } from "@credix/credix-client";
+import { useIntl } from "react-intl";
 
 interface DealCardProps {
 	marketplace: string;
@@ -9,11 +10,20 @@ interface DealCardProps {
 }
 
 export const DealCard: FunctionComponent<DealCardProps> = ({ marketplace, deal, children }) => {
+	const intl = useIntl();
+
 	return (
 		<div className="px-4 py-5 w-full max-w-3xl flex flex-col justify-self-center">
-			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
-			<div className="text-4xl font-sans pt-3 pb-9 break-words">{deal.name}</div>
-			<div className="bg-neutral-0 py-10 px-14 ">{children}</div>
+			<Link
+				to={`/${marketplace}/deals`}
+				label={intl.formatMessage({
+					defaultMessage: "Go back to all deals",
+					description: "Deal card: back to all deals link",
+				})}
+				icon="chevron-left-square"
+			/>
+			<div className="text-4xl font-sans mt-4 break-words">{deal.name}</div>
+			<div className="bg-neutral-0 py-10 px-14 mt-8">{children}</div>
 		</div>
 	);
 };

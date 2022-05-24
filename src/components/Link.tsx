@@ -16,7 +16,7 @@ export const Link = ({ label, icon, as, to, className = "", ...props }: LinkProp
 			<a className={`no-underline font-bold text-inherit text-base ${className}`} {...props}>
 				<div className="flex items-center space-x-3">
 					<Icon name={icon} className="w-[18px] h-[18px]" />
-					<div>{label}</div>
+					<div className="w-full">{label}</div>
 				</div>
 			</a>
 		</NextLink>

@@ -2,15 +2,17 @@ import DealForm, { DealFormInput } from "@components/DealForm";
 import Layout from "@components/Layout";
 import { Link } from "@components/Link";
 import { useCredixClient } from "@credix/credix-client";
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, TokenAmount } from "@solana/web3.js";
 import { getMarketsPaths } from "@utils/export.utils";
 import { numberFormatter, toProgramAmount } from "@utils/format.utils";
 import Big from "big.js";
 import message from "message";
 import { useRouter } from "next/router";
 import { NextPageWithLayout } from "pages/_app";
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useStore } from "state/useStore";
+import loadIntlMessages from "@utils/i18n.utils";
+import { useIntl } from "react-intl";
 
 const New: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -18,10 +20,24 @@ const New: NextPageWithLayout = () => {
 	const client = useCredixClient();
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
+	const intl = useIntl();
+	const [liquidityPoolBalance, setLiquidityPoolBalance] = useState<string>();
+
+	const fetchLPBalance = useCallback(async () => {
+		const lPBalance = await market.fetchLiquidityPoolBalance();
+		if (lPBalance) {
+			const formattedLPBalance = numberFormatter.format(lPBalance.uiAmount);
+			setLiquidityPoolBalance(formattedLPBalance);
+		}
+	}, [market]);
 
 	useEffect(() => {
 		fetchMarket(client, marketplace as string);
 	}, [client, fetchMarket, marketplace]);
+
+	useEffect(() => {
+		fetchLPBalance();
+	}, [fetchLPBalance]);
 
 	const onSubmit = async ({
 		principal,
@@ -31,7 +47,17 @@ const New: NextPageWithLayout = () => {
 		dealName,
 	}: DealFormInput) => {
 		const formattedPrincipal = numberFormatter.format(principal);
-		const hide = message.loading({ content: `Creating deal for ${formattedPrincipal} USDC` });
+		const hide = message.loading({
+			content: intl.formatMessage(
+				{
+					defaultMessage: "Creating deal for {amount} USDC",
+					description: "New deal: create deal loading",
+				},
+				{
+					amount: formattedPrincipal,
+				}
+			),
+		});
 		const borrowerPK = new PublicKey(borrower);
 
 		try {
@@ -39,12 +65,22 @@ const New: NextPageWithLayout = () => {
 
 			if (!credixPass) {
 				hide();
-				message.error({ content: "No Credix Pass found for given public key" });
+				message.error({
+					content: intl.formatMessage({
+						defaultMessage: "No Credix Pass found for given public key",
+						description: "New deal: Credix Pass validation failed",
+					}),
+				});
 				return;
 			}
 		} catch {
 			hide();
-			message.error({ content: `Failed to get Credix pass for given public key` });
+			message.error({
+				content: intl.formatMessage({
+					defaultMessage: "Failed to get Credix pass for given public key",
+					description: "New deal: Credix Pass request failed",
+				}),
+			});
 			return;
 		}
 
@@ -58,10 +94,30 @@ const New: NextPageWithLayout = () => {
 				dealName
 			);
 			hide();
-			message.success({ content: `Successfully created deal for ${formattedPrincipal} USDC` });
+			message.success({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Successfully created deal for {amount} USDC",
+						description: "New deal: deal creation success",
+					},
+					{
+						amount: formattedPrincipal,
+					}
+				),
+			});
 		} catch {
 			hide();
-			message.error({ content: `Failed to create deal for ${formattedPrincipal} USDC` });
+			message.error({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Failed to create deal for {amount} USDC",
+						description: "New deal: deal creation failed",
+					},
+					{
+						amount: formattedPrincipal,
+					}
+				),
+			});
 			return;
 		}
 
@@ -69,9 +125,14 @@ const New: NextPageWithLayout = () => {
 			const borrowerInfo = await market.fetchBorrowerInfo(borrowerPK);
 			const deal = await borrowerInfo.fetchDeal(borrowerInfo.numberOfDeals - 1);
 
-			router.push(`/${marketplace}/deals/show?did=${deal.address.toString()}`);
+			router.push(`/${marketplace}/deals/show?dealId=${deal.address.toString()}`);
 		} catch {
-			message.error({ content: `Failed to get deal info` });
+			message.error({
+				content: intl.formatMessage({
+					defaultMessage: "Failed to get deal info",
+					description: "New deal: deal info request failed",
+				}),
+			});
 			router.push(`/${marketplace}/deals`);
 		}
 	};
@@ -79,9 +140,14 @@ const New: NextPageWithLayout = () => {
 	return (
 		<div className="py-5 px-4 md:px-20 md:justify-self-center md:w-full md:max-w-7xl lg:max-w-5xl">
 			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
-			<div className="text-4xl font-sans pt-3 mb-9">New Deal</div>
+			<div className="text-4xl font-sans pt-3 mb-9 capitalize">
+				{intl.formatMessage({
+					defaultMessage: "new deal",
+					description: "New deal: title",
+				})}
+			</div>
 			<div className="bg-neutral-0 py-10 px-14 space-y-7">
-				<DealForm onSubmit={onSubmit} />
+				<DealForm onSubmit={onSubmit} borrowLimit={liquidityPoolBalance} />
 			</div>
 		</div>
 	);
@@ -102,8 +168,14 @@ export async function getStaticPaths() {
 	};
 }
 
-export async function getStaticProps({ params }) {
-	return { props: params };
+export async function getStaticProps(ctx) {
+	const { params } = ctx;
+	return {
+		props: {
+			intlMessages: await loadIntlMessages(ctx),
+			...params,
+		},
+	};
 }
 
 export default New;

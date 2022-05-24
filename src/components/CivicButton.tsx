@@ -1,3 +1,4 @@
+import React from "react";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { IdentityButton, useGateway } from "@civic/solana-gateway-react";
 

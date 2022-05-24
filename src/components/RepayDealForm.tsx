@@ -1,9 +1,10 @@
-import { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { Form, Input as AntdInput, Select } from "antd";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { Icon } from "@components/Icon";
 import { validateMaxValue, validateMinValue } from "@utils/validation.utils";
+import { useIntl } from "react-intl";
 
 const { Option } = Select;
 
@@ -31,10 +32,23 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 	monthlyRepaymentAmount,
 	className,
 }) => {
+	const intl = useIntl();
 	const [form] = Form.useForm();
 	const repaymentOptions = [
-		{ label: DEAL_REPAYMENT_TYPE.INTEREST, value: DEAL_REPAYMENT_TYPE.INTEREST },
-		{ label: DEAL_REPAYMENT_TYPE.PRINCIPAL, value: DEAL_REPAYMENT_TYPE.PRINCIPAL },
+		{
+			label: intl.formatMessage({
+				defaultMessage: "interest",
+				description: "RepayDealForm: interest repayment type",
+			}),
+			value: DEAL_REPAYMENT_TYPE.INTEREST,
+		},
+		{
+			label: intl.formatMessage({
+				defaultMessage: "principal",
+				description: "RepayDealForm: principal repayment type",
+			}),
+			value: DEAL_REPAYMENT_TYPE.PRINCIPAL,
+		},
 	];
 
 	const onAddMax = () => {
@@ -44,7 +58,10 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 	};
 
 	const validateMinAmount = (value): Promise<void> => {
-		const validationMessage = "'amount' needs to be greater than 0";
+		const validationMessage = intl.formatMessage({
+			defaultMessage: "'amount' needs to be greater than 0",
+			description: "RepayDealForm: min amount validation",
+		});
 		return validateMinValue(value, 0, validationMessage);
 	};
 
@@ -55,12 +72,18 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 	};
 
 	const validateMaxInterest = (value): Promise<void> => {
-		const validationMessage = "'amount' cannot be greater than the remaining interest";
+		const validationMessage = intl.formatMessage({
+			defaultMessage: "'amount' cannot be greater than the remaining interest",
+			description: "RepayDealForm: max interest validation",
+		});
 		return validateMaxValue(value, maxInterestRepayment, validationMessage);
 	};
 
 	const validateMaxPrincipal = (value): Promise<void> => {
-		const validationMessage = "'amount' cannot be greater than the remaining principal";
+		const validationMessage = intl.formatMessage({
+			defaultMessage: "'amount' cannot be greater than the remaining principal",
+			description: "RepayDealForm: max principal validation",
+		});
 		return validateMaxValue(value, maxPrincipalRepayment, validationMessage);
 	};
 
@@ -82,8 +105,11 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 				<Form.Item
 					required={true}
 					name="type"
-					label="amount"
-					className={`font-bold text-base capitalize`}
+					label={intl.formatMessage({
+						defaultMessage: "amount",
+						description: "RepayDealForm: amount input label",
+					})}
+					className="font-bold text-base capitalize interest-select"
 				>
 					<Select
 						suffixIcon={<Icon name="arrow-down-square-solid" className="bg-neutral-60 w-6 h-6" />}
@@ -100,10 +126,13 @@ const RepayDealForm: FunctionComponent<RepayDealFormProps> = ({
 					label="amount"
 					className="bg-neutral-0 w-full deal-repay-input"
 					labelClassName="label-hidden w-full"
-					placeholder="amount"
+					placeholder={intl.formatMessage({
+						defaultMessage: "amount",
+						description: "RepayDealForm: amount input placeholder",
+					})}
 					type="number"
 					suffix={
-						<div onClick={onAddMax} className="pr-6 hover:cursor-pointer hover:font-semibold">
+						<div onClick={onAddMax} className="pr-4 hover:cursor-pointer hover:font-semibold">
 							MAX
 						</div>
 					}

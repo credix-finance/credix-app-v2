@@ -10,7 +10,7 @@ export const defaultMarketplace = marketplaces[0];
 
 export const multisigUrl = "https://multisig.credix.finance/#/";
 
-export const borrowerTypeformId = "XH8TF60V";
+export const borrowerTypeformId = "yFTAJy3h";
 export const investorTypeformId = "E98Qjiw9";
 
 export const investWithdrawRoute: Route = {

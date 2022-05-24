@@ -1,8 +1,9 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { Form } from "antd";
 import { validateMinValue, validatePublicKey } from "@utils/validation.utils";
+import { useIntl } from "react-intl";
 
 export interface DealFormInput {
 	principal: number;
@@ -13,6 +14,7 @@ export interface DealFormInput {
 }
 
 interface DealFormProps {
+	borrowLimit: string;
 	onSubmit: ({
 		principal,
 		financingFee,
@@ -22,21 +24,31 @@ interface DealFormProps {
 	}: DealFormInput) => void;
 }
 
-const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
+const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit, borrowLimit }) => {
 	const [form] = Form.useForm();
+	const intl = useIntl();
 
 	const validateMinPrincipal = (value): Promise<void> => {
-		const validationMessage = "'principal' needs to be greater than 0";
+		const validationMessage = intl.formatMessage({
+			defaultMessage: "'principal' needs to be greater than 0",
+			description: "Deal form: min principal validation message",
+		});
 		return validateMinValue(value, 0, validationMessage);
 	};
 
 	const validateMinTimeToMaturity = (value): Promise<void> => {
-		const validationMessage = "'time to maturity' needs to be greater than 0";
+		const validationMessage = intl.formatMessage({
+			defaultMessage: "'time to maturity' needs to be greater than 0",
+			description: "Deal form: min time to maturity validation message",
+		});
 		return validateMinValue(value, 0, validationMessage);
 	};
 
 	const validateBorrowerKey = (value): Promise<void> => {
-		const validationMessage = "'borrower key' isn't valid";
+		const validationMessage = intl.formatMessage({
+			defaultMessage: "'borrower key' isn't valid",
+			description: "Deal form: borrower key validation message",
+		});
 		return validatePublicKey(value, validationMessage);
 	};
 
@@ -44,20 +56,46 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		<Form name="deal" form={form} onFinish={onSubmit} layout="vertical">
 			<Input
 				name="dealName"
-				label="Deal Name"
-				placeholder="Name"
-				type="text"
-				required={true}
-				rules={[{ required: true, message: "'deal name' is required" }]}
-			/>
-			<Input
-				name="borrower"
-				label="Borrower Key"
-				placeholder="Public key"
+				label={intl.formatMessage({
+					defaultMessage: "Deal Name",
+					description: "Deal form: deal name input label",
+				})}
+				placeholder={intl.formatMessage({
+					defaultMessage: "Name",
+					description: "Deal form: deal name input placeholder",
+				})}
 				type="text"
 				required={true}
 				rules={[
-					{ required: true, message: "'borrower key' is required" },
+					{
+						required: true,
+						message: intl.formatMessage({
+							defaultMessage: "'deal name' is required",
+							description: "Deal form: deal name required validation message",
+						}),
+					},
+				]}
+			/>
+			<Input
+				name="borrower"
+				label={intl.formatMessage({
+					defaultMessage: "Borrower Key",
+					description: "Deal form: borrower key input label",
+				})}
+				placeholder={intl.formatMessage({
+					defaultMessage: "Public key",
+					description: "Deal form: borrower key input placeholder",
+				})}
+				type="text"
+				required={true}
+				rules={[
+					{
+						required: true,
+						message: intl.formatMessage({
+							defaultMessage: "'borrower key' is required",
+							description: "Deal form: borrower key required validation message",
+						}),
+					},
 					{
 						validator(_, value) {
 							return validateBorrowerKey(value);
@@ -67,8 +105,21 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			/>
 			<Input
 				name="principal"
-				label="Principal"
-				placeholder="USDC amount"
+				label={intl.formatMessage({
+					defaultMessage: "Principal",
+					description: "Deal form: principal input label",
+				})}
+				placeholder={intl.formatMessage({
+					defaultMessage: "USDC amount",
+					description: "Deal form: principal input placeholder",
+				})}
+				description={intl.formatMessage(
+					{
+						defaultMessage: "The total amount of USDC to borrow, borrow limit: {amount} USDC",
+						description: "Deal form: principal input description",
+					},
+					{ amount: borrowLimit }
+				)}
 				type="number"
 				lang="en"
 				step="1"
@@ -84,24 +135,59 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			/>
 			<Input
 				name="financingFee"
-				label="Financing Fee"
-				placeholder="%"
+				label={intl.formatMessage({
+					defaultMessage: "Financing Fee",
+					description: "Deal form: financing fee input label",
+				})}
+				placeholder={intl.formatMessage({
+					defaultMessage: "%",
+					description: "Deal form: financing fee input placeholder",
+				})}
+				description={intl.formatMessage({
+					defaultMessage:
+						"The annualized interest rate that needs to be repaid on top of the principal",
+					description: "Deal form: financing fee input description",
+				})}
 				type="number"
 				lang="en"
 				step="0.1"
 				required={true}
-				rules={[{ required: true, message: "'financing fee' is required" }]}
+				rules={[
+					{
+						required: true,
+						message: intl.formatMessage({
+							defaultMessage: "'financing fee' is required",
+							description: "Deal form: financing fee required validation message",
+						}),
+					},
+				]}
 			/>
 			<Input
 				name="timeToMaturity"
-				label="Time To Maturity"
-				placeholder="Number of days"
+				label={intl.formatMessage({
+					defaultMessage: "Time To Maturity",
+					description: "Deal form: time to maturity input label",
+				})}
+				placeholder={intl.formatMessage({
+					defaultMessage: "Number of days",
+					description: "Deal form: time to maturity input placeholder",
+				})}
+				description={intl.formatMessage({
+					defaultMessage: "How many days before you have to pay back the principal",
+					description: "Deal form: time to maturity input description",
+				})}
 				type="number"
 				required={true}
 				step="1"
 				lang="en"
 				rules={[
-					{ required: true, message: "'time to maturity' is required" },
+					{
+						required: true,
+						message: intl.formatMessage({
+							defaultMessage: "'time to maturity' is required",
+							description: "Deal form: time to maturity required validation message",
+						}),
+					},
 					{
 						validator(_, value) {
 							return validateMinTimeToMaturity(value);
@@ -111,7 +197,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			/>
 			<Form.Item className="mb-0">
 				<Button htmlType="submit" className="w-full md:w-max capitalize">
-					Create Deal
+					{intl.formatMessage({
+						defaultMessage: "Create Deal",
+						description: "Deal form: submit button",
+					})}
 				</Button>
 			</Form.Item>
 		</Form>

@@ -14,7 +14,7 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 				originalElement as React.ReactElement,
 				{
 					className:
-						"ant-pagination-item-link border-none bg-transparent w-[39px] h-[36px] grid place-content-center",
+						"ant-pagination-item-link border-none bg-transparent w-[39px] h-8 grid place-content-center",
 				},
 				<Icon name="chevron-left" size={IconDimension.SMALL} />
 			);
@@ -23,7 +23,7 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 				originalElement as React.ReactElement,
 				{
 					className:
-						"ant-pagination-item-link border-none bg-white w-[39px] h-[36px] font-mono grid place-content-center text-lg font-medium hover:text-neutral-100",
+						"ant-pagination-item-link border-none bg-white w-[39px] h-8 font-mono grid place-content-center text-lg font-medium hover:text-neutral-100",
 				},
 				<span>{page}</span>
 			);
@@ -32,7 +32,7 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 				originalElement as React.ReactElement,
 				{
 					className:
-						"ant-pagination-item-link border-none bg-transparent w-[39px] h-[36px] grid place-content-center",
+						"ant-pagination-item-link border-none bg-transparent w-[39px] h-8 grid place-content-center",
 				},
 				<Icon name="chevron-right" size={IconDimension.SMALL} />
 			);
@@ -42,7 +42,7 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 				originalElement as React.ReactElement,
 				{
 					className:
-						"ant-pagination-item-link text-neutral-100 border-none bg-transparent w-[39px] h-[36px] grid place-content-center",
+						"ant-pagination-item-link text-neutral-100 border-none bg-transparent w-[39px] h-8 grid place-content-center",
 				},
 				<Icon name="ellipsis" className="w-6 h-5" />
 			);
