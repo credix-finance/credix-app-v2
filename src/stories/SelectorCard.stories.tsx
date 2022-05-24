@@ -4,8 +4,6 @@ import { SelectorCard } from "@components/SelectorCard";
 import { Button } from "@components/Button";
 import { Form, Radio } from "antd";
 import { FormItem } from "@components/FormItem";
-import { AmortizationRepaymentSchedule } from "@components/AmortizationRepaymentSchedule";
-import { BulletLoanRepaymentSchedule } from "@components/BulletLoanRepaymentSchedule";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -57,7 +55,8 @@ Selected.decorators = [
 							content={null}
 							value="bullet"
 							title="Bullet loan"
-							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
+							subtitle="The Principal that is borrowed is paid back in full
+at the end of the loan term"
 						/>
 					</div>
 				</Radio.Group>
@@ -66,57 +65,3 @@ Selected.decorators = [
 	),
 ];
 Selected.args = {};
-
-export const Amortization = Template.bind({});
-Amortization.decorators = [
-	() => (
-		<Form layout="vertical" initialValues={{ repaymentType: "amortization" }}>
-			<FormItem name="repaymentType">
-				<Radio.Group>
-					<div className="space-y-4">
-						<SelectorCard
-							content={<AmortizationRepaymentSchedule />}
-							value="amortization"
-							title="Amortization loan"
-							subtitle="Pay off a debt over time in equal installments"
-							checked={true}
-						/>
-						<SelectorCard
-							content={<BulletLoanRepaymentSchedule />}
-							value="bullet"
-							title="Bullet loan"
-							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
-						/>
-					</div>
-				</Radio.Group>
-			</FormItem>
-		</Form>
-	),
-];
-
-export const BulletLoan = Template.bind({});
-BulletLoan.decorators = [
-	() => (
-		<Form layout="vertical" initialValues={{ repaymentType: "bullet" }}>
-			<FormItem name="repaymentType">
-				<Radio.Group>
-					<div className="space-y-4">
-						<SelectorCard
-							content={<AmortizationRepaymentSchedule />}
-							value="amortization"
-							title="Amortization loan"
-							subtitle="Pay off a debt over time in equal installments"
-						/>
-						<SelectorCard
-							content={<BulletLoanRepaymentSchedule />}
-							value="bullet"
-							title="Bullet loan"
-							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
-							checked={true}
-						/>
-					</div>
-				</Radio.Group>
-			</FormItem>
-		</Form>
-	),
-];

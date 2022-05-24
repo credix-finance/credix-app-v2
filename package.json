@@ -21,7 +21,6 @@
 		"i18n:compile": "formatjs compile-folder src/lang src/compiled-lang && yarn prettier --write src/compiled-lang"
 	},
 	"dependencies": {
-		"@ant-design/charts": "^1.3.6",
 		"@civic/solana-gateway-react": "0.4.13",
 		"@credix/credix-client": "^0.1.0-beta.4",
 		"@credix/prettier-config": "^1.0.0",
