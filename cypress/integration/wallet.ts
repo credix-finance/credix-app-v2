@@ -37,4 +37,10 @@ describe("Wallet", () => {
 			});
 		});
 	});
+
+	it("Changes the wallet", () => {
+		cy.get("[data-cy=wallet-address]").click();
+		cy.get("[data-cy=change-wallet-button]").click();
+		cy.get(".wallet-adapter-modal-container").should("exist");
+	});
 });

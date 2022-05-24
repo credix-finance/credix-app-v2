@@ -104,7 +104,11 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 					description: "WalletButton: copy address button",
 				})}
 			</Menu.Item>
-			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={() => setVisible(true)}>
+			<Menu.Item
+				data-cy="change-wallet-button"
+				className="bg-credix-primary hover:bg-neutral-10"
+				onClick={() => setVisible(true)}
+			>
 				{intl.formatMessage({
 					defaultMessage: "change wallet",
 					description: "WalletButton: change wallet button",
