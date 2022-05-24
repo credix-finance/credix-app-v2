@@ -20,4 +20,10 @@ describe("Wallet", () => {
 	it("Connects to the wallet", () => {
 		cy.get("[data-cy=wallet-address]").contains("Ej5");
 	});
+
+	it("Disconnects the wallet", () => {
+		cy.get("[data-cy=wallet-address]").click();
+		cy.get("[data-cy=disconnect-wallet-button]").click();
+		cy.get(".ant-notification-notice-success").should("exist");
+	});
 });

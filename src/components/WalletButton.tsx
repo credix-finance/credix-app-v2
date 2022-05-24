@@ -106,7 +106,11 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 					description: "WalletButton: change wallet button",
 				})}
 			</Menu.Item>
-			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={disconnectWallet}>
+			<Menu.Item
+				data-cy="disconnect-wallet-button"
+				className="bg-credix-primary hover:bg-neutral-10"
+				onClick={disconnectWallet}
+			>
 				{intl.formatMessage({
 					defaultMessage: "disconnect",
 					description: "WalletButton: disconnect button",
