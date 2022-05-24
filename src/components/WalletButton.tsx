@@ -94,7 +94,11 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 
 	const menu = (
 		<Menu className="bg-credix-primary shadow-none border-solid border-[1px]">
-			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={copyAddress}>
+			<Menu.Item
+				data-cy="copy-address-button"
+				className="bg-credix-primary hover:bg-neutral-10"
+				onClick={copyAddress}
+			>
 				{intl.formatMessage({
 					defaultMessage: "copy address",
 					description: "WalletButton: copy address button",

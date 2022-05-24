@@ -26,4 +26,15 @@ describe("Wallet", () => {
 		cy.get("[data-cy=disconnect-wallet-button]").click();
 		cy.get(".ant-notification-notice-success").should("exist");
 	});
+
+	it("Copies the address", () => {
+		cy.get("[data-cy=wallet-address]").click();
+		cy.get("[data-cy=copy-address-button]").click();
+		cy.get(".ant-notification-notice-success").should("exist");
+		cy.window().then((win) => {
+			win.navigator.clipboard.readText().then((text) => {
+				expect(text).to.contain("Ej5");
+			});
+		});
+	});
 });
