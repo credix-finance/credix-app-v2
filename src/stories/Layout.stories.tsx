@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import Layout from "@components/Layout";
 
 export default {
-	title: "Components/Layout",
+	title: "Layout",
 	parameters: {
 		layout: "fullscreen",
 	},

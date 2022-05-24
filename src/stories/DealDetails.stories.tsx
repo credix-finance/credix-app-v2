@@ -6,7 +6,7 @@ import Big from "big.js";
 import { Ratio } from "@credix/credix-client";
 
 export default {
-	title: "Components/DealDetails",
+	title: "DealDetails",
 	component: DealDetails,
 } as ComponentMeta<typeof DealDetails>;
 
