@@ -9,7 +9,7 @@ const validDealInput = {
 before(() => {
 	let wallet;
 
-	cy.visit("http://localhost:3000/");
+	cy.visit("/");
 
 	cy.window()
 		.then((win) => {
@@ -19,7 +19,7 @@ before(() => {
 		})
 		.then(() => wallet.connect());
 
-	cy.visit("http://localhost:3000/credix-marketplace/deals");
+	cy.visit("/credix-marketplace/deals");
 
 	cy.connectWallet();
 });
