@@ -8,6 +8,7 @@ declare global {
 	namespace Cypress {
 		interface Chainable {
 			connectWallet(): Chainable<Element>;
+			login(): Chainable<Element>;
 		}
 	}
 }
