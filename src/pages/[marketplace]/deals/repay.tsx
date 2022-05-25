@@ -34,10 +34,14 @@ const Repay: NextPageWithLayout = () => {
 		}
 	}, [market, dealId, getDeal]);
 
-	useEffect(() => {
-		const amount = calculateMonthlyRepaymentAmount(deal);
+	const getMonthlyRepaymentAmount = useCallback(async () => {
+		const amount = await calculateMonthlyRepaymentAmount(deal);
 		setMonthlyRepaymentAmount(amount);
 	}, [deal]);
+
+	useEffect(() => {
+		getMonthlyRepaymentAmount();
+	}, [getMonthlyRepaymentAmount]);
 
 	useEffect(() => {
 		fetchMarket(client, marketplace as string);

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { Deal, Fraction } from "@credix/credix-client";
 import { DealAspect } from "@components/DealAspect";
 import { compactFormatter, toUIAmount } from "@utils/format.utils";
@@ -20,16 +20,26 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal }) => {
 	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Fraction>();
 	const intl = useIntl();
 
-	useEffect(() => {
-		const principalRatio = calculatePrincipalRepaidRatio(deal);
-		setPrincipalRepaidRatio(principalRatio);
-
-		const interestRatio = calculateInterestRepaidRatio(deal);
+	const getInterestRepaidRatio = useCallback(async () => {
+		const interestRatio = await calculateInterestRepaidRatio(deal);
 		setInterestRepaidRatio(interestRatio);
+	}, [deal]);
 
-		const daysRatio = calculateDaysRemainingRatio(deal);
+	const getPrincipalRepaidRatio = useCallback(async () => {
+		const principalRatio = await calculatePrincipalRepaidRatio(deal);
+		setPrincipalRepaidRatio(principalRatio);
+	}, [deal]);
+
+	const getDaysRemainingRatio = useCallback(async () => {
+		const daysRatio = await calculateDaysRemainingRatio(deal);
 		setDaysRemainingRatio(daysRatio);
 	}, [deal]);
+
+	useEffect(() => {
+		getPrincipalRepaidRatio();
+		getInterestRepaidRatio();
+		getDaysRemainingRatio();
+	}, [getInterestRepaidRatio, getPrincipalRepaidRatio, getDaysRemainingRatio]);
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-3 gap-5">
