@@ -93,19 +93,31 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 
 	const menu = (
 		<Menu className="bg-credix-primary shadow-none border-solid border-[1px]">
-			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={copyAddress}>
+			<Menu.Item
+				key="copy-address"
+				className="bg-credix-primary hover:bg-neutral-10"
+				onClick={copyAddress}
+			>
 				{intl.formatMessage({
 					defaultMessage: "copy address",
 					description: "WalletButton: copy address button",
 				})}
 			</Menu.Item>
-			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={() => setVisible(true)}>
+			<Menu.Item
+				key="change-wallet"
+				className="bg-credix-primary hover:bg-neutral-10"
+				onClick={() => setVisible(true)}
+			>
 				{intl.formatMessage({
 					defaultMessage: "change wallet",
 					description: "WalletButton: change wallet button",
 				})}
 			</Menu.Item>
-			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={disconnectWallet}>
+			<Menu.Item
+				key="disconnect-wallet"
+				className="bg-credix-primary hover:bg-neutral-10"
+				onClick={disconnectWallet}
+			>
 				{intl.formatMessage({
 					defaultMessage: "disconnect",
 					description: "WalletButton: disconnect button",
