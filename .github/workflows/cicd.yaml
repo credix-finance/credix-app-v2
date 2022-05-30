@@ -98,6 +98,9 @@ jobs:
       - name: Run linter
         run: yarn run lint
 
+      - name: Compile
+        run: yarn build
+
       # Testing
       - name: Run unit tests
         run: yarn run test:unit
