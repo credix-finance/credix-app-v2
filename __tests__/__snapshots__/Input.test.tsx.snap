@@ -8,10 +8,12 @@ exports[`Default input 1`] = `
 >
   <div
     className="ant-row ant-form-item font-bold text-base mb-7"
+    role="row"
     style={Object {}}
   >
     <div
       className="ant-col ant-form-item-label"
+      role="cell"
       style={Object {}}
     >
       <label
@@ -23,6 +25,7 @@ exports[`Default input 1`] = `
     </div>
     <div
       className="ant-col ant-form-item-control"
+      role="cell"
       style={Object {}}
     >
       <div
@@ -33,10 +36,12 @@ exports[`Default input 1`] = `
         >
           <div
             className="ant-row ant-form-item mb-0"
+            role="row"
             style={Object {}}
           >
             <div
               className="ant-col ant-form-item-control"
+              role="cell"
               style={Object {}}
             >
               <div
@@ -75,10 +80,12 @@ exports[`Disabled input 1`] = `
 >
   <div
     className="ant-row ant-form-item font-bold text-base mb-7 text-neutral-60/40"
+    role="row"
     style={Object {}}
   >
     <div
       className="ant-col ant-form-item-label"
+      role="cell"
       style={Object {}}
     >
       <label
@@ -90,6 +97,7 @@ exports[`Disabled input 1`] = `
     </div>
     <div
       className="ant-col ant-form-item-control"
+      role="cell"
       style={Object {}}
     >
       <div
@@ -100,10 +108,12 @@ exports[`Disabled input 1`] = `
         >
           <div
             className="ant-row ant-form-item mb-0"
+            role="row"
             style={Object {}}
           >
             <div
               className="ant-col ant-form-item-control"
+              role="cell"
               style={Object {}}
             >
               <div
@@ -142,10 +152,12 @@ exports[`Dispaly input 1`] = `
 >
   <div
     className="ant-row ant-form-item font-bold text-base"
+    role="row"
     style={Object {}}
   >
     <div
       className="ant-col ant-form-item-label"
+      role="cell"
       style={Object {}}
     >
       <label
@@ -157,6 +169,7 @@ exports[`Dispaly input 1`] = `
     </div>
     <div
       className="ant-col ant-form-item-control"
+      role="cell"
       style={Object {}}
     >
       <div
@@ -185,10 +198,12 @@ exports[`Input with description 1`] = `
 >
   <div
     className="ant-row ant-form-item font-bold text-base mb-7"
+    role="row"
     style={Object {}}
   >
     <div
       className="ant-col ant-form-item-label"
+      role="cell"
       style={Object {}}
     >
       <label
@@ -200,6 +215,7 @@ exports[`Input with description 1`] = `
     </div>
     <div
       className="ant-col ant-form-item-control"
+      role="cell"
       style={Object {}}
     >
       <div
@@ -210,10 +226,12 @@ exports[`Input with description 1`] = `
         >
           <div
             className="ant-row ant-form-item mb-0"
+            role="row"
             style={Object {}}
           >
             <div
               className="ant-col ant-form-item-control"
+              role="cell"
               style={Object {}}
             >
               <div
@@ -257,10 +275,12 @@ exports[`Input with error feedback 1`] = `
 >
   <div
     className="ant-row ant-form-item font-bold text-base mb-7 border-error ant-form-item-has-feedback ant-form-item-has-error"
+    role="row"
     style={Object {}}
   >
     <div
       className="ant-col ant-form-item-label"
+      role="cell"
       style={Object {}}
     >
       <label
@@ -272,6 +292,7 @@ exports[`Input with error feedback 1`] = `
     </div>
     <div
       className="ant-col ant-form-item-control"
+      role="cell"
       style={Object {}}
     >
       <div
@@ -282,10 +303,12 @@ exports[`Input with error feedback 1`] = `
         >
           <div
             className="ant-row ant-form-item mb-0"
+            role="row"
             style={Object {}}
           >
             <div
               className="ant-col ant-form-item-control"
+              role="cell"
               style={Object {}}
             >
               <div
@@ -324,10 +347,12 @@ exports[`Input with text 1`] = `
 >
   <div
     className="ant-row ant-form-item font-bold text-base mb-7"
+    role="row"
     style={Object {}}
   >
     <div
       className="ant-col ant-form-item-label"
+      role="cell"
       style={Object {}}
     >
       <label
@@ -339,6 +364,7 @@ exports[`Input with text 1`] = `
     </div>
     <div
       className="ant-col ant-form-item-control"
+      role="cell"
       style={Object {}}
     >
       <div
@@ -349,10 +375,12 @@ exports[`Input with text 1`] = `
         >
           <div
             className="ant-row ant-form-item mb-0"
+            role="row"
             style={Object {}}
           >
             <div
               className="ant-col ant-form-item-control"
+              role="cell"
               style={Object {}}
             >
               <div
