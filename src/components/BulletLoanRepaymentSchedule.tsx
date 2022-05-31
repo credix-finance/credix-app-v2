@@ -1,12 +1,12 @@
 import React, { FunctionComponent, ReactNode, useState } from "react";
-import {
-	RepaymentScheduleAmountType,
-	RepaymentScheduleDataPoint,
-	RepaymentScheduleGraph,
-} from "./RepaymentScheduleGraph";
+import { RepaymentScheduleGraph } from "./RepaymentScheduleGraph";
 import { RepaymentScheduleTable } from "./RepaymentScheduleTable";
 import { Button } from "./Button";
 import { ColumnsProps } from "./Table";
+import {
+	RepaymentScheduleAmountType,
+	RepaymentScheduleDataPoint,
+} from "@credix_types/repaymentschedule.types";
 
 interface BulletLoanRepaymentScheduleProps {
 	children?: ReactNode;
