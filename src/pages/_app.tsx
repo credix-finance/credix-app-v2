@@ -16,6 +16,7 @@ import { ClientProvider } from "@components/ClientProvider";
 import { useRouter } from "next/router";
 import { pageview } from "@utils/analytics.utils";
 import { IntlProvider } from "react-intl";
+import { PassGuard } from "@components/PassGuard";
 
 // Use require instead of import since order matters
 require("@solana/wallet-adapter-react-ui/styles.css");
@@ -82,7 +83,7 @@ const CredixApp: FC<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) =
 								defaultLocale={defaultLocale}
 								messages={pageProps.intlMessages}
 							>
-								{layoutComponent}
+								<PassGuard>{layoutComponent}</PassGuard>
 							</IntlProvider>
 						</ClientProvider>
 					</WalletModalProvider>
