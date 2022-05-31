@@ -1,21 +1,9 @@
 import React, { FunctionComponent } from "react";
-import { TableProps as AntdTableProps } from "antd/lib/table";
-import { ColumnsProps, Table } from "./Table";
-import { Button } from "./Button";
-
-export enum RepaymentScheduleAmountType {
-	INTEREST = "interest",
-	PRINCIPAL = "principal",
-}
-
-export interface RepaymentScheduleDataPoint {
-	month: string;
-	type: RepaymentScheduleAmountType;
-	amount: number;
-}
+import { ColumnsProps, Table, TableProps } from "@components/Table";
+import { Button } from "@components/Button";
 
 interface RepaymentScheduleTableProps {
-	dataSource: AntdTableProps<any>["dataSource"];
+	dataSource: TableProps["dataSource"];
 	columns: ColumnsProps[];
 }
 

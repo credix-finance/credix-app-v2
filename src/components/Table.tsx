@@ -15,7 +15,7 @@ export type ColumnsProps = ColumnType<any> & {
 	titleClassName?: string;
 };
 
-interface TableProps {
+export interface TableProps {
 	/**
 	 * The data which will fill the table
 	 */
