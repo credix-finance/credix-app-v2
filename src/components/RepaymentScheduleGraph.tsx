@@ -1,17 +1,7 @@
 import { Column } from "@ant-design/plots";
+import { RepaymentScheduleDataPoint } from "@credix_types/repaymentschedule.types";
 import { FunctionComponent } from "react";
-
-export enum RepaymentScheduleAmountType {
-	INTEREST = "interest",
-	PRINCIPAL = "principal",
-}
-
-export interface RepaymentScheduleDataPoint {
-	month: string;
-	type: RepaymentScheduleAmountType;
-	amount: number;
-}
-
+import * as Theme from "../../theme.js";
 interface RepaymentScheduleGraphProps {
 	data: RepaymentScheduleDataPoint[];
 }
@@ -29,7 +19,7 @@ export const RepaymentScheduleGraph: FunctionComponent<RepaymentScheduleGraphPro
 		seriesField: "type",
 		legend: false as unknown as object,
 		colorField: "type",
-		color: ["#D8DEDA", "#718879"],
+		color: [Theme.colors.credix.secondary, Theme.colors.neutral["20"]],
 		label: false as unknown as object,
 	};
 
