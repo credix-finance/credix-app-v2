@@ -14,11 +14,11 @@ import { generateGraphAndTableData } from "@utils/repayment.utils";
 interface BulletLoanRepaymentScheduleProps {
 	principal: number;
 	financingFee: number;
-	repaymentPeriod: number;
+	timeToMaturity: number;
 	children?: ReactNode;
 }
 export const BulletLoanRepaymentSchedule: FunctionComponent<BulletLoanRepaymentScheduleProps> = ({
-	repaymentPeriod,
+	timeToMaturity,
 	principal,
 	financingFee,
 }) => {
@@ -28,15 +28,15 @@ export const BulletLoanRepaymentSchedule: FunctionComponent<BulletLoanRepaymentS
 	const [dataSource, setDataSource] = useState<RepaymentScheduleTableDataPoint[]>();
 
 	useEffect(() => {
-		if (principal && financingFee && repaymentPeriod) {
+		if (principal && financingFee && timeToMaturity) {
 			const financingFeeRatio = new Ratio(financingFee, 100);
-			const schedule = repaymentSchedule(principal, financingFeeRatio, repaymentPeriod);
+			const schedule = repaymentSchedule(principal, financingFeeRatio, timeToMaturity);
 
 			const { graphData, dataSource } = generateGraphAndTableData(schedule);
 			setGraphData(graphData);
 			setDataSource(dataSource);
 		}
-	}, [principal, financingFee, repaymentPeriod]);
+	}, [principal, financingFee, timeToMaturity]);
 
 	return (
 		<div>

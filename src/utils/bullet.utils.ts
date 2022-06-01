@@ -14,8 +14,8 @@ export const calculatePrincipalRepayment = (
 	return monthlyPayment - outstandingLoanBalance * (rate / MONTHS_IN_YEAR);
 };
 
-export const repaymentSchedule = (principal: number, rate: Ratio, numberOfPayments: number) => {
-	const paymentPeriods = Math.ceil(numberOfPayments / DAYS_IN_REPAYMENT_PERIOD);
+export const repaymentSchedule = (principal: number, rate: Ratio, timeToMaturity: number) => {
+	const paymentPeriods = Math.ceil(timeToMaturity / DAYS_IN_REPAYMENT_PERIOD);
 	const monthlyPayment = calculateMonthlyPayment(principal, rate, paymentPeriods);
 	const schedule = [];
 

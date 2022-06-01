@@ -15,28 +15,28 @@ import { Ratio } from "@credix/credix-client";
 interface AmortizationRepaymentScheduleProps {
 	principal: number;
 	financingFee: number;
-	repaymentPeriod: number;
+	timeToMaturity: number;
 	children?: ReactNode;
 }
 
 export const AmortizationRepaymentSchedule: FunctionComponent<
 	AmortizationRepaymentScheduleProps
-> = ({ repaymentPeriod, principal, financingFee }) => {
+> = ({ timeToMaturity, principal, financingFee }) => {
 	const intl = useIntl();
 	const [showTable, setShowTable] = useState(false);
 	const [graphData, setGraphData] = useState<RepaymentScheduleGraphDataPoint[]>([]);
 	const [dataSource, setDataSource] = useState<RepaymentScheduleTableDataPoint[]>();
 
 	useEffect(() => {
-		if (principal && financingFee && repaymentPeriod) {
+		if (principal && financingFee && timeToMaturity) {
 			const financingFeeRatio = new Ratio(financingFee, 100);
-			const schedule = repaymentSchedule(principal, financingFeeRatio, repaymentPeriod);
+			const schedule = repaymentSchedule(principal, financingFeeRatio, timeToMaturity);
 
 			const { graphData, dataSource } = generateGraphAndTableData(schedule);
 			setGraphData(graphData);
 			setDataSource(dataSource);
 		}
-	}, [principal, financingFee, repaymentPeriod]);
+	}, [principal, financingFee, timeToMaturity]);
 
 	return (
 		<div>

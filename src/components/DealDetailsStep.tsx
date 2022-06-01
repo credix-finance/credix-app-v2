@@ -230,7 +230,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 								<AmortizationRepaymentSchedule
 									principal={Number(principal)}
 									financingFee={Number(financingFee)}
-									repaymentPeriod={Number(timeToMaturity)}
+									timeToMaturity={Number(timeToMaturity)}
 								/>
 							}
 							value="amortization"
@@ -254,7 +254,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 								<BulletLoanRepaymentSchedule
 									principal={Number(principal)}
 									financingFee={Number(financingFee)}
-									repaymentPeriod={Number(timeToMaturity)}
+									timeToMaturity={Number(timeToMaturity)}
 								/>
 							}
 							value="bullet"

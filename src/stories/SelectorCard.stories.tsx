@@ -76,7 +76,7 @@ const amortization = () => (
 	<AmortizationRepaymentSchedule
 		principal={principal}
 		financingFee={financingFee}
-		repaymentPeriod={timeToMaturity}
+		timeToMaturity={timeToMaturity}
 	/>
 );
 
@@ -84,7 +84,7 @@ const bullet = () => (
 	<BulletLoanRepaymentSchedule
 		principal={principal}
 		financingFee={financingFee}
-		repaymentPeriod={timeToMaturity}
+		timeToMaturity={timeToMaturity}
 	/>
 );
 
