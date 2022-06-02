@@ -30,7 +30,10 @@ export const RepaymentScheduleTable: FunctionComponent<RepaymentScheduleTablePro
 
 	const columns: ColumnsProps[] = [
 		{
-			title: "Date",
+			title: intl.formatMessage({
+				defaultMessage: "Date",
+				description: "Repayment schedule table column: date",
+			}),
 			icon: "calendar",
 			iconSize: IconDimension.MIDDLE,
 			dataIndex: "date",
@@ -38,7 +41,10 @@ export const RepaymentScheduleTable: FunctionComponent<RepaymentScheduleTablePro
 			render: (text) => <span>{formatDate(text, locales as string[])}</span>,
 		},
 		{
-			title: "Principal",
+			title: intl.formatMessage({
+				defaultMessage: "Principal",
+				description: "Repayment schedule table column: principal",
+			}),
 			icon: "coins",
 			iconSize: IconDimension.MIDDLE,
 			dataIndex: "principal",
@@ -50,7 +56,10 @@ export const RepaymentScheduleTable: FunctionComponent<RepaymentScheduleTablePro
 			),
 		},
 		{
-			title: "Interest",
+			title: intl.formatMessage({
+				defaultMessage: "Interest",
+				description: "Repayment schedule table column: interest",
+			}),
 			icon: "trend-up",
 			iconSize: IconDimension.MIDDLE,
 			dataIndex: "interest",
@@ -62,7 +71,10 @@ export const RepaymentScheduleTable: FunctionComponent<RepaymentScheduleTablePro
 			),
 		},
 		{
-			title: "Balance",
+			title: intl.formatMessage({
+				defaultMessage: "Balance",
+				description: "Repayment schedule table column: balance",
+			}),
 			icon: "line-chart",
 			iconSize: IconDimension.MIDDLE,
 			dataIndex: "balance",
