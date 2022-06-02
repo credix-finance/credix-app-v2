@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Deal, Ratio } from "@credix/credix-client";
 import { DealAspect } from "@components/DealAspect";
-import { numberFormatter, toUIAmount } from "@utils/format.utils";
+import { compactFormatter, toUIAmount } from "@utils/format.utils";
 import Big from "big.js";
 import {
 	calculateDaysRemainingRatio,
@@ -38,7 +38,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal }) => {
 					defaultMessage: "principal",
 					description: "Deal aspect: principal",
 				})}
-				value={`${numberFormatter.format(toUIAmount(new Big(deal.principal)).toNumber())} USDC`}
+				value={`${compactFormatter.format(toUIAmount(new Big(deal.principal)).toNumber())} USDC`}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
@@ -61,7 +61,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal }) => {
 					defaultMessage: "principal repaid",
 					description: "Deal aspect: principal repaid",
 				})}
-				value={`${numberFormatter.format(
+				value={`${compactFormatter.format(
 					toUIAmount(new Big(deal.principalAmountRepaid)).toNumber()
 				)} USDC`}
 				ratio={principalRepaidRatio}
@@ -71,7 +71,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal }) => {
 					defaultMessage: "interest repaid",
 					description: "Deal aspect: interest repaid",
 				})}
-				value={`${numberFormatter.format(
+				value={`${compactFormatter.format(
 					toUIAmount(new Big(deal.interestRepaid)).toNumber()
 				)} USDC`}
 				ratio={interestRepaidRatio}

@@ -8,7 +8,7 @@ export const clamp = (value: number, min: number, max: number) => {
 const roundingPrecision = 2;
 const conversionFactor = new Big(10).pow(6);
 
-export const numberFormatter = Intl.NumberFormat("en", {
+export const compactFormatter = Intl.NumberFormat("en", {
 	notation: "compact",
 	minimumFractionDigits: 0,
 	maximumFractionDigits: 1,

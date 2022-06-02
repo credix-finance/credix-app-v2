@@ -4,7 +4,7 @@ import { Link } from "@components/Link";
 import { useCredixClient } from "@credix/credix-client";
 import { PublicKey } from "@solana/web3.js";
 import { getMarketsPaths } from "@utils/export.utils";
-import { numberFormatter, toProgramAmount } from "@utils/format.utils";
+import { compactFormatter, toProgramAmount } from "@utils/format.utils";
 import Big from "big.js";
 import message from "message";
 import { useRouter } from "next/router";
@@ -33,7 +33,7 @@ const New: NextPageWithLayout = () => {
 		borrower,
 		dealName,
 	}: DealFormInput) => {
-		const formattedPrincipal = numberFormatter.format(principal);
+		const formattedPrincipal = compactFormatter.format(principal);
 		const hide = message.loading({
 			content: intl.formatMessage(
 				{
