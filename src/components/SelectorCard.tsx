@@ -10,7 +10,7 @@ interface SelectorCardProps {
 	value: string;
 	checked?: boolean;
 	showContent?: boolean;
-	isDisplay?: boolean;
+	isInteractive?: boolean;
 	className?: string;
 	onSelectCard?: () => void;
 }
@@ -23,32 +23,34 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 	checked,
 	value,
 	showContent,
-	isDisplay,
+	isInteractive,
 	className,
 	onSelectCard,
 }) => {
 	const classes = classNames([
 		className,
 		"p-6 border",
-		isDisplay ? "border-neutral-40" : "border-dashed rounded-md border-black hover:cursor-pointer",
+		isInteractive
+			? "border-dashed rounded-md border-black hover:cursor-pointer"
+			: "border-neutral-40",
 		checked && "bg-white",
 	]);
 
 	return (
-		<div className={classes} onClick={onSelectCard}>
+		<div className={classes} onClick={isInteractive && onSelectCard}>
 			<div className="flex justify-between items-start">
-				{isDisplay ? (
-					<div>
-						<div className="font-medium text-base text-darker">{title}</div>
-						{subtitle && <div className="font-normal text-sm text-neutral-60">{subtitle}</div>}
-					</div>
-				) : (
+				{isInteractive ? (
 					<Radio value={value}>
 						<div className="pl-2">
 							<div className="font-medium text-base text-darker">{title}</div>
 							{subtitle && <div className="font-normal text-sm text-neutral-60">{subtitle}</div>}
 						</div>
 					</Radio>
+				) : (
+					<div>
+						<div className="font-medium text-base text-darker">{title}</div>
+						{subtitle && <div className="font-normal text-sm text-neutral-60">{subtitle}</div>}
+					</div>
 				)}
 				{action}
 			</div>

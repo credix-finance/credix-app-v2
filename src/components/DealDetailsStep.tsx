@@ -226,6 +226,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				<Radio.Group>
 					<div className="space-y-4">
 						<SelectorCard
+							isInteractive={true}
 							content={
 								<AmortizationRepaymentSchedule
 									principal={Number(principal)}
@@ -250,6 +251,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 							}}
 						/>
 						<SelectorCard
+							isInteractive={true}
 							content={
 								<BulletLoanRepaymentSchedule
 									principal={Number(principal)}
