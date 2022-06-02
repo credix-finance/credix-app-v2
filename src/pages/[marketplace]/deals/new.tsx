@@ -2,7 +2,7 @@ import DealForm, { DealFormInput } from "@components/DealForm";
 import Layout from "@components/Layout";
 import { Link } from "@components/Link";
 import { useCredixClient } from "@credix/credix-client";
-import { PublicKey, TokenAmount } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import { getMarketsPaths } from "@utils/export.utils";
 import { numberFormatter, toProgramAmount } from "@utils/format.utils";
 import Big from "big.js";
