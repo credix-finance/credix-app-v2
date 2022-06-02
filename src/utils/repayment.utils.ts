@@ -1,4 +1,4 @@
-import { RepaymentScheduleAmountType } from "@components/RepaymentScheduleGraph";
+import { RepaymentScheduleAmountType } from "@credix_types/repaymentschedule.types";
 import { Repayment } from "@utils/amortization.utils";
 
 export const generateGraphAndTableData = (schedule: Repayment[]) => {
