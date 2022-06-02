@@ -12,7 +12,7 @@ interface SelectorCardProps {
 	showContent?: boolean;
 	isDisplay?: boolean;
 	className?: string;
-	selectCard?: () => void;
+	onSelectCard?: () => void;
 }
 
 export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
@@ -25,7 +25,7 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 	showContent,
 	isDisplay,
 	className,
-	selectCard,
+	onSelectCard,
 }) => {
 	const classes = classNames([
 		className,
@@ -35,7 +35,7 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 	]);
 
 	return (
-		<div className={classes} onClick={selectCard}>
+		<div className={classes} onClick={onSelectCard}>
 			<div className="flex justify-between items-start">
 				{isDisplay ? (
 					<div>

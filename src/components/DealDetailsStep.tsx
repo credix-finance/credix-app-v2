@@ -243,7 +243,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 								description: "Deal form: repayment type selector amortization subtitle",
 							})}
 							checked={selectedRepaymentType === "amortization"}
-							selectCard={() => {
+							onSelectCard={() => {
 								form.setFieldsValue({
 									repaymentType: "amortization",
 								});
@@ -268,7 +268,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 								description: "Deal form: repayment type selector bullet subtitle",
 							})}
 							checked={selectedRepaymentType === "bullet"}
-							selectCard={() => {
+							onSelectCard={() => {
 								form.setFieldsValue({
 									repaymentType: "bullet",
 								});
