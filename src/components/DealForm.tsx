@@ -56,6 +56,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit, borrowLimit }) =
 		<Form name="deal" form={form} onFinish={onSubmit} layout="vertical">
 			<Input
 				name="dealName"
+				data-cy="deal-form-name-input"
 				label={intl.formatMessage({
 					defaultMessage: "Deal Name",
 					description: "Deal form: deal name input label",
@@ -78,6 +79,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit, borrowLimit }) =
 			/>
 			<Input
 				name="borrower"
+				data-cy="deal-form-borrower-input"
 				label={intl.formatMessage({
 					defaultMessage: "Borrower Key",
 					description: "Deal form: borrower key input label",
@@ -105,6 +107,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit, borrowLimit }) =
 			/>
 			<Input
 				name="principal"
+				data-cy="deal-form-principal-input"
 				label={intl.formatMessage({
 					defaultMessage: "Principal",
 					description: "Deal form: principal input label",
@@ -135,6 +138,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit, borrowLimit }) =
 			/>
 			<Input
 				name="financingFee"
+				data-cy="deal-form-financing-fee-input"
 				label={intl.formatMessage({
 					defaultMessage: "Financing Fee",
 					description: "Deal form: financing fee input label",
@@ -164,6 +168,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit, borrowLimit }) =
 			/>
 			<Input
 				name="timeToMaturity"
+				data-cy="deal-form-time-to-maturity-input"
 				label={intl.formatMessage({
 					defaultMessage: "Time To Maturity",
 					description: "Deal form: time to maturity input label",
@@ -196,7 +201,11 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit, borrowLimit }) =
 				]}
 			/>
 			<Form.Item className="mb-0">
-				<Button htmlType="submit" className="w-full md:w-max capitalize">
+				<Button
+					htmlType="submit"
+					className="w-full md:w-max capitalize"
+					data-cy="deal-form-submit-button"
+				>
 					{intl.formatMessage({
 						defaultMessage: "Create Deal",
 						description: "Deal form: submit button",

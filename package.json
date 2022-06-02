@@ -18,7 +18,8 @@
 		"storybook": "NEXT_PUBLIC_REACT_APP_CLUSTER=localnet start-storybook -p 6006",
 		"build-storybook": "NEXT_PUBLIC_REACT_APP_CLUSTER=localnet build-storybook",
 		"i18n:extract": "formatjs extract 'src/pages/**/*.ts*' 'src/components/**/*.ts*' --out-file src/lang/en.json && yarn prettier --write src/lang",
-		"i18n:compile": "formatjs compile-folder src/lang src/compiled-lang && yarn prettier --write src/compiled-lang"
+		"i18n:compile": "formatjs compile-folder src/lang src/compiled-lang && yarn prettier --write src/compiled-lang",
+		"cypress:open": "cypress open"
 	},
 	"dependencies": {
 		"@civic/solana-gateway-react": "0.4.13",
@@ -78,9 +79,10 @@
 		"eslint-plugin-storybook": "^0.5.11",
 		"husky": "^8.0.1",
 		"jest": "^27.5.1",
+		"phan-wallet-mock": "^0.1.0",
 		"prettier": "^2.6.2",
-		"ts-jest": "^27.1.4",
 		"react-test-renderer": "^18.1.0",
+		"ts-jest": "^27.1.4",
 		"typescript": "^4.6.4"
 	},
 	"packageManager": "yarn@3.1.1",
