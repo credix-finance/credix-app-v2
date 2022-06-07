@@ -3,8 +3,11 @@ import { Input } from "@components/Input";
 import { RepaymentScheduleGraph } from "@components/RepaymentScheduleGraph";
 import { RepaymentScheduleTable } from "@components/RepaymentScheduleTable";
 import { Button } from "@components/Button";
-import { ColumnsProps, TableProps } from "@components/Table";
-import { RepaymentScheduleDataPoint } from "@credix_types/repaymentschedule.types";
+import { ColumnsProps } from "@components/Table";
+import {
+	RepaymentScheduleGraphDataPoint,
+	RepaymentScheduleTableDataPoint,
+} from "@credix_types/repaymentschedule.types";
 
 interface AmortizationRepaymentScheduleProps {
 	children?: ReactNode;
@@ -14,8 +17,8 @@ export const AmortizationRepaymentSchedule: FunctionComponent<
 	AmortizationRepaymentScheduleProps
 > = () => {
 	const [showTable, setShowTable] = useState(false);
-	const [graphData] = useState<RepaymentScheduleDataPoint[]>([]);
-	const [dataSource] = useState<TableProps["dataSource"]>();
+	const [graphData] = useState<RepaymentScheduleGraphDataPoint[]>([]);
+	const [dataSource] = useState<RepaymentScheduleTableDataPoint[]>();
 
 	const columns: ColumnsProps[] = [
 		{

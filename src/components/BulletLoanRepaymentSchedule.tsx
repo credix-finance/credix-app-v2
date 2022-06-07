@@ -2,8 +2,11 @@ import React, { FunctionComponent, ReactNode, useState } from "react";
 import { RepaymentScheduleGraph } from "./RepaymentScheduleGraph";
 import { RepaymentScheduleTable } from "./RepaymentScheduleTable";
 import { Button } from "./Button";
-import { ColumnsProps, TableProps } from "./Table";
-import { RepaymentScheduleDataPoint } from "@credix_types/repaymentschedule.types";
+import { ColumnsProps } from "./Table";
+import {
+	RepaymentScheduleGraphDataPoint,
+	RepaymentScheduleTableDataPoint,
+} from "@credix_types/repaymentschedule.types";
 
 interface BulletLoanRepaymentScheduleProps {
 	children?: ReactNode;
@@ -12,8 +15,8 @@ export const BulletLoanRepaymentSchedule: FunctionComponent<
 	BulletLoanRepaymentScheduleProps
 > = () => {
 	const [showTable, setShowTable] = useState(false);
-	const [graphData] = useState<RepaymentScheduleDataPoint[]>([]);
-	const [dataSource] = useState<TableProps["dataSource"]>();
+	const [graphData] = useState<RepaymentScheduleGraphDataPoint[]>([]);
+	const [dataSource] = useState<RepaymentScheduleTableDataPoint[]>();
 
 	const columns: ColumnsProps[] = [
 		{

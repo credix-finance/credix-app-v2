@@ -1,9 +1,9 @@
 import { Column } from "@ant-design/plots";
-import { RepaymentScheduleDataPoint } from "@credix_types/repaymentschedule.types";
+import { RepaymentScheduleGraphDataPoint } from "@credix_types/repaymentschedule.types";
 import { FunctionComponent } from "react";
 import * as Theme from "../../theme.js";
 interface RepaymentScheduleGraphProps {
-	data: RepaymentScheduleDataPoint[];
+	data: RepaymentScheduleGraphDataPoint[];
 }
 
 export const RepaymentScheduleGraph: FunctionComponent<RepaymentScheduleGraphProps> = ({

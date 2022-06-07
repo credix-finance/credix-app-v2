@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from "react";
-import { ColumnsProps, Table, TableProps } from "@components/Table";
+import { ColumnsProps, Table } from "@components/Table";
 import { Button } from "@components/Button";
+import { RepaymentScheduleTableDataPoint } from "@credix_types/repaymentschedule.types";
 
 interface RepaymentScheduleTableProps {
-	dataSource: TableProps["dataSource"];
+	dataSource: RepaymentScheduleTableDataPoint[];
 	columns: ColumnsProps[];
 }
 
