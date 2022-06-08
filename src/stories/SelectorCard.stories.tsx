@@ -6,6 +6,7 @@ import { Form, Radio } from "antd";
 import { FormItem } from "@components/FormItem";
 import { AmortizationRepaymentSchedule } from "@components/AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "@components/BulletLoanRepaymentSchedule";
+import { TrancheOption } from "@components/TrancheOption";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -113,6 +114,100 @@ BulletLoan.decorators = [
 							title="Bullet loan"
 							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
 							checked={true}
+						/>
+					</div>
+				</Radio.Group>
+			</FormItem>
+		</Form>
+	),
+];
+
+export const Tranches = Template.bind({});
+Tranches.decorators = [
+	() => (
+		<Form layout="vertical" initialValues={{ repaymentType: "oneTranche" }}>
+			<FormItem name="repaymentType">
+				<Radio.Group>
+					<div className="space-y-8">
+						<SelectorCard
+							content={
+								<TrancheOption
+									trancheData={[
+										{
+											name: "Senior",
+											expectedApy: 0.1,
+											value: 1,
+										},
+										{
+											name: "Mezzanine",
+											expectedApy: null,
+											value: null,
+										},
+										{
+											name: "Junior",
+											expectedApy: null,
+											value: null,
+										},
+									]}
+								/>
+							}
+							value="oneTranche"
+							title="One tranche structure"
+							checked={true}
+						/>
+						<SelectorCard
+							content={
+								<TrancheOption
+									trancheData={[
+										{
+											name: "Senior",
+											expectedApy: 0.1,
+											value: 0.8,
+										},
+										{
+											name: "Mezzanine",
+											expectedApy: null,
+											value: null,
+										},
+										{
+											name: "Junior",
+											expectedApy: 0.23,
+											value: 0.2,
+										},
+									]}
+								/>
+							}
+							value="twoTranche"
+							title="Two tranche structure"
+							showContent={true}
+							action={<Button type="text">Edit</Button>}
+						/>
+						<SelectorCard
+							content={
+								<TrancheOption
+									trancheData={[
+										{
+											name: "Senior",
+											expectedApy: 0.1,
+											value: 0.75,
+										},
+										{
+											name: "Mezzanine",
+											expectedApy: 0.17,
+											value: 0.2,
+										},
+										{
+											name: "Junior",
+											expectedApy: 0.34,
+											value: 0.05,
+										},
+									]}
+								/>
+							}
+							value="threeTranche"
+							title="Three tranche structure"
+							showContent={true}
+							action={<Button type="text">Edit</Button>}
 						/>
 					</div>
 				</Radio.Group>

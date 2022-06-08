@@ -9,6 +9,7 @@ interface SelectorCardProps {
 	action?: ReactNode;
 	value: string;
 	checked?: boolean;
+	showContent?: boolean;
 }
 
 export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
@@ -18,6 +19,7 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 	action,
 	checked,
 	value,
+	showContent,
 }) => {
 	const className = classNames([
 		"p-6 border border-dashed border- rounded-md",
@@ -35,7 +37,7 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 				</Radio>
 				{action}
 			</div>
-			{checked && content && (
+			{(checked || showContent) && content && (
 				<div>
 					<div className="w-full h-[1px] my-4 bg-neutral-105 bg-opacity-50"></div>
 					<div className="font-normal text-base">{content}</div>

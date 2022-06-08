@@ -1,5 +1,6 @@
 import { IconName } from "@components/Icon";
 import { Route } from "types/route.types";
+import { colors as ThemeColors } from "../theme";
 
 export const marketplaces: string[] = [
 	"credix-marketplace",
@@ -12,6 +13,12 @@ export const multisigUrl = "https://multisig.credix.finance/#/";
 
 export const borrowerTypeformId = "XH8TF60V";
 export const investorTypeformId = "E98Qjiw9";
+
+export const trancheColors = [
+	ThemeColors.action.hover,
+	ThemeColors.credix.secondary,
+	ThemeColors.darker,
+];
 
 export const investWithdrawRoute: Route = {
 	icon: "line-chart" as IconName,
