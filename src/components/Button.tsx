@@ -27,9 +27,9 @@ interface ButtonProps {
 	className?: AntButtonProps["className"];
 	children?: AntButtonProps["children"];
 	/**
-	 * The type of the button. Only "default" and "primary" are supported.
+	 * The type of the button.
 	 */
-	type?: "default" | "primary";
+	type?: "default" | "primary" | "text";
 	/**
 	 * The html type of the button.
 	 */
@@ -37,14 +37,17 @@ interface ButtonProps {
 }
 
 export const buttonTypeStyles = {
+	text: `
+		text-base font-medium pl-0 pr-0 pt-0 pb-0 underline active:bg-transparent focus:bg-transparent hover:bg-transparent
+	`,
 	primary: `
-				bg-action-primary border-action-primary text-credix-primary
+				border bg-action-primary border-action-primary text-credix-primary
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
 			`,
 	default: `
-				bg-credix-primary text-neutral-100 border-neutral-100
+				border bg-credix-primary text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled
@@ -58,7 +61,7 @@ export const buttonSizeStyles = {
 };
 
 export const defaultButtonStyles =
-	"rounded-[1px] border text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px]";
+	"rounded-[1px] text-shadow-none shadow-none flex items-center justify-center gap-2 px-[25px]";
 
 export const Button = ({
 	children,
