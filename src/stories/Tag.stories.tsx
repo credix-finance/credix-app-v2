@@ -15,29 +15,29 @@ const Template: ComponentStory<typeof Tag> = (args) => <Tag {...args} />;
 export const Green = Template.bind({});
 Green.args = {
 	children: "Active",
-	type: "green",
+	color: "green",
 };
 
 export const Orange = Template.bind({});
 Orange.args = {
 	children: "Ended",
-	type: "orange",
+	color: "orange",
 };
 
 export const Yellow = Template.bind({});
 Yellow.args = {
 	children: "Open for funding",
-	type: "yellow",
+	color: "yellow",
 };
 
 export const LightGray = Template.bind({});
 LightGray.args = {
 	children: "Principal withdrawal",
-	type: "lightGray",
+	color: "lightGray",
 };
 
 export const MidGray = Template.bind({});
 MidGray.args = {
 	children: "Interest withdrawal",
-	type: "midGray",
+	color: "midGray",
 };

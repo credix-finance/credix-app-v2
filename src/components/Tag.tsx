@@ -2,11 +2,11 @@ import React from "react";
 
 type TagColors = "green" | "orange" | "yellow" | "lightGray" | "midGray";
 export interface TagProps {
-	type: TagColors;
+	color: TagColors;
 	children?: React.ReactNode;
 }
 
-const tagTypeStyles = {
+const tagColorStyles = {
 	green: "bg-credix-green",
 	orange: "bg-credix-orange",
 	yellow: "bg-credix-yellow",
@@ -14,10 +14,10 @@ const tagTypeStyles = {
 	midGray: "bg-credix-gray-mid text-credix-gray-dark",
 };
 
-export const Tag = ({ children, type }: TagProps) => {
+export const Tag = ({ children, color }: TagProps) => {
 	return (
 		<div
-			className={`text-sm font-semibold inline-block px-4 py-2 rounded-full ${tagTypeStyles[type]}`}
+			className={`text-sm font-semibold inline-block px-4 py-2 rounded-full ${tagColorStyles[color]}`}
 		>
 			{children}
 		</div>
