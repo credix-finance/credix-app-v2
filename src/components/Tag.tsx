@@ -1,22 +1,23 @@
 import React from "react";
 
-type TagTypes = "active" | "pending" | "inactive" | "ended";
-interface TagProps {
-	type: TagTypes;
+type TagColors = "green" | "orange" | "yellow" | "lightGray" | "midGray";
+export interface TagProps {
+	type: TagColors;
 	children?: React.ReactNode;
 }
 
 const tagTypeStyles = {
-	active: "bg-neutral-60 border-neutral-60 text-credix-primary",
-	inactive: "bg-neutral-10 border-neutral-10",
-	pending: "bg-neutral-40 border-neutral-40 text-credix-primary",
-	ended: "bg-credix-primary border-solid border-darker color-darker",
+	green: "bg-credix-green",
+	orange: "bg-credix-orange",
+	yellow: "bg-credix-yellow",
+	lightGray: "bg-credix-gray-light text-credix-gray-dark",
+	midGray: "bg-credix-gray-mid text-credix-gray-dark",
 };
 
 export const Tag = ({ children, type }: TagProps) => {
 	return (
 		<div
-			className={`py-[2px] p-2 h-8 border rounded-full min-w-[88px] font-semibold w-min flex justify-center items-center ${tagTypeStyles[type]}`}
+			className={`text-sm font-semibold inline-block px-4 py-2 rounded-full ${tagTypeStyles[type]}`}
 		>
 			{children}
 		</div>
