@@ -1,6 +1,7 @@
 import { DAYS_IN_REPAYMENT_PERIOD } from "@consts";
 import { Ratio } from "@credix/credix-client";
 import * as Amortization from "@utils/amortization.utils";
+import * as Bullet from "@utils/bullet.utils";
 import { round } from "@utils/format.utils";
 import Big from "big.js";
 
@@ -125,5 +126,47 @@ describe("amortization", () => {
 				round(new Big(repayment.principal + repayment.interest), Big.roundHalfEven).toNumber()
 			).toBe(monthlyPayment);
 		});
+	});
+});
+
+describe("bullet", () => {
+	test("it calculates the monthly payment", async () => {
+		const principal = 100_000;
+		const financingFee = new Ratio(12, 100);
+		const numberOfPayments = 12;
+		const monthlyPayment = Bullet.calculateMonthlyPayment(
+			principal,
+			financingFee,
+			numberOfPayments
+		);
+
+		const expected = 1000;
+
+		await expect(monthlyPayment).toBe(expected);
+	});
+
+	test("it calculates the repayment schedule", async () => {
+		const principal = 100_000;
+		const financingFee = new Ratio(12, 100);
+		const numberOfPayments = 12 * DAYS_IN_REPAYMENT_PERIOD;
+
+		const schedule = Bullet.repaymentSchedule(principal, financingFee, numberOfPayments);
+
+		const expected = [
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 0, balance: 100_000, interest: 1000 },
+			{ principal: 100_000, balance: 0, interest: 1000 },
+		];
+
+		await expect(schedule).toEqual(expected);
 	});
 });
