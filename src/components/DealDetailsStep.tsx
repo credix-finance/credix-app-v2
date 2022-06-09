@@ -11,6 +11,7 @@ import { AmortizationRepaymentSchedule } from "./AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "./BulletLoanRepaymentSchedule";
 import { Button } from "./Button";
 import { Icon, IconDimension } from "./Icon";
+import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 
 interface DealDetailsStepProps {
 	className?: string;
@@ -234,7 +235,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 									timeToMaturity={Number(timeToMaturity)}
 								/>
 							}
-							value="amortization"
+							value={RepaymentScheduleType.AMORTIZATION}
 							title={intl.formatMessage({
 								defaultMessage: "Amortization loan",
 								description: "Deal form: repayment type selector amortization title",
@@ -243,10 +244,10 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 								defaultMessage: "Pay off a debt over time in equal installments",
 								description: "Deal form: repayment type selector amortization subtitle",
 							})}
-							checked={selectedRepaymentType === "amortization"}
+							checked={selectedRepaymentType === RepaymentScheduleType.AMORTIZATION}
 							onSelectCard={() => {
 								form.setFieldsValue({
-									repaymentType: "amortization",
+									repaymentType: RepaymentScheduleType.AMORTIZATION,
 								});
 							}}
 						/>
@@ -259,7 +260,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 									timeToMaturity={Number(timeToMaturity)}
 								/>
 							}
-							value="bullet"
+							value={RepaymentScheduleType.BULLET}
 							title={intl.formatMessage({
 								defaultMessage: "Bullet loan",
 								description: "Deal form: repayment type selector bullet title",
@@ -269,10 +270,10 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 									"The Principal that is borrowed is paid back in full at the end of the loan term",
 								description: "Deal form: repayment type selector bullet subtitle",
 							})}
-							checked={selectedRepaymentType === "bullet"}
+							checked={selectedRepaymentType === RepaymentScheduleType.BULLET}
 							onSelectCard={() => {
 								form.setFieldsValue({
-									repaymentType: "bullet",
+									repaymentType: RepaymentScheduleType.BULLET,
 								});
 							}}
 						/>

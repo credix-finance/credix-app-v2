@@ -7,6 +7,7 @@ import { FormItem } from "@components/FormItem";
 import { AmortizationRepaymentSchedule } from "@components/AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "@components/BulletLoanRepaymentSchedule";
 import { TrancheOption } from "@components/TrancheOption";
+import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -43,20 +44,20 @@ WithAction.args = {
 export const Selected = Template.bind({});
 Selected.decorators = [
 	() => (
-		<Form layout="vertical" initialValues={{ repaymentType: "amortization" }}>
+		<Form layout="vertical" initialValues={{ repaymentType: RepaymentScheduleType.AMORTIZATION }}>
 			<FormItem name="repaymentType">
 				<Radio.Group>
 					<div className="space-y-4">
 						<SelectorCard
 							content={<div>This content is only visible when this option is selected</div>}
-							value="amortization"
+							value={RepaymentScheduleType.AMORTIZATION}
 							title="Amortization loan"
 							subtitle="Pay off a debt over time in equal installments"
 							checked={true}
 						/>
 						<SelectorCard
 							content={null}
-							value="bullet"
+							value={RepaymentScheduleType.BULLET}
 							title="Bullet loan"
 							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
 						/>
@@ -91,20 +92,20 @@ const bullet = () => (
 export const Amortization = Template.bind({});
 Amortization.decorators = [
 	() => (
-		<Form layout="vertical" initialValues={{ repaymentType: "amortization" }}>
+		<Form layout="vertical" initialValues={{ repaymentType: RepaymentScheduleType.AMORTIZATION }}>
 			<FormItem name="repaymentType">
 				<Radio.Group>
 					<div className="space-y-4">
 						<SelectorCard
 							content={amortization}
-							value="amortization"
+							value={RepaymentScheduleType.AMORTIZATION}
 							title="Amortization loan"
 							subtitle="Pay off a debt over time in equal installments"
 							checked={true}
 						/>
 						<SelectorCard
 							content={bullet}
-							value="bullet"
+							value={RepaymentScheduleType.BULLET}
 							title="Bullet loan"
 							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
 						/>
@@ -118,19 +119,19 @@ Amortization.decorators = [
 export const BulletLoan = Template.bind({});
 BulletLoan.decorators = [
 	() => (
-		<Form layout="vertical" initialValues={{ repaymentType: "bullet" }}>
+		<Form layout="vertical" initialValues={{ repaymentType: RepaymentScheduleType.BULLET }}>
 			<FormItem name="repaymentType">
 				<Radio.Group>
 					<div className="space-y-4">
 						<SelectorCard
 							content={amortization}
-							value="amortization"
+							value={RepaymentScheduleType.AMORTIZATION}
 							title="Amortization loan"
 							subtitle="Pay off a debt over time in equal installments"
 						/>
 						<SelectorCard
 							content={bullet}
-							value="bullet"
+							value={RepaymentScheduleType.BULLET}
 							title="Bullet loan"
 							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
 							checked={true}
