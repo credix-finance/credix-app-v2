@@ -1,4 +1,4 @@
-import { Ratio } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { ratioFormatter } from "@utils/format.utils";
 import React, { FunctionComponent } from "react";
 
@@ -6,7 +6,7 @@ interface TrancheLineProps {
 	name: string;
 	highlightedElement: string;
 	color: string;
-	apr: Ratio;
+	apr: Fraction;
 	value: number;
 }
 

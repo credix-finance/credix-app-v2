@@ -1,4 +1,4 @@
-import { Deal, Ratio } from "@credix/credix-client";
+import { Deal, Fraction } from "@credix/credix-client";
 import { toUIAmount } from "@utils/format.utils";
 import Big from "big.js";
 
@@ -11,13 +11,13 @@ export const calculateMonthlyRepaymentAmount = (deal: Deal) => {
 };
 
 export const calculateInterestRepaidRatio = (deal: Deal) => {
-	return new Ratio(deal.interestRepaid, deal.totalInterest.toNumber());
+	return new Fraction(deal.interestRepaid, deal.totalInterest.toNumber());
 };
 
 export const calculatePrincipalRepaidRatio = (deal: Deal) => {
-	return new Ratio(deal.principalAmountRepaid, deal.principal);
+	return new Fraction(deal.principalAmountRepaid, deal.principal);
 };
 
 export const calculateDaysRemainingRatio = (deal: Deal) => {
-	return new Ratio(deal.daysRemaining, deal.timeToMaturity);
+	return new Fraction(deal.daysRemaining, deal.timeToMaturity);
 };

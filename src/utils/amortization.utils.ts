@@ -1,14 +1,14 @@
 import { DAYS_IN_REPAYMENT_PERIOD } from "@consts";
-import { Ratio } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import Big from "big.js";
 import { round } from "./format.utils";
 
 export const calculateMonthlyPayment = (
 	principal: number,
-	interestRate: Ratio,
+	interestRate: Fraction,
 	numberOfPayments: number
 ) => {
-	const monthlyInterestRate = new Ratio(interestRate.toNumber(), 12).toNumber();
+	const monthlyInterestRate = new Fraction(interestRate.toNumber(), 12).toNumber();
 	const bigPrincipal = new Big(principal);
 	const bigInterestRate = new Big(monthlyInterestRate);
 
@@ -23,9 +23,9 @@ export const calculateMonthlyPayment = (
 export const calculatePrincipalRepayment = (
 	monthlyPayment: number,
 	outstandingLoanBalance: number,
-	interestRate: Ratio
+	interestRate: Fraction
 ) => {
-	const monthlyInterestRate = new Ratio(interestRate.toNumber(), 12).toNumber();
+	const monthlyInterestRate = new Fraction(interestRate.toNumber(), 12).toNumber();
 	return round(
 		new Big(monthlyPayment - outstandingLoanBalance * monthlyInterestRate),
 		Big.roundHalfEven
@@ -39,7 +39,7 @@ export interface Repayment {
 }
 export const repaymentSchedule = (
 	principal: number,
-	interestRate: Ratio,
+	interestRate: Fraction,
 	timeToMaturity: number
 ): Repayment[] => {
 	const paymentPeriods = Math.ceil(timeToMaturity / DAYS_IN_REPAYMENT_PERIOD);

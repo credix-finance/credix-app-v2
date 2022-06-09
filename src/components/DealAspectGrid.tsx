@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Deal, Ratio } from "@credix/credix-client";
+import { Deal, Fraction } from "@credix/credix-client";
 import { DealAspect } from "@components/DealAspect";
 import { compactFormatter, toUIAmount } from "@utils/format.utils";
 import Big from "big.js";
@@ -15,9 +15,9 @@ interface DealAspectGridProps {
 }
 
 const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal }) => {
-	const [interestRepaidRatio, setInterestRepaidRatio] = useState<Ratio>();
-	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<Ratio>();
-	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Ratio>();
+	const [interestRepaidRatio, setInterestRepaidRatio] = useState<Fraction>();
+	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<Fraction>();
+	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Fraction>();
 	const intl = useIntl();
 
 	useEffect(() => {
