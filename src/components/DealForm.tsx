@@ -50,12 +50,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 	};
 
 	const onNextStep = async (fieldsToValidate: string[], nextStep: number) => {
-		try {
-			await form.validateFields(fieldsToValidate);
-			setCurrentStep(nextStep);
-		} catch {
-			// Form has errors, dont go to next step
-		}
+		await form.validateFields(fieldsToValidate).then(() => setCurrentStep(nextStep));
 	};
 
 	return (
