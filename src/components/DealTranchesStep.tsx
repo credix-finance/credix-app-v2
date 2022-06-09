@@ -44,7 +44,7 @@ export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 								title={tranche.title}
 								checked={selectedTranche === tranche.value}
 								showContent={true}
-								selectCard={() => {
+								onSelectCard={() => {
 									form.setFieldsValue({
 										trancheStructure: tranche.value,
 									});
