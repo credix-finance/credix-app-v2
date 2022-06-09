@@ -6,12 +6,4 @@ export interface Tranche {
 	value: number;
 	percentageOfPrincipal: Ratio;
 	percentageOfInterest: Ratio;
-	senior?: {
-		percentageOfPrincipal: Ratio;
-		percentageOfInterest: Ratio;
-	};
-	mez?: {
-		percentageOfPrincipal: Ratio;
-		percentageOfInterest: Ratio;
-	};
 }
