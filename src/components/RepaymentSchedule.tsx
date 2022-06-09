@@ -23,6 +23,7 @@ export const RepaymentSchedule: FunctionComponent<RepaymentScheduleProps> = ({
 		<div>
 			<div className="grid grid-cols-2 gap-x-20 mb-8">
 				<div className="flex flex-col justify-between">
+					<div></div>
 					<div>
 						<Button onClick={() => setShowTable(!showTable)} type="text">
 							{showTable &&
