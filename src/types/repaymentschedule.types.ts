@@ -10,7 +10,7 @@ export interface RepaymentScheduleGraphDataPoint {
 }
 
 export interface RepaymentScheduleTableDataPoint {
-	date: string;
+	date: Date;
 	principal: number;
 	interest: number;
 	balance: number;

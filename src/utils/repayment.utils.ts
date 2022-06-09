@@ -1,4 +1,8 @@
 import { RepaymentScheduleAmountType } from "@credix_types/repaymentschedule.types";
+import {
+	RepaymentScheduleGraphDataPoint,
+	RepaymentScheduleTableDataPoint,
+} from "@credix_types/repaymentschedule.types";
 import { Repayment } from "@utils/amortization.utils";
 
 export const generateGraphAndTableData = (schedule: Repayment[]) => {
@@ -22,13 +26,16 @@ export const generateGraphAndTableData = (schedule: Repayment[]) => {
 
 			acc.dataSource.push({
 				date: new Date(currentDate.getFullYear(), index + 1, 1),
-				principal: principal.toString(),
-				interest: interest.toString(),
-				balance: balance.toString(),
+				principal: principal,
+				interest: interest,
+				balance: balance,
 			});
 
 			return acc;
 		},
-		{ graphData: [], dataSource: [] }
+		{ graphData: [], dataSource: [] } as {
+			graphData: RepaymentScheduleGraphDataPoint[];
+			dataSource: RepaymentScheduleTableDataPoint[];
+		}
 	);
 };
