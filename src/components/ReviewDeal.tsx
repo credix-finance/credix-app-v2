@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import { Button } from "@components/Button";
 import { Form, FormInstance } from "antd";
 import { Icon, IconDimension, IconName } from "./Icon";
-import { classNames, numberFormatter } from "@utils/format.utils";
+import { classNames, compactFormatter } from "@utils/format.utils";
 import { TrancheOption } from "./TrancheOption";
 import { SelectorCard } from "./SelectorCard";
 import { defaultTranches } from "@consts";
@@ -97,7 +97,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 						defaultMessage: "Principal",
 						description: "New deal: review deal principal",
 					})}
-					value={`${numberFormatter.format(Number(form.getFieldValue("principal")))} USDC`}
+					value={`${compactFormatter.format(Number(form.getFieldValue("principal")))} USDC`}
 					className="col-span-1"
 				/>
 				<DealDetail
@@ -122,7 +122,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 							<AmortizationRepaymentSchedule
 								principal={Number(principal)}
 								financingFee={Number(financingFee)}
-								repaymentPeriod={Number(timeToMaturity)}
+								timeToMaturity={Number(timeToMaturity)}
 							/>
 						}
 						value="amortization"
@@ -135,7 +135,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 							description: "Deal form: repayment type selector amortization subtitle",
 						})}
 						checked={false}
-						isDisplay={true}
+						isInteractive={false}
 						showContent={true}
 						className="col-span-4"
 					/>
@@ -146,7 +146,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 							<BulletLoanRepaymentSchedule
 								principal={Number(principal)}
 								financingFee={Number(financingFee)}
-								repaymentPeriod={Number(timeToMaturity)}
+								timeToMaturity={Number(timeToMaturity)}
 							/>
 						}
 						value="bullet"
@@ -160,7 +160,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 							description: "Deal form: repayment type selector bullet subtitle",
 						})}
 						checked={false}
-						isDisplay={true}
+						isInteractive={false}
 						showContent={true}
 						className="col-span-4"
 					/>
@@ -171,7 +171,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 						value={tranche.value}
 						title={tranche.title}
 						checked={false}
-						isDisplay={true}
+						isInteractive={false}
 						showContent={true}
 						className="col-span-4"
 					/>
