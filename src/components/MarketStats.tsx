@@ -12,7 +12,6 @@ interface MarketStatsProps {
 export const MarketStats = ({ market }: MarketStatsProps) => {
 	const [creditOutstanding, setCreditOutstanding] = useState<number>(0);
 	const [tvl, setTvl] = useState<number>(0);
-	const [apy, setApy] = useState<number>(0);
 	const intl = useIntl();
 
 	const getTVL = useCallback(async () => {
@@ -21,16 +20,6 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 		if (tvl) {
 			setTvl(toUIAmount(new Big(tvl)).toNumber() || 0);
 		}
-	}, [market]);
-
-	const getAPY = useCallback(async () => {
-		const weightedAverageFinancingFee = await market?.calculateWeightedAverageFinancingFee();
-
-		if (!weightedAverageFinancingFee) {
-			return;
-		}
-
-		setApy(weightedAverageFinancingFee.apply(1).toNumber());
 	}, [market]);
 
 	const getCreditOutstanding = useCallback(async () => {
@@ -44,10 +33,6 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 	useEffect(() => {
 		getTVL();
 	}, [getTVL]);
-
-	useEffect(() => {
-		getAPY();
-	}, [getAPY]);
 
 	useEffect(() => {
 		getCreditOutstanding();
@@ -72,7 +57,7 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 						description: "MarketStats: average financing fee",
 					})}
 					isPercentage={true}
-					value={apy}
+					value={0.12}
 				/>
 			</div>
 			<div className="w-full flex justify-center">
