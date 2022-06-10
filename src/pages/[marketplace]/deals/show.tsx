@@ -1,7 +1,7 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { Button } from "@components/Button";
 import { DealDetails } from "@components/DealDetails";
-import { Deal as DealType, useCredixClient } from "@credix/credix-client";
+import { Tranches, useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
 import { useRouter } from "next/router";
 import { multisigUrl } from "@consts";
@@ -11,6 +11,7 @@ import { getMarketsPaths } from "@utils/export.utils";
 import Layout from "@components/Layout";
 import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 const Show: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -19,16 +20,24 @@ const Show: NextPageWithLayout = () => {
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
 	const getDeal = useStore((state) => state.getDeal);
-	const [deal, setDeal] = useState<DealType>();
+	const [deal, setDeal] = useState<DealWithNestedResources>();
 	const isAdmin = useStore((state) => state.isAdmin);
 	const intl = useIntl();
+	const [tranches, setTranches] = useState<Tranches>();
 
 	const getDealFromStore = useCallback(async () => {
 		if (market) {
-			const dealFromStore = await getDeal(market, dealId as string);
+			const dealFromStore = await getDeal(client, market, dealId as string);
 			setDeal(dealFromStore);
 		}
-	}, [market, dealId, getDeal]);
+	}, [client, market, dealId, getDeal]);
+
+	const getTranches = useCallback(async () => {
+		if (deal) {
+			const tranches = await deal.fetchTranches();
+			setTranches(tranches);
+		}
+	}, [deal]);
 
 	useEffect(() => {
 		fetchMarket(client, marketplace as string);
@@ -37,6 +46,10 @@ const Show: NextPageWithLayout = () => {
 	useEffect(() => {
 		getDealFromStore();
 	}, [getDealFromStore]);
+
+	useEffect(() => {
+		getTranches();
+	}, [getTranches]);
 
 	const activateDeal = async () => {
 		window.open(multisigUrl, "_blank") || window.location.replace(multisigUrl);
@@ -48,7 +61,7 @@ const Show: NextPageWithLayout = () => {
 
 	return (
 		<DealCard marketplace={marketplace as string} deal={deal}>
-			<DealDetails deal={deal} />
+			<DealDetails deal={deal} tranches={tranches} repaymentSchedule={deal.repaymentSchedule} />
 			{isAdmin && deal.isPending() && (
 				<Button
 					type="default"

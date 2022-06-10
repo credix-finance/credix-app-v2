@@ -2713,20 +2713,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@credix/credix-client@npm:0.2.0-beta.1":
-  version: 0.2.0-beta.1
-  resolution: "@credix/credix-client@npm:0.2.0-beta.1"
+"@credix/credix-client@npm:0.4.0-beta.0":
+  version: 0.4.0-beta.0
+  resolution: "@credix/credix-client@npm:0.4.0-beta.0"
   dependencies:
     "@identity.com/solana-gateway-ts": ^0.8.2
     "@project-serum/anchor": 0.24.2
     "@saberhq/anchor-contrib": ^1.12.62
     "@solana/spl-token": ^0.1.8
-    "@solana/web3.js": ^1.36.0
+    "@solana/web3.js": ^1.43.4
     big.js: ^6.1.1
     bn.js: ^5.2.0
   peerDependencies:
     react: ^17.0.2
-  checksum: 8ee3e6d957001ef9fefdaffe973360f07f3d19f4f716240d039961e1abab31e7ab99b228fb50904e8a64190d11111d4ebe718f6727f89d38cad739fb0d03f286
+  checksum: 4872decb3e043877bcbb3dd6ead88f35269aec6ab0c4f00ebc32c3ad5fe73f44092599a9e3127932255cbd9d1fe93f60b31fbdb7b5c0e7e06219f95222d5c873
   languageName: node
   linkType: hard
 
@@ -4391,6 +4391,30 @@ __metadata:
     superstruct: ^0.14.2
     tweetnacl: ^1.0.0
   checksum: 40d2f4f629eff06726324e751d0a8e9f08c9c6fcdb3b4e2a62707e23b24046ee8659545686a2ad7a29ea781d9188e77c13f32b958d82d28cf1c5e772dd1a91a4
+  languageName: node
+  linkType: hard
+
+"@solana/web3.js@npm:^1.43.4":
+  version: 1.44.0
+  resolution: "@solana/web3.js@npm:1.44.0"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@ethersproject/sha2": ^5.5.0
+    "@solana/buffer-layout": ^4.0.0
+    bigint-buffer: ^1.1.5
+    bn.js: ^5.0.0
+    borsh: ^0.7.0
+    bs58: ^4.0.1
+    buffer: 6.0.1
+    fast-stable-stringify: ^1.0.0
+    jayson: ^3.4.4
+    js-sha3: ^0.8.0
+    node-fetch: 2
+    rpc-websockets: ^7.4.2
+    secp256k1: ^4.0.2
+    superstruct: ^0.14.2
+    tweetnacl: ^1.0.0
+  checksum: f50bef41ebe3abdab294995313c503150884d9ccbab338407f4a777a9f3e11dd8f49f8bd38d659e3d799b7bcd471d97bc15ee94a79150da5c23e0bd287ebe9b7
   languageName: node
   linkType: hard
 
@@ -8147,6 +8171,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bigint-buffer@npm:^1.1.5":
+  version: 1.1.5
+  resolution: "bigint-buffer@npm:1.1.5"
+  dependencies:
+    bindings: ^1.3.0
+    node-gyp: latest
+  checksum: d010c9f57758bcdaccb435d88b483ffcc95fe8bbc6e7fb3a44fb5221f29c894ffaf4a3c5a4a530e0e7d6608203c2cde9b79ee4f2386cd6d4462d1070bc8c9f4e
+  languageName: node
+  linkType: hard
+
 "bignumber.js@npm:^9.0.2":
   version: 9.0.2
   resolution: "bignumber.js@npm:9.0.2"
@@ -8158,6 +8192,15 @@ __metadata:
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
   checksum: ccd267956c58d2315f5d3ea6757cf09863c5fc703e50fbeb13a7dc849b812ef76e3cf9ca8f35a0c48498776a7478d7b4a0418e1e2b8cb9cb9731f2922aaad7f8
+  languageName: node
+  linkType: hard
+
+"bindings@npm:^1.3.0":
+  version: 1.5.0
+  resolution: "bindings@npm:1.5.0"
+  dependencies:
+    file-uri-to-path: 1.0.0
+  checksum: 65b6b48095717c2e6105a021a7da4ea435aa8d3d3cd085cb9e85bcb6e5773cf318c4745c3f7c504412855940b585bdf9b918236612a1c7a7942491de176f1ae7
   languageName: node
   linkType: hard
 
@@ -9453,7 +9496,7 @@ __metadata:
     "@civic/solana-gateway-react": 0.4.13
     "@commitlint/cli": ^16.2.3
     "@commitlint/config-conventional": ^16.2.1
-    "@credix/credix-client": 0.2.0-beta.1
+    "@credix/credix-client": 0.4.0-beta.0
     "@credix/eslint-config": ^1.1.0
     "@credix/prettier-config": ^1.0.0
     "@formatjs/cli": ^4.8.3
@@ -11451,6 +11494,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-stable-stringify@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "fast-stable-stringify@npm:1.0.0"
+  checksum: ef1203d246a7e8ac15e2bfbda0a89fa375947bccf9f7910be0ea759856dbe8ea5024a0d8cc2cceabe18a9cb67e95927b78bb6173a3ae37ec55a518cf36e5244b
+  languageName: node
+  linkType: hard
+
 "fastest-stable-stringify@npm:^2.0.2":
   version: 2.0.2
   resolution: "fastest-stable-stringify@npm:2.0.2"
@@ -11528,6 +11578,13 @@ __metadata:
     fs-extra: ^0.30.0
     ramda: ^0.21.0
   checksum: 25dd942d522b95a4165029f78d4a74d82dcb9582b2745dc012d03e1311d98b1012f9b361ef1c79708c66be6cb7201f4f4e96f2dea319ace962d6c9c0f93526ec
+  languageName: node
+  linkType: hard
+
+"file-uri-to-path@npm:1.0.0":
+  version: 1.0.0
+  resolution: "file-uri-to-path@npm:1.0.0"
+  checksum: b648580bdd893a008c92c7ecc96c3ee57a5e7b6c4c18a9a09b44fb5d36d79146f8e442578bc0e173dc027adf3987e254ba1dfd6e3ec998b7c282873010502144
   languageName: node
   linkType: hard
 
@@ -15971,7 +16028,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.7, node-fetch@npm:^2.6.1":
+"node-fetch@npm:2, node-fetch@npm:2.6.7, node-fetch@npm:^2.6.1":
   version: 2.6.7
   resolution: "node-fetch@npm:2.6.7"
   dependencies:
