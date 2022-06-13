@@ -13,7 +13,7 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 	highlightedElement,
 	color,
 }) => {
-	const { name, value, expectedApy } = tranche;
+	const { name, value, apr } = tranche;
 
 	const isDeEmphesised = () => {
 		return null !== highlightedElement && name !== highlightedElement;
@@ -40,9 +40,7 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 				></div>
 				<span>{name}</span>
 			</div>
-			<div className={getTextClassNames()}>
-				{expectedApy ? ratioFormatter.format(expectedApy) : "/"}
-			</div>
+			<div className={getTextClassNames()}>{apr ? ratioFormatter.format(apr.toNumber()) : "/"}</div>
 			<div className={getTextClassNames()}>{value ? ratioFormatter.format(value) : "/"}</div>
 		</>
 	);

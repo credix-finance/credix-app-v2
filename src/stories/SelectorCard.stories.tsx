@@ -8,6 +8,7 @@ import { AmortizationRepaymentSchedule } from "@components/AmortizationRepayment
 import { BulletLoanRepaymentSchedule } from "@components/BulletLoanRepaymentSchedule";
 import { TrancheOption } from "@components/TrancheOption";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
+import { defaultTranches } from "@consts";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -151,80 +152,20 @@ Tranches.decorators = [
 				<Radio.Group>
 					<div className="space-y-8">
 						<SelectorCard
-							content={
-								<TrancheOption
-									trancheData={[
-										{
-											name: "Senior",
-											expectedApy: 0.1,
-											value: 1,
-										},
-										{
-											name: "Mezzanine",
-											expectedApy: null,
-											value: null,
-										},
-										{
-											name: "Junior",
-											expectedApy: null,
-											value: null,
-										},
-									]}
-								/>
-							}
+							content={<TrancheOption trancheData={defaultTranches[0].trancheData} />}
 							value="oneTranche"
 							title="One tranche structure"
 							checked={true}
 						/>
 						<SelectorCard
-							content={
-								<TrancheOption
-									trancheData={[
-										{
-											name: "Senior",
-											expectedApy: 0.1,
-											value: 0.8,
-										},
-										{
-											name: "Mezzanine",
-											expectedApy: null,
-											value: null,
-										},
-										{
-											name: "Junior",
-											expectedApy: 0.23,
-											value: 0.2,
-										},
-									]}
-								/>
-							}
+							content={<TrancheOption trancheData={defaultTranches[1].trancheData} />}
 							value="twoTranche"
 							title="Two tranche structure"
 							showContent={true}
 							action={<Button type="text">Edit</Button>}
 						/>
 						<SelectorCard
-							content={
-								<TrancheOption
-									trancheData={[
-										{
-											name: "Senior",
-											expectedApy: 0.1,
-											value: 0.75,
-										},
-										{
-											name: "Mezzanine",
-											expectedApy: 0.17,
-											value: 0.2,
-										},
-										{
-											name: "Junior",
-											expectedApy: 0.34,
-											value: 0.05,
-										},
-									]}
-								/>
-							}
+							content={<TrancheOption trancheData={defaultTranches[2].trancheData} />}
 							value="threeTranche"
 							title="Three tranche structure"
 							showContent={true}
