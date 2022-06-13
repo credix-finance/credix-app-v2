@@ -17,16 +17,30 @@ const neutral20 = "#718879";
 const neutral10 = "#D8DEDA";
 const neutral0 = "#FFFFFF";
 
-
 const darker = "#151515";
 const disabled = "hsla(0, 0%, 8%, 0.4)";
+
+const green = "#45E498";
+const orange = "#FA9537";
+const yellow = "#FAE637";
 const error = "#FF0202";
+const lightGray = "#E5E9EB";
+const midGray = "#B0BABF";
+const darkGray = "#252C32";
 
 module.exports = {
 	colors: {
 		credix: {
 			primary: primary,
 			secondary: secondary,
+			green,
+			orange,
+			yellow,
+			gray: {
+				light: lightGray,
+				mid: midGray,
+				dark: darkGray,
+			}
 		},
 		light: primary,
 		dark: neutral100,
