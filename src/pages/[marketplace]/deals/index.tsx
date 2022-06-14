@@ -24,6 +24,7 @@ import { usePendingDeals } from "@hooks/usePendingDeals";
 import { useActiveDeals } from "@hooks/useActiveDeals";
 import { useClosedDeals } from "@hooks/useClosedDeals";
 import { DealWithNestedResources } from "@state/dealSlice";
+import { useOpenForFundingDeals } from "@hooks/useOpenForFundingDeals";
 
 interface DealsTableDeal {
 	key: string;
@@ -46,6 +47,7 @@ const Deals: NextPageWithLayout = () => {
 	const market = useStore((state) => state.market);
 	const maybeFetchDeals = useStore((state) => state.maybeFetchDeals);
 	const deals = useStore((state) => state.deals);
+	const openDeals = useOpenForFundingDeals(deals);
 	const pendingDeals = usePendingDeals(deals);
 	const activeDeals = useActiveDeals(deals);
 	const closedDeals = useClosedDeals(deals);
@@ -184,18 +186,6 @@ const Deals: NextPageWithLayout = () => {
 			.map(mapDeal)
 			.sort((a, b) => (a.date <= b.date ? 1 : -1));
 
-	const investButton = (
-		<Link href={`/${marketplace}/invest-withdraw`}>
-			<a>
-				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
-					<span className="text-lg capitalize">
-						{intl.formatMessage({ defaultMessage: "invest", description: "Deals: invest button" })}
-					</span>
-				</Button>
-			</a>
-		</Link>
-	);
-
 	const newDealButton = (
 		<Link href={`/${marketplace}/deals/new`}>
 			<a>
@@ -227,17 +217,23 @@ const Deals: NextPageWithLayout = () => {
 
 	return (
 		<div className="space-y-14 py-5 px-4 md:pt-20 md:px-28">
-			<Tabs
-				tabBarExtraContent={
-					<div className="flex space-x-2">
-						{isAdmin && newDealButton}
-						{isInvestor && investButton}
-					</div>
-				}
-			>
+			<Tabs tabBarExtraContent={<div className="flex space-x-2">{isAdmin && newDealButton}</div>}>
 				<TabPane
 					tab={intl.formatMessage({
-						defaultMessage: "Active Deals",
+						defaultMessage: "Open for funding",
+						description: "Deals: open for funding deals tab",
+					})}
+					key="openForFundingDealsTab"
+				>
+					<Table
+						loading={isLoadingDeals}
+						dataSource={openDeals && mapDeals(openDeals)}
+						columns={dealsTableColumns}
+					/>
+				</TabPane>
+				<TabPane
+					tab={intl.formatMessage({
+						defaultMessage: "Active",
 						description: "Deals: active deals tab",
 					})}
 					key="activeDealsTab"
@@ -251,10 +247,10 @@ const Deals: NextPageWithLayout = () => {
 				{isAdmin && (
 					<TabPane
 						tab={intl.formatMessage({
-							defaultMessage: "Pending Deals",
+							defaultMessage: "Pending",
 							description: "Deals: pending deals tab",
 						})}
-						key="2"
+						key="pendingDealsTab"
 					>
 						<Table
 							loading={isLoadingDeals}
@@ -265,10 +261,10 @@ const Deals: NextPageWithLayout = () => {
 				)}
 				<TabPane
 					tab={intl.formatMessage({
-						defaultMessage: "Ended Deals",
-						description: "Deals: ended deals tab",
+						defaultMessage: "Closed",
+						description: "Deals: closed deals tab",
 					})}
-					key="3"
+					key="closedDealsTab"
 				>
 					<Table
 						loading={isLoadingDeals}

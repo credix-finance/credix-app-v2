@@ -10,7 +10,9 @@ export const useActiveDeals = (deals: DealWithNestedResources[]) => {
 			return;
 		}
 
-		const activeDeals = await asyncFilter(deals, (deal) => deal.isInProgress());
+		const activeDeals = await asyncFilter(deals, (deal) =>
+			deal.isInProgress(deal.repaymentSchedule)
+		);
 
 		setActiveDeals(activeDeals);
 	}, [deals]);
