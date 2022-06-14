@@ -5,6 +5,7 @@ import { colors as ThemeColors } from "../theme";
 
 export const DAYS_IN_REPAYMENT_PERIOD = 30;
 export const MONTHS_IN_YEAR = 12;
+export const DAYS_IN_YEAR = 360;
 
 export const marketplaces: string[] = [
 	"credix-marketplace",
