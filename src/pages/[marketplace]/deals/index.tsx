@@ -23,6 +23,7 @@ import { calculateTotalInterest } from "@utils/tranche.utils";
 import { usePendingDeals } from "@hooks/usePendingDeals";
 import { useActiveDeals } from "@hooks/useActiveDeals";
 import { useClosedDeals } from "@hooks/useClosedDeals";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -130,10 +131,10 @@ const Deals: NextPageWithLayout = () => {
 	}, [client, market, maybeFetchDeals]);
 
 	const mapDeal = useCallback(
-		(deal: Deal) => {
+		(deal: DealWithNestedResources) => {
 			const { address, name, goLiveAt, borrower } = deal;
-			const principal = 10000 || totalPrincipalRepaid([] as unknown as Tranches);
-			const interestRepaid = 1000 || totalInterestRepaid([] as unknown as Tranches);
+			const principal = totalPrincipalRepaid(deal.tranches);
+			const interestRepaid = totalInterestRepaid(deal.tranches);
 			const totalInterest = calculateTotalInterest(300, new Fraction(10, 100), 1000000);
 
 			const isRepayable = borrower.toString() === publicKey?.toString();

@@ -27,12 +27,15 @@ const getDeals = async (client: CredixClient, market: Market, set: SetState<Deal
 	const deals = (await market.fetchDeals()) as DealWithNestedResources[];
 
 	const repaymentSchedules = await client.repaymentScheduleLoader.fetchForDeals(deals);
-	const dealsWithRepaymentSchedule = deals.map((deal, index) => {
+	const tranches = await client.tranchesLoader.fetchForDeals(deals);
+
+	const dealsWithNestedResources = deals.map((deal, index) => {
 		deal.repaymentSchedule = repaymentSchedules[index];
+		deal.tranches = tranches[index];
 		return deal;
 	});
 
-	set({ deals: dealsWithRepaymentSchedule, isLoadingDeals: false });
+	set({ deals: dealsWithNestedResources, isLoadingDeals: false });
 };
 
 const maybeGetDeals = async (
