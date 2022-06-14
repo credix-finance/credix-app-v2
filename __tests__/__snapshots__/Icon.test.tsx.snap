@@ -2,7 +2,7 @@
 
 exports[`Icons: arrow-down 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   fill="none"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +16,7 @@ exports[`Icons: arrow-down 1`] = `
 
 exports[`Icons: arrow-down-square-solid 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 24 25"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -35,7 +35,7 @@ exports[`Icons: arrow-down-square-solid 1`] = `
 
 exports[`Icons: bookmark 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 16 16"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -47,7 +47,7 @@ exports[`Icons: bookmark 1`] = `
 
 exports[`Icons: calendar 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -69,7 +69,7 @@ exports[`Icons: calendar 1`] = `
 
 exports[`Icons: check-circle 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -88,7 +88,7 @@ exports[`Icons: check-circle 1`] = `
 
 exports[`Icons: check-square 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   fill="none"
   viewBox="0 0 20 20"
   xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +128,7 @@ exports[`Icons: chevron-left 1`] = `
 
 exports[`Icons: chevron-left-square 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -161,10 +161,9 @@ exports[`Icons: chevron-right 1`] = `
 
 exports[`Icons: coin-insert 1`] = `
 <svg
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   fill="none"
-  height="30"
   viewBox="0 0 30 30"
-  width="30"
   xmlns="http://www.w3.org/2000/svg"
 >
   <path
@@ -182,7 +181,7 @@ exports[`Icons: coin-insert 1`] = `
 
 exports[`Icons: coins 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 20 20"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -201,7 +200,7 @@ exports[`Icons: coins 1`] = `
 
 exports[`Icons: coins-alt 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -220,7 +219,7 @@ exports[`Icons: coins-alt 1`] = `
 
 exports[`Icons: ellipsis 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   strokeLinecap="round"
   strokeLinejoin="round"
   strokeWidth="2"
@@ -247,7 +246,7 @@ exports[`Icons: ellipsis 1`] = `
 
 exports[`Icons: exclamation-circle 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -265,9 +264,31 @@ exports[`Icons: exclamation-circle 1`] = `
 </svg>
 `;
 
+exports[`Icons: eye 1`] = `
+<svg
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
+  fill="none"
+  viewBox="0 0 24 24"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    clipRule="evenodd"
+    d="M12.0002 6C7.14499 6 4.89006 9.77258 4.09708 11.5534C3.96927 11.8405 3.96927 12.1595 4.09708 12.4466C4.89006 14.2274 7.14499 18 12.0002 18C16.8555 18 19.1103 14.2273 19.9031 12.4465C20.0309 12.1595 20.0309 11.8405 19.9031 11.5535C19.1103 9.77274 16.8555 6 12.0002 6ZM2.27002 10.7399C3.13935 8.78756 5.89147 4 12.0002 4C18.1091 4 20.861 8.78782 21.7302 10.7401C22.0885 11.5448 22.0885 12.4552 21.7302 13.2599C20.861 15.2122 18.1091 20 12.0002 20C5.89147 20 3.13935 15.2124 2.27002 13.2601C1.91162 12.4552 1.91162 11.5448 2.27002 10.7399Z"
+    fill="#F1F1F1"
+    fillRule="evenodd"
+  />
+  <path
+    clipRule="evenodd"
+    d="M12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8ZM11.9153 10.0018C11.9434 10.0006 11.9716 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 11.9716 10.0006 11.9434 10.0018 11.9153C10.1577 11.9701 10.3253 12 10.5 12C11.3284 12 12 11.3284 12 10.5C12 10.3253 11.9701 10.1577 11.9153 10.0018Z"
+    fill="white"
+    fillRule="evenodd"
+  />
+</svg>
+`;
+
 exports[`Icons: grid 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 20 21"
   xmlns="http://www.ww3.org/2000/svg"
 >
@@ -279,9 +300,25 @@ exports[`Icons: grid 1`] = `
 </svg>
 `;
 
+exports[`Icons: key 1`] = `
+<svg
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
+  fill="none"
+  viewBox="0 0 24 24"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    clipRule="evenodd"
+    d="M20 10.0001C20.0003 10.9372 19.781 11.8615 19.3598 12.6986C18.9386 13.5358 18.3271 14.2627 17.5744 14.821C16.8216 15.3792 15.9486 15.7535 15.0252 15.9136C14.1018 16.0737 13.1538 16.0153 12.257 15.7431L12 16.0001L11 17.0001L10 18.0001H8V20.0001H4V16.0001L8.257 11.7431C8.00745 10.9181 7.93857 10.049 8.05504 9.19502C8.17152 8.34102 8.47062 7.52215 8.93199 6.79412C9.39336 6.0661 10.0062 5.44602 10.7287 4.97609C11.4512 4.50617 12.2665 4.19743 13.1191 4.07088C13.9716 3.94434 14.8415 4.00296 15.6693 4.24276C16.4972 4.48256 17.2637 4.89791 17.9166 5.46054C18.5696 6.02317 19.0936 6.71987 19.4531 7.50322C19.8127 8.28656 19.9992 9.13817 20 10.0001ZM14 6.00008C13.7348 6.00008 13.4804 6.10543 13.2929 6.29297C13.1054 6.48051 13 6.73486 13 7.00008C13 7.26529 13.1054 7.51965 13.2929 7.70718C13.4804 7.89472 13.7348 8.00008 14 8.00008C14.5304 8.00008 15.0391 8.21079 15.4142 8.58586C15.7893 8.96094 16 9.46964 16 10.0001C16 10.2653 16.1054 10.5196 16.2929 10.7072C16.4804 10.8947 16.7348 11.0001 17 11.0001C17.2652 11.0001 17.5196 10.8947 17.7071 10.7072C17.8946 10.5196 18 10.2653 18 10.0001C18 8.93921 17.5786 7.92179 16.8284 7.17165C16.0783 6.4215 15.0609 6.00008 14 6.00008Z"
+    fill="#252C32"
+    fillRule="evenodd"
+  />
+</svg>
+`;
+
 exports[`Icons: line-chart 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   fill="none"
   viewBox="0 0 20 20"
   xmlns="http://www.w3.org/2000/svg"
@@ -299,9 +336,31 @@ exports[`Icons: line-chart 1`] = `
 </svg>
 `;
 
+exports[`Icons: pie-chart 1`] = `
+<svg
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
+  fill="none"
+  viewBox="0 0 16 16"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    clipRule="evenodd"
+    d="M1.43581 10.3738C1.23002 9.33927 1.33564 8.26691 1.73931 7.29238C2.14297 6.31784 2.82656 5.48488 3.70362 4.89885C4.47484 4.38354 5.36519 4.0795 6.28603 4.01362C6.88726 3.9706 7.33333 4.46149 7.33333 5.00002V8.66669L11 8.66669C11.5385 8.66669 12.0294 9.11275 11.9864 9.71399C11.9205 10.6348 11.6165 11.5252 11.1012 12.2964C10.5151 13.1735 9.68218 13.857 8.70764 14.2607C7.7331 14.6644 6.66075 14.77 5.62618 14.5642C4.59162 14.3584 3.64131 13.8505 2.89543 13.1046C2.14955 12.3587 1.6416 11.4084 1.43581 10.3738ZM2.97115 7.80262C2.6684 8.53352 2.58918 9.33779 2.74352 10.1137C2.89786 10.8896 3.27883 11.6024 3.83824 12.1618C4.39765 12.7212 5.11038 13.1022 5.8863 13.2565C6.66223 13.4108 7.46649 13.3316 8.1974 13.0289C8.9283 12.7261 9.55302 12.2134 9.99254 11.5556C10.3074 11.0844 10.5171 10.5539 10.6107 10H7.33333C6.59695 10 6 9.40307 6 8.66669V5.3893C5.44612 5.48292 4.9156 5.69262 4.44438 6.00748C3.78659 6.447 3.2739 7.07172 2.97115 7.80262Z"
+    fill="#12131A"
+    fillRule="evenodd"
+  />
+  <path
+    clipRule="evenodd"
+    d="M8.66667 2.33339C8.66667 1.79488 9.11272 1.30397 9.71397 1.34699C10.2841 1.38778 10.8447 1.52001 11.3743 1.73937C12.0214 2.00739 12.6093 2.40024 13.1046 2.89549C13.5998 3.39074 13.9927 3.97868 14.2607 4.62575C14.4801 5.15532 14.6123 5.716 14.6531 6.28609C14.6961 6.88735 14.2052 7.33339 13.6667 7.33339H10C9.26363 7.33339 8.66667 6.73644 8.66667 6.00006L8.66667 2.33339ZM10 2.72267L10 6.00006H13.2774C13.2274 5.70431 13.1442 5.41442 13.0289 5.13599C12.8278 4.65069 12.5332 4.20973 12.1618 3.8383C11.7903 3.46687 11.3494 3.17223 10.8641 2.97121C10.5856 2.85588 10.2958 2.77266 10 2.72267Z"
+    fill="#12131A"
+    fillRule="evenodd"
+  />
+</svg>
+`;
+
 exports[`Icons: plus-square 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -322,7 +381,7 @@ exports[`Icons: plus-square 1`] = `
 
 exports[`Icons: stacked-column-down 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 16 16"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -336,7 +395,7 @@ exports[`Icons: stacked-column-down 1`] = `
 
 exports[`Icons: timeline 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 20 21"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -355,7 +414,7 @@ exports[`Icons: timeline 1`] = `
 
 exports[`Icons: trend-down-circle 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -372,9 +431,28 @@ exports[`Icons: trend-down-circle 1`] = `
 </svg>
 `;
 
+exports[`Icons: trend-up 1`] = `
+<svg
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
+  viewBox="0 0 16 16"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    clipRule="evenodd"
+    d="M2.66667 2C3.03486 2 3.33333 2.29848 3.33333 2.66667V11.3333C3.33333 12.0697 3.93029 12.6667 4.66667 12.6667H13.3333C13.7015 12.6667 14 12.9651 14 13.3333C14 13.7015 13.7015 14 13.3333 14H4.66667C3.19391 14 2 12.8061 2 11.3333V2.66667C2 2.29848 2.29848 2 2.66667 2Z"
+    fillRule="evenodd"
+  />
+  <path
+    clipRule="evenodd"
+    d="M13.5441 2.03427C13.8934 2.1507 14.0822 2.52825 13.9658 2.87754L12.648 6.83088C12.1778 8.24134 10.3877 8.66393 9.33642 7.61263L8.38741 6.66363C8.03698 6.31319 7.44027 6.45406 7.28355 6.92421L5.96578 10.8775C5.84934 11.2268 5.4718 11.4156 5.1225 11.2992C4.77321 11.1827 4.58443 10.8052 4.70087 10.4559L6.01864 6.50258C6.4888 5.09211 8.27892 4.66952 9.33022 5.72082L10.2792 6.66982C10.6297 7.02026 11.2264 6.87939 11.3831 6.40924L12.7009 2.45591C12.8173 2.10661 13.1948 1.91784 13.5441 2.03427Z"
+    fillRule="evenodd"
+  />
+</svg>
+`;
+
 exports[`Icons: trend-up-circle 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -393,7 +471,7 @@ exports[`Icons: trend-up-circle 1`] = `
 
 exports[`Icons: user 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 20 21"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -407,7 +485,7 @@ exports[`Icons: user 1`] = `
 
 exports[`Icons: wallet 1`] = `
 <svg
-  className="w-4 h-4 fill-current"
+  className="w-4 h-4 min-w-4 min-h-4 fill-current"
   viewBox="0 0 24 25"
   xmlns="http://www.w3.org/2000/svg"
 >

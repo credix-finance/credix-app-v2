@@ -5,7 +5,7 @@ import { useStore } from "@state/useStore";
 import RepayDealForm, { DEAL_REPAYMENT_TYPE, RepayDealFormInput } from "@components/RepayDealForm";
 import { NextPageWithLayout } from "pages/_app";
 import Layout from "@components/Layout";
-import { numberFormatter, toProgramAmount, toUIAmount } from "@utils/format.utils";
+import { compactFormatter, toProgramAmount, toUIAmount } from "@utils/format.utils";
 import message from "message";
 import Big from "big.js";
 import DealAspectGrid from "@components/DealAspectGrid";
@@ -61,7 +61,7 @@ const Repay: NextPageWithLayout = () => {
 	};
 
 	const repayInterest = async (amount: number) => {
-		const formattedNumber = numberFormatter.format(amount);
+		const formattedNumber = compactFormatter.format(amount);
 		const hide = message.loading({
 			content: intl.formatMessage(
 				{
@@ -117,7 +117,7 @@ const Repay: NextPageWithLayout = () => {
 			return;
 		}
 
-		const formattedNumber = numberFormatter.format(amount);
+		const formattedNumber = compactFormatter.format(amount);
 		const hide = message.loading({
 			content: intl.formatMessage(
 				{

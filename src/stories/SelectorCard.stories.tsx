@@ -7,6 +7,8 @@ import { FormItem } from "@components/FormItem";
 import { AmortizationRepaymentSchedule } from "@components/AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "@components/BulletLoanRepaymentSchedule";
 import { TrancheOption } from "@components/TrancheOption";
+import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
+import { defaultTranches } from "@consts";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -43,20 +45,20 @@ WithAction.args = {
 export const Selected = Template.bind({});
 Selected.decorators = [
 	() => (
-		<Form layout="vertical" initialValues={{ repaymentType: "amortization" }}>
+		<Form layout="vertical" initialValues={{ repaymentType: RepaymentScheduleType.AMORTIZATION }}>
 			<FormItem name="repaymentType">
 				<Radio.Group>
 					<div className="space-y-4">
 						<SelectorCard
 							content={<div>This content is only visible when this option is selected</div>}
-							value="amortization"
+							value={RepaymentScheduleType.AMORTIZATION}
 							title="Amortization loan"
 							subtitle="Pay off a debt over time in equal installments"
 							checked={true}
 						/>
 						<SelectorCard
 							content={null}
-							value="bullet"
+							value={RepaymentScheduleType.BULLET}
 							title="Bullet loan"
 							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
 						/>
@@ -68,23 +70,43 @@ Selected.decorators = [
 ];
 Selected.args = {};
 
+const principal = 1_000_000;
+const financingFee = 0.15;
+const timeToMaturity = 360;
+
+const amortization = () => (
+	<AmortizationRepaymentSchedule
+		principal={principal}
+		financingFee={financingFee}
+		timeToMaturity={timeToMaturity}
+	/>
+);
+
+const bullet = () => (
+	<BulletLoanRepaymentSchedule
+		principal={principal}
+		financingFee={financingFee}
+		timeToMaturity={timeToMaturity}
+	/>
+);
+
 export const Amortization = Template.bind({});
 Amortization.decorators = [
 	() => (
-		<Form layout="vertical" initialValues={{ repaymentType: "amortization" }}>
+		<Form layout="vertical" initialValues={{ repaymentType: RepaymentScheduleType.AMORTIZATION }}>
 			<FormItem name="repaymentType">
 				<Radio.Group>
 					<div className="space-y-4">
 						<SelectorCard
-							content={<AmortizationRepaymentSchedule />}
-							value="amortization"
+							content={amortization}
+							value={RepaymentScheduleType.AMORTIZATION}
 							title="Amortization loan"
 							subtitle="Pay off a debt over time in equal installments"
 							checked={true}
 						/>
 						<SelectorCard
-							content={<BulletLoanRepaymentSchedule />}
-							value="bullet"
+							content={bullet}
+							value={RepaymentScheduleType.BULLET}
 							title="Bullet loan"
 							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
 						/>
@@ -98,19 +120,19 @@ Amortization.decorators = [
 export const BulletLoan = Template.bind({});
 BulletLoan.decorators = [
 	() => (
-		<Form layout="vertical" initialValues={{ repaymentType: "bullet" }}>
+		<Form layout="vertical" initialValues={{ repaymentType: RepaymentScheduleType.BULLET }}>
 			<FormItem name="repaymentType">
 				<Radio.Group>
 					<div className="space-y-4">
 						<SelectorCard
-							content={<AmortizationRepaymentSchedule />}
-							value="amortization"
+							content={amortization}
+							value={RepaymentScheduleType.AMORTIZATION}
 							title="Amortization loan"
 							subtitle="Pay off a debt over time in equal installments"
 						/>
 						<SelectorCard
-							content={<BulletLoanRepaymentSchedule />}
-							value="bullet"
+							content={bullet}
+							value={RepaymentScheduleType.BULLET}
 							title="Bullet loan"
 							subtitle="The Principal that is borrowed is paid back in full at the end of the loan term"
 							checked={true}
@@ -130,80 +152,20 @@ Tranches.decorators = [
 				<Radio.Group>
 					<div className="space-y-8">
 						<SelectorCard
-							content={
-								<TrancheOption
-									trancheData={[
-										{
-											name: "Senior",
-											expectedApy: 0.1,
-											value: 1,
-										},
-										{
-											name: "Mezzanine",
-											expectedApy: null,
-											value: null,
-										},
-										{
-											name: "Junior",
-											expectedApy: null,
-											value: null,
-										},
-									]}
-								/>
-							}
+							content={<TrancheOption trancheData={defaultTranches[0].trancheData} />}
 							value="oneTranche"
 							title="One tranche structure"
 							checked={true}
 						/>
 						<SelectorCard
-							content={
-								<TrancheOption
-									trancheData={[
-										{
-											name: "Senior",
-											expectedApy: 0.1,
-											value: 0.8,
-										},
-										{
-											name: "Mezzanine",
-											expectedApy: null,
-											value: null,
-										},
-										{
-											name: "Junior",
-											expectedApy: 0.23,
-											value: 0.2,
-										},
-									]}
-								/>
-							}
+							content={<TrancheOption trancheData={defaultTranches[1].trancheData} />}
 							value="twoTranche"
 							title="Two tranche structure"
 							showContent={true}
 							action={<Button type="text">Edit</Button>}
 						/>
 						<SelectorCard
-							content={
-								<TrancheOption
-									trancheData={[
-										{
-											name: "Senior",
-											expectedApy: 0.1,
-											value: 0.75,
-										},
-										{
-											name: "Mezzanine",
-											expectedApy: 0.17,
-											value: 0.2,
-										},
-										{
-											name: "Junior",
-											expectedApy: 0.34,
-											value: 0.05,
-										},
-									]}
-								/>
-							}
+							content={<TrancheOption trancheData={defaultTranches[2].trancheData} />}
 							value="threeTranche"
 							title="Three tranche structure"
 							showContent={true}

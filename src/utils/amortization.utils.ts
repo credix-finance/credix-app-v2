@@ -40,9 +40,9 @@ export interface Repayment {
 export const repaymentSchedule = (
 	principal: number,
 	interestRate: Ratio,
-	numberOfPayments: number
+	timeToMaturity: number
 ): Repayment[] => {
-	const paymentPeriods = Math.ceil(numberOfPayments / DAYS_IN_REPAYMENT_PERIOD);
+	const paymentPeriods = Math.ceil(timeToMaturity / DAYS_IN_REPAYMENT_PERIOD);
 	const monthlyPayment = calculateMonthlyPayment(principal, interestRate, paymentPeriods);
 	let balance = principal;
 	const schedule = [];

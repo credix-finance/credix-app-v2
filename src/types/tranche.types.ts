@@ -1,5 +1,9 @@
+import { Ratio } from "@credix/credix-client";
+
 export interface Tranche {
 	name: string;
-	expectedApy: number;
+	apr: Ratio;
 	value: number;
+	percentageOfPrincipal: Ratio;
+	percentageOfInterest: Ratio;
 }

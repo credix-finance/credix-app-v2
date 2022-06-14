@@ -3,6 +3,11 @@ export enum RepaymentScheduleAmountType {
 	PRINCIPAL = "principal",
 }
 
+export enum RepaymentScheduleType {
+	AMORTIZATION = "amortization",
+	BULLET = "bullet",
+}
+
 export interface RepaymentScheduleGraphDataPoint {
 	month: string;
 	type: RepaymentScheduleAmountType;
@@ -10,7 +15,7 @@ export interface RepaymentScheduleGraphDataPoint {
 }
 
 export interface RepaymentScheduleTableDataPoint {
-	date: string;
+	date: Date;
 	principal: number;
 	interest: number;
 	balance: number;

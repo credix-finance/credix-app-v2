@@ -4,7 +4,7 @@ import { Link } from "@components/Link";
 import { useCredixClient } from "@credix/credix-client";
 import { PublicKey } from "@solana/web3.js";
 import { getMarketsPaths } from "@utils/export.utils";
-import { numberFormatter, toProgramAmount } from "@utils/format.utils";
+import { compactFormatter, toProgramAmount } from "@utils/format.utils";
 import Big from "big.js";
 import message from "message";
 import { useRouter } from "next/router";
@@ -33,7 +33,7 @@ const New: NextPageWithLayout = () => {
 		borrower,
 		dealName,
 	}: DealFormInput) => {
-		const formattedPrincipal = numberFormatter.format(principal);
+		const formattedPrincipal = compactFormatter.format(principal);
 		const hide = message.loading({
 			content: intl.formatMessage(
 				{
@@ -125,17 +125,15 @@ const New: NextPageWithLayout = () => {
 	};
 
 	return (
-		<div className="py-5 px-4 md:px-20 md:justify-self-center md:w-full md:max-w-7xl lg:max-w-5xl">
+		<div className="py-5 px-4 md:p-20 md:justify-self-center w-full">
 			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
-			<div className="text-4xl font-sans pt-3 mb-9 capitalize">
+			<div className="text-4xl font-sans pt-3 mb-8 capitalize">
 				{intl.formatMessage({
-					defaultMessage: "new deal",
+					defaultMessage: "create new deal",
 					description: "New deal: title",
 				})}
 			</div>
-			<div className="bg-neutral-0 py-10 px-14 space-y-7">
-				<DealForm onSubmit={onSubmit} />
-			</div>
+			<DealForm onSubmit={onSubmit} />
 		</div>
 	);
 };
