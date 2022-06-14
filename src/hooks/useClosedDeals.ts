@@ -1,4 +1,5 @@
 import { DealWithNestedResources } from "@state/dealSlice";
+import { asyncFilter } from "@utils/async.utils";
 import { useCallback, useEffect, useState } from "react";
 
 export const useClosedDeals = (deals: DealWithNestedResources[]) => {
@@ -9,12 +10,7 @@ export const useClosedDeals = (deals: DealWithNestedResources[]) => {
 			return;
 		}
 
-		const mappedDeals = await Promise.all(
-			deals.map((deal) => {
-				return deal.isClosed(deal.repaymentSchedule);
-			})
-		);
-		const closedDeals = deals.filter((_deal, index) => mappedDeals[index]);
+		const closedDeals = await asyncFilter(deals, (deal) => deal.isClosed(deal.repaymentSchedule));
 
 		setClosedDeals(closedDeals);
 	}, [deals]);

@@ -1,4 +1,5 @@
 import { DealWithNestedResources } from "@state/dealSlice";
+import { asyncFilter } from "@utils/async.utils";
 import { useCallback, useEffect, useState } from "react";
 
 export const useActiveDeals = (deals: DealWithNestedResources[]) => {
@@ -9,12 +10,7 @@ export const useActiveDeals = (deals: DealWithNestedResources[]) => {
 			return;
 		}
 
-		const mappedDeals = await Promise.all(
-			deals.map((deal) => {
-				return deal.isInProgress(deal.repaymentSchedule);
-			})
-		);
-		const activeDeals = deals.filter((_deal, index) => mappedDeals[index]);
+		const activeDeals = await asyncFilter(deals, (deal) => deal.isInProgress());
 
 		setActiveDeals(activeDeals);
 	}, [deals]);

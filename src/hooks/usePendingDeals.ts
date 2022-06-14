@@ -1,4 +1,5 @@
 import { DealWithNestedResources } from "@state/dealSlice";
+import { asyncFilter } from "@utils/async.utils";
 import { useCallback, useEffect, useState } from "react";
 
 export const usePendingDeals = (deals: DealWithNestedResources[]) => {
@@ -9,12 +10,7 @@ export const usePendingDeals = (deals: DealWithNestedResources[]) => {
 			return;
 		}
 
-		const mappedDeals = await Promise.all(
-			deals.map((deal) => {
-				return deal.isPending(deal.repaymentSchedule);
-			})
-		);
-		const pendingDeals = deals.filter((_deal, index) => mappedDeals[index]);
+		const pendingDeals = await asyncFilter(deals, (deal) => deal.isPending(deal.repaymentSchedule));
 
 		setPendingDeals(pendingDeals);
 	}, [deals]);
