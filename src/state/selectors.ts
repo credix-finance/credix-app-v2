@@ -4,9 +4,9 @@ import { DealWithNestedResources } from "./dealSlice";
 const mapDeals = async (deals: DealWithNestedResources[]) => {
 	const x = await Promise.all(
 		deals
-			.filter((deal) => deal.repaymentschedule)
+			.filter((deal) => deal.repaymentSchedule)
 			.map((deal) => {
-				return deal.isPending(deal.repaymentschedule);
+				return deal.isPending(deal.repaymentSchedule);
 			})
 	);
 
@@ -25,7 +25,7 @@ export const selectPendingDeals = (state: StoreState): DealWithNestedResources[]
 };
 
 export const selectActiveDeals = (state: StoreState): DealWithNestedResources[] =>
-	state.deals?.filter((deal) => true || deal.isInProgress(deal.repaymentschedule));
+	state.deals?.filter((deal) => true || deal.isInProgress(deal.repaymentSchedule));
 
 export const selectEndedDeals = (state: StoreState): DealWithNestedResources[] =>
-	state.deals?.filter((deal) => true || deal.isClosed(deal.repaymentschedule));
+	state.deals?.filter((deal) => true || deal.isClosed(deal.repaymentSchedule));
