@@ -6,6 +6,16 @@ export const generateMockClient = (marketplace = "testmarket") => {
 		fetchMarket: async () => {
 			return { name: marketplace };
 		},
+		repaymentScheduleLoader: {
+			fetchForDeals: async () => {
+				return [];
+			},
+		},
+		tranchesLoader: {
+			fetchForDeals: async () => {
+				return [];
+			},
+		},
 	} as unknown as CredixClient;
 };
 

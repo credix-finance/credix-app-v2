@@ -1,11 +1,12 @@
 import { IconName } from "@components/Icon";
-import { Ratio } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { Route } from "types/route.types";
 import { colors as ThemeColors } from "../theme";
 
 export const DAYS_IN_REPAYMENT_PERIOD = 30;
 export const MONTHS_IN_YEAR = 12;
 export const DAYS_IN_YEAR = 360;
+export const MILLISECONDS_IN_DAY = 86_400_000;
 
 export const marketplaces: string[] = [
 	"credix-marketplace",
@@ -46,10 +47,10 @@ export const defaultTranches = [
 		trancheData: [
 			{
 				name: "Senior",
-				apr: new Ratio(135, 1000),
+				apr: new Fraction(135, 1000),
 				value: 1,
-				percentageOfPrincipal: new Ratio(1, 1),
-				percentageOfInterest: new Ratio(1, 1),
+				percentageOfPrincipal: new Fraction(1, 1),
+				percentageOfInterest: new Fraction(1, 1),
 			},
 			{
 				name: "Mezzanine",
@@ -74,9 +75,9 @@ export const defaultTranches = [
 			{
 				name: "Senior",
 				value: 0.8,
-				apr: new Ratio(135, 1000),
-				percentageOfPrincipal: new Ratio(10, 100),
-				percentageOfInterest: new Ratio(20, 100),
+				apr: new Fraction(135, 1000),
+				percentageOfPrincipal: new Fraction(10, 100),
+				percentageOfInterest: new Fraction(80, 100),
 			},
 			{
 				name: "Mezzanine",
@@ -88,9 +89,9 @@ export const defaultTranches = [
 			{
 				name: "Junior",
 				value: 0.2,
-				apr: new Ratio(135, 1000),
-				percentageOfPrincipal: new Ratio(10, 100),
-				percentageOfInterest: new Ratio(20, 100),
+				apr: new Fraction(135, 1000),
+				percentageOfPrincipal: new Fraction(90, 100),
+				percentageOfInterest: new Fraction(20, 100),
 			},
 		],
 	},
@@ -101,23 +102,23 @@ export const defaultTranches = [
 			{
 				name: "Senior",
 				value: 0.75,
-				apr: new Ratio(135, 1000),
-				percentageOfPrincipal: new Ratio(10, 100),
-				percentageOfInterest: new Ratio(20, 100),
+				apr: new Fraction(135, 1000),
+				percentageOfPrincipal: new Fraction(10, 100),
+				percentageOfInterest: new Fraction(20, 100),
 			},
 			{
 				name: "Mezzanine",
 				value: 0.2,
-				apr: new Ratio(135, 1000),
-				percentageOfPrincipal: new Ratio(15, 100),
-				percentageOfInterest: new Ratio(25, 100),
+				apr: new Fraction(135, 1000),
+				percentageOfPrincipal: new Fraction(15, 100),
+				percentageOfInterest: new Fraction(25, 100),
 			},
 			{
 				name: "Junior",
 				value: 0.05,
-				apr: new Ratio(135, 1000),
-				percentageOfPrincipal: new Ratio(10, 100),
-				percentageOfInterest: new Ratio(20, 100),
+				apr: new Fraction(135, 1000),
+				percentageOfPrincipal: new Fraction(75, 100),
+				percentageOfInterest: new Fraction(55, 100),
 			},
 		],
 	},

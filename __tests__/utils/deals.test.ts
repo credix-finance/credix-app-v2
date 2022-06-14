@@ -1,28 +1,33 @@
-import { Deal, Ratio } from "@credix/credix-client";
+import { Deal, Fraction, RepaymentSchedule, Tranche, Tranches } from "@credix/credix-client";
+import { TokenAmount } from "@solana/web3.js";
 import {
 	calculateDaysRemainingRatio,
 	calculateInterestRepaidRatio,
 	calculateMonthlyRepaymentAmount,
 	calculatePrincipalRepaidRatio,
 } from "@utils/deal.utils";
+import { daysToMilliseconds, ratioFormatter } from "@utils/format.utils";
 import Big from "big.js";
 
 describe("monthly repayment amount", () => {
 	it("calculates the monthly repayment amount", () => {
-		const deal = {
-			totalInterest: new Big(100_000_000),
-			timeToMaturity: 300,
-		} as Deal;
+		const repaymentSchedule = {
+			totalInterest: {
+				uiAmount: 100_000_000,
+			},
+			duration: 300,
+		} as RepaymentSchedule;
+
 		const expected = 10;
-		const result = calculateMonthlyRepaymentAmount(deal);
+		const result = calculateMonthlyRepaymentAmount(repaymentSchedule);
 
 		expect(result).toBe(expected);
 	});
 
-	it("returns if deal is null", () => {
-		const deal = null;
+	it("returns if repaymentSchedule is null", () => {
+		const repaymentSchedule = null;
 		const expected = undefined;
-		const result = calculateMonthlyRepaymentAmount(deal);
+		const result = calculateMonthlyRepaymentAmount(repaymentSchedule);
 
 		expect(result).toBe(expected);
 	});
@@ -30,12 +35,29 @@ describe("monthly repayment amount", () => {
 
 describe("interest repaid ratio", () => {
 	it("calculates the ratio", () => {
-		const deal = {
-			interestRepaid: 50_000_000,
-			totalInterest: new Big(100_000_000),
-		} as Deal;
-		const expected = new Ratio(50, 100);
-		const result = calculateInterestRepaidRatio(deal);
+		const tranches = {
+			tranches: [
+				{
+					interestRepaid: {
+						uiAmount: 25_000_000,
+					},
+				},
+				{
+					interestRepaid: {
+						uiAmount: 25_000_000,
+					},
+				},
+			] as Tranche[],
+		} as Tranches;
+
+		const repaymentSchedule = {
+			totalInterest: {
+				uiAmount: 100_000_000,
+			},
+		} as RepaymentSchedule;
+
+		const expected = new Fraction(50, 100);
+		const result = calculateInterestRepaidRatio(tranches, repaymentSchedule);
 
 		expect(result.equals(expected)).toBeTruthy();
 	});
@@ -43,12 +65,29 @@ describe("interest repaid ratio", () => {
 
 describe("principal repaid ratio", () => {
 	it("calculates the ratio", () => {
-		const deal = {
-			principalAmountRepaid: 50_000_000,
-			principal: 100_000_000,
-		} as Deal;
-		const expected = new Ratio(50, 100);
-		const result = calculatePrincipalRepaidRatio(deal);
+		const tranches = {
+			tranches: [
+				{
+					principalRepaid: {
+						uiAmount: 25_000_000,
+					},
+				},
+				{
+					principalRepaid: {
+						uiAmount: 25_000_000,
+					},
+				},
+			] as Tranche[],
+		} as Tranches;
+
+		const repaymentSchedule = {
+			totalPrincipal: {
+				uiAmount: 100_000_000,
+			},
+		} as RepaymentSchedule;
+
+		const expected = new Fraction(50, 100);
+		const result = calculatePrincipalRepaidRatio(tranches, repaymentSchedule);
 
 		expect(result.equals(expected)).toBeTruthy();
 	});
@@ -56,13 +95,22 @@ describe("principal repaid ratio", () => {
 
 describe("days remaining ratio", () => {
 	it("calculates the ratio", () => {
-		const deal = {
-			daysRemaining: 150,
-			timeToMaturity: 300,
-		} as Deal;
-		const expected = new Ratio(50, 100);
-		const result = calculateDaysRemainingRatio(deal);
+		const durationInDays = 300;
+		const goLiveAt = Math.trunc(
+			(new Date().getTime() - daysToMilliseconds(durationInDays / 2)) / 1000
+		);
 
-		expect(result.equals(expected)).toBeTruthy();
+		const deal = {
+			goLiveAt,
+		} as Deal;
+
+		const repaymentSchedule = {
+			duration: durationInDays,
+		} as RepaymentSchedule;
+
+		const expected = ratioFormatter.format(new Fraction(50, 100).toNumber());
+		const result = calculateDaysRemainingRatio(deal, repaymentSchedule);
+
+		expect(ratioFormatter.format(result.toNumber())).toEqual(expected);
 	});
 });

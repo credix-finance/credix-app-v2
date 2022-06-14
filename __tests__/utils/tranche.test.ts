@@ -1,4 +1,4 @@
-import { Ratio } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import {
 	seniorAPR,
 	calculateTotalInterest,
@@ -18,7 +18,7 @@ import {
 describe("total interest", () => {
 	it("calculates correctly", () => {
 		const timeToMaturity = 360;
-		const financingFee = new Ratio(10, 100);
+		const financingFee = new Fraction(10, 100);
 		const principal = 1_000_000;
 
 		const result = calculateTotalInterest(timeToMaturity, financingFee, principal);
@@ -30,9 +30,9 @@ describe("total interest", () => {
 
 describe("one tranche", () => {
 	it("calculates the senior apr", () => {
-		const percentageOfInterest = new Ratio(100, 100);
-		const percentageOfPrincipal = new Ratio(100, 100);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfInterest = new Fraction(100, 100);
+		const percentageOfPrincipal = new Fraction(100, 100);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -45,7 +45,7 @@ describe("one tranche", () => {
 			totalPrincipal,
 			timeToMaturity,
 		});
-		const expected = new Ratio(135, 1000);
+		const expected = new Fraction(135, 1000);
 
 		expect(result.equals(expected)).toBeTruthy();
 	});
@@ -53,9 +53,9 @@ describe("one tranche", () => {
 
 describe("two tranche", () => {
 	it("calculates the senior apr", () => {
-		const percentageOfInterest = new Ratio(50, 100);
-		const percentageOfPrincipal = new Ratio(50, 100);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfInterest = new Fraction(50, 100);
+		const percentageOfPrincipal = new Fraction(50, 100);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -68,13 +68,13 @@ describe("two tranche", () => {
 			totalPrincipal,
 			timeToMaturity,
 		});
-		expect(result.equals(new Ratio(135, 1000))).toBeTruthy();
+		expect(result.equals(new Fraction(135, 1000))).toBeTruthy();
 	});
 
 	it("calculates the senior percentage of principal", () => {
-		const percentageOfInterest = new Ratio(50, 100);
-		const aprSenior = new Ratio(135, 1000);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfInterest = new Fraction(50, 100);
+		const aprSenior = new Fraction(135, 1000);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -87,13 +87,13 @@ describe("two tranche", () => {
 			totalPrincipal,
 			timeToMaturity,
 		});
-		expect(result.equals(new Ratio(5, 10))).toBeTruthy();
+		expect(result.equals(new Fraction(5, 10))).toBeTruthy();
 	});
 
 	it("calculates the senior percentage of interest", () => {
-		const percentageOfPrincipal = new Ratio(50, 100);
-		const aprSenior = new Ratio(135, 1000);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfPrincipal = new Fraction(50, 100);
+		const aprSenior = new Fraction(135, 1000);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -106,13 +106,13 @@ describe("two tranche", () => {
 			totalPrincipal,
 			timeToMaturity,
 		});
-		expect(result.equals(new Ratio(5, 10))).toBeTruthy();
+		expect(result.equals(new Fraction(5, 10))).toBeTruthy();
 	});
 
 	it("calculates the junior apr", () => {
-		const percentageOfInterestSenior = new Ratio(50, 100);
-		const percentageOfPrincipalSenior = new Ratio(50, 100);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfInterestSenior = new Fraction(50, 100);
+		const percentageOfPrincipalSenior = new Fraction(50, 100);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -125,12 +125,12 @@ describe("two tranche", () => {
 			totalPrincipal,
 			timeToMaturity,
 		});
-		expect(result.equals(new Ratio(135, 1000))).toBeTruthy();
+		expect(result.equals(new Fraction(135, 1000))).toBeTruthy();
 	});
 	it("calculates the junior percentage of principal", () => {
-		const percentageOfInterestSenior = new Ratio(50, 100);
-		const aprJunior = new Ratio(250, 1000);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfInterestSenior = new Fraction(50, 100);
+		const aprJunior = new Fraction(250, 1000);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -143,13 +143,13 @@ describe("two tranche", () => {
 			totalPrincipal,
 			timeToMaturity,
 		});
-		expect(result.equals(new Ratio(27, 100))).toBeTruthy();
+		expect(result.equals(new Fraction(27, 100))).toBeTruthy();
 	});
 
 	it("calculates the junior percentage of interest", () => {
-		const percentageOfPrincipalSenior = new Ratio(50, 100);
-		const aprJunior = new Ratio(135, 1000);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfPrincipalSenior = new Fraction(50, 100);
+		const aprJunior = new Fraction(135, 1000);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -162,7 +162,7 @@ describe("two tranche", () => {
 			totalPrincipal,
 			timeToMaturity,
 		});
-		const expected = new Ratio(5, 10);
+		const expected = new Fraction(5, 10);
 
 		expect(result.equals(expected)).toBeTruthy();
 	});
@@ -170,9 +170,9 @@ describe("two tranche", () => {
 
 describe("three tranche", () => {
 	it("calculates the senior apr", () => {
-		const percentageOfInterest = new Ratio(50, 100);
-		const percentageOfPrincipal = new Ratio(50, 100);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfInterest = new Fraction(50, 100);
+		const percentageOfPrincipal = new Fraction(50, 100);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -185,13 +185,13 @@ describe("three tranche", () => {
 			totalPrincipal,
 			timeToMaturity,
 		});
-		expect(result.equals(new Ratio(135, 1000))).toBeTruthy();
+		expect(result.equals(new Fraction(135, 1000))).toBeTruthy();
 	});
 
 	it("calculates the senior percentage of principal", () => {
-		const percentageOfInterest = new Ratio(50, 100);
-		const aprSenior = new Ratio(135, 1000);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfInterest = new Fraction(50, 100);
+		const aprSenior = new Fraction(135, 1000);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -205,13 +205,13 @@ describe("three tranche", () => {
 			timeToMaturity,
 		});
 
-		expect(result.equals(new Ratio(50, 100))).toBeTruthy();
+		expect(result.equals(new Fraction(50, 100))).toBeTruthy();
 	});
 
 	it("calculates the senior percentage of interest", () => {
-		const percentageOfPrincipal = new Ratio(50, 100);
-		const aprSenior = new Ratio(135, 1000);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfPrincipal = new Fraction(50, 100);
+		const aprSenior = new Fraction(135, 1000);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -225,13 +225,13 @@ describe("three tranche", () => {
 			timeToMaturity,
 		});
 
-		expect(result.equals(new Ratio(50, 100))).toBeTruthy();
+		expect(result.equals(new Fraction(50, 100))).toBeTruthy();
 	});
 
 	it("calculates the mez apr", () => {
-		const percentageOfInterestMez = new Ratio(50, 100);
-		const percentageOfPrincipalMez = new Ratio(50, 100);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfInterestMez = new Fraction(50, 100);
+		const percentageOfPrincipalMez = new Fraction(50, 100);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -245,12 +245,12 @@ describe("three tranche", () => {
 			timeToMaturity,
 		});
 
-		expect(result.equals(new Ratio(135, 1000))).toBeTruthy();
+		expect(result.equals(new Fraction(135, 1000))).toBeTruthy();
 	});
 	it("calculates the mez percentage of principal", () => {
-		const percentageOfInterestMez = new Ratio(50, 100);
-		const aprJunior = new Ratio(250, 1000);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfInterestMez = new Fraction(50, 100);
+		const aprJunior = new Fraction(250, 1000);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -263,12 +263,12 @@ describe("three tranche", () => {
 			totalPrincipal,
 			timeToMaturity,
 		});
-		expect(result.equals(new Ratio(27, 100))).toBeTruthy();
+		expect(result.equals(new Fraction(27, 100))).toBeTruthy();
 	});
 	it("calculates the mez percentage of interest", () => {
-		const percentageOfPrincipalMez = new Ratio(50, 100);
-		const aprJunior = new Ratio(135, 1000);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfPrincipalMez = new Fraction(50, 100);
+		const aprJunior = new Fraction(135, 1000);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -282,15 +282,15 @@ describe("three tranche", () => {
 			timeToMaturity,
 		});
 
-		expect(result.equals(new Ratio(5, 10))).toBeTruthy();
+		expect(result.equals(new Fraction(5, 10))).toBeTruthy();
 	});
 
 	it("calculates the junior apr", () => {
-		const percentageOfInterestSenior = new Ratio(20, 100);
-		const percentageOfPrincipalSenior = new Ratio(15, 100);
-		const percentageOfInterestMez = new Ratio(15, 100);
-		const percentageOfPrincipalMez = new Ratio(20, 100);
-		const interestFee = new Ratio(10, 100);
+		const percentageOfInterestSenior = new Fraction(20, 100);
+		const percentageOfPrincipalSenior = new Fraction(15, 100);
+		const percentageOfInterestMez = new Fraction(15, 100);
+		const percentageOfPrincipalMez = new Fraction(20, 100);
+		const interestFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -306,6 +306,6 @@ describe("three tranche", () => {
 			timeToMaturity,
 		});
 
-		expect(result.equals(new Ratio(135, 1000))).toBeTruthy();
+		expect(result.equals(new Fraction(135, 1000))).toBeTruthy();
 	});
 });

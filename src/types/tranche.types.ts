@@ -1,9 +1,9 @@
-import { Ratio } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 
 export interface Tranche {
 	name: string;
-	apr: Ratio;
+	apr: Fraction;
 	value: number;
-	percentageOfPrincipal: Ratio;
-	percentageOfInterest: Ratio;
+	percentageOfPrincipal: Fraction;
+	percentageOfInterest: Fraction;
 }

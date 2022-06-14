@@ -1,11 +1,16 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Deal as DealType, useCredixClient } from "@credix/credix-client";
+import {
+	Deal as DealType,
+	RepaymentSchedule,
+	Tranches,
+	useCredixClient,
+} from "@credix/credix-client";
 import { useStore } from "@state/useStore";
-import RepayDealForm, { DEAL_REPAYMENT_TYPE, RepayDealFormInput } from "@components/RepayDealForm";
+import RepayDealForm, { RepayDealFormInput } from "@components/RepayDealForm";
 import { NextPageWithLayout } from "pages/_app";
 import Layout from "@components/Layout";
-import { compactFormatter, toProgramAmount, toUIAmount } from "@utils/format.utils";
+import { compactFormatter, toProgramAmount } from "@utils/format.utils";
 import message from "message";
 import Big from "big.js";
 import DealAspectGrid from "@components/DealAspectGrid";
@@ -26,18 +31,38 @@ const Repay: NextPageWithLayout = () => {
 	const market = useStore((state) => state.market);
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const intl = useIntl();
+	const [repaymentSchedule, setRepaymentSchedule] = useState<RepaymentSchedule>();
+	const [tranches, setTranches] = useState<Tranches>();
 
 	const getDealFromStore = useCallback(async () => {
 		if (market) {
-			const dealFromStore = await getDeal(market, dealId as string);
+			const dealFromStore = await getDeal(client, market, dealId as string);
 			setDeal(dealFromStore);
 		}
-	}, [market, dealId, getDeal]);
+	}, [client, market, dealId, getDeal]);
+
+	const getRepaymentSchedule = useCallback(async () => {
+		if (deal) {
+			const repaymentSchedule = await deal.fetchRepaymentSchedule();
+			setRepaymentSchedule(repaymentSchedule);
+		}
+	}, [deal]);
+
+	const getTranches = useCallback(async () => {
+		if (deal) {
+			const tranches = await deal.fetchTranches();
+			setTranches(tranches);
+		}
+	}, [deal]);
+
+	const getMonthlyRepaymentAmount = useCallback(async () => {
+		const amount = await calculateMonthlyRepaymentAmount(repaymentSchedule);
+		setMonthlyRepaymentAmount(amount);
+	}, [repaymentSchedule]);
 
 	useEffect(() => {
-		const amount = calculateMonthlyRepaymentAmount(deal);
-		setMonthlyRepaymentAmount(amount);
-	}, [deal]);
+		getMonthlyRepaymentAmount();
+	}, [getMonthlyRepaymentAmount]);
 
 	useEffect(() => {
 		fetchMarket(client, marketplace as string);
@@ -47,26 +72,22 @@ const Repay: NextPageWithLayout = () => {
 		getDealFromStore();
 	}, [getDealFromStore]);
 
-	const onSubmit = ({ type, amount }: RepayDealFormInput) => {
-		switch (type) {
-			case DEAL_REPAYMENT_TYPE.INTEREST:
-				repayInterest(amount);
-				break;
-			case DEAL_REPAYMENT_TYPE.PRINCIPAL:
-				repayPrincipal(amount);
-				break;
-			default:
-				break;
-		}
+	useEffect(() => {
+		getTranches();
+		getRepaymentSchedule();
+	}, [getTranches, getRepaymentSchedule]);
+
+	const onSubmit = ({ amount }: RepayDealFormInput) => {
+		makeRepayment(amount);
 	};
 
-	const repayInterest = async (amount: number) => {
+	const makeRepayment = async (amount: number) => {
 		const formattedNumber = compactFormatter.format(amount);
 		const hide = message.loading({
 			content: intl.formatMessage(
 				{
-					defaultMessage: "Repaying {amount} USDC of interest",
-					description: "Repay deal: interest repayment loading",
+					defaultMessage: "Repaying {amount} USDC",
+					description: "Repay deal: repayment loading",
 				},
 				{
 					amount: formattedNumber,
@@ -76,13 +97,13 @@ const Repay: NextPageWithLayout = () => {
 
 		try {
 			const programAmount = toProgramAmount(new Big(amount));
-			await deal.repayInterest(programAmount.toNumber());
+			await deal.repay(programAmount.toNumber());
 			hide();
 			message.success({
 				content: intl.formatMessage(
 					{
-						defaultMessage: "Successfully payed {amount} USDC of interest",
-						description: "Repay deal: interest repayment success",
+						defaultMessage: "Successfully made repayment of {amount} USDC",
+						description: "Repay deal: repayment success",
 					},
 					{
 						amount: formattedNumber,
@@ -95,64 +116,8 @@ const Repay: NextPageWithLayout = () => {
 			message.error({
 				content: intl.formatMessage(
 					{
-						defaultMessage: "Failed to pay {amount} USDC of interest",
-						description: "Repay deal: interest repayment failed",
-					},
-					{
-						amount: formattedNumber,
-					}
-				),
-			});
-		}
-	};
-
-	const repayPrincipal = async (amount: number) => {
-		if (!deal.interestToRepay.eq(0)) {
-			message.error({
-				content: intl.formatMessage({
-					defaultMessage: "Interest needs to be repaid in full before the principal can be repaid.",
-					description: "Repay deal: principal repayment validation failed",
-				}),
-			});
-			return;
-		}
-
-		const formattedNumber = compactFormatter.format(amount);
-		const hide = message.loading({
-			content: intl.formatMessage(
-				{
-					defaultMessage: "Repaying {amount} USDC of principal",
-					description: "Repay deal: principal repayment loading",
-				},
-				{
-					amount: formattedNumber,
-				}
-			),
-		});
-
-		try {
-			const programAmount = toProgramAmount(new Big(amount));
-			await deal.repayPrincipal(programAmount.toNumber());
-			hide();
-			message.success({
-				content: intl.formatMessage(
-					{
-						defaultMessage: "Successfully payed {amount} USDC of principal",
-						description: "Repay deal: principal repayment success",
-					},
-					{
-						amount: formattedNumber,
-					}
-				),
-			});
-			getDealFromStore();
-		} catch (error) {
-			hide();
-			message.error({
-				content: intl.formatMessage(
-					{
-						defaultMessage: "Failed to pay {amount} USDC of principal",
-						description: "Repay deal: principal repayment failed",
+						defaultMessage: "Failed to repay {amount} USDC",
+						description: "Repay deal: repayment failed",
 					},
 					{
 						amount: formattedNumber,
@@ -182,13 +147,8 @@ const Repay: NextPageWithLayout = () => {
 						})}
 					</div>
 				</div>
-				<DealAspectGrid deal={deal} />
-				<RepayDealForm
-					onSubmit={onSubmit}
-					maxInterestRepayment={toUIAmount(deal.interestToRepay).toNumber()}
-					maxPrincipalRepayment={toUIAmount(deal.principalToRepay).toNumber()}
-					monthlyRepaymentAmount={monthlyRepaymentAmount}
-				/>
+				<DealAspectGrid deal={deal} tranches={tranches} repaymentSchedule={repaymentSchedule} />
+				<RepayDealForm onSubmit={onSubmit} monthlyRepaymentAmount={monthlyRepaymentAmount} />
 			</div>
 		</DealCard>
 	);

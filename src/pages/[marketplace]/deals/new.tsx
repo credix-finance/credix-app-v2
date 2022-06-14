@@ -1,11 +1,10 @@
 import DealForm, { DealFormInput } from "@components/DealForm";
 import Layout from "@components/Layout";
 import { Link } from "@components/Link";
-import { useCredixClient } from "@credix/credix-client";
+import { Deal, Fraction, useCredixClient } from "@credix/credix-client";
 import { PublicKey } from "@solana/web3.js";
 import { getMarketsPaths } from "@utils/export.utils";
-import { compactFormatter, toProgramAmount } from "@utils/format.utils";
-import Big from "big.js";
+import { compactFormatter } from "@utils/format.utils";
 import message from "message";
 import { useRouter } from "next/router";
 import { NextPageWithLayout } from "pages/_app";
@@ -13,6 +12,9 @@ import React, { ReactElement, useEffect } from "react";
 import { useStore } from "state/useStore";
 import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
+import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
+import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
+import { DAYS_IN_REPAYMENT_PERIOD, DAYS_IN_YEAR, defaultTranches } from "@consts";
 
 const New: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -26,29 +28,16 @@ const New: NextPageWithLayout = () => {
 		fetchMarket(client, marketplace as string);
 	}, [client, fetchMarket, marketplace]);
 
-	const onSubmit = async ({
-		principal,
-		financingFee,
-		timeToMaturity,
-		borrower,
-		dealName,
-	}: DealFormInput) => {
-		const formattedPrincipal = compactFormatter.format(principal);
+	const checkCredixPass = async (borrower: PublicKey) => {
 		const hide = message.loading({
-			content: intl.formatMessage(
-				{
-					defaultMessage: "Creating deal for {amount} USDC",
-					description: "New deal: create deal loading",
-				},
-				{
-					amount: formattedPrincipal,
-				}
-			),
+			content: intl.formatMessage({
+				defaultMessage: "Checking Credix Pass",
+				description: "New deal: Credix Pass validation loading",
+			}),
 		});
-		const borrowerPK = new PublicKey(borrower);
 
 		try {
-			const credixPass = await market.fetchCredixPass(borrowerPK);
+			const credixPass = await market.fetchCredixPass(borrower);
 
 			if (!credixPass) {
 				hide();
@@ -71,28 +60,47 @@ const New: NextPageWithLayout = () => {
 			return;
 		}
 
+		hide();
+	};
+
+	const createDeal = async (
+		principal: number,
+		formattedPrincipal: string,
+		borrower: PublicKey,
+		dealName: string
+	) => {
+		const hide = message.loading({
+			content: intl.formatMessage(
+				{
+					defaultMessage: "Creating deal for {amount} USDC",
+					description: "New deal: create deal loading",
+				},
+				{
+					amount: formattedPrincipal,
+				}
+			),
+		});
+
 		try {
-			const principalProgramAmount = toProgramAmount(new Big(principal)).toNumber();
-			await market.createDeal(
-				principalProgramAmount,
-				financingFee,
-				timeToMaturity,
-				borrowerPK,
-				dealName
-			);
-			hide();
-			message.success({
-				content: intl.formatMessage(
-					{
-						defaultMessage: "Successfully created deal for {amount} USDC",
-						description: "New deal: deal creation success",
-					},
-					{
-						amount: formattedPrincipal,
-					}
-				),
+			const defaults = {
+				lateFeePercentage: new Fraction(0, 100),
+				maxFundingDuration: 255,
+				trueWaterfall: true,
+				slashInterestToPrincipal: true,
+				slashPrincipalToInterest: true,
+			};
+
+			await market.createDeal({
+				borrower: borrower,
+				lateFeePercentage: defaults.lateFeePercentage,
+				maxFundingDuration: defaults.maxFundingDuration,
+				name: dealName,
+				trueWaterfall: defaults.trueWaterfall,
+				slashInterestToPrincipal: defaults.slashInterestToPrincipal,
+				slashPrincipalToInterest: defaults.slashPrincipalToInterest,
 			});
-		} catch {
+			hide();
+		} catch (error) {
 			hide();
 			message.error({
 				content: intl.formatMessage(
@@ -107,12 +115,107 @@ const New: NextPageWithLayout = () => {
 			});
 			return;
 		}
+	};
+
+	const addTrancheConfig = async (deal: Deal, formattedPrincipal: string, trancheStructure) => {
+		const hide = message.loading({
+			content: intl.formatMessage({
+				defaultMessage: "Adding tranches to deal",
+				description: "New deal: add tranches schedule loading",
+			}),
+		});
+
+		const tranches = defaultTranches
+			.find((t) => t.value === trancheStructure)
+			.trancheData.filter((t) => t.value)
+			.map((t) => ({
+				size: new Fraction(t.percentageOfPrincipal.toNumber() * 100, 100),
+				returnPercentage: new Fraction(t.percentageOfInterest.toNumber() * 100, 100),
+				maxDepositPercentage: new Fraction(1, 1),
+				earlyWithdrawalInterest: true,
+				earlyWithdrawalPrincipal: true,
+			}));
 
 		try {
-			const borrowerInfo = await market.fetchBorrowerInfo(borrowerPK);
+			await deal.setTranches(tranches);
+
+			hide();
+			message.success({
+				content: intl.formatMessage(
+					{
+						defaultMessage: "Successfully created deal for {amount} USDC",
+						description: "New deal: deal creation success",
+					},
+					{
+						amount: formattedPrincipal,
+					}
+				),
+			});
+
+			return deal;
+		} catch {
+			hide();
+			message.error({
+				content: intl.formatMessage({
+					defaultMessage: "Failed to add tranches to deal",
+					description: "New deal: deal add tranches request failed",
+				}),
+			});
+		}
+	};
+
+	const addRepaymentSchedule = async (
+		deal: Deal,
+		repaymentType: string,
+		principal: number,
+		financingFee: number,
+		timeToMaturity: number
+	) => {
+		const hide = message.loading({
+			content: intl.formatMessage({
+				defaultMessage: "Adding repayment schedule to deal",
+				description: "New deal: add repayment schedule loading",
+			}),
+		});
+
+		const schedule = (
+			repaymentType === "amortization"
+				? amortizationSchedule(principal, new Fraction(financingFee, 100), timeToMaturity)
+				: bulletSchedule(principal, new Fraction(financingFee, 100), timeToMaturity)
+		).map((period: { interest: number; principal: number }) => {
+			return {
+				interest: period.interest,
+				principal: period.principal,
+			};
+		});
+
+		try {
+			await deal.setRepaymentSchedule({
+				daysInYear: DAYS_IN_YEAR,
+				periodDuration: DAYS_IN_REPAYMENT_PERIOD,
+				periods: schedule,
+			});
+			hide();
+
+			return deal;
+		} catch {
+			hide();
+
+			message.error({
+				content: intl.formatMessage({
+					defaultMessage: "Failed to add repayment schedule to deal",
+					description: "New deal: deal add repayment schedule request failed",
+				}),
+			});
+		}
+	};
+
+	const getDealInfo = async (borrower: PublicKey) => {
+		try {
+			const borrowerInfo = await market.fetchBorrowerInfo(borrower);
 			const deal = await borrowerInfo.fetchDeal(borrowerInfo.numberOfDeals - 1);
 
-			router.push(`/${marketplace}/deals/show?dealId=${deal.address.toString()}`);
+			return deal;
 		} catch {
 			message.error({
 				content: intl.formatMessage({
@@ -122,6 +225,33 @@ const New: NextPageWithLayout = () => {
 			});
 			router.push(`/${marketplace}/deals`);
 		}
+	};
+
+	const onSubmit = async ({
+		principal,
+		financingFee,
+		timeToMaturity,
+		borrower,
+		dealName,
+		repaymentType,
+		trancheStructure,
+	}: DealFormInput) => {
+		const borrowerPK = new PublicKey(borrower);
+		const formattedPrincipal = compactFormatter.format(principal);
+
+		await checkCredixPass(borrowerPK)
+			.then(async () => await createDeal(principal, formattedPrincipal, borrowerPK, dealName))
+			.then(async () => await getDealInfo(borrowerPK))
+			.then(
+				async (deal: Deal) =>
+					await addRepaymentSchedule(deal, repaymentType, principal, financingFee, timeToMaturity)
+			)
+			.then(
+				async (deal: Deal) => await addTrancheConfig(deal, formattedPrincipal, trancheStructure)
+			)
+			.then((deal: Deal) =>
+				router.push(`/${marketplace}/deals/show?dealId=${deal.address.toString()}`)
+			);
 	};
 
 	return (

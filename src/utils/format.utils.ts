@@ -1,3 +1,4 @@
+import { MILLISECONDS_IN_DAY } from "@consts";
 import Big, { RoundingMode } from "big.js";
 
 type formatter = (value: number) => string;
@@ -53,4 +54,12 @@ export const formatDate = (date: Date, locale: string[]) => {
 
 export const classNames = (input: (string | boolean | null)[]) => {
 	return input.filter(Boolean).join(" ");
+};
+
+export const daysToMilliseconds = (days: number) => {
+	return MILLISECONDS_IN_DAY * days;
+};
+
+export const millisecondsToDays = (milliseconds: number) => {
+	return milliseconds / MILLISECONDS_IN_DAY;
 };

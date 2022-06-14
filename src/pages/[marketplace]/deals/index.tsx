@@ -1,6 +1,6 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Deal, Ratio, useCredixClient } from "@credix/credix-client";
+import { Deal, Fraction, useCredixClient } from "@credix/credix-client";
 import { toUIAmount, formatTimestamp, compactFormatter } from "@utils/format.utils";
 import { Tabs } from "@components/Tabs";
 import { TabPane } from "@components/TabPane";
@@ -14,11 +14,28 @@ import { useLocales } from "@hooks/useLocales";
 import { useStore } from "@state/useStore";
 import Layout from "@components/Layout";
 import { NextPageWithLayout } from "pages/_app";
-import { selectActiveDeals, selectEndedDeals, selectPendingDeals } from "@state/selectors";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { getMarketsPaths } from "@utils/export.utils";
 import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
+import { totalInterestRepaid, totalPrincipalRepaid } from "@utils/deal.utils";
+import { calculateTotalInterest } from "@utils/tranche.utils";
+import { usePendingDeals } from "@hooks/usePendingDeals";
+import { useActiveDeals } from "@hooks/useActiveDeals";
+import { useClosedDeals } from "@hooks/useClosedDeals";
+import { DealWithNestedResources } from "@state/dealSlice";
+
+interface DealsTableDeal {
+	key: string;
+	name: string;
+	amount: string;
+	date: number;
+	paid: string;
+	repay: {
+		isRepayable: boolean;
+		path: string;
+	};
+}
 
 const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -28,12 +45,13 @@ const Deals: NextPageWithLayout = () => {
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
 	const maybeFetchDeals = useStore((state) => state.maybeFetchDeals);
-	const activeDeals = useStore((state) => selectActiveDeals(state));
-	const endedDeals = useStore((state) => selectEndedDeals(state));
-	const pendingDeals = useStore((state) => selectPendingDeals(state));
+	const deals = useStore((state) => state.deals);
+	const pendingDeals = usePendingDeals(deals);
+	const activeDeals = useActiveDeals(deals);
+	const closedDeals = useClosedDeals(deals);
 	const isLoadingDeals = useStore((state) => state.isLoadingDeals);
 	const isAdmin = useStore((state) => state.isAdmin);
-	const [isUnderwriter, setIsUnderwriter] = useState<boolean>(null);
+	const [isInvestor, setIsInvestor] = useState<boolean>(null);
 	const { publicKey } = useWallet();
 	const intl = useIntl();
 
@@ -121,11 +139,16 @@ const Deals: NextPageWithLayout = () => {
 	}, [fetchMarket, client, marketplace]);
 
 	useEffect(() => {
-		maybeFetchDeals(market);
-	}, [market, maybeFetchDeals]);
+		maybeFetchDeals(client, market);
+	}, [client, market, maybeFetchDeals]);
 
 	const mapDeal = useCallback(
-		({ address, name, principal, goLiveAt, interestRepaid, totalInterest, borrower }: Deal) => {
+		(deal: DealWithNestedResources): DealsTableDeal => {
+			const { address, name, goLiveAt, borrower } = deal;
+			const principal = totalPrincipalRepaid(deal.tranches);
+			const interestRepaid = totalInterestRepaid(deal.tranches);
+			const totalInterest = calculateTotalInterest(300, new Fraction(10, 100), 1000000);
+
 			const isRepayable = borrower.toString() === publicKey?.toString();
 			const path = `/${marketplace}/deals/${
 				isRepayable ? "repay" : "show"
@@ -137,7 +160,7 @@ const Deals: NextPageWithLayout = () => {
 				amount: compactFormatter.format(toUIAmount(new Big(principal)).toNumber()),
 				date: goLiveAt,
 				paid: compactFormatter.format(
-					new Ratio(
+					new Fraction(
 						toUIAmount(new Big(interestRepaid)).toNumber(),
 						toUIAmount(totalInterest).toNumber()
 					)
@@ -157,7 +180,7 @@ const Deals: NextPageWithLayout = () => {
 		deals
 			.slice()
 			// TODO: move this to the client
-			.filter((deal) => isUnderwriter || deal.borrower.toString() === publicKey.toString())
+			.filter((deal) => isInvestor || deal.borrower.toString() === publicKey.toString())
 			.map(mapDeal)
 			.sort((a, b) => (a.date <= b.date ? 1 : -1));
 
@@ -192,9 +215,9 @@ const Deals: NextPageWithLayout = () => {
 		try {
 			const credixPass = await market.fetchCredixPass(publicKey);
 
-			setIsUnderwriter(credixPass.isUnderwriter);
+			setIsInvestor(credixPass.isInvestor);
 		} catch (err) {
-			setIsUnderwriter(null);
+			setIsInvestor(null);
 		}
 	}, [market, publicKey]);
 
@@ -208,7 +231,7 @@ const Deals: NextPageWithLayout = () => {
 				tabBarExtraContent={
 					<div className="flex space-x-2">
 						{isAdmin && newDealButton}
-						{isUnderwriter && investButton}
+						{isInvestor && investButton}
 					</div>
 				}
 			>
@@ -249,7 +272,7 @@ const Deals: NextPageWithLayout = () => {
 				>
 					<Table
 						loading={isLoadingDeals}
-						dataSource={endedDeals && mapDeals(endedDeals)}
+						dataSource={closedDeals && mapDeals(closedDeals)}
 						columns={dealsTableColumns}
 					/>
 				</TabPane>

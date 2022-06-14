@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { Ratio } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { clamp, ratioFormatter } from "@utils/format.utils";
 
 interface DealAspectProps {
 	title: string;
 	value: string;
-	ratio?: Ratio;
+	ratio?: Fraction;
 	showRatio?: boolean;
 }
 

@@ -1,12 +1,12 @@
 import { DAYS_IN_REPAYMENT_PERIOD } from "@consts";
-import { Ratio } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import * as Amortization from "@utils/amortization.utils";
 import * as Bullet from "@utils/bullet.utils";
 import { round } from "@utils/format.utils";
 import Big from "big.js";
 
 const defaultPrincipal = 30_000;
-const defaultRate = new Ratio(3, 100);
+const defaultRate = new Fraction(3, 100);
 const defaultPeriods = 48;
 
 describe("amortization", () => {
@@ -132,7 +132,7 @@ describe("amortization", () => {
 describe("bullet", () => {
 	test("it calculates the monthly payment", async () => {
 		const principal = 100_000;
-		const financingFee = new Ratio(12, 100);
+		const financingFee = new Fraction(12, 100);
 		const numberOfPayments = 12;
 		const monthlyPayment = Bullet.calculateMonthlyPayment(
 			principal,
@@ -147,7 +147,7 @@ describe("bullet", () => {
 
 	test("it calculates the repayment schedule", async () => {
 		const principal = 100_000;
-		const financingFee = new Ratio(12, 100);
+		const financingFee = new Fraction(12, 100);
 		const numberOfPayments = 12 * DAYS_IN_REPAYMENT_PERIOD;
 
 		const schedule = Bullet.repaymentSchedule(principal, financingFee, numberOfPayments);

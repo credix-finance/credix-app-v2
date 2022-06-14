@@ -8,10 +8,8 @@ import { InvestmentDetails } from "@components/InvestmentDetails";
 import { useCredixClient } from "@credix/credix-client";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
-import Big from "big.js";
 import { validateMaxValue, validateMinValue } from "@utils/validation.utils";
 import { useStore } from "@state/useStore";
-import { toUIAmount } from "@utils/format.utils";
 import { useRouter } from "next/router";
 
 export interface LiquidityPoolInteractionForm {
@@ -47,7 +45,7 @@ export const LiquidityPoolInteraction = ({
 	const market = useStore((state) => state.market);
 	const { publicKey } = useWallet();
 	const [userBaseBalance, setUserBaseBalance] = useState<TokenAmount>();
-	const [userStake, setUserStake] = useState<Big>(new Big(0));
+	const [userStake, setUserStake] = useState<number>(0);
 	const [form] = Form.useForm();
 	const [maxInvestmentAmount, setMaxInvestmentAmount] = useState<number>(0);
 	const [maxWithdrawalAmount, setMaxWithdrawalAmount] = useState<number>(0);
@@ -74,11 +72,11 @@ export const LiquidityPoolInteraction = ({
 			const userStake = await market?.getUserStake(publicKey);
 
 			if (userStake) {
-				setUserStake(toUIAmount(userStake));
-				setMaxWithdrawalAmount(toUIAmount(userStake).toNumber());
+				setUserStake(userStake.uiAmount);
+				setMaxWithdrawalAmount(userStake.uiAmount);
 			}
 		} catch (err) {
-			setUserStake(new Big(0));
+			setUserStake(0);
 			setMaxWithdrawalAmount(0);
 		}
 	}, [market, publicKey]);

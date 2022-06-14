@@ -1,25 +1,45 @@
 import { GetState, SetState } from "zustand";
-import { Deal, Market } from "@credix/credix-client";
+import { CredixClient, Deal, Market, RepaymentSchedule, Tranches } from "@credix/credix-client";
 import { StoreSlice } from "./useStore";
 
+export interface DealWithNestedResources extends Deal {
+	repaymentSchedule?: RepaymentSchedule;
+	tranches?: Tranches;
+}
+
 export type DealSlice = {
-	deals?: Deal[];
+	deals?: DealWithNestedResources[];
 	isLoadingDeals: boolean;
-	maybeFetchDeals: (market: Market) => Promise<void>;
-	getDeal: (market: Market, dealAddress: string) => Promise<Deal>;
+	maybeFetchDeals: (client: CredixClient, market: Market) => Promise<void>;
+	getDeal: (
+		client: CredixClient,
+		market: Market,
+		dealAddress: string
+	) => Promise<DealWithNestedResources>;
 };
 
-const getDeals = async (market: Market, set: SetState<DealSlice>) => {
+const getDeals = async (client: CredixClient, market: Market, set: SetState<DealSlice>) => {
 	if (!market) {
 		return;
 	}
 
 	set({ isLoadingDeals: true });
-	const deals = await market.fetchDeals();
-	set({ deals, isLoadingDeals: false });
+	const deals = (await market.fetchDeals()) as DealWithNestedResources[];
+
+	const repaymentSchedules = await client.repaymentScheduleLoader.fetchForDeals(deals);
+	const tranches = await client.tranchesLoader.fetchForDeals(deals);
+
+	const dealsWithNestedResources = deals.map((deal, index) => {
+		deal.repaymentSchedule = repaymentSchedules[index];
+		deal.tranches = tranches[index];
+		return deal;
+	});
+
+	set({ deals: dealsWithNestedResources, isLoadingDeals: false });
 };
 
 const maybeGetDeals = async (
+	client: CredixClient,
 	market: Market,
 	get: GetState<DealSlice>,
 	set: SetState<DealSlice>
@@ -28,15 +48,15 @@ const maybeGetDeals = async (
 		return;
 	}
 
-	await getDeals(market, set);
+	await getDeals(client, market, set);
 };
 
 export const createDealSlice: StoreSlice<DealSlice> = (set, get) => ({
 	deals: null,
 	isLoadingDeals: false,
-	maybeFetchDeals: (market) => maybeGetDeals(market, get, set),
-	getDeal: async (market, dealAddress) => {
-		await getDeals(market, set);
+	maybeFetchDeals: (client, market) => maybeGetDeals(client, market, get, set),
+	getDeal: async (client, market, dealAddress) => {
+		await getDeals(client, market, set);
 
 		return get().deals.find((d) => d.address.toString() === dealAddress);
 	},

@@ -5,7 +5,7 @@ import {
 } from "@credix_types/repaymentschedule.types";
 import { repaymentSchedule } from "@utils/amortization.utils";
 import { generateGraphAndTableData } from "@utils/repayment.utils";
-import { Ratio } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { RepaymentSchedule } from "./RepaymentSchedule";
 
 interface AmortizationRepaymentScheduleProps {
@@ -23,7 +23,7 @@ export const AmortizationRepaymentSchedule: FunctionComponent<
 
 	useEffect(() => {
 		if (principal && financingFee && timeToMaturity) {
-			const financingFeeRatio = new Ratio(financingFee, 100);
+			const financingFeeRatio = new Fraction(financingFee, 100);
 			const schedule = repaymentSchedule(principal, financingFeeRatio, timeToMaturity);
 
 			const { graphData, dataSource } = generateGraphAndTableData(schedule);

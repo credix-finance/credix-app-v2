@@ -4,7 +4,7 @@ import {
 	RepaymentScheduleTableDataPoint,
 } from "@credix_types/repaymentschedule.types";
 import { repaymentSchedule } from "@utils/bullet.utils";
-import { Ratio } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { generateGraphAndTableData } from "@utils/repayment.utils";
 import { RepaymentSchedule } from "./RepaymentSchedule";
 
@@ -24,7 +24,7 @@ export const BulletLoanRepaymentSchedule: FunctionComponent<BulletLoanRepaymentS
 
 	useEffect(() => {
 		if (principal && financingFee && timeToMaturity) {
-			const financingFeeRatio = new Ratio(financingFee, 100);
+			const financingFeeRatio = new Fraction(financingFee, 100);
 			const schedule = repaymentSchedule(principal, financingFeeRatio, timeToMaturity);
 
 			const { graphData, dataSource } = generateGraphAndTableData(schedule);
