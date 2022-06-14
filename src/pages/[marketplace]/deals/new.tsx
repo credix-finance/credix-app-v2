@@ -155,7 +155,6 @@ const New: NextPageWithLayout = () => {
 
 			return deal;
 		} catch (error) {
-			console.log(error);
 			hide();
 			message.error({
 				content: intl.formatMessage({

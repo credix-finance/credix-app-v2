@@ -3,9 +3,9 @@ import { Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Form } from "antd";
-import { Fraction, Tranche, useCredixClient } from "@credix/credix-client";
-import { trancheFillColors, trancheNames, zeroTokenAmount } from "@consts";
-import { ratioFormatter, toProgramAmount } from "@utils/format.utils";
+import { Tranche, useCredixClient } from "@credix/credix-client";
+import { trancheNames, zeroTokenAmount } from "@consts";
+import { toProgramAmount } from "@utils/format.utils";
 import { useIntl } from "react-intl";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
@@ -15,61 +15,7 @@ import message from "@message";
 import Big from "big.js";
 import { useStore } from "@state/useStore";
 import { useRouter } from "next/router";
-
-export const TrancheFillLevel: FunctionComponent<TrancheFillLevelProps> = ({
-	size,
-	amountDeposited,
-	trancheIndex,
-}) => {
-	const heightInPx = 400;
-	const [filledHeightInPx, setFilledHeightInPx] = useState(0);
-	const [unFilledHeightInPx, setUnFilledHeightInPx] = useState(0);
-	const [amountDepositedPercentage, setAmountDepositedPercentage] = useState<Fraction>();
-
-	useEffect(() => {
-		setAmountDepositedPercentage(new Fraction(amountDeposited.uiAmount, size.uiAmount));
-	}, [amountDeposited, size]);
-
-	useEffect(() => {
-		if (amountDepositedPercentage) {
-			setFilledHeightInPx(amountDepositedPercentage.apply(heightInPx).toNumber());
-		}
-	}, [amountDepositedPercentage]);
-
-	useEffect(() => {
-		setUnFilledHeightInPx(heightInPx - filledHeightInPx);
-	}, [filledHeightInPx]);
-
-	return (
-		<div className={`w-[400px] h-[${heightInPx}px] relative`}>
-			<div
-				className="w-full"
-				style={{
-					backgroundColor: trancheFillColors[trancheIndex - 1].unfilled,
-					height: unFilledHeightInPx,
-				}}
-			></div>
-			<div
-				className="w-full"
-				style={{
-					backgroundColor: trancheFillColors[trancheIndex - 1].filled,
-					height: filledHeightInPx,
-				}}
-			></div>
-			<div className="absolute top-[50%] left-[50%] text-white">
-				<div className="relative top-[-50%] left-[-50%]">
-					{/* TODO: check precision of formatting */}
-					{ratioFormatter.format(amountDepositedPercentage?.toNumber())} filled
-				</div>
-			</div>
-		</div>
-	);
-};
-interface TrancheFillLevelProps {
-	amountDeposited: Tranche["amountDeposited"];
-	size: Tranche["size"];
-	trancheIndex: Tranche["index"];
-}
+import { TrancheFillLevel } from "./TrancheFillLevel";
 
 interface InvestInTrancheProps {
 	tranche: Tranche;
