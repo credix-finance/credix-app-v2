@@ -15,7 +15,7 @@ import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
 import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
 import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
-import { DAYS_IN_REPAYMENT_PERIOD, DAYS_IN_YEAR } from "@consts";
+import { DAYS_IN_REPAYMENT_PERIOD, DAYS_IN_YEAR, defaultTranches } from "@consts";
 
 const New: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -91,8 +91,6 @@ const New: NextPageWithLayout = () => {
 				slashPrincipalToInterest: true,
 			};
 
-			const principalProgramAmount = toProgramAmount(new Big(principal)).toNumber();
-
 			await market.createDeal({
 				borrower: borrower,
 				lateFeePercentage: defaults.lateFeePercentage,
@@ -120,7 +118,7 @@ const New: NextPageWithLayout = () => {
 		}
 	};
 
-	const addTrancheConfig = async (deal: Deal, formattedPrincipal: string) => {
+	const addTrancheConfig = async (deal: Deal, formattedPrincipal: string, trancheStructure) => {
 		const hide = message.loading({
 			content: intl.formatMessage({
 				defaultMessage: "Adding tranches to deal",
@@ -128,16 +126,19 @@ const New: NextPageWithLayout = () => {
 			}),
 		});
 
+		const tranches = defaultTranches
+			.find((t) => t.value === trancheStructure)
+			.trancheData.filter((t) => t.value)
+			.map((t) => ({
+				size: new Fraction(t.percentageOfPrincipal.toNumber() * 100, 100),
+				returnPercentage: new Fraction(t.percentageOfInterest.toNumber() * 100, 100),
+				maxDepositPercentage: new Fraction(1, 1),
+				earlyWithdrawalInterest: true,
+				earlyWithdrawalPrincipal: true,
+			}));
+
 		try {
-			await deal.setTranches([
-				{
-					size: new Fraction(1, 1),
-					earlyWithdrawalInterest: true,
-					earlyWithdrawalPrincipal: true,
-					maxDepositPercentage: new Fraction(1, 1),
-					returnPercentage: new Fraction(1, 1),
-				},
-			]);
+			await deal.setTranches(tranches);
 
 			hide();
 			message.success({
@@ -234,6 +235,7 @@ const New: NextPageWithLayout = () => {
 		borrower,
 		dealName,
 		repaymentType,
+		trancheStructure,
 	}: DealFormInput) => {
 		const borrowerPK = new PublicKey(borrower);
 		const formattedPrincipal = compactFormatter.format(principal);
@@ -245,7 +247,9 @@ const New: NextPageWithLayout = () => {
 				async (deal: Deal) =>
 					await addRepaymentSchedule(deal, repaymentType, principal, financingFee, timeToMaturity)
 			)
-			.then(async (deal: Deal) => await addTrancheConfig(deal, formattedPrincipal))
+			.then(
+				async (deal: Deal) => await addTrancheConfig(deal, formattedPrincipal, trancheStructure)
+			)
 			.then((deal: Deal) =>
 				router.push(`/${marketplace}/deals/show?dealId=${deal.address.toString()}`)
 			);

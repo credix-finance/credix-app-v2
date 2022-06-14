@@ -13,6 +13,7 @@ export interface DealFormInput {
 	borrower: string;
 	dealName: string;
 	repaymentType: string;
+	trancheStructure: string;
 }
 
 interface DealFormProps {
@@ -23,6 +24,7 @@ interface DealFormProps {
 		borrower,
 		dealName,
 		repaymentType,
+		trancheStructure,
 	}: DealFormInput) => void;
 }
 
