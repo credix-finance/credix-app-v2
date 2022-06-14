@@ -8,10 +8,6 @@ import { Button } from "./Button";
 import { Icon, IconDimension } from "./Icon";
 import { defaultTranches } from "@consts";
 import { TrancheOption } from "./TrancheOption";
-import { Market, Ratio } from "@credix/credix-client";
-import { calculateTotalInterest } from "@utils/tranche.utils";
-import Big from "big.js";
-import { useStore } from "@state/useStore";
 
 interface DealTranchesStepProps {
 	className?: string;
@@ -25,17 +21,6 @@ export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 	setCurrentStep,
 }) => {
 	const selectedTranche = Form.useWatch("trancheStructure", form);
-	const totalPrincipal = Form.useWatch("principal", form);
-	const financingFee = Form.useWatch("financingFee", form);
-	const timeToMaturity = Form.useWatch("timeToMaturity", form);
-	const market = useStore((state) => state.market);
-	const totalInterest =
-		timeToMaturity && financingFee && totalPrincipal
-			? calculateTotalInterest(timeToMaturity, new Ratio(Number(financingFee), 100), totalPrincipal)
-			: Big(0);
-	const interestFee = market
-		? new Ratio(market.interestFee.numerator, market.interestFee.denominator)
-		: new Ratio(1, 1);
 	const intl = useIntl();
 	className = classNames([className, "space-y-8"]);
 
@@ -53,19 +38,12 @@ export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 						{defaultTranches.map((tranche) => (
 							<SelectorCard
 								key={tranche.value}
-								content={
-									<TrancheOption
-										trancheData={tranche.trancheData}
-										interestFee={interestFee}
-										timeToMaturity={timeToMaturity}
-										totalPrincipal={totalPrincipal}
-										totalInterest={totalInterest.toNumber()}
-									/>
-								}
+								content={<TrancheOption trancheData={tranche.trancheData} />}
 								value={tranche.value}
 								title={tranche.title}
 								checked={selectedTranche === tranche.value}
 								showContent={true}
+								isInteractive={true}
 								onSelectCard={() => {
 									form.setFieldsValue({
 										trancheStructure: tranche.value,
