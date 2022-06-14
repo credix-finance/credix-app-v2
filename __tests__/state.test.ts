@@ -3,7 +3,6 @@ import { Keypair, PublicKey } from "@solana/web3.js";
 import { createAdminSlice } from "@state/adminSlice";
 import { createDealSlice, DealSlice } from "@state/dealSlice";
 import { createMarketSlice, MarketSlice } from "@state/marketSlice";
-import { selectActiveDeals, selectEndedDeals, selectPendingDeals } from "@state/selectors";
 import { StoreState } from "@state/useStore";
 import { generateMockClient, generateMockMarket } from "@utils/test.utils";
 import { UseBoundStore } from "zustand";

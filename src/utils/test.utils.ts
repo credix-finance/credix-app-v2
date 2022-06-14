@@ -11,6 +11,11 @@ export const generateMockClient = (marketplace = "testmarket") => {
 				return [];
 			},
 		},
+		tranchesLoader: {
+			fetchForDeals: async () => {
+				return [];
+			},
+		},
 	} as unknown as CredixClient;
 };
 

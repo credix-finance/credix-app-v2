@@ -1,6 +1,6 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Deal, Fraction, Tranches, useCredixClient } from "@credix/credix-client";
+import { Deal, Fraction, useCredixClient } from "@credix/credix-client";
 import { toUIAmount, formatTimestamp, compactFormatter } from "@utils/format.utils";
 import { Tabs } from "@components/Tabs";
 import { TabPane } from "@components/TabPane";

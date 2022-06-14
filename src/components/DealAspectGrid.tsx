@@ -91,7 +91,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({
 					description: "Deal aspect: principal",
 				})}
 				value={`${compactFormatter.format(
-					toUIAmount(new Big(repaymentSchedule.totalPrincipal)).toNumber()
+					toUIAmount(new Big(repaymentSchedule.totalPrincipal.uiAmount)).toNumber()
 				)} USDC`}
 			/>
 			<DealAspect
