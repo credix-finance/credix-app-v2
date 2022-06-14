@@ -13,7 +13,9 @@ import React, { ReactElement, useEffect } from "react";
 import { useStore } from "state/useStore";
 import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
-import { MessageType } from "antd/lib/message";
+import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
+import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
+import { DAYS_IN_REPAYMENT_PERIOD, DAYS_IN_YEAR } from "@consts";
 
 const New: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -162,7 +164,13 @@ const New: NextPageWithLayout = () => {
 		}
 	};
 
-	const addRepaymentSchedule = async (deal: Deal) => {
+	const addRepaymentSchedule = async (
+		deal: Deal,
+		repaymentType: string,
+		principal: number,
+		financingFee: number,
+		timeToMaturity: number
+	) => {
 		const hide = message.loading({
 			content: intl.formatMessage({
 				defaultMessage: "Adding repayment schedule to deal",
@@ -170,11 +178,22 @@ const New: NextPageWithLayout = () => {
 			}),
 		});
 
+		const schedule = (
+			repaymentType === "amortization"
+				? amortizationSchedule(principal, new Fraction(financingFee, 100), timeToMaturity)
+				: bulletSchedule(principal, new Fraction(financingFee, 100), timeToMaturity)
+		).map((period: { interest: number; principal: number }) => {
+			return {
+				interest: period.interest,
+				principal: period.principal,
+			};
+		});
+
 		try {
 			await deal.setRepaymentSchedule({
-				daysInYear: 360,
-				periodDuration: 30,
-				periods: [{ interest: 1000, principal: 10000 }],
+				daysInYear: DAYS_IN_YEAR,
+				periodDuration: DAYS_IN_REPAYMENT_PERIOD,
+				periods: schedule,
 			});
 			hide();
 
@@ -214,6 +233,7 @@ const New: NextPageWithLayout = () => {
 		timeToMaturity,
 		borrower,
 		dealName,
+		repaymentType,
 	}: DealFormInput) => {
 		const borrowerPK = new PublicKey(borrower);
 		const formattedPrincipal = compactFormatter.format(principal);
@@ -221,7 +241,10 @@ const New: NextPageWithLayout = () => {
 		await checkCredixPass(borrowerPK)
 			.then(async () => await createDeal(principal, formattedPrincipal, borrowerPK, dealName))
 			.then(async () => await getDealInfo(borrowerPK))
-			.then(async (deal: Deal) => await addRepaymentSchedule(deal))
+			.then(
+				async (deal: Deal) =>
+					await addRepaymentSchedule(deal, repaymentType, principal, financingFee, timeToMaturity)
+			)
 			.then(async (deal: Deal) => await addTrancheConfig(deal, formattedPrincipal))
 			.then((deal: Deal) =>
 				router.push(`/${marketplace}/deals/show?dealId=${deal.address.toString()}`)

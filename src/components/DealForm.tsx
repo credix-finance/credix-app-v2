@@ -12,6 +12,7 @@ export interface DealFormInput {
 	timeToMaturity: number;
 	borrower: string;
 	dealName: string;
+	repaymentType: string;
 }
 
 interface DealFormProps {
@@ -21,6 +22,7 @@ interface DealFormProps {
 		timeToMaturity,
 		borrower,
 		dealName,
+		repaymentType,
 	}: DealFormInput) => void;
 }
 
