@@ -25,6 +25,18 @@ import { useActiveDeals } from "@hooks/useActiveDeals";
 import { useClosedDeals } from "@hooks/useClosedDeals";
 import { DealWithNestedResources } from "@state/dealSlice";
 
+interface DealsTableDeal {
+	key: string;
+	name: string;
+	amount: string;
+	date: number;
+	paid: string;
+	repay: {
+		isRepayable: boolean;
+		path: string;
+	};
+}
+
 const Deals: NextPageWithLayout = () => {
 	const router = useRouter();
 	const locales = useLocales();
@@ -131,7 +143,7 @@ const Deals: NextPageWithLayout = () => {
 	}, [client, market, maybeFetchDeals]);
 
 	const mapDeal = useCallback(
-		(deal: DealWithNestedResources) => {
+		(deal: DealWithNestedResources): DealsTableDeal => {
 			const { address, name, goLiveAt, borrower } = deal;
 			const principal = totalPrincipalRepaid(deal.tranches);
 			const interestRepaid = totalInterestRepaid(deal.tranches);
