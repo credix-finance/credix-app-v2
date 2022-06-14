@@ -30,14 +30,22 @@ Default.args = {
 	tranches: {
 		tranches: [
 			{
-				principalRepaid: 100_000,
-				interestRepaid: 100_000,
+				principalRepaid: {
+					uiAmount: 100_000,
+				},
+				interestRepaid: {
+					uiAmount: 100_000,
+				},
 			},
 		],
 	},
 	repaymentSchedule: {
-		totalPrincipal: 1_000_000,
-		totalInterest: 100_000,
+		totalPrincipal: {
+			uiAmount: 1_000_000,
+		},
+		totalInterest: {
+			uiAmount: 100_000,
+		},
 		duration: 360,
 	},
 };
