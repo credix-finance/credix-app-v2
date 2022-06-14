@@ -7,7 +7,8 @@ export const calculateMonthlyRepaymentAmount = (repaymentSchedule: RepaymentSche
 	if (!repaymentSchedule) {
 		return;
 	}
-	const monthlyPayment = Big(repaymentSchedule.totalInterest).div(
+
+	const monthlyPayment = Big(repaymentSchedule.totalInterest.uiAmount).div(
 		new Big(repaymentSchedule.duration).div(30)
 	);
 
@@ -20,10 +21,10 @@ export const calculateInterestRepaidRatio = (
 	repaymentSchedule: RepaymentSchedule
 ) => {
 	const interestRepaid = tranches.tranches.reduce((acc: number, curr: Tranche) => {
-		return acc + curr.interestRepaid;
+		return acc + curr.interestRepaid.uiAmount;
 	}, 0);
 
-	return new Fraction(interestRepaid, repaymentSchedule.totalInterest);
+	return new Fraction(interestRepaid, repaymentSchedule.totalInterest.uiAmount);
 };
 
 // TODO: move this to the client
@@ -32,10 +33,10 @@ export const calculatePrincipalRepaidRatio = (
 	repaymentSchedule: RepaymentSchedule
 ) => {
 	const principalRepaid = tranches.tranches.reduce((acc: number, curr: Tranche) => {
-		return acc + curr.principalRepaid;
+		return acc + curr.principalRepaid.uiAmount;
 	}, 0);
 
-	return new Fraction(principalRepaid, repaymentSchedule.totalPrincipal);
+	return new Fraction(principalRepaid, repaymentSchedule.totalPrincipal.uiAmount);
 };
 
 export const calculateDaysRemaining = (deal: Deal, repaymentSchedule: RepaymentSchedule) => {
@@ -54,7 +55,7 @@ export const calculateDaysRemainingRatio = (deal: Deal, repaymentSchedule: Repay
 // TODO: move this to the client
 export const totalInterestRepaid = (tranches: Tranches) => {
 	const interestRepaid = tranches.tranches.reduce((acc: number, curr: Tranche) => {
-		return acc + curr.interestRepaid;
+		return acc + curr.interestRepaid.uiAmount;
 	}, 0);
 
 	return interestRepaid;
@@ -63,7 +64,7 @@ export const totalInterestRepaid = (tranches: Tranches) => {
 // TODO: move this to the client
 export const totalPrincipalRepaid = (tranches: Tranches) => {
 	const principalRepaid = tranches.tranches.reduce((acc: number, curr: Tranche) => {
-		return acc + curr.principalRepaid;
+		return acc + curr.principalRepaid.uiAmount;
 	}, 0);
 
 	return principalRepaid;
@@ -71,7 +72,14 @@ export const totalPrincipalRepaid = (tranches: Tranches) => {
 
 // TODO: move this to the client
 export const calculateFinancingFee = (repaymentSchedule: RepaymentSchedule) => {
-	return new Fraction(repaymentSchedule.totalInterest, repaymentSchedule.totalPrincipal);
+	if (!repaymentSchedule) {
+		return new Fraction(0, 1);
+	}
+
+	return new Fraction(
+		repaymentSchedule.totalInterest.uiAmount,
+		repaymentSchedule.totalPrincipal.uiAmount
+	);
 };
 
 export const interestToRepay = async (tranches: Tranches) => {

@@ -1,4 +1,5 @@
 import { Deal, Fraction, RepaymentSchedule, Tranche, Tranches } from "@credix/credix-client";
+import { TokenAmount } from "@solana/web3.js";
 import {
 	calculateDaysRemainingRatio,
 	calculateInterestRepaidRatio,
@@ -11,7 +12,9 @@ import Big from "big.js";
 describe("monthly repayment amount", () => {
 	it("calculates the monthly repayment amount", () => {
 		const repaymentSchedule = {
-			totalInterest: 100_000_000,
+			totalInterest: {
+				uiAmount: 100_000_000,
+			},
 			duration: 300,
 		} as RepaymentSchedule;
 
@@ -35,16 +38,22 @@ describe("interest repaid ratio", () => {
 		const tranches = {
 			tranches: [
 				{
-					interestRepaid: 25_000_000,
+					interestRepaid: {
+						uiAmount: 25_000_000,
+					},
 				},
 				{
-					interestRepaid: 25_000_000,
+					interestRepaid: {
+						uiAmount: 25_000_000,
+					},
 				},
 			] as Tranche[],
 		} as Tranches;
 
 		const repaymentSchedule = {
-			totalInterest: 100_000_000,
+			totalInterest: {
+				uiAmount: 100_000_000,
+			},
 		} as RepaymentSchedule;
 
 		const expected = new Fraction(50, 100);
@@ -59,16 +68,22 @@ describe("principal repaid ratio", () => {
 		const tranches = {
 			tranches: [
 				{
-					principalRepaid: 25_000_000,
+					principalRepaid: {
+						uiAmount: 25_000_000,
+					},
 				},
 				{
-					principalRepaid: 25_000_000,
+					principalRepaid: {
+						uiAmount: 25_000_000,
+					},
 				},
 			] as Tranche[],
 		} as Tranches;
 
 		const repaymentSchedule = {
-			totalPrincipal: 100_000_000,
+			totalPrincipal: {
+				uiAmount: 100_000_000,
+			},
 		} as RepaymentSchedule;
 
 		const expected = new Fraction(50, 100);
