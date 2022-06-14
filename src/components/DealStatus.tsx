@@ -12,7 +12,7 @@ export const DealStatus = ({ deal }: DealStatusProps) => {
 
 	if (deal.isInProgress()) {
 		return (
-			<Tag type="active">
+			<Tag color="green">
 				{intl.formatMessage({
 					defaultMessage: "Active",
 					description: "Deal status: active",
@@ -21,7 +21,7 @@ export const DealStatus = ({ deal }: DealStatusProps) => {
 		);
 	} else if (deal.isPending()) {
 		return (
-			<Tag type="pending">
+			<Tag color="lightGray">
 				{intl.formatMessage({
 					defaultMessage: "Pending",
 					description: "Deal status: pending",
@@ -31,7 +31,7 @@ export const DealStatus = ({ deal }: DealStatusProps) => {
 	}
 
 	return (
-		<Tag type="ended">
+		<Tag color="yellow">
 			{intl.formatMessage({
 				defaultMessage: "Ended",
 				description: "Deal status: ended",
