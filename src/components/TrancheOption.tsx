@@ -52,7 +52,9 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheDa
 				{trancheData.map((tranche, index) => (
 					<TrancheLine
 						key={tranche.name}
-						tranche={tranche}
+						name={tranche.name}
+						apr={tranche.apr}
+						value={tranche.value}
 						color={trancheColors[index]}
 						highlightedElement={highlightedElement}
 					/>

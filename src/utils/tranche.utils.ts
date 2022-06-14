@@ -279,3 +279,171 @@ export const twoTrancheJuniorPercentageOfInterest = ({
 			.toNumber()
 	);
 };
+
+export const threeTrancheSeniorPercentageOfPrincipal = ({
+	percentageOfInterest,
+	apr,
+	interestFee,
+	totalInterest,
+	totalPrincipal,
+	timeToMaturity,
+}: {
+	percentageOfInterest: Ratio;
+	apr: Ratio;
+	interestFee: Ratio;
+	totalInterest: number;
+	totalPrincipal: number;
+	timeToMaturity: number;
+}) => {
+	return new Ratio(
+		Big(DAYS_IN_YEAR)
+			.times(interestFee.toNumber() - 1)
+			.times(totalInterest)
+			.times(percentageOfInterest.toNumber())
+			.times(-1)
+			.toNumber(),
+		Big(timeToMaturity).times(totalPrincipal).times(apr.toNumber()).toNumber()
+	);
+};
+
+export const threeTrancheSeniorPercentageOfInterest = ({
+	percentageOfPrincipal,
+	apr,
+	interestFee,
+	totalInterest,
+	totalPrincipal,
+	timeToMaturity,
+}: {
+	percentageOfPrincipal: Ratio;
+	apr: Ratio;
+	interestFee: Ratio;
+	totalInterest: number;
+	totalPrincipal: number;
+	timeToMaturity: number;
+}) => {
+	return new Ratio(
+		Big(timeToMaturity)
+			.times(totalPrincipal)
+			.times(percentageOfPrincipal.toNumber())
+			.times(apr.toNumber())
+			.toNumber(),
+		Big(360)
+			.times(totalInterest)
+			.minus(Big(360).times(interestFee.toNumber()).times(totalInterest))
+			.toNumber()
+	);
+};
+
+export const threeTrancheMezAPR = ({
+	percentageOfInterestMez,
+	percentageOfPrincipalMez,
+	interestFee,
+	totalInterest,
+	totalPrincipal,
+	timeToMaturity,
+}: {
+	percentageOfInterestMez: Ratio;
+	percentageOfPrincipalMez: Ratio;
+	interestFee: Ratio;
+	totalInterest: number;
+	totalPrincipal: number;
+	timeToMaturity: number;
+}) => {
+	return mezAPR({
+		percentageOfInterest: percentageOfInterestMez,
+		percentageOfPrincipal: percentageOfPrincipalMez,
+		interestFee,
+		totalInterest,
+		totalPrincipal,
+		timeToMaturity,
+	});
+};
+
+export const threeTrancheMezPercentageOfPrincipal = ({
+	percentageOfInterestMez,
+	apr,
+	interestFee,
+	totalInterest,
+	totalPrincipal,
+	timeToMaturity,
+}: {
+	percentageOfInterestMez: Ratio;
+	apr: Ratio;
+	interestFee: Ratio;
+	totalInterest: number;
+	totalPrincipal: number;
+	timeToMaturity: number;
+}) => {
+	return new Ratio(
+		Big(DAYS_IN_YEAR)
+			.times(interestFee.toNumber() - 1)
+			.times(totalInterest)
+			.times(percentageOfInterestMez.toNumber() - 1)
+			.toNumber(),
+		Big(timeToMaturity).times(totalPrincipal).times(apr.toNumber()).toNumber()
+	);
+};
+
+export const threeTrancheMezPercentageOfInterest = ({
+	percentageOfPrincipalMez,
+	apr,
+	interestFee,
+	totalInterest,
+	totalPrincipal,
+	timeToMaturity,
+}: {
+	percentageOfPrincipalMez: Ratio;
+	apr: Ratio;
+	interestFee: Ratio;
+	totalInterest: number;
+	totalPrincipal: number;
+	timeToMaturity: number;
+}) => {
+	return new Ratio(
+		Big(timeToMaturity)
+			.times(totalPrincipal)
+			.times(Big(percentageOfPrincipalMez.toNumber() - 1).times(apr.toNumber()))
+			.toNumber(),
+		Big(DAYS_IN_YEAR)
+			.times(Big(interestFee.toNumber() - 1).times(totalInterest))
+			.toNumber()
+	);
+};
+
+export const threeTrancheJuniorAPR = ({
+	percentageOfInterestSenior,
+	percentageOfPrincipalSenior,
+	percentageOfInterestMez,
+	percentageOfPrincipalMez,
+	interestFee,
+	totalInterest,
+	totalPrincipal,
+	timeToMaturity,
+}: {
+	percentageOfInterestSenior: Ratio;
+	percentageOfPrincipalSenior: Ratio;
+	percentageOfInterestMez: Ratio;
+	percentageOfPrincipalMez: Ratio;
+	interestFee: Ratio;
+	totalInterest: number;
+	totalPrincipal: number;
+	timeToMaturity: number;
+}) => {
+	return new Ratio(
+		Big(1)
+			.minus(percentageOfInterestSenior.toNumber())
+			.minus(percentageOfInterestMez.toNumber())
+			.times(
+				Big(1)
+					.minus(interestFee.toNumber())
+					.times(totalInterest)
+					.div(totalPrincipal)
+					.times(Big(DAYS_IN_YEAR).div(timeToMaturity))
+			)
+			.toNumber(),
+		Big(1)
+			.minus(percentageOfPrincipalSenior.toNumber())
+			.minus(percentageOfPrincipalMez.toNumber())
+			.toNumber()
+	);
+};
