@@ -3,43 +3,28 @@ import {
 	RepaymentScheduleGraphDataPoint,
 	RepaymentScheduleTableDataPoint,
 } from "@credix_types/repaymentschedule.types";
-import { repaymentSchedule as generateRepaymentSchedule } from "@utils/amortization.utils";
+import { repaymentSchedule } from "@utils/amortization.utils";
 import { generateGraphAndTableData } from "@utils/repayment.utils";
-import { Fraction, RepaymentSchedule as RepaymentScheduleType } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { RepaymentSchedule } from "./RepaymentSchedule";
 
 interface AmortizationRepaymentScheduleProps {
-	principal?: number;
-	interest?: number;
-	repaymentSchedule?: RepaymentScheduleType;
-	financingFee?: number;
-	timeToMaturity?: number;
+	principal: number;
+	financingFee: number;
+	timeToMaturity: number;
 	children?: ReactNode;
 }
 
 export const AmortizationRepaymentSchedule: FunctionComponent<
 	AmortizationRepaymentScheduleProps
-> = ({ timeToMaturity, principal, financingFee, interest, repaymentSchedule }) => {
+> = ({ timeToMaturity, principal, financingFee }) => {
 	const [graphData, setGraphData] = useState<RepaymentScheduleGraphDataPoint[]>([]);
 	const [dataSource, setDataSource] = useState<RepaymentScheduleTableDataPoint[]>();
 
 	useEffect(() => {
-		if (repaymentSchedule) {
-			const { graphData, dataSource } = generateGraphAndTableData(
-				repaymentSchedule.periods.map((p) => ({
-					cumulativeInterest: p.cumulativeInterest.uiAmount,
-					cumulativePrincipal: p.cumulativePrincipal.uiAmount,
-					interest: p.interest.uiAmount,
-					principal: p.principal.uiAmount,
-				})),
-				repaymentSchedule.totalPrincipal.uiAmount,
-				repaymentSchedule.totalInterest.uiAmount
-			);
-			setGraphData(graphData);
-			setDataSource(dataSource);
-		} else if (principal && financingFee && timeToMaturity) {
+		if (principal && financingFee && timeToMaturity) {
 			const financingFeeRatio = new Fraction(financingFee, 100);
-			const schedule = generateRepaymentSchedule(principal, financingFeeRatio, timeToMaturity);
+			const schedule = repaymentSchedule(principal, financingFeeRatio, timeToMaturity);
 
 			const { graphData, dataSource } = generateGraphAndTableData(
 				schedule,
@@ -49,7 +34,7 @@ export const AmortizationRepaymentSchedule: FunctionComponent<
 			setGraphData(graphData);
 			setDataSource(dataSource);
 		}
-	}, [principal, financingFee, timeToMaturity, repaymentSchedule, interest]);
+	}, [principal, financingFee, timeToMaturity]);
 
 	return <RepaymentSchedule graphData={graphData} dataSource={dataSource} />;
 };

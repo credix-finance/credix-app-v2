@@ -3,8 +3,8 @@ import { Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
 import { classNames } from "@utils/format.utils";
 import { RepaymentSchedule } from "@credix/credix-client";
-import { repaymentScheduleType } from "@utils/repayment.utils";
-import { AmortizationRepaymentSchedule } from "./AmortizationRepaymentSchedule";
+import { generateGraphAndTableData, repaymentScheduleType } from "@utils/repayment.utils";
+import { RepaymentSchedule as Schedule } from "./RepaymentSchedule";
 import { useIntl } from "react-intl";
 
 interface DealRepaymentScheduleProps {
@@ -20,6 +20,22 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 	const [showDetails, setShowDetails] = useState(false);
 
 	className = classNames([className, "space-y-6"]);
+
+	const repaymentScheduleComponent = (repaymentSchedule: RepaymentSchedule) => {
+		const { graphData, dataSource } = generateGraphAndTableData(
+			repaymentSchedule.periods.map((p) => ({
+				cumulativeInterest: p.cumulativeInterest.uiAmount,
+				cumulativePrincipal: p.cumulativePrincipal.uiAmount,
+				interest: p.interest.uiAmount,
+				principal: p.principal.uiAmount,
+			})),
+			repaymentSchedule.totalPrincipal.uiAmount,
+			repaymentSchedule.totalInterest.uiAmount
+		);
+
+		return <Schedule graphData={graphData} dataSource={dataSource} />;
+	};
+
 	return (
 		<div className={className}>
 			<div className="font-sans font-semibold text-3xl">
@@ -62,11 +78,7 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 						<Icon name="arrow-down" size={IconDimension.MIDDLE} />
 					</Button>
 				</div>
-				{showDetails && (
-					<div className="mt-8">
-						<AmortizationRepaymentSchedule repaymentSchedule={repaymentSchedule} />
-					</div>
-				)}
+				{showDetails && <div className="mt-8">{repaymentScheduleComponent(repaymentSchedule)}</div>}
 			</div>
 		</div>
 	);

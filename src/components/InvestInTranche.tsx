@@ -3,15 +3,18 @@ import { Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Form } from "antd";
-import { Fraction, Tranche } from "@credix/credix-client";
+import { Fraction, Tranche, useCredixClient } from "@credix/credix-client";
 import { trancheFillColors, trancheNames, zeroTokenAmount } from "@consts";
-import { ratioFormatter } from "@utils/format.utils";
+import { ratioFormatter, toProgramAmount } from "@utils/format.utils";
 import { useIntl } from "react-intl";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
 import { AddMaxButtonSuffix } from "./AddMaxButtonSuffix";
 import { useUserBaseBalance } from "@hooks/useUserBaseBalance";
 import message from "@message";
+import Big from "big.js";
+import { useStore } from "@state/useStore";
+import { useRouter } from "next/router";
 
 export const TrancheFillLevel: FunctionComponent<TrancheFillLevelProps> = ({
 	size,
@@ -73,17 +76,22 @@ interface InvestInTrancheProps {
 }
 
 export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranche }) => {
+	const router = useRouter();
+	const { marketplace } = router.query;
 	const intl = useIntl();
 	const [form] = Form.useForm();
 	const { publicKey } = useWallet();
 	const [userTrancheBalance, setUserTrancheBalance] = useState<TokenAmount>();
 	const userBaseBalance = useUserBaseBalance();
+	const client = useCredixClient();
+	const fetchMarket = useStore((state) => state.fetchMarket);
 
 	const getInvestorTranche = useCallback(async () => {
 		if (tranche && publicKey) {
 			try {
 				const userTrancheBalance = await tranche.userTrancheBalance(publicKey);
 				setUserTrancheBalance(userTrancheBalance);
+				form.resetFields();
 			} catch (error) {
 				// User has not yet invested in tranche
 				if (Object.hasOwn(error, "message") && error.message.includes("could not find account")) {
@@ -91,7 +99,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 				}
 			}
 		}
-	}, [tranche, publicKey]);
+	}, [tranche, publicKey, form]);
 
 	useEffect(() => {
 		getInvestorTranche();
@@ -110,8 +118,9 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 
 		try {
 			// TODO: check how and when passes are created
-			await tranche.issuePass(publicKey);
-			await tranche.deposit(amount);
+			await tranche.deposit(toProgramAmount(Big(amount)).toNumber());
+			// Refresh market
+			await fetchMarket(client, marketplace as string);
 			hide();
 			message.success({
 				content: intl.formatMessage(
@@ -182,7 +191,11 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 								})}
 							</div>
 							{/* TODO: hex color */} {/* TODO: spacing */}
-							<div className="font-mono font-normal text-sm space-x-2 text-[#afafaf] flex mt-[14px]">
+							<div
+								className={`font-mono font-normal text-sm space-x-2  flex mt-[14px] ${
+									userTrancheBalance?.uiAmount === 0 ? "text-[#afafaf]" : "text-black"
+								}`}
+							>
 								<div>
 									{intl.formatMessage({
 										defaultMessage: "Value",

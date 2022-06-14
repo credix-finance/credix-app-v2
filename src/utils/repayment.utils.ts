@@ -2,6 +2,7 @@ import { RepaymentSchedule } from "@credix/credix-client";
 import {
 	RepaymentScheduleAmountType,
 	RepaymentSchedulePeriod,
+	RepaymentScheduleType,
 } from "@credix_types/repaymentschedule.types";
 import {
 	RepaymentScheduleGraphDataPoint,
@@ -52,11 +53,6 @@ export const generateGraphAndTableData = (
 		}
 	);
 };
-
-enum RepaymentScheduleType {
-	AMORTIZATION = "amortization",
-	BULLET = "bullet",
-}
 
 export const repaymentScheduleType = (repaymentSchedule: RepaymentSchedule) => {
 	if (repaymentSchedule.periods[0].principalToRepay.uiAmount === 0) {
