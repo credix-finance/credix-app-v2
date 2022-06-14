@@ -1,5 +1,6 @@
 import { DAYS_IN_REPAYMENT_PERIOD, MONTHS_IN_YEAR } from "@consts";
-import { Fraction } from "@credix/credix-client";
+import { Fraction, RepaymentPeriod } from "@credix/credix-client";
+import { RepaymentSchedulePeriod } from "@credix_types/repaymentschedule.types";
 
 export const calculateMonthlyPayment = (
 	principal: number,
@@ -18,23 +19,29 @@ export const calculatePrincipalRepayment = (
 	return monthlyPayment - outstandingLoanBalance * (rate / MONTHS_IN_YEAR);
 };
 
-export const repaymentSchedule = (principal: number, rate: Fraction, timeToMaturity: number) => {
+export const repaymentSchedule = (
+	principal: number,
+	rate: Fraction,
+	timeToMaturity: number
+): RepaymentSchedulePeriod[] => {
 	const paymentPeriods = Math.ceil(timeToMaturity / DAYS_IN_REPAYMENT_PERIOD);
 	const monthlyPayment = calculateMonthlyPayment(principal, rate, paymentPeriods);
-	const schedule = [];
+	const schedule = <RepaymentSchedulePeriod[]>[];
 
 	for (let index = 1; index < paymentPeriods; index++) {
 		schedule.push({
 			principal: 0,
 			interest: monthlyPayment,
-			balance: principal,
+			cumulativeInterest: monthlyPayment * index,
+			cumulativePrincipal: 0,
 		});
 	}
 
 	schedule.push({
 		principal,
 		interest: monthlyPayment,
-		balance: 0,
+		cumulativeInterest: rate.apply(principal).toNumber(),
+		cumulativePrincipal: principal,
 	});
 
 	return schedule;

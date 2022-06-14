@@ -147,7 +147,9 @@ const Repay: NextPageWithLayout = () => {
 						})}
 					</div>
 				</div>
-				<DealAspectGrid deal={deal} tranches={tranches} repaymentSchedule={repaymentSchedule} />
+				{repaymentSchedule && (
+					<DealAspectGrid deal={deal} tranches={tranches} repaymentSchedule={repaymentSchedule} />
+				)}
 				<RepayDealForm onSubmit={onSubmit} monthlyRepaymentAmount={monthlyRepaymentAmount} />
 			</div>
 		</DealCard>

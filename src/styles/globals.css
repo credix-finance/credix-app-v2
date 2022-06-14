@@ -184,7 +184,7 @@ body {
 }
 
 .ant-form-item-control-input-content .ant-input {
-	@apply px-4 py-3 font-medium text-base bg-credix-primary placeholder-neutral-100/70 !important;
+	@apply px-4 py-3 font-medium text-base placeholder-neutral-100/70 !important;
 }
 
 .ant-form-item-control-input-content .ant-input-suffix {

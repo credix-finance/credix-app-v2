@@ -4,7 +4,7 @@ import { Link } from "@components/Link";
 import { Deal, Fraction, useCredixClient } from "@credix/credix-client";
 import { PublicKey } from "@solana/web3.js";
 import { getMarketsPaths } from "@utils/export.utils";
-import { compactFormatter } from "@utils/format.utils";
+import { compactFormatter, toProgramAmount } from "@utils/format.utils";
 import message from "message";
 import { useRouter } from "next/router";
 import { NextPageWithLayout } from "pages/_app";
@@ -15,6 +15,7 @@ import { useIntl } from "react-intl";
 import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
 import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
 import { DAYS_IN_REPAYMENT_PERIOD, DAYS_IN_YEAR, defaultTranches } from "@consts";
+import Big from "big.js";
 
 const New: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -153,7 +154,8 @@ const New: NextPageWithLayout = () => {
 			});
 
 			return deal;
-		} catch {
+		} catch (error) {
+			console.log(error);
 			hide();
 			message.error({
 				content: intl.formatMessage({
@@ -184,8 +186,8 @@ const New: NextPageWithLayout = () => {
 				: bulletSchedule(principal, new Fraction(financingFee, 100), timeToMaturity)
 		).map((period: { interest: number; principal: number }) => {
 			return {
-				interest: period.interest,
-				principal: period.principal,
+				interest: toProgramAmount(Big(period.interest)).toNumber(),
+				principal: toProgramAmount(Big(period.principal)).toNumber(),
 			};
 		});
 

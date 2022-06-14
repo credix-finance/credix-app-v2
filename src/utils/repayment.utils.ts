@@ -1,34 +1,47 @@
-import { RepaymentScheduleAmountType } from "@credix_types/repaymentschedule.types";
+import { RepaymentSchedule } from "@credix/credix-client";
+import {
+	RepaymentScheduleAmountType,
+	RepaymentSchedulePeriod,
+} from "@credix_types/repaymentschedule.types";
 import {
 	RepaymentScheduleGraphDataPoint,
 	RepaymentScheduleTableDataPoint,
 } from "@credix_types/repaymentschedule.types";
-import { Repayment } from "@utils/amortization.utils";
 
-export const generateGraphAndTableData = (schedule: Repayment[]) => {
+export const generateGraphAndTableData = (
+	schedule: RepaymentSchedulePeriod[],
+	principal: number,
+	interest: number
+) => {
 	const currentDate = new Date();
+	const totalToRepay = principal + interest;
 
 	return schedule.reduce(
 		(acc, repayment, index) => {
-			const { interest, principal, balance } = repayment;
+			const {
+				interest: interestToRepay,
+				principal: principalToRepay,
+				cumulativeInterest,
+				cumulativePrincipal,
+			} = repayment;
 			const month = (index + 1).toString();
 
 			acc.graphData.push({
 				month,
 				type: RepaymentScheduleAmountType.INTEREST,
-				amount: interest,
+				amount: interestToRepay,
 			});
 			acc.graphData.push({
 				month,
 				type: RepaymentScheduleAmountType.PRINCIPAL,
-				amount: principal,
+				amount: principalToRepay,
 			});
 
 			acc.dataSource.push({
 				date: new Date(currentDate.getFullYear(), index + 1, 1),
-				principal: principal,
-				interest: interest,
-				balance: balance,
+				principal: principalToRepay,
+				interest: interestToRepay,
+				balance: totalToRepay - (cumulativeInterest + cumulativePrincipal),
 			});
 
 			return acc;
@@ -38,4 +51,17 @@ export const generateGraphAndTableData = (schedule: Repayment[]) => {
 			dataSource: RepaymentScheduleTableDataPoint[];
 		}
 	);
+};
+
+enum RepaymentScheduleType {
+	AMORTIZATION = "amortization",
+	BULLET = "bullet",
+}
+
+export const repaymentScheduleType = (repaymentSchedule: RepaymentSchedule) => {
+	if (repaymentSchedule.periods[0].principalToRepay.uiAmount === 0) {
+		return RepaymentScheduleType.BULLET;
+	}
+
+	return RepaymentScheduleType.AMORTIZATION;
 };

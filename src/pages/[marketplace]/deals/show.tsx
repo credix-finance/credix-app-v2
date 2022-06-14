@@ -1,17 +1,13 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
-import { Button } from "@components/Button";
-import { DealDetails } from "@components/DealDetails";
-import { Tranches, useCredixClient } from "@credix/credix-client";
+import { useCredixClient } from "@credix/credix-client";
 import { useStore } from "@state/useStore";
 import { useRouter } from "next/router";
-import { multisigUrl } from "@consts";
-import { DealCard } from "@components/DealCard";
 import { NextPageWithLayout } from "pages/_app";
 import { getMarketsPaths } from "@utils/export.utils";
 import Layout from "@components/Layout";
 import loadIntlMessages from "@utils/i18n.utils";
-import { useIntl } from "react-intl";
 import { DealWithNestedResources } from "@state/dealSlice";
+import { OpenForFunding } from "@components/OpenForFunding";
 
 const Show: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -21,9 +17,6 @@ const Show: NextPageWithLayout = () => {
 	const market = useStore((state) => state.market);
 	const getDeal = useStore((state) => state.getDeal);
 	const [deal, setDeal] = useState<DealWithNestedResources>();
-	const isAdmin = useStore((state) => state.isAdmin);
-	const intl = useIntl();
-	const [tranches, setTranches] = useState<Tranches>();
 
 	const getDealFromStore = useCallback(async () => {
 		if (market) {
@@ -31,13 +24,6 @@ const Show: NextPageWithLayout = () => {
 			setDeal(dealFromStore);
 		}
 	}, [client, market, dealId, getDeal]);
-
-	const getTranches = useCallback(async () => {
-		if (deal) {
-			const tranches = await deal.fetchTranches();
-			setTranches(tranches);
-		}
-	}, [deal]);
 
 	useEffect(() => {
 		fetchMarket(client, marketplace as string);
@@ -47,35 +33,19 @@ const Show: NextPageWithLayout = () => {
 		getDealFromStore();
 	}, [getDealFromStore]);
 
-	useEffect(() => {
-		getTranches();
-	}, [getTranches]);
-
-	const activateDeal = async () => {
-		window.open(multisigUrl, "_blank") || window.location.replace(multisigUrl);
-	};
-
 	if (!deal) {
 		return null;
 	}
 
 	return (
-		<DealCard marketplace={marketplace as string} deal={deal}>
-			<DealDetails deal={deal} tranches={tranches} repaymentSchedule={deal.repaymentSchedule} />
-			{isAdmin && deal.isPending() && (
-				<Button
-					type="default"
-					size="large"
-					className="mt-14 bg-neutral-0 capitalize"
-					onClick={activateDeal}
-				>
-					{intl.formatMessage({
-						defaultMessage: "activate deal",
-						description: "Activate deal: button",
-					})}
-				</Button>
-			)}
-		</DealCard>
+		<div className="py-5 px-4 md:p-20 md:justify-self-center w-full">
+			<OpenForFunding
+				marketplace={marketplace as string}
+				deal={deal}
+				tranches={deal.tranches}
+				repaymentSchedule={deal.repaymentSchedule}
+			/>
+		</div>
 	);
 };
 

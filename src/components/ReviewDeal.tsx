@@ -36,7 +36,7 @@ const DealDetail: FunctionComponent<DealDetailProps> = ({
 	valueSize = ValueSize.LARGE,
 }) => {
 	className = classNames([className, "p-6 border border-neutral-40 h-30 space-y-2"]);
-	const valueClassName = valueSize === ValueSize.LARGE && "font-bold text-2xl";
+	const valueClassName = classNames([valueSize === ValueSize.LARGE && "font-bold text-2xl"]);
 
 	return (
 		<div className={className}>

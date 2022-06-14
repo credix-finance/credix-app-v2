@@ -67,6 +67,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-20">
 				<div>
 					<Input
+						className="bg-credix-primary"
 						name="dealName"
 						label={intl.formatMessage({
 							defaultMessage: "Deal Name",
@@ -90,6 +91,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					/>
 					<Input
 						name="borrower"
+						className="bg-credix-primary"
 						label={intl.formatMessage({
 							defaultMessage: "Borrower Key",
 							description: "Deal form: borrower key input label",
@@ -118,6 +120,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					<TextArea
 						rows={5}
 						name="details"
+						className="bg-credix-primary"
 						label={intl.formatMessage({
 							defaultMessage: "More details",
 							description: "Deal form: more details textarea label",
@@ -132,6 +135,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				<div>
 					<Input
 						name="principal"
+						className="bg-credix-primary"
 						label={intl.formatMessage({
 							defaultMessage: "Principal",
 							description: "Deal form: principal input label",
@@ -155,6 +159,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					/>
 					<Input
 						name="financingFee"
+						className="bg-credix-primary"
 						label={intl.formatMessage({
 							defaultMessage: "Financing Fee",
 							description: "Deal form: financing fee input label",
@@ -179,6 +184,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					/>
 					<Input
 						name="timeToMaturity"
+						className="bg-credix-primary"
 						label={intl.formatMessage({
 							defaultMessage: "Time To Maturity",
 							description: "Deal form: time to maturity input label",
@@ -208,6 +214,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					/>
 					<Input
 						name="repaymentPeriod"
+						className="bg-credix-primary"
 						disabled={true}
 						label={intl.formatMessage({
 							defaultMessage: "Repayment period",

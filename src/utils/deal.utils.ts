@@ -1,5 +1,5 @@
 import { Deal, Fraction, RepaymentSchedule, Tranche, Tranches } from "@credix/credix-client";
-import { daysToMilliseconds, toUIAmount } from "@utils/format.utils";
+import { clamp, daysToMilliseconds, toUIAmount } from "@utils/format.utils";
 import Big from "big.js";
 
 // TODO: move this to the client
@@ -43,7 +43,7 @@ export const calculateDaysRemaining = (deal: Deal, repaymentSchedule: RepaymentS
 	const today = new Date();
 	const endDate = new Date(deal.goLiveAt * 1000 + daysToMilliseconds(repaymentSchedule.duration));
 	const differenceInTime = endDate.getTime() - today.getTime();
-	return differenceInTime / (1000 * 60 * 60 * 24);
+	return clamp(differenceInTime / (1000 * 60 * 60 * 24), 0);
 };
 
 // TODO: move this to the client

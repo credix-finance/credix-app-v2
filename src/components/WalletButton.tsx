@@ -7,6 +7,7 @@ import { Icon, IconDimension } from "@components/Icon";
 import message from "@message";
 import { useIntl } from "react-intl";
 import { Menu, Dropdown } from "antd";
+import { slicedBased58Key } from "@utils/format.utils";
 
 interface WalletButtonProps {
 	className?: string;
@@ -27,7 +28,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 			});
 		}
 
-		return base58.slice(0, 5) + ".." + base58.slice(-5);
+		return slicedBased58Key(base58);
 	}, [wallet, base58, intl]);
 
 	const copyAddress = useCallback(async () => {
