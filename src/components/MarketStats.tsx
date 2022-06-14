@@ -26,7 +26,7 @@ export const MarketStats = ({ market }: MarketStatsProps) => {
 		const totalOutstandingCredit = market?.totalOutstandingCredit;
 
 		if (totalOutstandingCredit) {
-			setCreditOutstanding(toUIAmount(new Big(totalOutstandingCredit)).toNumber());
+			setCreditOutstanding(totalOutstandingCredit.uiAmount);
 		}
 	}, [market]);
 

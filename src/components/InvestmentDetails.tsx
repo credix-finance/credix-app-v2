@@ -8,7 +8,7 @@ import { useIntl } from "react-intl";
 interface InvestmentDetailsProps {
 	balance: TokenAmount;
 	balanceCurrency: string;
-	investments: Big;
+	investments: number;
 	investmentsCurrency: string;
 	investmentsReturn?: number;
 }
@@ -49,7 +49,7 @@ export const InvestmentDetails = ({
 				<div>
 					<div className="text-2xl font-bold">{`${
 						investments &&
-						formatNumber(round(investments, Big.roundHalfEven), compactFormatter.format)
+						formatNumber(round(Big(investments), Big.roundHalfEven), compactFormatter.format)
 					} ${investmentsCurrency}`}</div>
 				</div>
 			</div>
