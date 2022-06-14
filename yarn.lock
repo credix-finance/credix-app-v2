@@ -2713,9 +2713,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@credix/credix-client@npm:0.4.0-beta.0":
-  version: 0.4.0-beta.0
-  resolution: "@credix/credix-client@npm:0.4.0-beta.0"
+"@credix/credix-client@npm:0.5.0-beta.0":
+  version: 0.5.0-beta.0
+  resolution: "@credix/credix-client@npm:0.5.0-beta.0"
   dependencies:
     "@identity.com/solana-gateway-ts": ^0.8.2
     "@project-serum/anchor": 0.24.2
@@ -2726,7 +2726,7 @@ __metadata:
     bn.js: ^5.2.0
   peerDependencies:
     react: ^17.0.2
-  checksum: 4872decb3e043877bcbb3dd6ead88f35269aec6ab0c4f00ebc32c3ad5fe73f44092599a9e3127932255cbd9d1fe93f60b31fbdb7b5c0e7e06219f95222d5c873
+  checksum: 71a0ff6ecda025de85a99dd2baf51138567983df717660a51a5a9e81c3aa1c27762c8ef9a37a4fb88fb2da639233b1cd0447fb158d485dc80a4cd23131d119fc
   languageName: node
   linkType: hard
 
@@ -9496,7 +9496,7 @@ __metadata:
     "@civic/solana-gateway-react": 0.4.13
     "@commitlint/cli": ^16.2.3
     "@commitlint/config-conventional": ^16.2.1
-    "@credix/credix-client": 0.4.0-beta.0
+    "@credix/credix-client": 0.5.0-beta.0
     "@credix/eslint-config": ^1.1.0
     "@credix/prettier-config": ^1.0.0
     "@formatjs/cli": ^4.8.3
