@@ -16,6 +16,8 @@ import Big from "big.js";
 import { useStore } from "@state/useStore";
 import { useRouter } from "next/router";
 import { TrancheFillLevel } from "./TrancheFillLevel";
+import { config } from "@config";
+import { SolanaCluster } from "@credix_types/solana.types";
 
 interface InvestInTrancheProps {
 	tranche: Tranche;
@@ -51,6 +53,16 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 		getInvestorTranche();
 	}, [getInvestorTranche]);
 
+	const maybeIssueTranchePass = async () => {
+		if (config.clusterConfig.name === SolanaCluster.LOCALNET) {
+			const tranchePass = await tranche.fetchPass(publicKey);
+
+			if (tranchePass === null) {
+				await tranche.issuePass(publicKey);
+			}
+		}
+	};
+
 	const investInTranche = async ({ amount }) => {
 		const hide = message.loading({
 			content: intl.formatMessage(
@@ -63,7 +75,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 		});
 
 		try {
-			// TODO: check how and when passes are created
+			await maybeIssueTranchePass();
 			await tranche.deposit(toProgramAmount(Big(amount)).toNumber());
 			// Refresh market
 			await fetchMarket(client, marketplace as string);
