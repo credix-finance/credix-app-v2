@@ -6,3 +6,7 @@ export async function asyncFilter<T>(
 
 	return arr.filter((_, i) => results[i]);
 }
+
+export async function asyncMap<T, R>(arr: T[], map: (element: T) => Promise<R>): Promise<R[]> {
+	return Promise.all(arr.map(map));
+}

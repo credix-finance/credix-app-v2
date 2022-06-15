@@ -24,7 +24,7 @@ export interface TableProps {
 	/**
 	 * Table columns
 	 */
-	columns?: ColumnsProps[];
+	columns: ColumnsProps[];
 	/**
 	 * onRow provides a way to hook into click events originating from the table row.
 	 * This prop also enables table hover styles

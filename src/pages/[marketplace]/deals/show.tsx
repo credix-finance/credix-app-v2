@@ -32,7 +32,7 @@ const Show: NextPageWithLayout = () => {
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const market = useStore((state) => state.market);
 	const getDeal = useStore((state) => state.getDeal);
-	const [deal, setDeal] = useState<DealWithNestedResources>();
+	const [deal, setDeal] = useState<DealWithNestedResources | null>();
 	const [dealStatus, setDealStatus] = useState<DealStatus>();
 	const intl = useIntl();
 	const isAdmin = useStore((state) => state.isAdmin);
