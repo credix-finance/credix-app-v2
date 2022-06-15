@@ -39,14 +39,14 @@ export const TrancheFillLevel: FunctionComponent<TrancheFillLevelProps> = ({
 			<div
 				className="w-full"
 				style={{
-					backgroundColor: trancheFillColors[trancheIndex - 1].unfilled,
+					backgroundColor: trancheFillColors[trancheIndex].unfilled,
 					height: unFilledHeightInPx,
 				}}
 			></div>
 			<div
 				className="w-full"
 				style={{
-					backgroundColor: trancheFillColors[trancheIndex - 1].filled,
+					backgroundColor: trancheFillColors[trancheIndex].filled,
 					height: filledHeightInPx,
 				}}
 			></div>

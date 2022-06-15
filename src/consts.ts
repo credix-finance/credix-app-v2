@@ -124,17 +124,17 @@ export const defaultTranches = [
 	},
 ];
 
-export const trancheNames = ["senior", "mezzanine", "junior"];
-export const trancheFillColors = [
-	{
+export const trancheNames = ["super senior", "senior", "mezzanine", "junior"];
+export const trancheFillColors = {
+	2: {
 		filled: "#656565",
 		unfilled: "#151515",
 	},
-	{
+	3: {
 		filled: "#29BA7480",
 		unfilled: "#29BA74",
 	},
-];
+};
 
 export const zeroTokenAmount = {
 	amount: "0",

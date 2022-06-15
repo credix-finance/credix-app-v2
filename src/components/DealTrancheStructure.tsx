@@ -72,26 +72,28 @@ export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> 
 					)}
 				</div>
 
-				{tranches?.tranches.map((tranche, index) => (
-					<React.Fragment key={tranche.index}>
-						<div className="flex items-center space-x-2 justify-self-start">
-							<div
-								className="w-6 h-6 rounded-full mr-2"
-								style={{ backgroundColor: trancheColors[index] }}
-							></div>
-							<div className="font-mono font-normal text-base capitalize">
-								{trancheNames[tranche.index]}
+				{tranches?.tranches
+					.filter((t) => t.index > 0)
+					.map((tranche, index) => (
+						<React.Fragment key={tranche.index}>
+							<div className="flex items-center space-x-2 justify-self-start">
+								<div
+									className="w-6 h-6 rounded-full mr-2"
+									style={{ backgroundColor: trancheColors[index] }}
+								></div>
+								<div className="font-mono font-normal text-base capitalize">
+									{trancheNames[tranche.index]}
+								</div>
 							</div>
-						</div>
-						<div className="flex items-center font-mono font-normal text-base">
-							{tranche.size.uiAmount} USDC -{" "}
-							{ratioFormatter.format(new Fraction(tranche.size.uiAmount, principal).toNumber())}
-						</div>
-						{/* TODO: get tranche APR */}
-						<div className="flex items-center font-mono font-bold text-base">5%</div>
-						{/* TODO: add border  */}
-					</React.Fragment>
-				))}
+							<div className="flex items-center font-mono font-normal text-base">
+								{tranche.size.uiAmount} USDC -{" "}
+								{ratioFormatter.format(new Fraction(tranche.size.uiAmount, principal).toNumber())}
+							</div>
+							{/* TODO: get tranche APR */}
+							<div className="flex items-center font-mono font-bold text-base">5%</div>
+							{/* TODO: add border  */}
+						</React.Fragment>
+					))}
 			</div>
 		</div>
 	);

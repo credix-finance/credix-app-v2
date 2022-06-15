@@ -126,16 +126,25 @@ const New: NextPageWithLayout = () => {
 			}),
 		});
 
-		const tranches = defaultTranches
-			.find((t) => t.value === trancheStructure)
-			.trancheData.filter((t) => t.value)
-			.map((t) => ({
-				size: new Fraction(t.percentageOfPrincipal.toNumber() * 100, 100),
-				returnPercentage: new Fraction(t.percentageOfInterest.toNumber() * 100, 100),
-				maxDepositPercentage: new Fraction(1, 1),
+		const tranches = [
+			{
+				size: new Fraction(0, 1),
+				returnPercentage: new Fraction(0, 1),
+				maxDepositPercentage: new Fraction(0, 1),
 				earlyWithdrawalInterest: true,
 				earlyWithdrawalPrincipal: true,
-			}));
+			},
+			...defaultTranches
+				.find((t) => t.value === trancheStructure)
+				.trancheData.filter((t) => t.value)
+				.map((t) => ({
+					size: new Fraction(t.percentageOfPrincipal.toNumber() * 100, 100),
+					returnPercentage: new Fraction(t.percentageOfInterest.toNumber() * 100, 100),
+					maxDepositPercentage: new Fraction(1, 1),
+					earlyWithdrawalInterest: true,
+					earlyWithdrawalPrincipal: true,
+				})),
+		];
 
 		try {
 			await deal.setTranches(tranches);

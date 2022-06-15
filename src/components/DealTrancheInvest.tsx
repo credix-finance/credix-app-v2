@@ -26,7 +26,7 @@ export const DealTrancheInvest: FunctionComponent<DealTrancheInvestProps> = ({
 			</div>
 			{tranches?.tranches
 				// Remove Senior tranche from array
-				.filter((t) => t.index !== 0)
+				.filter((t) => t.index > 1)
 				.map((tranche) => (
 					<InvestInTranche key={tranche.index} tranche={tranche} />
 				))}
