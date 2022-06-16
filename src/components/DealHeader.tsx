@@ -1,17 +1,18 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import { Link } from "@components/Link";
 import { useIntl } from "react-intl";
+import { Deal } from "@credix/credix-client";
 
 interface DealHeaderProps {
 	marketplace: string;
-	dealName: string;
+	deal: Deal;
 	tag: ReactNode;
 	children?: ReactNode;
 }
 
 export const DealHeader: FunctionComponent<DealHeaderProps> = ({
 	marketplace,
-	dealName,
+	deal,
 	tag,
 	children,
 }) => {
@@ -29,7 +30,7 @@ export const DealHeader: FunctionComponent<DealHeaderProps> = ({
 			/>
 			<div className="mt-8 flex justify-between items-center">
 				<div className="flex items-center space-x-6">
-					<div className="font-sans font-semibold text-7xl">{dealName}</div>
+					<div className="font-sans font-semibold text-7xl">{deal.name}</div>
 					{tag}
 				</div>
 				{children}

@@ -26,26 +26,26 @@ Default.args = {
 		timeToMaturity: 360,
 		daysRemaining: 300,
 		goLiveAt: new Date().getTime() / 1000,
-	},
-	tranches: {
-		tranches: [
-			{
-				principalRepaid: {
-					uiAmount: 100_000,
+		tranches: {
+			tranches: [
+				{
+					principalRepaid: {
+						uiAmount: 100_000,
+					},
+					interestRepaid: {
+						uiAmount: 100_000,
+					},
 				},
-				interestRepaid: {
-					uiAmount: 100_000,
-				},
+			],
+		},
+		repaymentSchedule: {
+			totalPrincipal: {
+				uiAmount: 1_000_000,
 			},
-		],
-	},
-	repaymentSchedule: {
-		totalPrincipal: {
-			uiAmount: 1_000_000,
+			totalInterest: {
+				uiAmount: 100_000,
+			},
+			duration: 360,
 		},
-		totalInterest: {
-			uiAmount: 100_000,
-		},
-		duration: 360,
 	},
 };

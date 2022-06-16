@@ -3,9 +3,9 @@ import { Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Form } from "antd";
-import { Tranche, useCredixClient } from "@credix/credix-client";
+import { Fraction, Tranche, useCredixClient } from "@credix/credix-client";
 import { trancheNames, zeroTokenAmount } from "@consts";
-import { toProgramAmount } from "@utils/format.utils";
+import { ratioFormatter, toProgramAmount } from "@utils/format.utils";
 import { useIntl } from "react-intl";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
@@ -112,7 +112,17 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 					amountDeposited={tranche.amountDeposited}
 					size={tranche.size}
 					trancheIndex={tranche.index}
-				/>
+				>
+					<div className="absolute top-[50%] left-[50%] text-white">
+						<div className="relative top-[-50%] left-[-50%]">
+							{/* TODO: check precision of formatting */}
+							{ratioFormatter.format(
+								new Fraction(tranche.amountDeposited.uiAmount, tranche.size.uiAmount).toNumber()
+							)}{" "}
+							filled
+						</div>
+					</div>
+				</TrancheFillLevel>
 				<div className="flex flex-col justify-between">
 					<div className="space-y-6">
 						<div>
@@ -205,7 +215,15 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 											amount: userBaseBalance.uiAmountString,
 										}
 									)}
-									suffix={<AddMaxButtonSuffix form={form} />}
+									suffix={
+										<AddMaxButtonSuffix
+											form={form}
+											amount={Math.min(
+												userBaseBalance.uiAmount,
+												tranche.size.uiAmount - tranche.amountDeposited.uiAmount
+											)}
+										/>
+									}
 								/>
 								<Form.Item className="mb-0" label={" "}>
 									<Button

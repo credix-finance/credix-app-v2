@@ -1,27 +1,26 @@
 import React, { FunctionComponent } from "react";
 import { Icon, IconDimension } from "./Icon";
 import { classNames, ratioFormatter } from "@utils/format.utils";
-import { Fraction, Tranches } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { trancheColors, trancheNames } from "@consts";
 import { TrancheDonut } from "./TrancheDonut";
 import { useIntl } from "react-intl";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 interface DealTrancheStructureProps {
 	className?: string;
-	tranches: Tranches;
-	principal: number;
+	deal: DealWithNestedResources;
 }
 
 export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> = ({
 	className,
-	principal,
-	tranches,
+	deal,
 }) => {
 	const intl = useIntl();
 	className = classNames([className, "space-y-6"]);
-	const trancheData = tranches?.tranches.map((t) => ({
+	const trancheData = deal.tranches?.tranches.map((t) => ({
 		name: trancheNames[t.index],
-		value: new Fraction(t.size.uiAmount, principal).toNumber(),
+		value: new Fraction(t.size.uiAmount, deal.repaymentSchedule.totalPrincipal.uiAmount).toNumber(),
 	}));
 
 	// TODO: add highlight logic
@@ -62,7 +61,7 @@ export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> 
 					</div>
 				</div>
 				<div className="w-48 h-48 rounded-full row-span-3 justify-self-start mr-16">
-					{tranches && (
+					{trancheData && (
 						<TrancheDonut
 							data={trancheData}
 							color={trancheColors}
@@ -72,7 +71,7 @@ export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> 
 					)}
 				</div>
 
-				{tranches?.tranches
+				{deal.tranches?.tranches
 					.filter((t) => t.index > 0)
 					.map((tranche, index) => (
 						<React.Fragment key={tranche.index}>
@@ -87,7 +86,12 @@ export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> 
 							</div>
 							<div className="flex items-center font-mono font-normal text-base">
 								{tranche.size.uiAmount} USDC -{" "}
-								{ratioFormatter.format(new Fraction(tranche.size.uiAmount, principal).toNumber())}
+								{ratioFormatter.format(
+									new Fraction(
+										tranche.size.uiAmount,
+										deal.repaymentSchedule.totalPrincipal.uiAmount
+									).toNumber()
+								)}
 							</div>
 							{/* TODO: get tranche APR */}
 							<div className="flex items-center font-mono font-bold text-base">5%</div>

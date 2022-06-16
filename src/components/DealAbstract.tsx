@@ -2,18 +2,14 @@ import React, { FunctionComponent } from "react";
 import { Icon, IconDimension } from "./Icon";
 import { classNames, compactFormatter } from "@utils/format.utils";
 import { useIntl } from "react-intl";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 interface DealAbstractProps {
-	amount: number;
-	timeToMaturity: number;
+	deal: DealWithNestedResources;
 	className?: string;
 }
 
-export const DealAbstract: FunctionComponent<DealAbstractProps> = ({
-	amount,
-	timeToMaturity,
-	className,
-}) => {
+export const DealAbstract: FunctionComponent<DealAbstractProps> = ({ deal, className }) => {
 	const intl = useIntl();
 	className = classNames([className, "grid grid-cols-3 gap-2"]);
 
@@ -30,7 +26,7 @@ export const DealAbstract: FunctionComponent<DealAbstractProps> = ({
 					</div>
 				</div>
 				<div className="font-mono font-bold text-[44px]">
-					{compactFormatter.format(amount)} USDC
+					{compactFormatter.format(deal.repaymentSchedule.totalPrincipal.uiAmount)} USDC
 				</div>
 			</div>
 			<div className="border border-neutral-40 p-6 col-span-1 space-y-2">
@@ -40,7 +36,7 @@ export const DealAbstract: FunctionComponent<DealAbstractProps> = ({
 						description: "Deal abstract: time to maturity",
 					})}
 				</div>
-				<div className="font-mono font-bold text-2xl">{timeToMaturity} DAYS</div>
+				<div className="font-mono font-bold text-2xl">{deal.repaymentSchedule.duration} DAYS</div>
 			</div>
 		</div>
 	);

@@ -55,7 +55,7 @@ export const generateGraphAndTableData = (
 };
 
 export const repaymentScheduleType = (repaymentSchedule: RepaymentSchedule) => {
-	if (repaymentSchedule.periods[0].principalToRepay.uiAmount === 0) {
+	if (repaymentSchedule.periods[0].principal.uiAmount === 0) {
 		return RepaymentScheduleType.BULLET;
 	}
 
