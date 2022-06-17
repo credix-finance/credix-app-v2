@@ -1,19 +1,20 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, ReactNode, useEffect, useState } from "react";
 import { Fraction } from "@credix/credix-client";
 import { trancheFillColors } from "@consts";
-import { ratioFormatter } from "@utils/format.utils";
 import { TokenAmount } from "@solana/web3.js";
 
 interface TrancheFillLevelProps {
 	amountDeposited: TokenAmount;
 	size: TokenAmount;
 	trancheIndex: number;
+	children?: ReactNode;
 }
 
 export const TrancheFillLevel: FunctionComponent<TrancheFillLevelProps> = ({
 	size,
 	amountDeposited,
 	trancheIndex,
+	children,
 }) => {
 	const heightInPx = 400;
 	const [filledHeightInPx, setFilledHeightInPx] = useState(0);
@@ -50,12 +51,7 @@ export const TrancheFillLevel: FunctionComponent<TrancheFillLevelProps> = ({
 					height: filledHeightInPx,
 				}}
 			></div>
-			<div className="absolute top-[50%] left-[50%] text-white">
-				<div className="relative top-[-50%] left-[-50%]">
-					{/* TODO: check precision of formatting */}
-					{ratioFormatter.format(amountDepositedPercentage?.toNumber())} filled
-				</div>
-			</div>
+			{children}
 		</div>
 	);
 };

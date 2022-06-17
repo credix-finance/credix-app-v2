@@ -77,10 +77,10 @@ body {
 }
 
 .ant-input-affix-wrapper {
-	@apply border rounded rounded-l-none border-neutral-40 bg-neutral-0 !important;
+	@apply border rounded rounded-l-none border-neutral-40 !important;
 }
 .ant-input-affix-wrapper.ant-input-affix-wrapper-lg .ant-input {
-	@apply py-4 px-4 bg-neutral-0 font-normal !important;
+	@apply py-4 px-4 bg-inherit font-normal !important;
 }
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
 	@apply border border-neutral-60 !important;

@@ -1,19 +1,14 @@
 import React, { FunctionComponent } from "react";
 import { Icon, IconDimension } from "./Icon";
-import { PublicKey } from "@solana/web3.js";
 import { classNames, slicedBased58Key } from "@utils/format.utils";
 import { useIntl } from "react-intl";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 interface DealKeysProps {
-	borrowerKey: PublicKey;
-	dealAddress: PublicKey;
+	deal: DealWithNestedResources;
 	className?: string;
 }
-export const DealKeys: FunctionComponent<DealKeysProps> = ({
-	borrowerKey,
-	dealAddress,
-	className,
-}) => {
+export const DealKeys: FunctionComponent<DealKeysProps> = ({ deal, className }) => {
 	const intl = useIntl();
 	className = classNames([
 		className,
@@ -35,11 +30,11 @@ export const DealKeys: FunctionComponent<DealKeysProps> = ({
 					<a
 						className="hover:underline text-inherit"
 						target="_blank"
-						href={`https://explorer.solana.com/address/${borrowerKey.toString()}`}
+						href={`https://explorer.solana.com/address/${deal.borrower.toString()}`}
 						rel="noreferrer"
 					>
 						<div className="flex space-x-2">
-							{slicedBased58Key(borrowerKey)}
+							{slicedBased58Key(deal.borrower)}
 							<Icon name="external-link" size={IconDimension.MIDDLE} />
 						</div>
 					</a>
@@ -58,11 +53,11 @@ export const DealKeys: FunctionComponent<DealKeysProps> = ({
 					<a
 						className="hover:underline text-inherit"
 						target="_blank"
-						href={`https://explorer.solana.com/address/${dealAddress.toString()}`}
+						href={`https://explorer.solana.com/address/${deal.address.toString()}`}
 						rel="noreferrer"
 					>
 						<div className="flex space-x-2">
-							{slicedBased58Key(dealAddress)}
+							{slicedBased58Key(deal.address)}
 							<Icon name="external-link" size={IconDimension.MIDDLE} />
 						</div>
 					</a>

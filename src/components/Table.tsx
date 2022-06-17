@@ -42,10 +42,21 @@ export const Table = ({ columns, ...props }: TableProps) => {
 	useEffect(() => {
 		setParsedColumns(
 			columns.map((column) => {
+				/**
+				 * If the title prop is of type "function" a render function is used,
+				 * we assume the developer knows what they want to render
+				 * so we just return the column.
+				 */
 				if (typeof column.title === "function") {
 					return column;
 				}
 
+				/**
+				 * If an icon is specified we use this helper component to
+				 * easily render table headers with icons without having to
+				 * use a render function every time a header with an icon
+				 * is required.
+				 */
 				if (column.icon) {
 					const { icon, title, titleClassName, iconSize } = column;
 					return Object.assign({}, column, {
@@ -60,6 +71,10 @@ export const Table = ({ columns, ...props }: TableProps) => {
 					});
 				}
 
+				/**
+				 * If none of the above statements are true the column title
+				 * is a regular string; nothing needs to happen.
+				 */
 				return column;
 			})
 		);

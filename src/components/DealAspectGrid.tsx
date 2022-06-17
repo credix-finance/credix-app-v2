@@ -1,132 +1,124 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Deal, Fraction, RepaymentSchedule, Tranches } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { DealAspect } from "@components/DealAspect";
-import { compactFormatter, toUIAmount } from "@utils/format.utils";
+import { classNames, compactFormatter, round } from "@utils/format.utils";
 import Big from "big.js";
 import {
 	calculateDaysRemaining,
 	calculateDaysRemainingRatio,
-	calculateFinancingFee,
 	calculateInterestRepaidRatio,
 	calculatePrincipalRepaidRatio,
 	totalInterestRepaid,
 	totalPrincipalRepaid,
 } from "@utils/deal.utils";
 import { useIntl } from "react-intl";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 interface DealAspectGridProps {
-	deal: Deal;
-	tranches: Tranches;
-	repaymentSchedule: RepaymentSchedule;
+	deal: DealWithNestedResources;
+	className?: string;
 }
 
-const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({
-	deal,
-	tranches,
-	repaymentSchedule,
-}) => {
+const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, className }) => {
 	const [interestRepaidRatio, setInterestRepaidRatio] = useState<Fraction>();
 	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<Fraction>();
 	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Fraction>();
 	const [principalRepaid, setPrincipalRepaid] = useState<number>(0);
 	const [interestRepaid, setInterestRepaid] = useState<number>(0);
 	const [daysRemaining, setDaysRemaining] = useState<number>(0);
-	const [financingFee, setFinancingFee] = useState<Fraction>(new Fraction(1, 1));
 	const intl = useIntl();
 
 	useEffect(() => {
-		if (tranches) {
-			const principalAmountRepaid = totalPrincipalRepaid(tranches);
+		if (deal) {
+			const principalAmountRepaid = totalPrincipalRepaid(deal.tranches);
 			setPrincipalRepaid(principalAmountRepaid);
 		}
-	}, [tranches]);
+	}, [deal]);
 
 	useEffect(() => {
-		if (tranches) {
-			const interestAmountRepaid = totalInterestRepaid(tranches);
+		if (deal) {
+			const interestAmountRepaid = totalInterestRepaid(deal.tranches);
 			setInterestRepaid(interestAmountRepaid);
 		}
-	}, [tranches]);
+	}, [deal]);
 
 	useEffect(() => {
-		if (deal && repaymentSchedule) {
-			const daysRemaining = calculateDaysRemaining(deal, repaymentSchedule);
+		if (deal) {
+			const daysRemaining = round(
+				Big(calculateDaysRemaining(deal, deal.repaymentSchedule)),
+				Big.roundHalfEven
+			).toNumber();
 			setDaysRemaining(daysRemaining);
 		}
-	}, [deal, repaymentSchedule]);
+	}, [deal]);
 
 	useEffect(() => {
-		if (repaymentSchedule) {
-			const financingFee = calculateFinancingFee(repaymentSchedule);
-			setFinancingFee(financingFee);
-		}
-	}, [repaymentSchedule]);
-
-	useEffect(() => {
-		if (tranches && repaymentSchedule) {
-			const interestRatio = calculateInterestRepaidRatio(tranches, repaymentSchedule);
+		if (deal) {
+			const interestRatio = calculateInterestRepaidRatio(deal.tranches, deal.repaymentSchedule);
 			setInterestRepaidRatio(interestRatio);
 		}
-	}, [tranches, repaymentSchedule]);
+	}, [deal]);
 
 	useEffect(() => {
-		if (tranches && repaymentSchedule) {
-			const principalRatio = calculatePrincipalRepaidRatio(tranches, repaymentSchedule);
+		if (deal) {
+			const principalRatio = calculatePrincipalRepaidRatio(deal.tranches, deal.repaymentSchedule);
 			setPrincipalRepaidRatio(principalRatio);
 		}
-	}, [tranches, repaymentSchedule]);
+	}, [deal]);
 
 	useEffect(() => {
-		if (deal && repaymentSchedule) {
-			const daysRatio = calculateDaysRemainingRatio(deal, repaymentSchedule);
+		if (deal) {
+			const daysRatio = calculateDaysRemainingRatio(deal, deal.repaymentSchedule);
 			setDaysRemainingRatio(daysRatio);
 		}
-	}, [deal, repaymentSchedule]);
+	}, [deal]);
+
+	className = classNames([className, "grid grid-cols-1 md:grid-cols-3 gap-5"]);
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+		<div className={className}>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "principal",
+					defaultMessage: "Deal principal",
 					description: "Deal aspect: principal",
 				})}
-				value={`${compactFormatter.format(
-					toUIAmount(new Big(repaymentSchedule.totalPrincipal.uiAmount)).toNumber()
-				)} USDC`}
+				value={`${compactFormatter.format(deal.repaymentSchedule.totalPrincipal.uiAmount)} USDC`}
+				icon="coin-dollar"
+				emphasizeValue={true}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "financing fee",
-					description: "Deal aspect: financing fee",
+					defaultMessage: "Deal interest",
+					description: "Deal aspect: interest",
 				})}
-				value={`${financingFee && financingFee.apply(100)?.toNumber()}%`}
+				value={`${compactFormatter.format(deal.repaymentSchedule.totalInterest.uiAmount)} USDC`}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "time to maturity",
+					defaultMessage: "Time to maturity",
 					description: "Deal aspect: time to maturity",
 				})}
-				value={`${repaymentSchedule.duration} DAYS`}
+				value={`${deal.repaymentSchedule.duration} DAYS`}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "principal repaid",
+					defaultMessage: "Principal repaid",
 					description: "Deal aspect: principal repaid",
 				})}
-				value={`${compactFormatter.format(toUIAmount(new Big(principalRepaid)).toNumber())} USDC`}
+				value={`${principalRepaid} USDC`}
 				ratio={principalRepaidRatio}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "interest repaid",
+					defaultMessage: "Interest repaid",
 					description: "Deal aspect: interest repaid",
 				})}
-				value={`${compactFormatter.format(toUIAmount(new Big(interestRepaid)).toNumber())} USDC`}
+				value={`${interestRepaid} USDC`}
 				ratio={interestRepaidRatio}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "time left",
+					defaultMessage: "Time left",
 					description: "Deal aspect: time left",
 				})}
 				value={intl.formatMessage(
@@ -134,7 +126,6 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({
 					{ daysRemaining: daysRemaining }
 				)}
 				ratio={daysRemainingRatio}
-				showRatio={false}
 			/>
 		</div>
 	);

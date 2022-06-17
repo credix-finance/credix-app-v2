@@ -1,5 +1,6 @@
 import { DAYS_IN_YEAR } from "@consts";
-import { Fraction } from "@credix/credix-client";
+import { Fraction, RepaymentSchedule, Tranche } from "@credix/credix-client";
+import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
 import { round } from "./format.utils";
 
@@ -445,5 +446,42 @@ export const threeTrancheJuniorAPR = ({
 			.minus(percentageOfPrincipalSenior.toNumber())
 			.minus(percentageOfPrincipalMez.toNumber())
 			.toNumber()
+	);
+};
+
+export const calculateInvestorPercentageOfTranche = (
+	tranche: Tranche,
+	userTrancheBalance: TokenAmount
+) => {
+	return new Fraction(userTrancheBalance.uiAmount, tranche.size.uiAmount);
+};
+
+export const investorProjectedReturns = (
+	tranche: Tranche,
+	repaymentSchedule: RepaymentSchedule,
+	userTrancheBalance: TokenAmount
+) => {
+	const trancheInterest = tranche.returnPercentage.apply(repaymentSchedule.totalInterest.uiAmount);
+	const investorPercentageOfTranche = calculateInvestorPercentageOfTranche(
+		tranche,
+		userTrancheBalance
+	);
+
+	return round(investorPercentageOfTranche.apply(trancheInterest.toNumber()), Big.roundHalfEven);
+};
+
+export const investorCurrentReturns = (
+	tranche: Tranche,
+	repaymentSchedule: RepaymentSchedule,
+	userTrancheBalance: TokenAmount
+) => {
+	const investorPercentageOfTranche = calculateInvestorPercentageOfTranche(
+		tranche,
+		userTrancheBalance
+	);
+
+	return round(
+		investorPercentageOfTranche.apply(tranche.interestRepaid.uiAmount),
+		Big.roundHalfEven
 	);
 };

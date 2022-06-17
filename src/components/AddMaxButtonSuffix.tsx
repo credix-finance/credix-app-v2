@@ -1,19 +1,21 @@
-import { useUserBaseBalance } from "@hooks/useUserBaseBalance";
 import { FormInstance } from "antd";
 import { FunctionComponent } from "react";
 import { useIntl } from "react-intl";
 
 interface AddMaxButtonSuffixProps {
 	form: FormInstance;
+	amount: number;
 }
 
-export const AddMaxButtonSuffix: FunctionComponent<AddMaxButtonSuffixProps> = ({ form }) => {
+export const AddMaxButtonSuffix: FunctionComponent<AddMaxButtonSuffixProps> = ({
+	form,
+	amount,
+}) => {
 	const intl = useIntl();
-	const userBaseBalance = useUserBaseBalance();
 
 	const onAddMax = () => {
 		form.setFieldsValue({
-			amount: userBaseBalance.uiAmountString,
+			amount: amount,
 		});
 	};
 
