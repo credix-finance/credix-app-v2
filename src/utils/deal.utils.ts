@@ -1,6 +1,59 @@
-import { Deal, Fraction, RepaymentSchedule, Tranche, Tranches } from "@credix/credix-client";
+import {
+	Deal,
+	Fraction,
+	RepaymentSchedule,
+	Tranche,
+	Tranches,
+	CredixPass,
+} from "@credix/credix-client";
 import { clamp, daysToMilliseconds, toUIAmount } from "@utils/format.utils";
+import { PublicKey } from "@solana/web3.js";
+import { DealWithNestedResources } from "@state/dealSlice";
 import Big from "big.js";
+
+export const isDealRepayableByUser = async (
+	user: PublicKey | null,
+	deal: DealWithNestedResources,
+	credixPass: CredixPass | null
+) => {
+	if (!user) {
+		return false;
+	}
+
+	if (!credixPass || credixPass.isActive) {
+		return false;
+	}
+
+	const isInProgress = await deal.isInProgress(deal.repaymentSchedule);
+	const userIsBorrower = user && deal.borrower.equals(user);
+
+	return isInProgress && userIsBorrower;
+};
+
+export const isDealVisible = (
+	user: PublicKey | null,
+	deal: DealWithNestedResources,
+	credixPass: CredixPass | null,
+	isAdmin: boolean
+) => {
+	if (!user) {
+		return false;
+	}
+
+	if (isAdmin) {
+		return true;
+	}
+
+	if (!credixPass || !credixPass.isActive) {
+		return false;
+	}
+
+	if (credixPass.isInvestor) {
+		return true;
+	}
+
+	return deal.borrower.equals(user);
+};
 
 // TODO: move this to the client
 export const calculateMonthlyRepaymentAmount = (repaymentSchedule: RepaymentSchedule) => {
@@ -64,7 +117,7 @@ export const totalInterestRepaid = (tranches: Tranches) => {
 // TODO: move this to the client
 export const totalPrincipalRepaid = (tranches: Tranches) => {
 	const principalRepaid = tranches.tranches.reduce((acc: number, curr: Tranche) => {
-		return acc + curr.principalRepaid.uiAmount;
+		return acc + Number(curr.principalRepaid.uiAmount);
 	}, 0);
 
 	return principalRepaid;

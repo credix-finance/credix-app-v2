@@ -3,8 +3,8 @@ import { CredixClient, Deal, Market, RepaymentSchedule, Tranches } from "@credix
 import { StoreSlice } from "./useStore";
 
 export interface DealWithNestedResources extends Deal {
-	repaymentSchedule?: RepaymentSchedule;
-	tranches?: Tranches;
+	repaymentSchedule: RepaymentSchedule;
+	tranches: Tranches;
 }
 
 export type DealSlice = {
@@ -15,7 +15,7 @@ export type DealSlice = {
 		client: CredixClient,
 		market: Market,
 		dealAddress: string
-	) => Promise<DealWithNestedResources>;
+	) => Promise<DealWithNestedResources | null>;
 };
 
 const getDeals = async (client: CredixClient, market: Market, set: SetState<DealSlice>) => {
@@ -29,11 +29,21 @@ const getDeals = async (client: CredixClient, market: Market, set: SetState<Deal
 	const repaymentSchedules = await client.repaymentScheduleLoader.fetchForDeals(deals);
 	const tranches = await client.tranchesLoader.fetchForDeals(deals);
 
-	const dealsWithNestedResources = deals.map((deal, index) => {
-		deal.repaymentSchedule = repaymentSchedules[index];
-		deal.tranches = tranches[index];
-		return deal;
-	});
+	const dealsWithNestedResources = deals
+		.map((deal, index) => {
+			const repaymentSchedule = repaymentSchedules[index];
+			if (repaymentSchedule) {
+				deal.repaymentSchedule = repaymentSchedule;
+			}
+
+			const dealTranches = tranches[index];
+			if (dealTranches) {
+				deal.tranches = dealTranches;
+			}
+
+			return deal;
+		})
+		.filter((d) => d.tranches && d.repaymentSchedule);
 
 	set({ deals: dealsWithNestedResources, isLoadingDeals: false });
 };
@@ -52,12 +62,17 @@ const maybeGetDeals = async (
 };
 
 export const createDealSlice: StoreSlice<DealSlice> = (set, get) => ({
-	deals: null,
+	deals: undefined,
 	isLoadingDeals: false,
 	maybeFetchDeals: (client, market) => maybeGetDeals(client, market, get, set),
 	getDeal: async (client, market, dealAddress) => {
 		await getDeals(client, market, set);
+		const deals = get().deals;
 
-		return get().deals.find((d) => d.address.toString() === dealAddress);
+		if (!deals) {
+			return null;
+		}
+
+		return deals.find((d) => d.address.toString() === dealAddress) || null;
 	},
 });

@@ -47,7 +47,6 @@ export const PageItem = ({ page, type, originalElement }: PageItemProps) => {
 				<Icon name="ellipsis" className="w-6 h-5" />
 			);
 		default:
-			console.log(type);
 			return null;
 	}
 };

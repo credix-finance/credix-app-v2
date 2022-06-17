@@ -1,31 +1,32 @@
+import { DealStatus } from "@credix/credix-client";
 import { StoreState } from "@state/useStore";
 import { DealWithNestedResources } from "./dealSlice";
+import { asyncFilter } from "../utils/async.utils";
+import { AsyncSelector } from "@hooks/useAsyncStore";
 
-const mapDeals = async (deals: DealWithNestedResources[]) => {
-	const x = await Promise.all(
-		deals
-			.filter((deal) => deal.repaymentSchedule)
-			.map((deal) => {
-				return deal.isPending(deal.repaymentSchedule);
-			})
-	);
+export const dealStatusSelector =
+	(dealState: DealStatus): AsyncSelector<DealWithNestedResources[]> =>
+	async (state: StoreState) => {
+		if (!state.deals) {
+			return [];
+		}
 
-	return x;
-};
+		const selectedDeals = await asyncFilter(state.deals, async (d) => {
+			const status = await d.status(d.repaymentSchedule);
+			return status === dealState;
+		});
 
-export const selectPendingDeals = (state: StoreState): DealWithNestedResources[] => {
-	if (!state.deals) {
-		return;
-	}
+		return selectedDeals;
+	};
 
-	const mappedDeals = mapDeals(state.deals);
-	const pendingDeals = state.deals.filter((_deal, index) => mappedDeals[index]);
+export const pendingDealsSelector = dealStatusSelector(DealStatus.PENDING);
+export const openForFundingDealsSelector = dealStatusSelector(DealStatus.OPEN_FOR_FUNDING);
+export const closedDealsSelector = dealStatusSelector(DealStatus.CLOSED);
+export const inProgressDealsSelector = dealStatusSelector(DealStatus.IN_PROGRESS);
+export const defaultedDealsSelector = dealStatusSelector(DealStatus.DEFAULTED);
 
-	return pendingDeals;
-};
-
-export const selectActiveDeals = (state: StoreState): DealWithNestedResources[] =>
-	state.deals?.filter((deal) => true || deal.isInProgress(deal.repaymentSchedule));
-
-export const selectEndedDeals = (state: StoreState): DealWithNestedResources[] =>
-	state.deals?.filter((deal) => true || deal.isClosed(deal.repaymentSchedule));
+export const loadingDealsSelector = (state: StoreState) => state.isLoadingDeals;
+export const isAdminSelector = (state: StoreState) => !!state.isAdmin;
+export const marketSelector = (state: StoreState) => state.market;
+export const maybeFetchDealsSelector = (state: StoreState) => state.maybeFetchDeals;
+export const fetchMarketSelector = (state: StoreState) => state.fetchMarket;

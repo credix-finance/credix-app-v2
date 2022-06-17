@@ -1,7 +1,7 @@
-import { Deal } from "@credix/credix-client";
+import { Deal, RepaymentSchedule, Tranches } from "@credix/credix-client";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { createAdminSlice } from "@state/adminSlice";
-import { createDealSlice, DealSlice } from "@state/dealSlice";
+import { createDealSlice, DealSlice, DealWithNestedResources } from "@state/dealSlice";
 import { createMarketSlice, MarketSlice } from "@state/marketSlice";
 import { StoreState } from "@state/useStore";
 import { generateMockClient, generateMockMarket } from "@utils/test.utils";
@@ -58,7 +58,7 @@ describe("Deals state", () => {
 		const mockMarket = generateMockMarket();
 
 		let state = store.getState();
-		expect(state.deals).toBe(null);
+		expect(state.deals).toBe(undefined);
 
 		await state.maybeFetchDeals(mockClient, mockMarket);
 		state = store.getState();
@@ -67,13 +67,20 @@ describe("Deals state", () => {
 
 	it("finds a specific deal based on the deal address", async () => {
 		const pk1 = Keypair.generate().publicKey;
-		const deal1 = { address: pk1 };
-		const mockMarket = generateMockMarket([deal1 as Deal]);
+		const deal1 = {
+			address: pk1,
+			isInProgress: async () => true,
+			isPending: async () => false,
+			isClosed: async () => false,
+			tranches: {} as Tranches,
+			repaymentSchedule: {} as RepaymentSchedule,
+		};
+		const mockMarket = generateMockMarket([deal1 as DealWithNestedResources]);
 		const mockClient = generateMockClient();
 
 		const state = store.getState();
 		const deal = await state.getDeal(mockClient, mockMarket, pk1.toString());
-		expect(deal).toEqual(deal1);
+		expect(deal.address.equals(deal1.address)).toBe(true);
 	});
 
 	it("fetches deals when using mayBeFetchDeals when deals array is empty", async () => {
