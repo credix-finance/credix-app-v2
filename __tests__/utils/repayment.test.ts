@@ -1,5 +1,6 @@
 import { DAYS_IN_REPAYMENT_PERIOD } from "@consts";
 import { Fraction } from "@credix/credix-client";
+import { RepaymentSchedulePeriod } from "@credix_types/repaymentschedule.types";
 import * as Amortization from "@utils/amortization.utils";
 import * as Bullet from "@utils/bullet.utils";
 import { round } from "@utils/format.utils";
@@ -45,66 +46,78 @@ describe("amortization", () => {
 		const repaymentPeriod = periods * DAYS_IN_REPAYMENT_PERIOD;
 		const schedule = Amortization.repaymentSchedule(principal, financingFee, repaymentPeriod);
 
-		const expected = [
+		const expected: RepaymentSchedulePeriod[] = [
 			{
-				balance: 27534.19,
+				cumulativeInterest: 75,
+				cumulativePrincipal: 2465.81,
 				principal: 2465.81,
 				interest: 75,
 			},
 			{
-				balance: 25062.22,
-				principal: 2471.97,
-				interest: 68.84,
+				cumulativeInterest: 143.65,
+				cumulativePrincipal: 4937.97,
+				interest: 68.65,
+				principal: 2472.16,
 			},
 			{
-				balance: 22584.07,
-				interest: 62.66,
-				principal: 2478.15,
+				cumulativeInterest: 205.95,
+				cumulativePrincipal: 7416.48,
+				interest: 62.3,
+				principal: 2478.51,
 			},
 			{
-				balance: 20099.72,
-				interest: 56.46,
-				principal: 2484.35,
+				cumulativeInterest: 261.89,
+				cumulativePrincipal: 9901.35,
+				interest: 55.94,
+				principal: 2484.87,
 			},
 			{
-				balance: 17609.16,
-				interest: 50.25,
-				principal: 2490.56,
+				cumulativeInterest: 311.48,
+				cumulativePrincipal: 12392.57,
+				interest: 49.59,
+				principal: 2491.22,
 			},
 			{
-				balance: 15112.37,
-				interest: 44.02,
-				principal: 2496.79,
+				cumulativeInterest: 354.72,
+				cumulativePrincipal: 14890.14,
+				interest: 43.24,
+				principal: 2497.57,
 			},
 			{
-				balance: 12609.34,
-				interest: 37.78,
-				principal: 2503.03,
+				cumulativeInterest: 391.61,
+				cumulativePrincipal: 17394.06,
+				interest: 36.89,
+				principal: 2503.92,
 			},
 			{
-				balance: 10100.05,
-				interest: 31.52,
-				principal: 2509.29,
+				cumulativeInterest: 422.15,
+				cumulativePrincipal: 19904.33,
+				interest: 30.54,
+				principal: 2510.27,
 			},
 			{
-				balance: 7584.49,
-				interest: 25.25,
-				principal: 2515.56,
+				cumulativeInterest: 446.33,
+				cumulativePrincipal: 22420.96,
+				interest: 24.18,
+				principal: 2516.63,
 			},
 			{
-				balance: 5062.64,
-				interest: 18.96,
-				principal: 2521.85,
+				cumulativeInterest: 464.16,
+				cumulativePrincipal: 24943.94,
+				interest: 17.83,
+				principal: 2522.98,
 			},
 			{
-				balance: 2534.49,
-				interest: 12.66,
-				principal: 2528.15,
+				cumulativeInterest: 475.64,
+				cumulativePrincipal: 27473.27,
+				interest: 11.48,
+				principal: 2529.33,
 			},
 			{
-				balance: 0,
-				principal: 2534.49,
-				interest: 6.34,
+				cumulativeInterest: 480.77,
+				cumulativePrincipal: 30008.95,
+				interest: 5.13,
+				principal: 2535.68,
 			},
 		];
 
@@ -152,19 +165,24 @@ describe("bullet", () => {
 
 		const schedule = Bullet.repaymentSchedule(principal, financingFee, numberOfPayments);
 
-		const expected = [
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 0, balance: 100_000, interest: 1000 },
-			{ principal: 100_000, balance: 0, interest: 1000 },
+		const expected: RepaymentSchedulePeriod[] = [
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 1000 },
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 2000 },
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 3000 },
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 4000 },
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 5000 },
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 6000 },
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 7000 },
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 8000 },
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 9000 },
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 10000 },
+			{ principal: 0, interest: 1000, cumulativePrincipal: 0, cumulativeInterest: 11000 },
+			{
+				principal: 100_000,
+				interest: 1000,
+				cumulativePrincipal: 100_000,
+				cumulativeInterest: 12_000,
+			},
 		];
 
 		await expect(schedule).toEqual(expected);

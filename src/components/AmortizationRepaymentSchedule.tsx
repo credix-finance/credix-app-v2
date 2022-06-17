@@ -26,7 +26,11 @@ export const AmortizationRepaymentSchedule: FunctionComponent<
 			const financingFeeRatio = new Fraction(financingFee, 100);
 			const schedule = repaymentSchedule(principal, financingFeeRatio, timeToMaturity);
 
-			const { graphData, dataSource } = generateGraphAndTableData(schedule);
+			const { graphData, dataSource } = generateGraphAndTableData(
+				schedule,
+				principal,
+				financingFeeRatio.apply(principal).toNumber()
+			);
 			setGraphData(graphData);
 			setDataSource(dataSource);
 		}

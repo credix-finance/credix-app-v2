@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from "react";
 import { Pie } from "@ant-design/plots";
-import { Tranche } from "@credix_types/tranche.types";
 
 interface TrancheDonutProps {
-	data: Tranche[];
+	data: { name: string; value: string | number }[];
 	onMouseOver: (string) => void;
 	onMouseLeave: (string) => void;
 	color: string[];

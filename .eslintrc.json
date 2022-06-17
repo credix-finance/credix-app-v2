@@ -1,6 +1,7 @@
 {
 	"extends": [
 		"@credix/eslint-config",
-		"next"
+		"next",
+		"prettier"
 	]
 }

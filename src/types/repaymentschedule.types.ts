@@ -20,3 +20,10 @@ export interface RepaymentScheduleTableDataPoint {
 	interest: number;
 	balance: number;
 }
+
+export interface RepaymentSchedulePeriod {
+	cumulativeInterest: number;
+	cumulativePrincipal: number;
+	interest: number;
+	principal: number;
+}

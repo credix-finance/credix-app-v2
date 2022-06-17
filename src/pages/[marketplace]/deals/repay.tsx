@@ -1,11 +1,5 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import {
-	Deal as DealType,
-	RepaymentSchedule,
-	Tranches,
-	useCredixClient,
-} from "@credix/credix-client";
 import { useStore } from "@state/useStore";
 import RepayDealForm, { RepayDealFormInput } from "@components/RepayDealForm";
 import { NextPageWithLayout } from "pages/_app";
@@ -20,19 +14,19 @@ import { DealCard } from "@components/DealCard";
 import { getMarketsPaths } from "@utils/export.utils";
 import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
+import { DealWithNestedResources } from "@state/dealSlice";
+import { useCredixClient } from "@credix/credix-client";
 
 const Repay: NextPageWithLayout = () => {
 	const router = useRouter();
 	const { marketplace, dealId } = router.query;
 	const client = useCredixClient();
 	const getDeal = useStore((state) => state.getDeal);
-	const [deal, setDeal] = useState<DealType>();
+	const [deal, setDeal] = useState<DealWithNestedResources>();
 	const [monthlyRepaymentAmount, setMonthlyRepaymentAmount] = useState<number>();
 	const market = useStore((state) => state.market);
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const intl = useIntl();
-	const [repaymentSchedule, setRepaymentSchedule] = useState<RepaymentSchedule>();
-	const [tranches, setTranches] = useState<Tranches>();
 
 	const getDealFromStore = useCallback(async () => {
 		if (market) {
@@ -41,24 +35,12 @@ const Repay: NextPageWithLayout = () => {
 		}
 	}, [client, market, dealId, getDeal]);
 
-	const getRepaymentSchedule = useCallback(async () => {
-		if (deal) {
-			const repaymentSchedule = await deal.fetchRepaymentSchedule();
-			setRepaymentSchedule(repaymentSchedule);
-		}
-	}, [deal]);
-
-	const getTranches = useCallback(async () => {
-		if (deal) {
-			const tranches = await deal.fetchTranches();
-			setTranches(tranches);
-		}
-	}, [deal]);
-
 	const getMonthlyRepaymentAmount = useCallback(async () => {
-		const amount = await calculateMonthlyRepaymentAmount(repaymentSchedule);
-		setMonthlyRepaymentAmount(amount);
-	}, [repaymentSchedule]);
+		if (deal) {
+			const amount = await calculateMonthlyRepaymentAmount(deal.repaymentSchedule);
+			setMonthlyRepaymentAmount(amount);
+		}
+	}, [deal]);
 
 	useEffect(() => {
 		getMonthlyRepaymentAmount();
@@ -71,11 +53,6 @@ const Repay: NextPageWithLayout = () => {
 	useEffect(() => {
 		getDealFromStore();
 	}, [getDealFromStore]);
-
-	useEffect(() => {
-		getTranches();
-		getRepaymentSchedule();
-	}, [getTranches, getRepaymentSchedule]);
 
 	const onSubmit = ({ amount }: RepayDealFormInput) => {
 		makeRepayment(amount);
@@ -147,7 +124,7 @@ const Repay: NextPageWithLayout = () => {
 						})}
 					</div>
 				</div>
-				<DealAspectGrid deal={deal} tranches={tranches} repaymentSchedule={repaymentSchedule} />
+				<DealAspectGrid deal={deal} />
 				<RepayDealForm onSubmit={onSubmit} monthlyRepaymentAmount={monthlyRepaymentAmount} />
 			</div>
 		</DealCard>

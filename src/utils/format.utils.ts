@@ -1,9 +1,14 @@
 import { MILLISECONDS_IN_DAY } from "@consts";
+import { PublicKey } from "@solana/web3.js";
 import Big, { RoundingMode } from "big.js";
 
 type formatter = (value: number) => string;
-export const clamp = (value: number, min: number, max: number) => {
-	return Math.min(Math.max(value, min), max);
+export const clamp = (value: number, min: number, max?: number) => {
+	if (max) {
+		return Math.min(Math.max(value, min), max);
+	}
+
+	return Math.max(value, min);
 };
 
 const roundingPrecision = 2;
@@ -62,4 +67,12 @@ export const daysToMilliseconds = (days: number) => {
 
 export const millisecondsToDays = (milliseconds: number) => {
 	return milliseconds / MILLISECONDS_IN_DAY;
+};
+
+export const slicedBased58Key = (key: PublicKey | string) => {
+	if (typeof key === "string") {
+		return key.slice(0, 5) + ".." + key.slice(-5);
+	}
+
+	return key.toBase58().slice(0, 5) + ".." + key.toBase58().slice(-5);
 };

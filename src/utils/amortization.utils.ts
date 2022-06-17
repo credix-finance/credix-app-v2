@@ -1,5 +1,6 @@
 import { DAYS_IN_REPAYMENT_PERIOD } from "@consts";
 import { Fraction } from "@credix/credix-client";
+import { RepaymentSchedulePeriod } from "@credix_types/repaymentschedule.types";
 import Big from "big.js";
 import { round } from "./format.utils";
 
@@ -32,36 +33,35 @@ export const calculatePrincipalRepayment = (
 	).toNumber();
 };
 
-export interface Repayment {
-	principal: number;
-	interest: number;
-	balance: number;
-}
 export const repaymentSchedule = (
 	principal: number,
 	interestRate: Fraction,
 	timeToMaturity: number
-): Repayment[] => {
+): RepaymentSchedulePeriod[] => {
+	// TODO: check these calculations, something's off
 	const paymentPeriods = Math.ceil(timeToMaturity / DAYS_IN_REPAYMENT_PERIOD);
 	const monthlyPayment = calculateMonthlyPayment(principal, interestRate, paymentPeriods);
-	let balance = principal;
-	const schedule = [];
+	const balance = principal;
+	const schedule = <RepaymentSchedulePeriod[]>[];
+
+	let cumulativeInterest = new Big(0);
+	let cumulativePrincipal = new Big(0);
 
 	for (let index = 1; index <= paymentPeriods; index++) {
-		let principal = calculatePrincipalRepayment(monthlyPayment, balance, interestRate);
-		const interest = round(new Big(monthlyPayment - principal), Big.roundHalfEven).toNumber();
-
-		if (index === paymentPeriods) {
-			principal = balance;
-			balance = 0;
-		} else {
-			balance = round(new Big(balance).minus(principal), Big.roundHalfEven).toNumber();
-		}
+		const principal = calculatePrincipalRepayment(
+			monthlyPayment,
+			balance - cumulativeInterest.toNumber() - cumulativePrincipal.toNumber(),
+			interestRate
+		);
+		const interest = new Big(monthlyPayment - principal);
+		cumulativeInterest = round(cumulativeInterest.add(interest), Big.roundHalfEven);
+		cumulativePrincipal = cumulativePrincipal.add(principal);
 
 		schedule.push({
-			balance,
+			cumulativeInterest: cumulativeInterest.toNumber(),
+			cumulativePrincipal: cumulativePrincipal.toNumber(),
 			principal,
-			interest,
+			interest: round(interest, Big.roundHalfEven).toNumber(),
 		});
 	}
 

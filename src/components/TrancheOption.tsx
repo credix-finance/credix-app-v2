@@ -23,7 +23,10 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheDa
 	const donut = useMemo(
 		() => (
 			<TrancheDonut
-				data={trancheData}
+				data={trancheData.map((t) => ({
+					name: t.name,
+					value: t.percentageOfPrincipal?.toNumber(),
+				}))}
 				color={trancheColors}
 				onMouseOver={highlightElement}
 				onMouseLeave={unHighlightElement}
