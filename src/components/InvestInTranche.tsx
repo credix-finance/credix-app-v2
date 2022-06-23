@@ -255,8 +255,8 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 									labelClassName="font-bold text-sm"
 									placeholder={intl.formatMessage(MESSAGES.investAmountInputPlaceholder)}
 									name="amount"
-									description={intl.formatMessage(MESSAGES.investAmountInputPlaceholder, {
-										amount: userBaseBalance.uiAmountString,
+									description={intl.formatMessage(MESSAGES.investAmountInputDescription, {
+										amount: maxInvestmentAmount,
 									})}
 									required={true}
 									rules={[
