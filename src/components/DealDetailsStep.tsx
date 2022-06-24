@@ -230,7 +230,18 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					/>
 				</div>
 			</div>
-			<FormItem name="repaymentType">
+			<FormItem
+				name="repaymentType"
+				rules={[
+					{
+						required: true,
+						message: intl.formatMessage({
+							defaultMessage: "'Repayment schedule' is required",
+							description: "Deal form: repayment schedule required validation message",
+						}),
+					},
+				]}
+			>
 				<Radio.Group>
 					<div className="space-y-4">
 						<SelectorCard
@@ -292,7 +303,17 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				className="mt-8"
 				icon={<Icon name="plus-square" size={IconDimension.MIDDLE} />}
 				onClick={() =>
-					onNextStep(["dealName", "borrower", "principal", "financingFee", "timeToMaturity"], 1)
+					onNextStep(
+						[
+							"dealName",
+							"borrower",
+							"principal",
+							"financingFee",
+							"timeToMaturity",
+							"repaymentType",
+						],
+						1
+					)
 				}
 			>
 				{intl.formatMessage({
