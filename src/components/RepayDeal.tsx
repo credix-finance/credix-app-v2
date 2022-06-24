@@ -3,7 +3,7 @@ import { useCredixClient } from "@credix/credix-client";
 import { defineMessages, useIntl } from "react-intl";
 import { useUserBaseBalance } from "@hooks/useUserBaseBalance";
 import message from "@message";
-import { toProgramAmount } from "@utils/format.utils";
+import { round, toProgramAmount } from "@utils/format.utils";
 import Big from "big.js";
 import { useRouter } from "next/router";
 import { useStore } from "@state/useStore";
@@ -54,7 +54,7 @@ export const RepayDeal: FunctionComponent<RepayDealProps> = ({ deal }) => {
 	const intl = useIntl();
 	const userBaseBalance = useUserBaseBalance();
 	const missingAmount = totalMissingAmount(deal.repaymentSchedule);
-	const maxAmount = Math.min(userBaseBalance.uiAmount, missingAmount);
+	const maxAmount = round(Math.min(userBaseBalance.uiAmount, missingAmount), Big.roundDown);
 	const [currentlyMissingAmount, setCurrentlyMissingAmount] = useState<TokenAmount>();
 
 	useEffect(() => {
@@ -95,17 +95,18 @@ export const RepayDeal: FunctionComponent<RepayDealProps> = ({ deal }) => {
 
 	const validateMaxAmount = (value): Promise<void> => {
 		const maxWalletValidationMessage = intl.formatMessage(MESSAGES.maxWalletValidationMessage, {
-			amount: maxAmount,
+			amount: maxAmount.toString(),
 		});
 		const maxMissingAmountValidationMessage = intl.formatMessage(
 			MESSAGES.maxMissingAmountValidationMessage,
 			{
-				amount: maxAmount,
+				amount: maxAmount.toString(),
 			}
 		);
 
-		const validationMessage =
-			maxAmount === missingAmount ? maxMissingAmountValidationMessage : maxWalletValidationMessage;
+		const validationMessage = maxAmount.eq(missingAmount)
+			? maxMissingAmountValidationMessage
+			: maxWalletValidationMessage;
 
 		return validateMaxValue(value, maxAmount, validationMessage);
 	};
@@ -115,7 +116,7 @@ export const RepayDeal: FunctionComponent<RepayDealProps> = ({ deal }) => {
 			onSubmit={repay}
 			icon="circle-and-square"
 			title={intl.formatMessage(MESSAGES.repayTitle)}
-			maxAmount={maxAmount}
+			maxAmount={maxAmount.toNumber()}
 			initialValues={{ amount: currentlyMissingAmount?.uiAmount }}
 			validationRules={[
 				{
@@ -127,7 +128,9 @@ export const RepayDeal: FunctionComponent<RepayDealProps> = ({ deal }) => {
 			content={
 				<>
 					<div className="font-medium text-base">{intl.formatMessage(MESSAGES.yourBalance)}</div>
-					<div className="font-normal text-xs">{userBaseBalance.uiAmount} USDC</div>
+					<div className="font-normal text-xs">
+						{round(userBaseBalance.uiAmount, Big.roundDown).toString()} USDC
+					</div>
 				</>
 			}
 		/>

@@ -1,10 +1,11 @@
 import { FormInstance } from "antd";
+import { BigSource } from "big.js";
 import { FunctionComponent } from "react";
 import { useIntl } from "react-intl";
 
 interface AddMaxButtonSuffixProps {
 	form: FormInstance;
-	amount: number;
+	amount: BigSource;
 }
 
 export const AddMaxButtonSuffix: FunctionComponent<AddMaxButtonSuffixProps> = ({

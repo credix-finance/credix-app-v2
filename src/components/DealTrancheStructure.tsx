@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from "react";
 import { Icon, IconDimension } from "./Icon";
-import { classNames, ratioFormatter } from "@utils/format.utils";
+import { classNames, ratioFormatter, round } from "@utils/format.utils";
 import { Fraction } from "@credix/credix-client";
 import { trancheColors, trancheNames } from "@consts";
 import { TrancheDonut } from "./TrancheDonut";
 import { useIntl } from "react-intl";
 import { DealWithNestedResources } from "@state/dealSlice";
+import Big from "big.js";
 
 interface DealTrancheStructureProps {
 	className?: string;
@@ -85,7 +86,7 @@ export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> 
 								</div>
 							</div>
 							<div className="flex items-center font-mono font-normal text-base">
-								{tranche.size.uiAmount} USDC -{" "}
+								{round(tranche.size, Big.roundHalfEven, 0).toString()} USDC -{" "}
 								{ratioFormatter.format(
 									new Fraction(
 										tranche.size.uiAmount,

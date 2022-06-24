@@ -1,6 +1,4 @@
 import { MILLISECONDS_IN_DAY } from "@consts";
-import { PublicKey } from "@solana/web3.js";
-import Big, { RoundingMode } from "big.js";
 import { PublicKey, TokenAmount } from "@solana/web3.js";
 import Big, { BigSource, RoundingMode } from "big.js";
 
@@ -32,11 +30,31 @@ export const round = (
 	roundingMode: RoundingMode,
 	precision = roundingPrecision
 ) => {
-	if (typeof n === "number" || typeof n === "string" || n instanceof Big) {
+	if (isBig(n)) {
 		return Big(n).round(precision, roundingMode);
 	}
 
-	return Big(n.uiAmount).round(precision, roundingMode);
+	if (isTokenAmount(n)) {
+		return Big(n.uiAmount).round(precision, roundingMode);
+	}
+
+	return null;
+};
+
+const isBig = (n: BigSource | TokenAmount): n is Big => {
+	if (typeof n === "number" || typeof n === "string" || Object.hasOwn(n, "c")) {
+		return true;
+	}
+
+	return false;
+};
+
+const isTokenAmount = (n: BigSource | TokenAmount): n is TokenAmount => {
+	if (isBig(n) || typeof n === "number" || typeof n === "string") {
+		return false;
+	}
+
+	return Object.hasOwn(n, "uiAmountString");
 };
 
 export const formatNumber = (n: Big, formatter: formatter) => formatter(n.toNumber());

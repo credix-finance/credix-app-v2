@@ -21,7 +21,7 @@ export const useUserBaseBalance = () => {
 		}
 
 		const userBaseBalance = await market?.userBaseBalance(publicKey);
-		setUserBaseBalance(userBaseBalance);
+		setUserBaseBalance(userBaseBalance || zeroTokenAmount);
 	}, [market, publicKey]);
 
 	useEffect(() => {

@@ -23,21 +23,29 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 	const [interestRepaidRatio, setInterestRepaidRatio] = useState<Fraction>();
 	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<Fraction>();
 	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Fraction>();
-	const [principalRepaid, setPrincipalRepaid] = useState<number>(0);
-	const [interestRepaid, setInterestRepaid] = useState<number>(0);
+	const [principalRepaid, setPrincipalRepaid] = useState<Big>(Big(0));
+	const [interestRepaid, setInterestRepaid] = useState<Big>(Big(0));
 	const [daysRemaining, setDaysRemaining] = useState<number>(0);
 	const intl = useIntl();
 
 	useEffect(() => {
 		if (deal) {
-			const principalAmountRepaid = totalPrincipalRepaid(deal.repaymentSchedule);
+			const principalAmountRepaid = round(
+				totalPrincipalRepaid(deal.repaymentSchedule),
+				Big.roundDown,
+				0
+			);
 			setPrincipalRepaid(principalAmountRepaid);
 		}
 	}, [deal]);
 
 	useEffect(() => {
 		if (deal) {
-			const interestAmountRepaid = totalInterestRepaid(deal.repaymentSchedule);
+			const interestAmountRepaid = round(
+				totalInterestRepaid(deal.repaymentSchedule),
+				Big.roundDown,
+				0
+			);
 			setInterestRepaid(interestAmountRepaid);
 		}
 	}, [deal]);
