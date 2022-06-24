@@ -98,6 +98,9 @@ jobs:
       - name: Run linter
         run: yarn run lint
 
+      - name: Compile
+        run: yarn build
+
       # Testing
       - name: Run unit tests
         run: yarn run test:unit
@@ -149,10 +152,16 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
       - name: Build app
-        run: |
-          NEXT_PUBLIC_REACT_APP_CLUSTER=devnet NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }} NEXT_PUBLIC_PROGRAM_ID=${{ secrets.NEXT_PUBLIC_PRE_MAINNET_PROGRAM_ID }} yarn build
-          yarn export
+        run: >
+          NEXT_PUBLIC_REACT_APP_CLUSTER=devnet
+          NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}
+          NEXT_PUBLIC_PROGRAM_ID=${{ secrets.NEXT_PUBLIC_PRE_MAINNET_PROGRAM_ID }}
+          yarn build
+
+      - name: Export app
+        run: yarn export
 
       - name: Checkout target repository
         uses: actions/checkout@v2
@@ -166,7 +175,6 @@ jobs:
         run: |
           cp -r out/* deploy
           cd deploy
-          echo ${{ secrets.DEPLOY_URL }} > CNAME
           touch .nojekyll
           git add .
           git commit -m $GITHUB_SHA --allow-empty
@@ -240,9 +248,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
-        run: |
-          NEXT_PUBLIC_REACT_APP_CLUSTER=mainnet-beta NEXT_PUBLIC_SYNDICA_TOKEN=${{secrets.NEXT_PUBLIC_SYNDICA_TOKEN}} NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }} NEXT_PUBLIC_PROGRAM_ID=${{ secrets.NEXT_PUBLIC_DEVNET_AND_MAINNET_PROGRAM_ID }} yarn build
-          yarn export
+        run: >
+          NEXT_PUBLIC_REACT_APP_CLUSTER=mainnet-beta
+          NEXT_PUBLIC_SYNDICA_TOKEN=${{secrets.NEXT_PUBLIC_SYNDICA_TOKEN}}
+          NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}
+          NEXT_PUBLIC_PROGRAM_ID=${{ secrets.NEXT_PUBLIC_DEVNET_AND_MAINNET_PROGRAM_ID }}
+          yarn build
+
+      - name: Export app
+        run: yarn export
 
       - name: Checkout target repository
         uses: actions/checkout@v2
@@ -261,7 +275,6 @@ jobs:
         run: |
           cp -r out/* deploy
           cd deploy
-          echo ${{ secrets.DEPLOY_URL }} > CNAME
           touch .nojekyll
           git add .
           git commit -m $GITHUB_SHA --allow-empty

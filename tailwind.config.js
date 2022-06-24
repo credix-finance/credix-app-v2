@@ -15,7 +15,7 @@ module.exports = {
 			gridTemplateColumns: {
 				layout: "min-content 1fr",
 			},
-			borderRadius: { DEFAULT: "0.0625rem" },
+			borderRadius: { DEFAULT: "0.0625rem", md: "0.25rem" },
 			height: {
 				30: "7.5rem"
 			},

@@ -92,7 +92,7 @@ export const DealsTable = (props: Props) => {
 		return (
 			<Link href={path}>
 				<a>
-					<Button size="large">
+					<Button>
 						<span className="capitalize">{buttonText}</span>
 					</Button>
 				</a>

@@ -118,6 +118,10 @@ The page will reload if you make edits. You will also see any lint errors in the
 Launches the test runner and runs all the tests.
 You can add the `--watch` flag to let the runner watch for changes.
 
+### `yarn cypress:open`
+
+Launches an interactive cypress window where you can start running the e2e testing suite.
+
 ### `yarn build`
 
 Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance.

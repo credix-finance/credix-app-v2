@@ -16,6 +16,7 @@ import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
 import { DealWithNestedResources } from "@state/dealSlice";
 import { useCredixClient } from "@credix/credix-client";
+import notification from "notification";
 
 const Repay: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -76,8 +77,8 @@ const Repay: NextPageWithLayout = () => {
 			const programAmount = toProgramAmount(new Big(amount));
 			await deal.repay(programAmount.toNumber());
 			hide();
-			message.success({
-				content: intl.formatMessage(
+			notification.success({
+				message: intl.formatMessage(
 					{
 						defaultMessage: "Successfully made repayment of {amount} USDC",
 						description: "Repay deal: repayment success",
@@ -90,8 +91,8 @@ const Repay: NextPageWithLayout = () => {
 			getDealFromStore();
 		} catch (error) {
 			hide();
-			message.error({
-				content: intl.formatMessage(
+			notification.error({
+				message: intl.formatMessage(
 					{
 						defaultMessage: "Failed to repay {amount} USDC",
 						description: "Repay deal: repayment failed",
@@ -100,6 +101,7 @@ const Repay: NextPageWithLayout = () => {
 						amount: formattedNumber,
 					}
 				),
+				error,
 			});
 		}
 	};

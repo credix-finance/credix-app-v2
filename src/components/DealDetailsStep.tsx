@@ -118,7 +118,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 						]}
 					/>
 					<TextArea
-						rows={5}
+						rows={6}
 						name="details"
 						className="bg-credix-primary"
 						label={intl.formatMessage({

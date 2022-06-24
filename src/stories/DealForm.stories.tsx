@@ -4,7 +4,7 @@ import DealForm from "@components/DealForm";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: "Components/DealForm",
+	title: "DealForm",
 	component: DealForm,
 } as ComponentMeta<typeof DealForm>;
 

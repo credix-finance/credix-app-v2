@@ -7,6 +7,7 @@ import { getMarketsPaths } from "@utils/export.utils";
 import { compactFormatter, toProgramAmount } from "@utils/format.utils";
 import message from "message";
 import { useRouter } from "next/router";
+import notification from "notification";
 import { NextPageWithLayout } from "pages/_app";
 import React, { ReactElement, useEffect } from "react";
 import { useStore } from "state/useStore";
@@ -42,22 +43,21 @@ const New: NextPageWithLayout = () => {
 
 			if (!credixPass) {
 				hide();
-				message.error({
-					content: intl.formatMessage({
+				notification.error({
+					message: intl.formatMessage({
 						defaultMessage: "No Credix Pass found for given public key",
 						description: "New deal: Credix Pass validation failed",
 					}),
 				});
+
 				return;
 			}
 		} catch {
 			hide();
-			message.error({
-				content: intl.formatMessage({
-					defaultMessage: "Failed to get Credix pass for given public key",
-					description: "New deal: Credix Pass request failed",
-				}),
+			notification.error({
+				message: "Failed to fetch Credix pass",
 			});
+
 			return;
 		}
 
@@ -150,17 +150,6 @@ const New: NextPageWithLayout = () => {
 			await deal.setTranches(tranches);
 
 			hide();
-			message.success({
-				content: intl.formatMessage(
-					{
-						defaultMessage: "Successfully created deal for {amount} USDC",
-						description: "New deal: deal creation success",
-					},
-					{
-						amount: formattedPrincipal,
-					}
-				),
-			});
 
 			return deal;
 		} catch (error) {

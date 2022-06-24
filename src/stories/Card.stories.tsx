@@ -6,7 +6,7 @@ import { Button } from "@components/Button";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: "Components/Card",
+	title: "Card",
 	component: Card,
 } as ComponentMeta<typeof Card>;
 

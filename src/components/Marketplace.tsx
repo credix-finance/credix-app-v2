@@ -5,12 +5,7 @@ import { useCredixClient } from "@credix/credix-client";
 import Link from "next/link";
 import { dealsRoute, investWithdrawRoute, borrowerTypeformId, investorTypeformId } from "@consts";
 import { useStore } from "@state/useStore";
-import {
-	Button,
-	buttonSizeStyles,
-	buttonTypeStyles,
-	defaultButtonStyles,
-} from "@components/Button";
+import { Button, buttonTypeStyles, defaultButtonStyles } from "@components/Button";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PopupButton } from "@typeform/embed-react";
 
@@ -80,7 +75,7 @@ const Marketplace: FunctionComponent<MarketplaceProps> = (props) => {
 			id="index"
 			className="grid grid-cols-1 grid-auto-rows-min gap-y-8 md:grid-cols-12 md:gap-y-12 md:gap-x-14 justify-items-center p-4 pt-8 md:p-8 lg:max-w-6xl lg:justify-self-center"
 		>
-			<div className="text-center md:col-span-12 md:max-w-3xl grid justify-items-center">
+			<div className="md:text-center md:col-span-12 md:max-w-3xl grid justify-items-center max-w-lg">
 				<h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold font-sans">
 					{intl.formatMessage({
 						defaultMessage: "Welcome to Credix",
@@ -98,7 +93,7 @@ const Marketplace: FunctionComponent<MarketplaceProps> = (props) => {
 			<div className="md:col-span-12 w-full">
 				<MarketStats market={market} />
 			</div>
-			<div className="ml-6 md:col-span-12 md:flex md:justify-between md:space-x-20 space-y-8 md:space-y-0">
+			<div className="ml-6 max-w-lg md:max-w-full md:col-span-12 md:flex md:justify-between md:space-x-20 space-y-8 md:space-y-0">
 				{parties.map(({ name, action, buttonAction, buttonLink, description, typeformId }) => (
 					<Card key={name} topTitle={name} title={action} offset="large">
 						<div className="mb-14 text-base">{description}</div>
@@ -113,7 +108,7 @@ const Marketplace: FunctionComponent<MarketplaceProps> = (props) => {
 						) : (
 							<PopupButton
 								id={typeformId}
-								className={`${defaultButtonStyles} ${buttonTypeStyles["primary"]} ${buttonSizeStyles["middle"]} w-full capitalize hover:cursor-pointer border-b-0 border-r-0`}
+								className={`${defaultButtonStyles} ${buttonTypeStyles["primary"]}} w-full capitalize hover:cursor-pointer border-b-0 border-r-0`}
 							>
 								{buttonAction}
 							</PopupButton>
