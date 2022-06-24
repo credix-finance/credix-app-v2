@@ -1,6 +1,8 @@
 import { MILLISECONDS_IN_DAY } from "@consts";
 import { PublicKey } from "@solana/web3.js";
 import Big, { RoundingMode } from "big.js";
+import { PublicKey, TokenAmount } from "@solana/web3.js";
+import Big, { BigSource, RoundingMode } from "big.js";
 
 type formatter = (value: number) => string;
 export const clamp = (value: number, min: number, max?: number) => {
@@ -25,8 +27,17 @@ export const currencyFormatter = Intl.NumberFormat("en", {
 	maximumFractionDigits: 2,
 });
 
-export const round = (n: Big, roundingMode: RoundingMode, precision = roundingPrecision) =>
-	n.round(precision, roundingMode);
+export const round = (
+	n: BigSource | TokenAmount,
+	roundingMode: RoundingMode,
+	precision = roundingPrecision
+) => {
+	if (typeof n === "number" || typeof n === "string" || n instanceof Big) {
+		return Big(n).round(precision, roundingMode);
+	}
+
+	return Big(n.uiAmount).round(precision, roundingMode);
+};
 
 export const formatNumber = (n: Big, formatter: formatter) => formatter(n.toNumber());
 export const ratioFormatter = Intl.NumberFormat("en", {
