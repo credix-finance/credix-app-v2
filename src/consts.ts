@@ -40,89 +40,90 @@ export const dealsRoute: Route = {
 
 export const routes: Route[] = [investWithdrawRoute, dealsRoute];
 
-export const defaultTranches = [
-	{
-		value: "oneTranche",
-		title: "One tranche structure",
-		trancheData: [
-			{
-				name: "Senior",
-				apr: new Fraction(135, 1000),
-				value: 1,
-				percentageOfPrincipal: new Fraction(1, 1),
-				percentageOfInterest: new Fraction(1, 1),
-			},
-			{
-				name: "Mezzanine",
-				apr: null,
-				value: null,
-				percentageOfPrincipal: null,
-				percentageOfInterest: null,
-			},
-			{
-				name: "Junior",
-				apr: null,
-				value: null,
-				percentageOfPrincipal: null,
-				percentageOfInterest: null,
-			},
-		],
-	},
-	{
-		title: "Two tranche structure",
-		value: "twoTranche",
-		trancheData: [
-			{
-				name: "Senior",
-				value: 0.8,
-				apr: new Fraction(135, 1000),
-				percentageOfPrincipal: new Fraction(10, 100),
-				percentageOfInterest: new Fraction(80, 100),
-			},
-			{
-				name: "Mezzanine",
-				apr: null,
-				value: null,
-				percentageOfPrincipal: null,
-				percentageOfInterest: null,
-			},
-			{
-				name: "Junior",
-				value: 0.2,
-				apr: new Fraction(135, 1000),
-				percentageOfPrincipal: new Fraction(90, 100),
-				percentageOfInterest: new Fraction(20, 100),
-			},
-		],
-	},
-	{
-		title: "Three tranche structure",
-		value: "threeTranche",
-		trancheData: [
-			{
-				name: "Senior",
-				value: 0.75,
-				apr: new Fraction(135, 1000),
-				percentageOfPrincipal: new Fraction(10, 100),
-				percentageOfInterest: new Fraction(20, 100),
-			},
-			{
-				name: "Mezzanine",
-				value: 0.2,
-				apr: new Fraction(135, 1000),
-				percentageOfPrincipal: new Fraction(15, 100),
-				percentageOfInterest: new Fraction(25, 100),
-			},
-			{
-				name: "Junior",
-				value: 0.05,
-				apr: new Fraction(135, 1000),
-				percentageOfPrincipal: new Fraction(75, 100),
-				percentageOfInterest: new Fraction(55, 100),
-			},
-		],
-	},
-];
+export const oneTrancheStructure = {
+	value: "oneTranche",
+	title: "One tranche structure",
+	trancheData: [
+		{
+			name: "Senior",
+			apr: new Fraction(135, 1000),
+			value: 1,
+			percentageOfPrincipal: new Fraction(1, 1),
+			percentageOfInterest: new Fraction(1, 1),
+		},
+		{
+			name: "Mezzanine",
+			apr: null,
+			value: null,
+			percentageOfPrincipal: null,
+			percentageOfInterest: null,
+		},
+		{
+			name: "Junior",
+			apr: null,
+			value: null,
+			percentageOfPrincipal: null,
+			percentageOfInterest: null,
+		},
+	],
+};
+export const twoTrancheStructure = {
+	title: "Two tranche structure",
+	value: "twoTranche",
+	trancheData: [
+		{
+			name: "Senior",
+			value: 0.8,
+			apr: new Fraction(135, 1000),
+			percentageOfPrincipal: new Fraction(10, 100),
+			percentageOfInterest: new Fraction(80, 100),
+		},
+		{
+			name: "Mezzanine",
+			apr: null,
+			value: null,
+			percentageOfPrincipal: null,
+			percentageOfInterest: null,
+		},
+		{
+			name: "Junior",
+			value: 0.2,
+			apr: new Fraction(135, 1000),
+			percentageOfPrincipal: new Fraction(90, 100),
+			percentageOfInterest: new Fraction(20, 100),
+		},
+	],
+};
+
+export const threeTrancheStructure = {
+	title: "Three tranche structure",
+	value: "threeTranche",
+	trancheData: [
+		{
+			name: "Senior",
+			value: 0.75,
+			apr: new Fraction(135, 1000),
+			percentageOfPrincipal: new Fraction(10, 100),
+			percentageOfInterest: new Fraction(20, 100),
+		},
+		{
+			name: "Mezzanine",
+			value: 0.2,
+			apr: new Fraction(135, 1000),
+			percentageOfPrincipal: new Fraction(15, 100),
+			percentageOfInterest: new Fraction(25, 100),
+		},
+		{
+			name: "Junior",
+			value: 0.05,
+			apr: new Fraction(135, 1000),
+			percentageOfPrincipal: new Fraction(75, 100),
+			percentageOfInterest: new Fraction(55, 100),
+		},
+	],
+};
+
+export const defaultTranches = [oneTrancheStructure, twoTrancheStructure, threeTrancheStructure];
 
 export const trancheNames = ["super senior", "senior", "mezzanine", "junior"];
 export const trancheFillColors = {

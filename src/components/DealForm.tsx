@@ -5,6 +5,11 @@ import { DealDetailsStep } from "@components/DealDetailsStep";
 import { DealTranchesStep } from "@components/DealTranchesStep";
 import { ReviewDealStep } from "@components/ReviewDeal";
 import { useIntl } from "react-intl";
+import { threeTrancheStructure } from "@consts";
+
+const dealFormDefaultValues = {
+	trancheStructure: threeTrancheStructure.value,
+};
 
 export interface DealFormInput {
 	principal: number;
@@ -12,6 +17,7 @@ export interface DealFormInput {
 	timeToMaturity: number;
 	borrower: string;
 	dealName: string;
+	// TODO: replace with enum
 	repaymentType: string;
 	trancheStructure: string;
 }
@@ -64,7 +70,13 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			<Stepper current={currentStep} steps={steps} />
 			<div className="space-y-8">
 				<div className="w-full h-[1px] mt-10  bg-neutral-105"></div>
-				<Form name="deal" form={form} onFinish={onSubmit} layout="vertical">
+				<Form
+					name="deal"
+					form={form}
+					initialValues={dealFormDefaultValues}
+					onFinish={onSubmit}
+					layout="vertical"
+				>
 					<DealDetailsStep form={form} className={showStep(0)} onNextStep={onNextStep} />
 					<DealTranchesStep form={form} className={showStep(1)} setCurrentStep={setCurrentStep} />
 					<ReviewDealStep form={form} onBack={() => setCurrentStep(1)} className={showStep(2)} />
