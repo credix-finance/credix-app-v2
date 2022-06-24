@@ -39,6 +39,8 @@ const getDeals = async (client: CredixClient, market: Market, set: SetState<Deal
 			const dealTranches = tranches[index];
 			if (dealTranches) {
 				deal.tranches = dealTranches;
+				// Remove the super senior tranche
+				deal.tranches.tranches.shift();
 			}
 
 			return deal;

@@ -42,7 +42,7 @@ body {
 }
 
 .identity-button > button {
-	@apply bg-credix-primary text-neutral-100 h-[50px] flex justify-center items-center;
+	@apply rounded-md bg-credix-primary text-neutral-100 h-12 flex justify-center items-center;
 }
 
 .identity-button > button > svg {
@@ -220,7 +220,7 @@ body {
 }
 
 .ant-input-affix-wrapper {
-	@apply h-14 border border-neutral-40 !important;
+	@apply border border-neutral-40 !important;
 }
 
 .ant-select-selector {

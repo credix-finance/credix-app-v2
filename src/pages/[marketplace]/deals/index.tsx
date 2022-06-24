@@ -53,7 +53,7 @@ const DealsPage = () => {
 	const newDealButton = (
 		<Link href={`/${marketplace}/deals/new`}>
 			<a>
-				<Button size="large" icon={<Icon name="plus-square" className="w-5 h-5" />}>
+				<Button icon={<Icon name="plus-square" className="w-5 h-5" />} data-cy="create-deal-button">
 					<span className="text-lg capitalize">
 						{intl.formatMessage({
 							defaultMessage: "create new deal",
