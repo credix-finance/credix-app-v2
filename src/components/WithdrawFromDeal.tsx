@@ -9,33 +9,7 @@ import { useStore } from "@state/useStore";
 import { DealInteraction } from "./DealInteraction";
 import { DealWithNestedResources } from "@state/dealSlice";
 import { validateMaxValue } from "@utils/validation.utils";
-
-const MESSAGES = defineMessages({
-	maxAmountValidation: {
-		defaultMessage: "'amount' cannot be greater than or equal to {amount} USDC",
-		description: "Withdraw from deal: max amount validation message",
-	},
-	withdrawLoading: {
-		defaultMessage: "Withdrawing {amount} USDC",
-		description: "Withdraw from deal: withdrawal loading",
-	},
-	withdrawSuccess: {
-		defaultMessage: "Successfully made withdrawal of {amount} USDC",
-		description: "Withdraw from deal: withdrawal success",
-	},
-	withdrawFailure: {
-		defaultMessage: "Failed to withdraw {amount} USDC",
-		description: "Withdraw from deal: withdrawal failed",
-	},
-	withdrawTitle: {
-		defaultMessage: "Withdraw",
-		description: "Withdraw from deal: title",
-	},
-	withdrawableAmount: {
-		defaultMessage: "Withdrawable amount",
-		description: "Withdraw from deal: withdrawable amount",
-	},
-});
+import { FormInstance } from "antd";
 
 export const WithdrawFromDeal: FunctionComponent<WithdrawFromDealProps> = ({ deal }) => {
 	const router = useRouter();
@@ -53,7 +27,7 @@ export const WithdrawFromDeal: FunctionComponent<WithdrawFromDealProps> = ({ dea
 		}
 	}, [deal]);
 
-	const withdraw = async ({ amount }) => {
+	const withdraw = async ({ amount }, form: FormInstance) => {
 		const hide = message.loading({
 			content: intl.formatMessage(MESSAGES.withdrawLoading, {
 				amount,
@@ -67,6 +41,7 @@ export const WithdrawFromDeal: FunctionComponent<WithdrawFromDealProps> = ({ dea
 					amount,
 				}),
 			});
+			form.resetFields();
 			await fetchMarket(client, marketplace as string);
 		} catch {
 			hide();
@@ -108,6 +83,34 @@ export const WithdrawFromDeal: FunctionComponent<WithdrawFromDealProps> = ({ dea
 		/>
 	);
 };
+
+const MESSAGES = defineMessages({
+	maxAmountValidation: {
+		defaultMessage: "'amount' cannot be greater than or equal to {amount} USDC",
+		description: "Withdraw from deal: max amount validation message",
+	},
+	withdrawLoading: {
+		defaultMessage: "Withdrawing {amount} USDC",
+		description: "Withdraw from deal: withdrawal loading",
+	},
+	withdrawSuccess: {
+		defaultMessage: "Successfully made withdrawal of {amount} USDC",
+		description: "Withdraw from deal: withdrawal success",
+	},
+	withdrawFailure: {
+		defaultMessage: "Failed to withdraw {amount} USDC",
+		description: "Withdraw from deal: withdrawal failed",
+	},
+	withdrawTitle: {
+		defaultMessage: "Withdraw",
+		description: "Withdraw from deal: title",
+	},
+	withdrawableAmount: {
+		defaultMessage: "Withdrawable amount",
+		description: "Withdraw from deal: withdrawable amount",
+	},
+});
+
 interface WithdrawFromDealProps {
 	deal: DealWithNestedResources;
 }
