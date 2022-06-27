@@ -2,9 +2,8 @@ import {
 	Deal,
 	Fraction,
 	RepaymentSchedule,
-	Tranche,
-	Tranches,
 	CredixPass,
+	RepaymentPeriod,
 } from "@credix/credix-client";
 import { clamp, daysToMilliseconds, toUIAmount } from "@utils/format.utils";
 import { PublicKey } from "@solana/web3.js";
@@ -69,25 +68,15 @@ export const calculateMonthlyRepaymentAmount = (repaymentSchedule: RepaymentSche
 };
 
 // TODO: move this to the client
-export const calculateInterestRepaidRatio = (
-	tranches: Tranches,
-	repaymentSchedule: RepaymentSchedule
-) => {
-	const interestRepaid = tranches.tranches.reduce((acc: number, curr: Tranche) => {
-		return acc + curr.interestRepaid.uiAmount;
-	}, 0);
+export const calculateInterestRepaidRatio = (repaymentSchedule: RepaymentSchedule) => {
+	const interestRepaid = totalInterestRepaid(repaymentSchedule);
 
 	return new Fraction(interestRepaid, repaymentSchedule.totalInterest.uiAmount);
 };
 
 // TODO: move this to the client
-export const calculatePrincipalRepaidRatio = (
-	tranches: Tranches,
-	repaymentSchedule: RepaymentSchedule
-) => {
-	const principalRepaid = tranches.tranches.reduce((acc: number, curr: Tranche) => {
-		return acc + curr.principalRepaid.uiAmount;
-	}, 0);
+export const calculatePrincipalRepaidRatio = (repaymentSchedule: RepaymentSchedule) => {
+	const principalRepaid = totalPrincipalRepaid(repaymentSchedule);
 
 	return new Fraction(principalRepaid, repaymentSchedule.totalPrincipal.uiAmount);
 };
@@ -106,8 +95,8 @@ export const calculateDaysRemainingRatio = (deal: Deal, repaymentSchedule: Repay
 };
 
 // TODO: move this to the client
-export const totalInterestRepaid = (tranches: Tranches) => {
-	const interestRepaid = tranches.tranches.reduce((acc: number, curr: Tranche) => {
+export const totalInterestRepaid = (repaymentSchedule: RepaymentSchedule) => {
+	const interestRepaid = repaymentSchedule.periods.reduce((acc: number, curr: RepaymentPeriod) => {
 		return acc + curr.interestRepaid.uiAmount;
 	}, 0);
 
@@ -115,8 +104,8 @@ export const totalInterestRepaid = (tranches: Tranches) => {
 };
 
 // TODO: move this to the client
-export const totalPrincipalRepaid = (tranches: Tranches) => {
-	const principalRepaid = tranches.tranches.reduce((acc: number, curr: Tranche) => {
+export const totalPrincipalRepaid = (repaymentSchedule: RepaymentSchedule) => {
+	const principalRepaid = repaymentSchedule.periods.reduce((acc: number, curr: RepaymentPeriod) => {
 		return acc + Number(curr.principalRepaid.uiAmount);
 	}, 0);
 
@@ -139,4 +128,11 @@ export const totalMissingAmount = (repaymentSchedule: RepaymentSchedule) => {
 	return repaymentSchedule.periods.reduce((acc, curr) => {
 		return acc + curr.totalToRepay.uiAmount;
 	}, 0);
+};
+
+export const interestToRepay = (repaymentSchedule: RepaymentSchedule) => {
+	const repaid = totalInterestRepaid(repaymentSchedule);
+	const total = repaymentSchedule.totalInterest.uiAmount;
+
+	return total - repaid;
 };

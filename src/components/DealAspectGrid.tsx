@@ -30,14 +30,14 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, classNam
 
 	useEffect(() => {
 		if (deal) {
-			const principalAmountRepaid = totalPrincipalRepaid(deal.tranches);
+			const principalAmountRepaid = totalPrincipalRepaid(deal.repaymentSchedule);
 			setPrincipalRepaid(principalAmountRepaid);
 		}
 	}, [deal]);
 
 	useEffect(() => {
 		if (deal) {
-			const interestAmountRepaid = totalInterestRepaid(deal.tranches);
+			const interestAmountRepaid = totalInterestRepaid(deal.repaymentSchedule);
 			setInterestRepaid(interestAmountRepaid);
 		}
 	}, [deal]);
@@ -54,14 +54,14 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, classNam
 
 	useEffect(() => {
 		if (deal) {
-			const interestRatio = calculateInterestRepaidRatio(deal.tranches, deal.repaymentSchedule);
+			const interestRatio = calculateInterestRepaidRatio(deal.repaymentSchedule);
 			setInterestRepaidRatio(interestRatio);
 		}
 	}, [deal]);
 
 	useEffect(() => {
 		if (deal) {
-			const principalRatio = calculatePrincipalRepaidRatio(deal.tranches, deal.repaymentSchedule);
+			const principalRatio = calculatePrincipalRepaidRatio(deal.repaymentSchedule);
 			setPrincipalRepaidRatio(principalRatio);
 		}
 	}, [deal]);
