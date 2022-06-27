@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Deal, useCredixClient } from "@credix/credix-client";
+import { useCredixClient } from "@credix/credix-client";
 import { defineMessages, useIntl } from "react-intl";
 import { useUserBaseBalance } from "@hooks/useUserBaseBalance";
 import message from "@message";

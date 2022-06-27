@@ -33,11 +33,21 @@ Default.args = {
 			],
 		},
 		repaymentSchedule: {
+			periods: [
+				{
+					interestRepaid: {
+						uiAmount: 50_000_000,
+					},
+					principalRepaid: {
+						uiAmount: 50_000_000,
+					},
+				},
+			],
+			totalInterest: {
+				uiAmount: 100_000_000,
+			},
 			totalPrincipal: {
 				uiAmount: 1_000_000,
-			},
-			totalInterest: {
-				uiAmount: 100_000,
 			},
 			duration: 360,
 		},
