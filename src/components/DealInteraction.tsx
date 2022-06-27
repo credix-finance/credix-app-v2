@@ -5,6 +5,7 @@ import { AddMaxButtonSuffix } from "./AddMaxButtonSuffix";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import { Icon, IconDimension, IconName } from "./Icon";
+import { validateMinValue } from "@utils/validation.utils";
 
 export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 	title,
@@ -15,6 +16,14 @@ export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 }) => {
 	const intl = useIntl();
 	const [form] = Form.useForm();
+
+	const validateMinAmount = (value): Promise<void> => {
+		const validationMessage = intl.formatMessage({
+			defaultMessage: "'amount' needs to be greater than 0",
+			description: "Deal intereaction: min amount validation message",
+		});
+		return validateMinValue(value, 0, validationMessage);
+	};
 
 	return (
 		<div>
@@ -46,6 +55,21 @@ export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 							description: "Interact with deal: amount input placeholder",
 						})}
 						name="amount"
+						required={true}
+						rules={[
+							{
+								required: true,
+								message: intl.formatMessage({
+									defaultMessage: "'amount' is required",
+									description: "Deal interaction: amount required validation message",
+								}),
+							},
+							{
+								validator(_, value) {
+									return validateMinAmount(value);
+								},
+							},
+						]}
 						suffix={<AddMaxButtonSuffix form={form} amount={maxAmount} />}
 					/>
 					<Form.Item className="mb-0">
