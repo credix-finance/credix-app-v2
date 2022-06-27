@@ -5,7 +5,7 @@ import { AddMaxButtonSuffix } from "./AddMaxButtonSuffix";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import { Icon, IconDimension, IconName } from "./Icon";
-import { validateMinValue } from "@utils/validation.utils";
+import { validateMinValue, validateMaxValue } from "@utils/validation.utils";
 
 export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 	title,
@@ -23,6 +23,19 @@ export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 			description: "Deal intereaction: min amount validation message",
 		});
 		return validateMinValue(value, 0, validationMessage);
+	};
+
+	const validateMaxAmount = (value): Promise<void> => {
+		const validationMessage = intl.formatMessage(
+			{
+				defaultMessage: "'amount' needs to be less than or equal to {amount}",
+				description: "Deal intereaction: max amount validation message",
+			},
+			{
+				amount: maxAmount,
+			}
+		);
+		return validateMaxValue(value, maxAmount, validationMessage);
 	};
 
 	return (
@@ -67,6 +80,11 @@ export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 							{
 								validator(_, value) {
 									return validateMinAmount(value);
+								},
+							},
+							{
+								validator(_, value) {
+									return validateMaxAmount(value);
 								},
 							},
 						]}
