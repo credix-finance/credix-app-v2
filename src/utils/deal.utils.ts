@@ -135,4 +135,8 @@ export const calculateFinancingFee = (repaymentSchedule: RepaymentSchedule) => {
 	);
 };
 
+export const totalMissingAmount = (repaymentSchedule: RepaymentSchedule) => {
+	return repaymentSchedule.periods.reduce((acc, curr) => {
+		return acc + curr.totalToRepay.uiAmount;
+	}, 0);
 };
