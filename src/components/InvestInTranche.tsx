@@ -3,7 +3,7 @@ import { Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Form } from "antd";
-import { Fraction, Tranche, useCredixClient } from "@credix/credix-client";
+import { Fraction, RepaymentSchedule, Tranche, useCredixClient } from "@credix/credix-client";
 import { trancheNames, zeroTokenAmount } from "@consts";
 import { ratioFormatter, toProgramAmount } from "@utils/format.utils";
 import { useIntl } from "react-intl";
@@ -18,12 +18,17 @@ import { useRouter } from "next/router";
 import { TrancheFillLevel } from "./TrancheFillLevel";
 import { config } from "@config";
 import { SolanaCluster } from "@credix_types/solana.types";
+import { investorProjectedReturns } from "@utils/tranche.utils";
 
 interface InvestInTrancheProps {
 	tranche: Tranche;
+	repaymentSchedule: RepaymentSchedule;
 }
 
-export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranche }) => {
+export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
+	tranche,
+	repaymentSchedule,
+}) => {
 	const router = useRouter();
 	const { marketplace } = router.query;
 	const intl = useIntl();
@@ -33,6 +38,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 	const userBaseBalance = useUserBaseBalance();
 	const client = useCredixClient();
 	const fetchMarket = useStore((state) => state.fetchMarket);
+	const projectedReturns = investorProjectedReturns(tranche, repaymentSchedule, userTrancheBalance);
 
 	const getInvestorTranche = useCallback(async () => {
 		if (tranche && publicKey) {
@@ -182,7 +188,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 									:
 								</div>
 								{/* TODO: add projected value */}
-								<div>0 USDC</div>
+								<div>{projectedReturns.toString()} USDC</div>
 							</div>
 						</div>
 					</div>
