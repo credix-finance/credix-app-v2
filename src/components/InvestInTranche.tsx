@@ -19,6 +19,7 @@ import { TrancheFillLevel } from "./TrancheFillLevel";
 import { config } from "@config";
 import { SolanaCluster } from "@credix_types/solana.types";
 import { investorProjectedReturns } from "@utils/tranche.utils";
+import { validateMaxValue, validateMinValue } from "@utils/validation.utils";
 
 interface InvestInTrancheProps {
 	tranche: Tranche;
@@ -39,6 +40,10 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 	const client = useCredixClient();
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const projectedReturns = investorProjectedReturns(tranche, repaymentSchedule, userTrancheBalance);
+	const maxInvestmentAmount = Math.min(
+		userBaseBalance?.uiAmount,
+		tranche.size.uiAmount - tranche.amountDeposited.uiAmount
+	);
 
 	const getInvestorTranche = useCallback(async () => {
 		if (tranche && publicKey) {
@@ -106,6 +111,27 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 				}),
 			});
 		}
+	};
+
+	const validateMinAmount = (value): Promise<void> => {
+		const validationMessage = intl.formatMessage({
+			defaultMessage: "'amount' needs to be greater than 0",
+			description: "Deal intereaction: min amount validation message",
+		});
+		return validateMinValue(value, 0, validationMessage);
+	};
+
+	const validateMaxAmount = (value): Promise<void> => {
+		const validationMessage = intl.formatMessage(
+			{
+				defaultMessage: "'amount' needs to be less than or equal to {amount}",
+				description: "Deal intereaction: max amount validation message",
+			},
+			{
+				amount: maxInvestmentAmount,
+			}
+		);
+		return validateMaxValue(value, maxInvestmentAmount, validationMessage);
 	};
 
 	return (
@@ -221,15 +247,27 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 											amount: userBaseBalance.uiAmountString,
 										}
 									)}
-									suffix={
-										<AddMaxButtonSuffix
-											form={form}
-											amount={Math.min(
-												userBaseBalance.uiAmount,
-												tranche.size.uiAmount - tranche.amountDeposited.uiAmount
-											)}
-										/>
-									}
+									required={true}
+									rules={[
+										{
+											required: true,
+											message: intl.formatMessage({
+												defaultMessage: "'amount' is required",
+												description: "Invest int tranche: amount required validation message",
+											}),
+										},
+										{
+											validator(_, value) {
+												return validateMinAmount(value);
+											},
+										},
+										{
+											validator(_, value) {
+												return validateMaxAmount(value);
+											},
+										},
+									]}
+									suffix={<AddMaxButtonSuffix form={form} amount={maxInvestmentAmount} />}
 								/>
 								<Form.Item className="mb-0" label={" "}>
 									<Button
