@@ -1,11 +1,31 @@
 import React, { FunctionComponent, ReactNode } from "react";
-import { useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { Form, FormInstance } from "antd";
 import { AddMaxButtonSuffix } from "./AddMaxButtonSuffix";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import { Icon, IconDimension, IconName } from "./Icon";
-import { validateMinValue, validateMaxValue } from "@utils/validation.utils";
+import { validateMinValue } from "@utils/validation.utils";
+import { Rule } from "antd/lib/form";
+
+const MESSAGES = defineMessages({
+	minAmountValidation: {
+		defaultMessage: "'amount' needs to be greater than {amount}",
+		description: "Deal intereaction: min amount validation message",
+	},
+	amountInputLabel: {
+		defaultMessage: "Amount",
+		description: "Interact with deal: amount input label",
+	},
+	amountInputPlaceholder: {
+		defaultMessage: "USDC",
+		description: "Interact with deal: amount input placeholder",
+	},
+	requiredValidation: {
+		defaultMessage: "'amount' is required",
+		description: "Deal interaction: amount required validation message",
+	},
+});
 
 export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 	title,
@@ -13,29 +33,17 @@ export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 	content,
 	onSubmit,
 	maxAmount,
+	validationRules = [],
 }) => {
 	const intl = useIntl();
 	const [form] = Form.useForm();
 
 	const validateMinAmount = (value): Promise<void> => {
-		const validationMessage = intl.formatMessage({
-			defaultMessage: "'amount' needs to be greater than 0",
-			description: "Deal intereaction: min amount validation message",
+		const minAmount = 0;
+		const validationMessage = intl.formatMessage(MESSAGES.minAmountValidation, {
+			amount: minAmount,
 		});
-		return validateMinValue(value, 0, validationMessage);
-	};
-
-	const validateMaxAmount = (value): Promise<void> => {
-		const validationMessage = intl.formatMessage(
-			{
-				defaultMessage: "'amount' needs to be less than or equal to {amount}",
-				description: "Deal intereaction: max amount validation message",
-			},
-			{
-				amount: maxAmount,
-			}
-		);
-		return validateMaxValue(value, maxAmount, validationMessage);
+		return validateMinValue(value, minAmount, validationMessage);
 	};
 
 	return (
@@ -57,36 +65,23 @@ export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 						type="number"
 						lang="en"
 						step="1"
-						label={intl.formatMessage({
-							defaultMessage: "Amount",
-							description: "Interact with deal: amount input label",
-						})}
+						label={intl.formatMessage(MESSAGES.amountInputLabel)}
 						className="bg-credix-primary"
 						labelClassName="font-bold text-sm"
-						placeholder={intl.formatMessage({
-							defaultMessage: "USDC",
-							description: "Interact with deal: amount input placeholder",
-						})}
+						placeholder={intl.formatMessage(MESSAGES.amountInputPlaceholder)}
 						name="amount"
 						required={true}
 						rules={[
 							{
 								required: true,
-								message: intl.formatMessage({
-									defaultMessage: "'amount' is required",
-									description: "Deal interaction: amount required validation message",
-								}),
+								message: intl.formatMessage(MESSAGES.requiredValidation),
 							},
 							{
 								validator(_, value) {
 									return validateMinAmount(value);
 								},
 							},
-							{
-								validator(_, value) {
-									return validateMaxAmount(value);
-								},
-							},
+							...validationRules,
 						]}
 						suffix={<AddMaxButtonSuffix form={form} amount={maxAmount} />}
 					/>
@@ -110,4 +105,5 @@ interface DealInteractionProps {
 	maxAmount: number;
 	onSubmit: ({ amount }, form: FormInstance) => void;
 	content: ReactNode;
+	validationRules?: Rule[];
 }
