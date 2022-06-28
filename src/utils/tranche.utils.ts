@@ -463,7 +463,7 @@ export const investorProjectedReturns = (
 	userTrancheBalance: TokenAmount
 ) => {
 	if (!userTrancheBalance) {
-		return 0;
+		return Big(0);
 	}
 
 	const trancheInterest = tranche.returnPercentage.apply(repaymentSchedule.totalInterest.uiAmount);

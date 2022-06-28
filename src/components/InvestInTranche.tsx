@@ -40,6 +40,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 	const client = useCredixClient();
 	const fetchMarket = useStore((state) => state.fetchMarket);
 	const projectedReturns = investorProjectedReturns(tranche, repaymentSchedule, userTrancheBalance);
+	const projectedValue = projectedReturns.add(userTrancheBalance?.uiAmount || 0);
 	const maxInvestmentAmount = Math.min(
 		userBaseBalance?.uiAmount,
 		tranche.size.uiAmount - tranche.amountDeposited.uiAmount
@@ -214,7 +215,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 									:
 								</div>
 								{/* TODO: add projected value */}
-								<div>{projectedReturns.toString()} USDC</div>
+								<div>{projectedValue.toString()} USDC</div>
 							</div>
 						</div>
 					</div>
