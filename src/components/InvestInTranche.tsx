@@ -6,7 +6,7 @@ import { Form } from "antd";
 import { Fraction, RepaymentSchedule, Tranche, useCredixClient } from "@credix/credix-client";
 import { trancheNames, zeroTokenAmount } from "@consts";
 import { ratioFormatter, toProgramAmount } from "@utils/format.utils";
-import { useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
 import { AddMaxButtonSuffix } from "./AddMaxButtonSuffix";
@@ -20,6 +20,73 @@ import { config } from "@config";
 import { SolanaCluster } from "@credix_types/solana.types";
 import { investorProjectedReturns } from "@utils/tranche.utils";
 import { validateMaxValue, validateMinValue } from "@utils/validation.utils";
+
+const MESSAGES = defineMessages({
+	investLoading: {
+		defaultMessage: "Investing {amount} USDC",
+		description: "Invest in tranche: invest loading",
+	},
+	investSuccess: {
+		defaultMessage: "Successfully invested {amount} USDC",
+		description: "Invest in tranche: invest success",
+	},
+	investFailure: {
+		defaultMessage: "Failed to invest in tranche",
+		description: "Invest in tranche: invest request failed",
+	},
+	minInvestmentAmountValidation: {
+		defaultMessage: "'amount' needs to be greater than {amount}",
+		description: "Invest in tranche: min amount validation message",
+	},
+	maxInvestmentAmountValidation: {
+		defaultMessage: "'amount' needs to be less than or equal to {amount}",
+		description: "Invest in tranche: max amount validation message",
+	},
+	details: {
+		defaultMessage: "Details",
+		description: "Invest in tranche: details",
+	},
+	apr: {
+		defaultMessage: "APR",
+		description: "Invest in tranche: apr",
+	},
+	size: {
+		defaultMessage: "Size",
+		description: "Invest in tranche: size",
+	},
+	yourInvestment: {
+		defaultMessage: "Your investment",
+		description: "Invest in tranche: your investment",
+	},
+	value: {
+		defaultMessage: "Value",
+		description: "Invest in tranche: value",
+	},
+	projectedValue: {
+		defaultMessage: "Projected value",
+		description: "Invest in tranche: projected value",
+	},
+	investAmountInputLabel: {
+		defaultMessage: "Invest In Tranche",
+		description: "Invest in tranche: amount input label",
+	},
+	investAmountInputPlaceholder: {
+		defaultMessage: "Amount",
+		description: "Invest in tranche: amount input placeholder",
+	},
+	investAmountInputDescription: {
+		defaultMessage: "Maximum amount: {amount} USDC",
+		description: "Invest in tranche: amount input description",
+	},
+	investAmountRequiredValidation: {
+		defaultMessage: "'amount' is required",
+		description: "Invest in tranche: amount required validation message",
+	},
+	investButtonText: {
+		defaultMessage: "invest",
+		description: "Invest in tranche: amount form submit button text",
+	},
+});
 
 interface InvestInTrancheProps {
 	tranche: Tranche;
@@ -77,13 +144,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 
 	const investInTranche = async ({ amount }) => {
 		const hide = message.loading({
-			content: intl.formatMessage(
-				{
-					defaultMessage: "Investing {amount} USDC",
-					description: "Invest in tranche: invest loading",
-				},
-				{ amount: amount }
-			),
+			content: intl.formatMessage(MESSAGES.investLoading, { amount: amount }),
 		});
 
 		try {
@@ -93,45 +154,30 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 			await fetchMarket(client, marketplace as string);
 			hide();
 			message.success({
-				content: intl.formatMessage(
-					{
-						defaultMessage: "Successfully invested {amount} USDC",
-						description: "Invest in tranche: invest success",
-					},
-					{
-						amount,
-					}
-				),
+				content: intl.formatMessage(MESSAGES.investSuccess, {
+					amount,
+				}),
 			});
 		} catch {
 			hide();
 			message.error({
-				content: intl.formatMessage({
-					defaultMessage: "Failed to invest in tranche",
-					description: "Invest in tranche: invest request failed",
-				}),
+				content: intl.formatMessage(MESSAGES.investFailure),
 			});
 		}
 	};
 
 	const validateMinAmount = (value): Promise<void> => {
-		const validationMessage = intl.formatMessage({
-			defaultMessage: "'amount' needs to be greater than 0",
-			description: "Deal intereaction: min amount validation message",
+		const minAmount = 0;
+		const validationMessage = intl.formatMessage(MESSAGES.minInvestmentAmountValidation, {
+			amount: minAmount,
 		});
-		return validateMinValue(value, 0, validationMessage);
+		return validateMinValue(value, minAmount, validationMessage);
 	};
 
 	const validateMaxAmount = (value): Promise<void> => {
-		const validationMessage = intl.formatMessage(
-			{
-				defaultMessage: "'amount' needs to be less than or equal to {amount}",
-				description: "Deal intereaction: max amount validation message",
-			},
-			{
-				amount: maxInvestmentAmount,
-			}
-		);
+		const validationMessage = intl.formatMessage(MESSAGES.maxInvestmentAmountValidation, {
+			amount: maxInvestmentAmount,
+		});
 		return validateMaxValue(value, maxInvestmentAmount, validationMessage);
 	};
 
@@ -160,23 +206,14 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 					<div className="space-y-6">
 						<div>
 							<div className="font-mono font-bold text-base">
-								{intl.formatMessage({
-									defaultMessage: "Details",
-									description: "Invest in tranche: details",
-								})}
+								{intl.formatMessage(MESSAGES.details)}
 							</div>
 							<div className="mt-4 grid grid-cols-layout gap-x-16 gap-y-1">
 								<div className="font-mono font-normal text-sm">
-									{intl.formatMessage({
-										defaultMessage: "APR",
-										description: "Invest in tranche: apr",
-									})}
+									{intl.formatMessage(MESSAGES.details)}
 								</div>
 								<div className="font-mono font-normal text-sm">
-									{intl.formatMessage({
-										defaultMessage: "Size",
-										description: "Invest in tranche: size",
-									})}
+									{intl.formatMessage(MESSAGES.size)}
 								</div>
 								{/* TODO: get apr */}
 								<div className="font-mono font-medium text-sm">15%</div>
@@ -186,10 +223,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 						<div className="w-full h-[1px]  bg-neutral-105"></div>
 						<div>
 							<div className="font-mono font-bold text-base">
-								{intl.formatMessage({
-									defaultMessage: "Your investment",
-									description: "Invest in tranche: your investment",
-								})}
+								{intl.formatMessage(MESSAGES.yourInvestment)}
 							</div>
 							{/* TODO: hex color */} {/* TODO: spacing */}
 							<div
@@ -197,23 +231,11 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 									userTrancheBalance?.uiAmount === 0 ? "text-[#afafaf]" : "text-black"
 								}`}
 							>
-								<div>
-									{intl.formatMessage({
-										defaultMessage: "Value",
-										description: "Invest in tranche: value",
-									})}
-									:
-								</div>
+								<div>{intl.formatMessage(MESSAGES.value)}:</div>
 								<div>{userTrancheBalance?.uiAmountString} USDC</div>
 							</div>
 							<div className="font-mono font-normal text-sm space-x-2 text-[#afafaf] flex mt-[16px]">
-								<div>
-									{intl.formatMessage({
-										defaultMessage: "Projected value",
-										description: "Invest in tranche: projected value",
-									})}
-									:
-								</div>
+								<div>{intl.formatMessage(MESSAGES.projectedValue)}:</div>
 								{/* TODO: add projected value */}
 								<div>{projectedValue.toString()} USDC</div>
 							</div>
@@ -228,34 +250,19 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 									type="number"
 									lang="en"
 									step="1"
-									label={intl.formatMessage({
-										defaultMessage: "Invest In Tranche",
-										description: "Invest in tranche: amount input label",
-									})}
+									label={intl.formatMessage(MESSAGES.investAmountInputLabel)}
 									className="bg-neutral-0"
 									labelClassName="font-bold text-sm"
-									placeholder={intl.formatMessage({
-										defaultMessage: "Amount",
-										description: "Invest in tranche: amount input placeholder",
-									})}
+									placeholder={intl.formatMessage(MESSAGES.investAmountInputPlaceholder)}
 									name="amount"
-									description={intl.formatMessage(
-										{
-											defaultMessage: "Maximum amount: {amount} USDC",
-											description: "Invest in tranche: amount input description",
-										},
-										{
-											amount: userBaseBalance.uiAmountString,
-										}
-									)}
+									description={intl.formatMessage(MESSAGES.investAmountInputPlaceholder, {
+										amount: userBaseBalance.uiAmountString,
+									})}
 									required={true}
 									rules={[
 										{
 											required: true,
-											message: intl.formatMessage({
-												defaultMessage: "'amount' is required",
-												description: "Invest int tranche: amount required validation message",
-											}),
+											message: intl.formatMessage(MESSAGES.investAmountRequiredValidation),
 										},
 										{
 											validator(_, value) {
@@ -276,10 +283,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 										icon={<Icon name="line-up" size={IconDimension.MIDDLE} />}
 										className="w-full h-12 md:w-max capitalize"
 									>
-										{intl.formatMessage({
-											defaultMessage: "invest",
-											description: "Invest in tranche: amount form submit button text",
-										})}
+										{intl.formatMessage(MESSAGES.investButtonText)}
 									</Button>
 								</Form.Item>
 							</div>
