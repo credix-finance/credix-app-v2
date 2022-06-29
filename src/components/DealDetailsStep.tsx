@@ -12,6 +12,7 @@ import { BulletLoanRepaymentSchedule } from "./BulletLoanRepaymentSchedule";
 import { Button } from "./Button";
 import { Icon, IconDimension } from "./Icon";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
+import { dealFormValidationFields } from "./DealForm";
 
 interface DealDetailsStepProps {
 	className?: string;
@@ -68,7 +69,6 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				<div>
 					<Input
 						className="bg-credix-primary"
-						name="dealName"
 						label={intl.formatMessage({
 							defaultMessage: "Deal Name",
 							description: "Deal form: deal name input label",
@@ -77,6 +77,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 							defaultMessage: "Name",
 							description: "Deal form: deal name input placeholder",
 						})}
+						name={dealFormValidationFields.dealName}
 						type="text"
 						required={true}
 						rules={[
@@ -90,7 +91,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 						]}
 					/>
 					<Input
-						name="borrower"
+						name={dealFormValidationFields.borrower}
 						className="bg-credix-primary"
 						label={intl.formatMessage({
 							defaultMessage: "Borrower Key",
@@ -134,7 +135,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				</div>
 				<div>
 					<Input
-						name="principal"
+						name={dealFormValidationFields.principal}
 						className="bg-credix-primary"
 						label={intl.formatMessage({
 							defaultMessage: "Principal",
@@ -158,7 +159,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 						]}
 					/>
 					<Input
-						name="financingFee"
+						name={dealFormValidationFields.financingFee}
 						className="bg-credix-primary"
 						label={intl.formatMessage({
 							defaultMessage: "Financing Fee",
@@ -183,7 +184,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 						]}
 					/>
 					<Input
-						name="timeToMaturity"
+						name={dealFormValidationFields.timeToMaturity}
 						className="bg-credix-primary"
 						label={intl.formatMessage({
 							defaultMessage: "Time To Maturity",
@@ -231,7 +232,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				</div>
 			</div>
 			<FormItem
-				name="repaymentType"
+				name={dealFormValidationFields.repaymentType}
 				rules={[
 					{
 						required: true,
@@ -302,19 +303,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 			<Button
 				className="mt-8"
 				icon={<Icon name="plus-square" size={IconDimension.MIDDLE} />}
-				onClick={() =>
-					onNextStep(
-						[
-							"dealName",
-							"borrower",
-							"principal",
-							"financingFee",
-							"timeToMaturity",
-							"repaymentType",
-						],
-						1
-					)
-				}
+				onClick={() => onNextStep(Object.values(dealFormValidationFields), 1)}
 			>
 				{intl.formatMessage({
 					defaultMessage: "Add tranche structure",

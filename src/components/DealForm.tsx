@@ -11,6 +11,15 @@ const dealFormDefaultValues = {
 	trancheStructure: threeTrancheStructure.value,
 };
 
+export enum dealFormValidationFields {
+	dealName = "dealName",
+	borrower = "borrower",
+	principal = "principal",
+	financingFee = "financingFee",
+	timeToMaturity = "timeToMaturity",
+	repaymentType = "repaymentType",
+}
+
 export interface DealFormInput {
 	principal: number;
 	financingFee: number;
