@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { validateMinValue, validatePublicKey } from "@utils/validation.utils";
 import { classNames } from "@utils/format.utils";
 import { Input } from "@components/Input";
@@ -13,6 +13,122 @@ import { Button } from "./Button";
 import { Icon, IconDimension } from "./Icon";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 import { dealFormValidationFields } from "./DealForm";
+
+const MESSAGES = defineMessages({
+	borrowerKeyValidation: {
+		defaultMessage: "'borrower key' isn't valid",
+		description: "Deal form: borrower key validation message",
+	},
+	principalValidation: {
+		defaultMessage: "'principal' needs to be greater than {amount}",
+		description: "Deal form: min principal validation message",
+	},
+	timeToMaturityValidation: {
+		defaultMessage: "'time to maturity' needs to be greater than {amount}",
+		description: "Deal form: min time to maturity validation message",
+	},
+	dealFormTitle: {
+		defaultMessage: "Please fill in all information needed to submit a new deal.",
+		description: "New deal: details form title",
+	},
+	nameInputLabel: {
+		defaultMessage: "Deal Name",
+		description: "Deal form: deal name input label",
+	},
+	nameInputPlaceholder: {
+		defaultMessage: "Name",
+		description: "Deal form: deal name input placeholder",
+	},
+	nameRequiredValidation: {
+		defaultMessage: "'deal name' is required",
+		description: "Deal form: deal name required validation message",
+	},
+	borrowerKeyInputLabel: {
+		defaultMessage: "Borrower Key",
+		description: "Deal form: borrower key input label",
+	},
+	borrowerKeyInputPlaceholder: {
+		defaultMessage: "Public key",
+		description: "Deal form: borrower key input placeholder",
+	},
+	borrowerKeyRequiredValidation: {
+		defaultMessage: "'borrower key' is required",
+		description: "Deal form: borrower key required validation message",
+	},
+	detailsInputLabel: {
+		defaultMessage: "More details",
+		description: "Deal form: more details textarea label",
+	},
+	detailsInputPlaceholder: {
+		defaultMessage: "Type more information",
+		description: "Deal form: more details textarea placeholder",
+	},
+	principalInputLabel: {
+		defaultMessage: "Principal",
+		description: "Deal form: principal input label",
+	},
+	principalInputPlaceholder: {
+		defaultMessage: "USDC amount",
+		description: "Deal form: principal input placeholder",
+	},
+	financingFeeInputLabel: {
+		defaultMessage: "Financing Fee",
+		description: "Deal form: financing fee input label",
+	},
+	financingFeeInputPlaceholder: {
+		defaultMessage: "%",
+		description: "Deal form: financing fee input placeholder",
+	},
+	financingFeeRequiredValidation: {
+		defaultMessage: "'financing fee' is required",
+		description: "Deal form: financing fee required validation message",
+	},
+	timeToMaturityInputLabel: {
+		defaultMessage: "Time To Maturity",
+		description: "Deal form: time to maturity input label",
+	},
+	timeToMaturityInputPlaceholder: {
+		defaultMessage: "Number of days",
+		description: "Deal form: time to maturity input placeholder",
+	},
+	timeToMaturityRequiredValidation: {
+		defaultMessage: "'time to maturity' is required",
+		description: "Deal form: time to maturity required validation message",
+	},
+	repaymentPeriodInputLabel: {
+		defaultMessage: "Repayment period",
+		description: "Deal form: repayment period input label",
+	},
+	repaymentPeriodInputPlaceholder: {
+		defaultMessage: "30 days",
+		description: "Deal form: repayment period input placeholder",
+	},
+	repaymentPeriodRequiredValidation: {
+		defaultMessage: "'Repayment schedule' is required",
+		description: "Deal form: repayment schedule required validation message",
+	},
+	amortizationLoanTitle: {
+		defaultMessage: "Amortization loan",
+		description: "Deal form: repayment type selector amortization title",
+	},
+	amortizationLoanSubtitle: {
+		defaultMessage: "Pay off a debt over time in equal installments",
+		description: "Deal form: repayment type selector amortization subtitle",
+	},
+	bulletLoanTitle: {
+		defaultMessage: "Bullet loan",
+		description: "Deal form: repayment type selector bullet title",
+	},
+	bulletLoanSubtitle: {
+		defaultMessage:
+			"The Principal that is borrowed is paid back in full at the end of the loan term",
+		description: "Deal form: repayment type selector bullet subtitle",
+	},
+	nextStepButton: {
+		defaultMessage: "Add tranche structure",
+		description: "Deal form: go to tranche step button",
+	},
+});
 
 interface DealDetailsStepProps {
 	className?: string;
@@ -34,82 +150,56 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 	className = classNames([className, "space-y-8"]);
 
 	const validateBorrowerKey = (value): Promise<void> => {
-		const validationMessage = intl.formatMessage({
-			defaultMessage: "'borrower key' isn't valid",
-			description: "Deal form: borrower key validation message",
-		});
+		const validationMessage = intl.formatMessage(MESSAGES.borrowerKeyValidation);
 		return validatePublicKey(value, validationMessage);
 	};
 
 	const validateMinPrincipal = (value): Promise<void> => {
-		const validationMessage = intl.formatMessage({
-			defaultMessage: "'principal' needs to be greater than 0",
-			description: "Deal form: min principal validation message",
+		const minAmount = 0;
+		const validationMessage = intl.formatMessage(MESSAGES.principalValidation, {
+			amount: minAmount,
 		});
-		return validateMinValue(value, 0, validationMessage);
+		return validateMinValue(value, minAmount, validationMessage);
 	};
 
 	const validateMinTimeToMaturity = (value): Promise<void> => {
-		const validationMessage = intl.formatMessage({
-			defaultMessage: "'time to maturity' needs to be greater than 0",
-			description: "Deal form: min time to maturity validation message",
+		const minAmount = 0;
+		const validationMessage = intl.formatMessage(MESSAGES.timeToMaturityValidation, {
+			amount: minAmount,
 		});
-		return validateMinValue(value, 0, validationMessage);
+		return validateMinValue(value, minAmount, validationMessage);
 	};
 
 	return (
 		<div className={className}>
-			<div>
-				{intl.formatMessage({
-					defaultMessage: "Please fill in all information needed to submit a new deal.",
-					description: "New deal: details form title",
-				})}
-			</div>
+			<div>{intl.formatMessage(MESSAGES.dealFormTitle)}</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-20">
 				<div>
 					<Input
 						className="bg-credix-primary"
-						label={intl.formatMessage({
-							defaultMessage: "Deal Name",
-							description: "Deal form: deal name input label",
-						})}
-						placeholder={intl.formatMessage({
-							defaultMessage: "Name",
-							description: "Deal form: deal name input placeholder",
-						})}
 						name={dealFormValidationFields.dealName}
+						label={intl.formatMessage(MESSAGES.nameInputLabel)}
+						placeholder={intl.formatMessage(MESSAGES.nameInputPlaceholder)}
 						type="text"
 						required={true}
 						rules={[
 							{
 								required: true,
-								message: intl.formatMessage({
-									defaultMessage: "'deal name' is required",
-									description: "Deal form: deal name required validation message",
-								}),
+								message: intl.formatMessage(MESSAGES.nameRequiredValidation),
 							},
 						]}
 					/>
 					<Input
 						name={dealFormValidationFields.borrower}
 						className="bg-credix-primary"
-						label={intl.formatMessage({
-							defaultMessage: "Borrower Key",
-							description: "Deal form: borrower key input label",
-						})}
-						placeholder={intl.formatMessage({
-							defaultMessage: "Public key",
-							description: "Deal form: borrower key input placeholder",
-						})}
+						label={intl.formatMessage(MESSAGES.borrowerKeyInputLabel)}
+						placeholder={intl.formatMessage(MESSAGES.borrowerKeyInputPlaceholder)}
 						type="text"
 						required={true}
 						rules={[
 							{
 								required: true,
-								message: intl.formatMessage({
-									defaultMessage: "'borrower key' is required",
-									description: "Deal form: borrower key required validation message",
-								}),
+								message: intl.formatMessage(MESSAGES.borrowerKeyRequiredValidation),
 							},
 							{
 								validator(_, value) {
@@ -122,14 +212,8 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 						rows={5}
 						name="details"
 						className="bg-credix-primary"
-						label={intl.formatMessage({
-							defaultMessage: "More details",
-							description: "Deal form: more details textarea label",
-						})}
-						placeholder={intl.formatMessage({
-							defaultMessage: "Type more information",
-							description: "Deal form: more details textarea placeholder",
-						})}
+						label={intl.formatMessage(MESSAGES.detailsInputLabel)}
+						placeholder={intl.formatMessage(MESSAGES.detailsInputPlaceholder)}
 						required={true}
 					/>
 				</div>
@@ -137,14 +221,8 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					<Input
 						name={dealFormValidationFields.principal}
 						className="bg-credix-primary"
-						label={intl.formatMessage({
-							defaultMessage: "Principal",
-							description: "Deal form: principal input label",
-						})}
-						placeholder={intl.formatMessage({
-							defaultMessage: "USDC amount",
-							description: "Deal form: principal input placeholder",
-						})}
+						label={intl.formatMessage(MESSAGES.principalInputLabel)}
+						placeholder={intl.formatMessage(MESSAGES.principalInputPlaceholder)}
 						type="number"
 						lang="en"
 						step="1"
@@ -161,14 +239,8 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					<Input
 						name={dealFormValidationFields.financingFee}
 						className="bg-credix-primary"
-						label={intl.formatMessage({
-							defaultMessage: "Financing Fee",
-							description: "Deal form: financing fee input label",
-						})}
-						placeholder={intl.formatMessage({
-							defaultMessage: "%",
-							description: "Deal form: financing fee input placeholder",
-						})}
+						label={intl.formatMessage(MESSAGES.financingFeeInputLabel)}
+						placeholder={intl.formatMessage(MESSAGES.financingFeeInputPlaceholder)}
 						type="number"
 						lang="en"
 						step="0.1"
@@ -176,24 +248,15 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 						rules={[
 							{
 								required: true,
-								message: intl.formatMessage({
-									defaultMessage: "'financing fee' is required",
-									description: "Deal form: financing fee required validation message",
-								}),
+								message: intl.formatMessage(MESSAGES.financingFeeRequiredValidation),
 							},
 						]}
 					/>
 					<Input
 						name={dealFormValidationFields.timeToMaturity}
 						className="bg-credix-primary"
-						label={intl.formatMessage({
-							defaultMessage: "Time To Maturity",
-							description: "Deal form: time to maturity input label",
-						})}
-						placeholder={intl.formatMessage({
-							defaultMessage: "Number of days",
-							description: "Deal form: time to maturity input placeholder",
-						})}
+						label={intl.formatMessage(MESSAGES.timeToMaturityInputLabel)}
+						placeholder={intl.formatMessage(MESSAGES.timeToMaturityInputPlaceholder)}
 						type="number"
 						required={true}
 						step="1"
@@ -201,10 +264,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 						rules={[
 							{
 								required: true,
-								message: intl.formatMessage({
-									defaultMessage: "'time to maturity' is required",
-									description: "Deal form: time to maturity required validation message",
-								}),
+								message: intl.formatMessage(MESSAGES.timeToMaturityRequiredValidation),
 							},
 							{
 								validator(_, value) {
@@ -217,14 +277,8 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 						name="repaymentPeriod"
 						className="bg-credix-primary"
 						disabled={true}
-						label={intl.formatMessage({
-							defaultMessage: "Repayment period",
-							description: "Deal form: repayment period input label",
-						})}
-						placeholder={intl.formatMessage({
-							defaultMessage: "30 days",
-							description: "Deal form: repayment period input placeholder",
-						})}
+						label={intl.formatMessage(MESSAGES.repaymentPeriodInputLabel)}
+						placeholder={intl.formatMessage(MESSAGES.repaymentPeriodInputPlaceholder)}
 						type="number"
 						step="1"
 						lang="en"
@@ -236,10 +290,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				rules={[
 					{
 						required: true,
-						message: intl.formatMessage({
-							defaultMessage: "'Repayment schedule' is required",
-							description: "Deal form: repayment schedule required validation message",
-						}),
+						message: intl.formatMessage(MESSAGES.repaymentPeriodRequiredValidation),
 					},
 				]}
 			>
@@ -255,14 +306,8 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 								/>
 							}
 							value={RepaymentScheduleType.AMORTIZATION}
-							title={intl.formatMessage({
-								defaultMessage: "Amortization loan",
-								description: "Deal form: repayment type selector amortization title",
-							})}
-							subtitle={intl.formatMessage({
-								defaultMessage: "Pay off a debt over time in equal installments",
-								description: "Deal form: repayment type selector amortization subtitle",
-							})}
+							title={intl.formatMessage(MESSAGES.amortizationLoanTitle)}
+							subtitle={intl.formatMessage(MESSAGES.amortizationLoanSubtitle)}
 							checked={selectedRepaymentType === RepaymentScheduleType.AMORTIZATION}
 							onSelectCard={() => {
 								form.setFieldsValue({
@@ -280,15 +325,8 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 								/>
 							}
 							value={RepaymentScheduleType.BULLET}
-							title={intl.formatMessage({
-								defaultMessage: "Bullet loan",
-								description: "Deal form: repayment type selector bullet title",
-							})}
-							subtitle={intl.formatMessage({
-								defaultMessage:
-									"The Principal that is borrowed is paid back in full at the end of the loan term",
-								description: "Deal form: repayment type selector bullet subtitle",
-							})}
+							title={intl.formatMessage(MESSAGES.bulletLoanTitle)}
+							subtitle={intl.formatMessage(MESSAGES.bulletLoanSubtitle)}
 							checked={selectedRepaymentType === RepaymentScheduleType.BULLET}
 							onSelectCard={() => {
 								form.setFieldsValue({
@@ -305,10 +343,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				icon={<Icon name="plus-square" size={IconDimension.MIDDLE} />}
 				onClick={() => onNextStep(Object.values(dealFormValidationFields), 1)}
 			>
-				{intl.formatMessage({
-					defaultMessage: "Add tranche structure",
-					description: "Deal form: go to tranche step button",
-				})}
+				{intl.formatMessage(MESSAGES.nextStepButton)}
 			</Button>
 		</div>
 	);

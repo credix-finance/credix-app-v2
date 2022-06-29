@@ -4,8 +4,23 @@ import { Stepper } from "@components/Stepper";
 import { DealDetailsStep } from "@components/DealDetailsStep";
 import { DealTranchesStep } from "@components/DealTranchesStep";
 import { ReviewDealStep } from "@components/ReviewDeal";
-import { useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { threeTrancheStructure } from "@consts";
+
+const MESSAGES = defineMessages({
+	dealDetailsStep: {
+		defaultMessage: "Deal details",
+		description: "Deal form: deal details step title",
+	},
+	trancheStructureStep: {
+		defaultMessage: "Tranche structure",
+		description: "Deal form: tranche structure step title",
+	},
+	reviewStep: {
+		defaultMessage: "Review",
+		description: "Deal form: review step title",
+	},
+});
 
 const dealFormDefaultValues = {
 	trancheStructure: threeTrancheStructure.value,
@@ -48,18 +63,9 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 	const [form] = Form.useForm();
 	const intl = useIntl();
 	const steps = [
-		intl.formatMessage({
-			defaultMessage: "Deal details",
-			description: "Deal form: deal details step title",
-		}),
-		intl.formatMessage({
-			defaultMessage: "Tranche structure",
-			description: "Deal form: tranche structure step title",
-		}),
-		intl.formatMessage({
-			defaultMessage: "Review",
-			description: "Deal form: review step title",
-		}),
+		intl.formatMessage(MESSAGES.dealDetailsStep),
+		intl.formatMessage(MESSAGES.trancheStructureStep),
+		intl.formatMessage(MESSAGES.reviewStep),
 	];
 
 	const showStep = (step: number) => {
