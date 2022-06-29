@@ -28,9 +28,7 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 				cumulativePrincipal: p.cumulativePrincipal.uiAmount,
 				interest: p.interest.uiAmount,
 				principal: p.principal.uiAmount,
-			})),
-			repaymentSchedule.totalPrincipal.uiAmount,
-			repaymentSchedule.totalInterest.uiAmount
+			}))
 		);
 
 		return <Schedule graphData={graphData} dataSource={dataSource} />;

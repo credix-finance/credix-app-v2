@@ -9,12 +9,10 @@ import {
 	RepaymentScheduleTableDataPoint,
 } from "@credix_types/repaymentschedule.types";
 
-export const generateGraphAndTableData = (
-	schedule: RepaymentSchedulePeriod[],
-	principal: number,
-	interest: number
-) => {
+export const generateGraphAndTableData = (schedule: RepaymentSchedulePeriod[]) => {
 	const currentDate = new Date();
+	const principal = schedule[schedule.length - 1].cumulativePrincipal;
+	const interest = schedule[schedule.length - 1].cumulativeInterest;
 	const totalToRepay = principal + interest;
 
 	return schedule.reduce(

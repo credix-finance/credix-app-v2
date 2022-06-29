@@ -18,7 +18,7 @@ export const calculateMonthlyPayment = (
 		.times(bigInterestRate.times(new Big(1 + monthlyInterestRate).pow(numberOfPayments)))
 		.div(denominator || 1);
 
-	return round(monthlyPayment, Big.roundHalfEven).toNumber();
+	return monthlyPayment.toNumber();
 };
 
 export const calculatePrincipalRepayment = (
@@ -27,10 +27,9 @@ export const calculatePrincipalRepayment = (
 	interestRate: Fraction
 ) => {
 	const monthlyInterestRate = new Fraction(interestRate.toNumber(), 12).toNumber();
-	return round(
-		new Big(monthlyPayment - outstandingLoanBalance * monthlyInterestRate),
-		Big.roundHalfEven
-	).toNumber();
+	return new Big(monthlyPayment)
+		.minus(Big(outstandingLoanBalance).times(monthlyInterestRate))
+		.toNumber();
 };
 
 export const repaymentSchedule = (
@@ -38,32 +37,95 @@ export const repaymentSchedule = (
 	interestRate: Fraction,
 	timeToMaturity: number
 ): RepaymentSchedulePeriod[] => {
-	// TODO: check these calculations, something's off
 	const paymentPeriods = Math.ceil(timeToMaturity / DAYS_IN_REPAYMENT_PERIOD);
 	const monthlyPayment = calculateMonthlyPayment(principal, interestRate, paymentPeriods);
 	const balance = principal;
-	const schedule = <RepaymentSchedulePeriod[]>[];
+	let schedule = <RepaymentSchedulePeriod[]>[];
 
-	let cumulativeInterest = new Big(0);
-	let cumulativePrincipal = new Big(0);
-
+	// Calculate the exact schedule
+	let cumulativeInterest = 0;
+	let cumulativePrincipal = 0;
 	for (let index = 1; index <= paymentPeriods; index++) {
+		const outstandingLoanBalance = balance - cumulativePrincipal;
 		const principal = calculatePrincipalRepayment(
 			monthlyPayment,
-			balance - cumulativeInterest.toNumber() - cumulativePrincipal.toNumber(),
+			outstandingLoanBalance,
 			interestRate
 		);
-		const interest = new Big(monthlyPayment - principal);
-		cumulativeInterest = round(cumulativeInterest.add(interest), Big.roundHalfEven);
-		cumulativePrincipal = cumulativePrincipal.add(principal);
+		const interest = monthlyPayment - principal;
+		cumulativeInterest = cumulativeInterest + interest;
+		cumulativePrincipal = cumulativePrincipal + principal;
 
 		schedule.push({
-			cumulativeInterest: cumulativeInterest.toNumber(),
-			cumulativePrincipal: cumulativePrincipal.toNumber(),
-			principal,
-			interest: round(interest, Big.roundHalfEven).toNumber(),
+			cumulativeInterest: cumulativeInterest,
+			cumulativePrincipal: cumulativePrincipal,
+			principal: principal,
+			interest: interest,
 		});
 	}
+
+	// floor everything and sum up the rest values
+	let cumulativeInterestRest = 0;
+	let cumulativePrincipalRest = 0;
+	schedule = schedule.map((period) => {
+		const flooredPrincipal = Math.floor(period.principal);
+		const flooredInterest = Math.floor(period.interest);
+
+		cumulativePrincipalRest += period.principal - flooredPrincipal;
+		cumulativeInterestRest += period.interest - flooredInterest;
+
+		return {
+			...period,
+			interest: flooredInterest,
+			principal: flooredPrincipal,
+		};
+	});
+
+	// spread the rest principal values over the periods
+	let principalIndex = paymentPeriods - 1;
+	while (cumulativePrincipalRest > 0) {
+		if (cumulativePrincipalRest > 1) {
+			schedule[principalIndex % paymentPeriods].principal++;
+		} else {
+			schedule[paymentPeriods - 1].principal += round(
+				Big(cumulativePrincipalRest),
+				Big.roundDown
+			).toNumber();
+		}
+
+		cumulativePrincipalRest--;
+		principalIndex++;
+	}
+
+	// spread the rest interest values over the periods
+	let interestIndex = paymentPeriods - 1;
+	while (cumulativeInterestRest > 0) {
+		if (cumulativeInterestRest > 1) {
+			schedule[interestIndex % paymentPeriods].interest++;
+		} else {
+			schedule[paymentPeriods - 1].interest += round(
+				Big(cumulativeInterestRest),
+				Big.roundDown
+			).toNumber();
+		}
+
+		cumulativeInterestRest--;
+		interestIndex++;
+	}
+
+	// Recalculate the cumulative values
+	cumulativeInterest = 0;
+	cumulativePrincipal = 0;
+	schedule = schedule.map((period) => {
+		cumulativeInterest += period.interest;
+		cumulativePrincipal += period.principal;
+
+		return {
+			...period,
+			cumulativePrincipal,
+			cumulativeInterest,
+		};
+	});
 
 	return schedule;
 };
