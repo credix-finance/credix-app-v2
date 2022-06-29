@@ -20,7 +20,7 @@ export const isDealRepayableByUser = async (
 		return false;
 	}
 
-	if (!credixPass || credixPass.isActive) {
+	if (!credixPass || !credixPass.isActive) {
 		return false;
 	}
 
