@@ -60,7 +60,7 @@ export const TextArea: FunctionComponent<TextAreaProps> = ({
 	help,
 }) => {
 	className = classNames([
-		"bg-neutral-0 border px-4 py-2 text-sm font-medium placeholder-neutral-100/70 focus:shadow-none",
+		"border-[0.5px] px-4 py-2 text-sm font-medium placeholder-neutral-100/70 focus:shadow-none",
 		"disabled:border-neutral-60/40 disabled:text-darker/40 disabled:placeholder:text-darker/40",
 		hasFeedback && validateStatus == "error"
 			? "border-error focus:ring-error focus:border-error"

@@ -1,13 +1,11 @@
-import { Deal } from "@credix/credix-client";
+import { Deal, RepaymentSchedule, Tranches } from "@credix/credix-client";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { createAdminSlice } from "@state/adminSlice";
-import { createDealSlice, DealSlice } from "@state/dealSlice";
+import { createDealSlice, DealSlice, DealWithNestedResources } from "@state/dealSlice";
 import { createMarketSlice, MarketSlice } from "@state/marketSlice";
-import { selectActiveDeals, selectEndedDeals, selectPendingDeals } from "@state/selectors";
 import { StoreState } from "@state/useStore";
 import { generateMockClient, generateMockMarket } from "@utils/test.utils";
 import { UseBoundStore } from "zustand";
-import { config } from "../src/config";
 import create from "./__mocks__/zustand";
 
 describe("Admin state", () => {
@@ -56,43 +54,54 @@ describe("Deals state", () => {
 	});
 
 	it("stores deals in the store", async () => {
+		const mockClient = generateMockClient();
 		const mockMarket = generateMockMarket();
 
 		let state = store.getState();
-		expect(state.deals).toBe(null);
+		expect(state.deals).toBe(undefined);
 
-		await state.maybeFetchDeals(mockMarket);
+		await state.maybeFetchDeals(mockClient, mockMarket);
 		state = store.getState();
 		expect(state.deals.length).toBe(3);
 	});
 
 	it("finds a specific deal based on the deal address", async () => {
 		const pk1 = Keypair.generate().publicKey;
-		const deal1 = { address: pk1 };
-		const mockMarket = generateMockMarket([deal1 as Deal]);
+		const deal1 = {
+			address: pk1,
+			isInProgress: async () => true,
+			isPending: async () => false,
+			isClosed: async () => false,
+			tranches: {} as Tranches,
+			repaymentSchedule: {} as RepaymentSchedule,
+		};
+		const mockMarket = generateMockMarket([deal1 as DealWithNestedResources]);
+		const mockClient = generateMockClient();
 
 		const state = store.getState();
-		const deal = await state.getDeal(mockMarket, pk1.toString());
-		expect(deal).toEqual(deal1);
+		const deal = await state.getDeal(mockClient, mockMarket, pk1.toString());
+		expect(deal.address.equals(deal1.address)).toBe(true);
 	});
 
 	it("fetches deals when using mayBeFetchDeals when deals array is empty", async () => {
 		const mockMarket = generateMockMarket();
 		const fetchDealsSpy = jest.spyOn(mockMarket, "fetchDeals");
+		const mockClient = generateMockClient();
 
 		const state = store.getState();
-		await state.maybeFetchDeals(mockMarket);
+		await state.maybeFetchDeals(mockClient, mockMarket);
 		expect(fetchDealsSpy).toHaveBeenCalled();
 	});
 
 	it("Doesn't fetch deals when using mayBeFetchDeals when deals array not empty", async () => {
 		const mockMarket = generateMockMarket();
+		const mockClient = generateMockClient();
 
 		const state = store.getState();
-		await state.maybeFetchDeals(mockMarket);
+		await state.maybeFetchDeals(mockClient, mockMarket);
 
 		const fetchDealsSpy = jest.spyOn(mockMarket, "fetchDeals");
-		await state.maybeFetchDeals(mockMarket);
+		await state.maybeFetchDeals(mockClient, mockMarket);
 		expect(fetchDealsSpy).not.toHaveBeenCalled();
 	});
 });
@@ -143,50 +152,5 @@ describe("Market state", () => {
 		await state.maybeFetchMarket(mockClient, marketplace);
 
 		expect(fetchMarketSpy).not.toHaveBeenCalled();
-	});
-});
-
-describe("selectors", () => {
-	let store: UseBoundStore<StoreState>;
-
-	beforeAll(() => {
-		store = create((set, get) => {
-			return {
-				...createDealSlice(set, get),
-			};
-		});
-	});
-
-	it("selects active deals", async () => {
-		const mockMarket = generateMockMarket();
-
-		let state = store.getState();
-		await state.maybeFetchDeals(mockMarket);
-		state = store.getState();
-
-		const activeDeals = selectActiveDeals(state);
-		expect(activeDeals.length).toBe(1);
-	});
-
-	it("selects pending deals", async () => {
-		const mockMarket = generateMockMarket();
-
-		let state = store.getState();
-		await state.maybeFetchDeals(mockMarket);
-		state = store.getState();
-
-		const pendingDeals = selectPendingDeals(state);
-		expect(pendingDeals.length).toBe(1);
-	});
-
-	it("selects ended deals", async () => {
-		const mockMarket = generateMockMarket();
-
-		let state = store.getState();
-		await state.maybeFetchDeals(mockMarket);
-		state = store.getState();
-
-		const endedDeals = selectEndedDeals(state);
-		expect(endedDeals.length).toBe(1);
 	});
 });

@@ -1,92 +1,131 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Deal, Ratio } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { DealAspect } from "@components/DealAspect";
-import { numberFormatter, toUIAmount } from "@utils/format.utils";
+import { classNames, compactFormatter, round } from "@utils/format.utils";
 import Big from "big.js";
 import {
+	calculateDaysRemaining,
 	calculateDaysRemainingRatio,
 	calculateInterestRepaidRatio,
 	calculatePrincipalRepaidRatio,
+	totalInterestRepaid,
+	totalPrincipalRepaid,
 } from "@utils/deal.utils";
 import { useIntl } from "react-intl";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 interface DealAspectGridProps {
-	deal: Deal;
+	deal: DealWithNestedResources;
+	className?: string;
 }
 
-const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal }) => {
-	const [interestRepaidRatio, setInterestRepaidRatio] = useState<Ratio>();
-	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<Ratio>();
-	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Ratio>();
+const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, className }) => {
+	const [interestRepaidRatio, setInterestRepaidRatio] = useState<Fraction>();
+	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<Fraction>();
+	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Fraction>();
+	const [principalRepaid, setPrincipalRepaid] = useState<number>(0);
+	const [interestRepaid, setInterestRepaid] = useState<number>(0);
+	const [daysRemaining, setDaysRemaining] = useState<number>(0);
 	const intl = useIntl();
 
 	useEffect(() => {
-		const principalRatio = calculatePrincipalRepaidRatio(deal);
-		setPrincipalRepaidRatio(principalRatio);
-
-		const interestRatio = calculateInterestRepaidRatio(deal);
-		setInterestRepaidRatio(interestRatio);
-
-		const daysRatio = calculateDaysRemainingRatio(deal);
-		setDaysRemainingRatio(daysRatio);
+		if (deal) {
+			const principalAmountRepaid = totalPrincipalRepaid(deal.tranches);
+			setPrincipalRepaid(principalAmountRepaid);
+		}
 	}, [deal]);
 
+	useEffect(() => {
+		if (deal) {
+			const interestAmountRepaid = totalInterestRepaid(deal.tranches);
+			setInterestRepaid(interestAmountRepaid);
+		}
+	}, [deal]);
+
+	useEffect(() => {
+		if (deal) {
+			const daysRemaining = round(
+				Big(calculateDaysRemaining(deal, deal.repaymentSchedule)),
+				Big.roundHalfEven
+			).toNumber();
+			setDaysRemaining(daysRemaining);
+		}
+	}, [deal]);
+
+	useEffect(() => {
+		if (deal) {
+			const interestRatio = calculateInterestRepaidRatio(deal.tranches, deal.repaymentSchedule);
+			setInterestRepaidRatio(interestRatio);
+		}
+	}, [deal]);
+
+	useEffect(() => {
+		if (deal) {
+			const principalRatio = calculatePrincipalRepaidRatio(deal.tranches, deal.repaymentSchedule);
+			setPrincipalRepaidRatio(principalRatio);
+		}
+	}, [deal]);
+
+	useEffect(() => {
+		if (deal) {
+			const daysRatio = calculateDaysRemainingRatio(deal, deal.repaymentSchedule);
+			setDaysRemainingRatio(daysRatio);
+		}
+	}, [deal]);
+
+	className = classNames([className, "grid grid-cols-1 md:grid-cols-3 gap-5"]);
+
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+		<div className={className}>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "principal",
+					defaultMessage: "Deal principal",
 					description: "Deal aspect: principal",
 				})}
-				value={`${numberFormatter.format(toUIAmount(new Big(deal.principal)).toNumber())} USDC`}
+				value={`${compactFormatter.format(deal.repaymentSchedule.totalPrincipal.uiAmount)} USDC`}
+				icon="coin-dollar"
+				emphasizeValue={true}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "financing fee",
-					description: "Deal aspect: financing fee",
+					defaultMessage: "Deal interest",
+					description: "Deal aspect: interest",
 				})}
-				value={`${
-					deal.financingFeePercentage && deal.financingFeePercentage.apply(100)?.toNumber()
-				}%`}
+				value={`${compactFormatter.format(deal.repaymentSchedule.totalInterest.uiAmount)} USDC`}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "time to maturity",
+					defaultMessage: "Time to maturity",
 					description: "Deal aspect: time to maturity",
 				})}
-				value={`${deal.timeToMaturity} DAYS`}
+				value={`${deal.repaymentSchedule.duration} DAYS`}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "principal repaid",
+					defaultMessage: "Principal repaid",
 					description: "Deal aspect: principal repaid",
 				})}
-				value={`${numberFormatter.format(
-					toUIAmount(new Big(deal.principalAmountRepaid)).toNumber()
-				)} USDC`}
+				value={`${principalRepaid} USDC`}
 				ratio={principalRepaidRatio}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "interest repaid",
+					defaultMessage: "Interest repaid",
 					description: "Deal aspect: interest repaid",
 				})}
-				value={`${numberFormatter.format(
-					toUIAmount(new Big(deal.interestRepaid)).toNumber()
-				)} USDC`}
+				value={`${interestRepaid} USDC`}
 				ratio={interestRepaidRatio}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "time left",
+					defaultMessage: "Time left",
 					description: "Deal aspect: time left",
 				})}
 				value={intl.formatMessage(
 					{ defaultMessage: "{daysRemaining} DAYS", description: "Deal aspect: days remaining" },
-					{ daysRemaining: deal.daysRemaining }
+					{ daysRemaining: daysRemaining }
 				)}
 				ratio={daysRemainingRatio}
-				showRatio={false}
 			/>
 		</div>
 	);

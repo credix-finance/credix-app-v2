@@ -4,9 +4,11 @@ import {
 	formatTimestamp,
 	round,
 	clamp,
-	numberFormatter,
+	compactFormatter,
 	ratioFormatter,
 	classNames,
+	daysToMilliseconds,
+	millisecondsToDays,
 } from "@utils/format.utils";
 
 describe("date formatting", () => {
@@ -74,17 +76,17 @@ describe("Format utils", () => {
 	test("numbers representing currency are formatted correctly", () => {
 		const expected = "200.3";
 		let value = 200.3;
-		let formattedValue = numberFormatter.format(value);
+		let formattedValue = compactFormatter.format(value);
 
 		expect(formattedValue).toBe(expected);
 
 		value = 200.25;
-		formattedValue = numberFormatter.format(value);
+		formattedValue = compactFormatter.format(value);
 
 		expect(formattedValue).toBe(expected);
 
 		value = 200.34;
-		formattedValue = numberFormatter.format(value);
+		formattedValue = compactFormatter.format(value);
 
 		expect(formattedValue).toBe(expected);
 	});
@@ -92,7 +94,7 @@ describe("Format utils", () => {
 	test("numbers are formatted compactly", () => {
 		const expected = "100K";
 		const value = 100_000;
-		const formattedValue = numberFormatter.format(value);
+		const formattedValue = compactFormatter.format(value);
 
 		expect(formattedValue).toBe(expected);
 	});
@@ -136,5 +138,23 @@ describe("classnames", () => {
 		const expected = "a b c";
 
 		expect(classNames(input)).toEqual(expected);
+	});
+});
+
+describe("daysToMilliseconds", () => {
+	it("returns the given amount of days in milliseconds", () => {
+		const input = 30;
+		const expected = 2_592_000_000;
+
+		expect(daysToMilliseconds(input)).toEqual(expected);
+	});
+});
+
+describe("millisecondsToDays", () => {
+	it.only("returns the given amount of milliseconds in days", () => {
+		const input = 2_592_000_000;
+		const expected = 30;
+
+		expect(millisecondsToDays(input)).toEqual(expected);
 	});
 });

@@ -33,7 +33,7 @@ type AppPropsWithLayout = AppProps & {
 
 const CredixApp: FC<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
 	const router = useRouter();
-	const { locale, defaultLocale } = useRouter();
+	const { defaultLocale } = useRouter();
 
 	useEffect(() => {
 		const handleRouteChange = (url) => {
@@ -79,7 +79,7 @@ const CredixApp: FC<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) =
 					<WalletModalProvider>
 						<ClientProvider>
 							<IntlProvider
-								locale={locale}
+								locale="en"
 								defaultLocale={defaultLocale}
 								messages={pageProps.intlMessages}
 							>

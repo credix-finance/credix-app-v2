@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { Deal } from "@credix/credix-client";
 import { DealStatus } from "@components/DealStatus";
 import DealAspectGrid from "@components/DealAspectGrid";
 import { useIntl } from "react-intl";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 interface DealDetailsProps {
-	deal: Deal;
+	deal: DealWithNestedResources;
 }
 
 export const DealDetails: FunctionComponent<DealDetailsProps> = ({ deal }) => {

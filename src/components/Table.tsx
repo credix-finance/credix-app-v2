@@ -5,17 +5,18 @@ import { TableProps as AntdTableProps } from "antd/lib/table";
 import { PageItem } from "@components/PageItem";
 import { ColumnType } from "antd/lib/table";
 import { TableHeaderCell } from "./TableHeaderCell";
-import { IconName } from "@components/Icon";
+import { IconDimension, IconName } from "@components/Icon";
 
 export type ColumnsProps = ColumnType<any> & {
 	/**
 	 * Optional icon that will be displayed on the left of the column title
 	 */
 	icon?: IconName;
+	iconSize?: IconDimension;
 	titleClassName?: string;
 };
 
-interface TableProps {
+export interface TableProps {
 	/**
 	 * The data which will fill the table
 	 */
@@ -23,12 +24,16 @@ interface TableProps {
 	/**
 	 * Table columns
 	 */
-	columns?: ColumnsProps[];
+	columns: ColumnsProps[];
 	/**
 	 * onRow provides a way to hook into click events originating from the table row.
 	 * This prop also enables table hover styles
 	 */
 	onRow?: AntdTableProps<any>["onRow"];
+	/**
+	 * rowKey provides a way to uniquely identify each row.
+	 */
+	rowkey?: AntdTableProps<any>["rowKey"];
 	/**
 	 * controls whether the table displays a loading spinner
 	 */
@@ -41,19 +46,39 @@ export const Table = ({ columns, ...props }: TableProps) => {
 	useEffect(() => {
 		setParsedColumns(
 			columns.map((column) => {
+				/**
+				 * If the title prop is of type "function" a render function is used,
+				 * we assume the developer knows what they want to render
+				 * so we just return the column.
+				 */
 				if (typeof column.title === "function") {
 					return column;
 				}
 
+				/**
+				 * If an icon is specified we use this helper component to
+				 * easily render table headers with icons without having to
+				 * use a render function every time a header with an icon
+				 * is required.
+				 */
 				if (column.icon) {
-					const { icon, title, titleClassName } = column;
+					const { icon, title, titleClassName, iconSize } = column;
 					return Object.assign({}, column, {
 						title: () => (
-							<TableHeaderCell label={title as string} icon={icon} className={titleClassName} />
+							<TableHeaderCell
+								label={title as string}
+								icon={icon}
+								iconSize={iconSize}
+								className={titleClassName}
+							/>
 						),
 					});
 				}
 
+				/**
+				 * If none of the above statements are true the column title
+				 * is a regular string; nothing needs to happen.
+				 */
 				return column;
 			})
 		);

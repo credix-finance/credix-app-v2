@@ -1,40 +1,41 @@
 import React, { FunctionComponent } from "react";
-import { Ratio } from "@credix/credix-client";
-import { clamp, ratioFormatter } from "@utils/format.utils";
+import { Fraction } from "@credix/credix-client";
+import { clamp } from "@utils/format.utils";
+import { Icon, IconDimension, IconName } from "./Icon";
 
 interface DealAspectProps {
 	title: string;
 	value: string;
-	ratio?: Ratio;
-	showRatio?: boolean;
+	ratio?: Fraction;
+	emphasizeValue?: boolean;
+	icon?: IconName;
 }
 
 export const DealAspect: FunctionComponent<DealAspectProps> = ({
 	title,
 	value,
 	ratio,
-	showRatio = true,
+	emphasizeValue = false,
+	icon,
 }) => {
-	const hasRatio = ratio !== undefined;
+	const hasRatio = ratio !== undefined && !ratio.equals(new Fraction(0, 1));
 	return (
-		<div
-			className={`${
-				hasRatio ? "p-3" : "p-6"
-			} border border-solid border-neutral-60 relative w-full`}
-		>
-			{hasRatio && (
-				<div
-					className="absolute top-0 left-0 h-1 bg-neutral-60"
-					style={{ width: `${clamp(ratio.apply(1).toNumber() * 100, 0, 100)}%` }}
-				></div>
-			)}
-			<div className="uppercase">{title}</div>
-			<div className="flex justify-between items-center pt-2">
-				<div className="text-2xl font-bold">{value}</div>
-				<div className="font-bold">
-					{hasRatio && showRatio && ratioFormatter.format(ratio.apply(1).toNumber())}
+		<div>
+			<div className="p-6 border border-solid border-neutral-40 relative w-full h-full">
+				<div className="flex space-x-2">
+					{icon && <Icon name={icon} size={IconDimension.MIDDLE} />}
+					<div className="font-medium text-base">{title}</div>
 				</div>
+				<div className={`${emphasizeValue ? "text-5xl" : "text-2xl"} font-bold pt-2`}>{value}</div>
 			</div>
+			{hasRatio && (
+				<div className="relative h-2 bg-neutral-90 w-full">
+					<div
+						className="absolute h-2 bg-neutral-20"
+						style={{ width: `${clamp(ratio.apply(100).toNumber(), 0, 100)}%` }}
+					></div>
+				</div>
+			)}
 		</div>
 	);
 };

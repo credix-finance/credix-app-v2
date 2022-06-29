@@ -3,7 +3,8 @@
 	"private": true,
 	"resolutions": {
 		"webpack": "^5",
-		"@types/react": "17.0.41"
+		"@types/react": "17.0.41",
+		"@antv/g2": "4.1.50"
 	},
 	"scripts": {
 		"predev": "npm run i18n:compile",
@@ -22,12 +23,13 @@
 		"cypress:open": "cypress open"
 	},
 	"dependencies": {
+		"@ant-design/charts": "^1.3.6",
 		"@civic/solana-gateway-react": "0.4.13",
-		"@credix/credix-client": "^0.1.0-beta.4",
+		"@credix/credix-client": "0.5.0-beta.1",
 		"@credix/prettier-config": "^1.0.0",
 		"@solana/wallet-adapter-base": "^0.9.5",
-		"@solana/wallet-adapter-react": "0.15.4",
-		"@solana/wallet-adapter-react-ui": "^0.9.6",
+		"@solana/wallet-adapter-react": "0.15.5",
+		"@solana/wallet-adapter-react-ui": "^0.9.7",
 		"@solana/wallet-adapter-wallets": "^0.16.1",
 		"@solana/web3.js": "^1.41.9",
 		"@tailwindcss/forms": "^0.5.1",

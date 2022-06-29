@@ -9,7 +9,7 @@ import { Tabs } from "@components/Tabs";
 import { Big } from "big.js";
 import message from "../message";
 import { useStore } from "state/useStore";
-import { numberFormatter, toProgramAmount } from "@utils/format.utils";
+import { compactFormatter, toProgramAmount } from "@utils/format.utils";
 import { useRouter } from "next/router";
 import { useIntl } from "react-intl";
 import notification from "notification";
@@ -41,7 +41,7 @@ export const InvestWithdraw = () => {
 	};
 
 	const withdraw = async ({ amount }: LiquidityPoolInteractionForm) => {
-		const formattedNumber = numberFormatter.format(amount);
+		const formattedNumber = compactFormatter.format(amount);
 		const hide = message.loading({
 			content: intl.formatMessage(
 				{
@@ -81,7 +81,7 @@ export const InvestWithdraw = () => {
 	};
 
 	const invest = async ({ amount }: LiquidityPoolInteractionForm) => {
-		const formattedNumber = numberFormatter.format(amount);
+		const formattedNumber = compactFormatter.format(amount);
 		const hide = message.loading({
 			content: intl.formatMessage(
 				{

@@ -3,11 +3,12 @@
 exports[`Outline button 1`] = `
 <button
   className="ant-btn ant-btn-default rounded-md h-12 text-base font-medium border text-shadow-none shadow-none flex items-center justify-center gap-2 px-6 
-				bg-credix-primary text-neutral-100 border-neutral-100
+				border bg-credix-primary text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled
 			"
+  disabled={false}
   onClick={[Function]}
   type="button"
 >
@@ -20,7 +21,7 @@ exports[`Outline button 1`] = `
 exports[`Outline button disabled 1`] = `
 <button
   className="ant-btn ant-btn-default rounded-md h-12 text-base font-medium border text-shadow-none shadow-none flex items-center justify-center gap-2 px-6 
-				bg-credix-primary text-neutral-100 border-neutral-100
+				border bg-credix-primary text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled
@@ -38,11 +39,12 @@ exports[`Outline button disabled 1`] = `
 exports[`Outline button with icon 1`] = `
 <button
   className="ant-btn ant-btn-default rounded-md h-12 text-base font-medium border text-shadow-none shadow-none flex items-center justify-center gap-2 px-6 
-				bg-credix-primary text-neutral-100 border-neutral-100
+				border bg-credix-primary text-neutral-100 border-neutral-100
 				hover:text-neutral-60 hover:border-neutral-60
 				active:text-neutral-40 active:border-neutral-60
 				disabled:border-action-disable disabled:text-disabled
 			"
+  disabled={false}
   onClick={[Function]}
   type="button"
 >
@@ -64,11 +66,12 @@ exports[`Outline button with icon 1`] = `
 exports[`Primary button 1`] = `
 <button
   className="ant-btn ant-btn-primary rounded-md h-12 text-base font-medium border text-shadow-none shadow-none flex items-center justify-center gap-2 px-6 
-				bg-action-primary border-action-primary text-credix-primary
+				border bg-action-primary border-action-primary text-credix-primary
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
 			"
+  disabled={false}
   onClick={[Function]}
   type="button"
 >
@@ -81,7 +84,7 @@ exports[`Primary button 1`] = `
 exports[`Primary button disabled 1`] = `
 <button
   className="ant-btn ant-btn-primary rounded-md h-12 text-base font-medium border text-shadow-none shadow-none flex items-center justify-center gap-2 px-6 
-				bg-action-primary border-action-primary text-credix-primary
+				border bg-action-primary border-action-primary text-credix-primary
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
@@ -99,11 +102,12 @@ exports[`Primary button disabled 1`] = `
 exports[`Primary button with icon 1`] = `
 <button
   className="ant-btn ant-btn-primary rounded-md h-12 text-base font-medium border text-shadow-none shadow-none flex items-center justify-center gap-2 px-6 
-				bg-action-primary border-action-primary text-credix-primary
+				border bg-action-primary border-action-primary text-credix-primary
 				hover:bg-neutral-60 hover:border-neutral-60
 				active:bg-neutral-40 active:border-neutral-40 active:text-neutral-100
 				disabled:bg-action-disable disabled:border-transparent disabled:text-disabled
 			"
+  disabled={false}
   onClick={[Function]}
   type="button"
 >

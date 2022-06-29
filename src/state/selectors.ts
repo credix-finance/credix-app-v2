@@ -1,11 +1,32 @@
-import { Deal } from "@credix/credix-client";
+import { DealStatus } from "@credix/credix-client";
 import { StoreState } from "@state/useStore";
+import { DealWithNestedResources } from "./dealSlice";
+import { asyncFilter } from "../utils/async.utils";
+import { AsyncSelector } from "@hooks/useAsyncStore";
 
-export const selectPendingDeals = (state: StoreState): Deal[] =>
-	state.deals?.filter((deal) => deal.isPending());
+export const dealStatusSelector =
+	(dealState: DealStatus): AsyncSelector<DealWithNestedResources[]> =>
+	async (state: StoreState) => {
+		if (!state.deals) {
+			return [];
+		}
 
-export const selectActiveDeals = (state: StoreState): Deal[] =>
-	state.deals?.filter((deal) => deal.isInProgress());
+		const selectedDeals = await asyncFilter(state.deals, async (d) => {
+			const status = await d.status(d.repaymentSchedule);
+			return status === dealState;
+		});
 
-export const selectEndedDeals = (state: StoreState): Deal[] =>
-	state.deals?.filter((deal) => deal.isClosed());
+		return selectedDeals;
+	};
+
+export const pendingDealsSelector = dealStatusSelector(DealStatus.PENDING);
+export const openForFundingDealsSelector = dealStatusSelector(DealStatus.OPEN_FOR_FUNDING);
+export const closedDealsSelector = dealStatusSelector(DealStatus.CLOSED);
+export const inProgressDealsSelector = dealStatusSelector(DealStatus.IN_PROGRESS);
+export const defaultedDealsSelector = dealStatusSelector(DealStatus.DEFAULTED);
+
+export const loadingDealsSelector = (state: StoreState) => state.isLoadingDeals;
+export const isAdminSelector = (state: StoreState) => !!state.isAdmin;
+export const marketSelector = (state: StoreState) => state.market;
+export const maybeFetchDealsSelector = (state: StoreState) => state.maybeFetchDeals;
+export const fetchMarketSelector = (state: StoreState) => state.fetchMarket;

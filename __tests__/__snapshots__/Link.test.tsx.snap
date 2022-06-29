@@ -2,7 +2,7 @@
 
 exports[`Default link 1`] = `
 <a
-  className="no-underline font-bold text-inherit text-base "
+  className="no-underline font-bold text-action-primary text-base "
   href="/"
   onClick={[Function]}
   onMouseEnter={[Function]}
@@ -19,7 +19,7 @@ exports[`Default link 1`] = `
 
 exports[`Link with icon 1`] = `
 <a
-  className="no-underline font-bold text-inherit text-base "
+  className="no-underline font-bold text-action-primary text-base "
   href="/"
   onClick={[Function]}
   onMouseEnter={[Function]}
