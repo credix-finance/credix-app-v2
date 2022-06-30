@@ -73,7 +73,7 @@ exports[`Disabled input 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="ant-row ant-form-item font-bold text-base mb-7 text-neutral-60/40"
+    className="ant-row ant-form-item font-bold text-base text-neutral-60/40 mb-7"
     style={Object {}}
   >
     <div
@@ -254,7 +254,7 @@ exports[`Input with error feedback 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="ant-row ant-form-item font-bold text-base mb-7 border-error ant-form-item-has-feedback ant-form-item-has-error"
+    className="ant-row ant-form-item font-bold text-base border-error mb-7 ant-form-item-has-feedback ant-form-item-has-error"
     style={Object {}}
   >
     <div
