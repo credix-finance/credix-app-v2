@@ -11,18 +11,18 @@ const defaultRate = new Fraction(3, 100);
 const defaultPeriods = 48;
 
 describe("amortization", () => {
-	test("it calculates the monthly payment", async () => {
+	test("it calculates the monthly payment", () => {
 		const principal = defaultPrincipal;
 		const rate = defaultRate;
 		const repaymentPeriod = defaultPeriods;
 		const monthlyPayment = Amortization.calculateMonthlyPayment(principal, rate, repaymentPeriod);
 
-		const expected = 664.03;
+		const expected = "664.03";
 
-		await expect(monthlyPayment).toBe(expected);
+		expect(round(Big(monthlyPayment), Big.roundHalfEven).eq(expected)).toBeTruthy();
 	});
 
-	test("it calculates the principal repayment", async () => {
+	test("it calculates the principal repayment", () => {
 		const principal = defaultPrincipal;
 		const rate = defaultRate;
 		const repaymentPeriod = defaultPeriods;
@@ -34,18 +34,17 @@ describe("amortization", () => {
 			rate
 		);
 
-		const expected = 589.03;
+		const expected = "589.03";
 
-		await expect(principalPayment).toBe(expected);
+		expect(round(Big(principalPayment), Big.roundHalfEven).eq(expected)).toBeTruthy();
 	});
 
-	test.only("it calculates the repayment schedule", async () => {
+	test("it calculates the repayment schedule", () => {
 		const periods = 12;
 		const principal = defaultPrincipal;
 		const financingFee = defaultRate;
 		const repaymentPeriod = periods * DAYS_IN_REPAYMENT_PERIOD;
 		const schedule = Amortization.repaymentSchedule(principal, financingFee, repaymentPeriod);
-		const expectedInterest = "489.73";
 
 		const expected: RepaymentSchedulePeriod[] = [
 			{
@@ -122,41 +121,37 @@ describe("amortization", () => {
 			},
 		];
 
-		const principalSum = round(
-			Big(schedule.reduce((acc, curr) => acc + curr.principal, 0)),
-			Big.roundDown
-		);
-
-		const interestSum = round(
-			Big(schedule.reduce((acc, curr) => acc + curr.interest, 0)),
-			Big.roundDown
-		);
-
-		expect(principalSum.eq(principal)).toBeTruthy();
-		expect(interestSum.eq(expectedInterest)).toBeTruthy();
-		await expect(schedule).toEqual(expected);
+		expect(schedule).toEqual(expected);
 	});
 
-	test("the principal and interest in the schedule add up to monthly payment", async () => {
+	test("the sum of all the interest in the schedule adds up to the expected interest", () => {
 		const periods = 12;
 		const principal = defaultPrincipal;
 		const financingFee = defaultRate;
 		const repaymentPeriod = periods * DAYS_IN_REPAYMENT_PERIOD;
 		const schedule = Amortization.repaymentSchedule(principal, financingFee, repaymentPeriod);
-		const monthlyPayment = Amortization.calculateMonthlyPayment(principal, financingFee, periods);
+		const expectedInterest = "489.73";
 
-		schedule.pop();
+		const interestSum = Big(schedule.reduce((acc, curr) => acc + curr.interest, 0));
 
-		schedule.forEach(async (repayment) => {
-			await expect(
-				round(new Big(repayment.principal + repayment.interest), Big.roundHalfEven).toNumber()
-			).toBe(monthlyPayment);
-		});
+		expect(interestSum.eq(expectedInterest)).toBeTruthy();
+	});
+
+	test("the sum of all the principal in the schedule adds up to the starting principal", () => {
+		const periods = 12;
+		const principal = defaultPrincipal;
+		const financingFee = defaultRate;
+		const repaymentPeriod = periods * DAYS_IN_REPAYMENT_PERIOD;
+		const schedule = Amortization.repaymentSchedule(principal, financingFee, repaymentPeriod);
+
+		const principalSum = Big(schedule.reduce((acc, curr) => acc + curr.principal, 0));
+
+		expect(principalSum.eq(principal)).toBeTruthy();
 	});
 });
 
 describe("bullet", () => {
-	test("it calculates the monthly payment", async () => {
+	test("it calculates the monthly payment", () => {
 		const principal = 100_000;
 		const financingFee = new Fraction(12, 100);
 		const numberOfPayments = 12;
@@ -168,10 +163,10 @@ describe("bullet", () => {
 
 		const expected = 1000;
 
-		await expect(monthlyPayment).toBe(expected);
+		expect(monthlyPayment).toBe(expected);
 	});
 
-	test("it calculates the repayment schedule", async () => {
+	test("it calculates the repayment schedule", () => {
 		const principal = 100_000;
 		const financingFee = new Fraction(12, 100);
 		const numberOfPayments = 12 * DAYS_IN_REPAYMENT_PERIOD;
@@ -198,6 +193,6 @@ describe("bullet", () => {
 			},
 		];
 
-		await expect(schedule).toEqual(expected);
+		expect(schedule).toEqual(expected);
 	});
 });
