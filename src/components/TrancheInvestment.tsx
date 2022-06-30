@@ -26,16 +26,20 @@ import { DealWithNestedResources } from "@state/dealSlice";
 
 interface TrancheInvestmentProps {
 	tranche: Tranche;
+	userTrancheBalance: TokenAmount;
 	deal: DealWithNestedResources;
 }
 
-export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({ tranche, deal }) => {
+export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
+	tranche,
+	deal,
+	userTrancheBalance,
+}) => {
 	const router = useRouter();
 	const { marketplace } = router.query;
 	const intl = useIntl();
 	const [form] = Form.useForm();
 	const { publicKey } = useWallet();
-	const [userTrancheBalance, setUserTrancheBalance] = useState<TokenAmount>(zeroTokenAmount);
 	const [amountWithdrawn, setAmountWithdrawn] = useState<TokenAmount>(zeroTokenAmount);
 	const [withdrawableAmount, setWithdrawableAmount] = useState<number>(0);
 	const [projectedReturns, setProjectedReturns] = useState<Big>(Big(0));
@@ -47,18 +51,6 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({ t
 
 	const getInvestorTranche = useCallback(async () => {
 		if (tranche && publicKey) {
-			let userTrancheBalance = zeroTokenAmount;
-			try {
-				userTrancheBalance = await tranche.userTrancheBalance(publicKey);
-				setUserTrancheBalance(userTrancheBalance);
-			} catch (error) {
-				console.log(error);
-				// User has not yet invested in tranche
-				if (Object.hasOwn(error, "message") && error.message.includes("could not find account")) {
-					setUserTrancheBalance(zeroTokenAmount);
-				}
-			}
-
 			let investorTranche = null;
 			try {
 				investorTranche = await tranche.fetchInvestorTranche(publicKey);
@@ -82,7 +74,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({ t
 				setWithdrawableAmount(userAvailable.toNumber());
 			}
 		}
-	}, [tranche, publicKey]);
+	}, [tranche, publicKey, userTrancheBalance]);
 
 	useEffect(() => {
 		if (tranche && deal && userTrancheBalance) {
