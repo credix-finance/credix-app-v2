@@ -973,10 +973,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		setCurrentStep(nextStep);
 	};
 
-	const initialValues = {
-		...dealFormDefaultValues,
-		...newDealDefaults,
-	};
+	const initialValues = { ...dealFormDefaultValues, ...newDealDefaults };
 
 	return (
 		<>
