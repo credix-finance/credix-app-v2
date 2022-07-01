@@ -70,7 +70,9 @@ const New: NextPageWithLayout = () => {
 		dealName: string,
 		trueWaterfall: boolean,
 		slashInterestToPrincipal: boolean,
-		slashPrincipalToInterest: boolean
+		slashPrincipalToInterest: boolean,
+		lateFeePercentage: Fraction,
+		maxfundingDuration: number
 	) => {
 		const hide = message.loading({
 			content: intl.formatMessage(
@@ -87,8 +89,8 @@ const New: NextPageWithLayout = () => {
 		try {
 			await market.createDeal({
 				borrower: borrower,
-				lateFeePercentage: newDealDefaults.lateFeePercentage,
-				maxFundingDuration: newDealDefaults.maxfundingDuration,
+				lateFeePercentage,
+				maxFundingDuration: maxfundingDuration,
 				name: dealName,
 				trueWaterfall,
 				slashInterestToPrincipal,
@@ -243,7 +245,9 @@ const New: NextPageWithLayout = () => {
 						dealName,
 						trueWaterfall,
 						slashInterestToPrincipal,
-						slashPrincipalToInterest
+						slashPrincipalToInterest,
+						newDealDefaults.lateFeePercentage,
+						newDealDefaults.maxfundingDuration
 					)
 			)
 			.then(async () => await getDealInfo(borrowerPK))
