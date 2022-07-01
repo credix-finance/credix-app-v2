@@ -43,6 +43,7 @@ export const Drawer: FunctionComponent<DrawerProps> = ({
 			onClose={onClose}
 			visible={visible}
 			closable={false}
+			forceRender={true}
 			width={640}
 		>
 			<div className="space-y-16">
