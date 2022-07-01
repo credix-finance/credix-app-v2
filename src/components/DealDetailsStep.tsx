@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { validateMinValue, validatePublicKey } from "@utils/validation.utils";
 import { classNames } from "@utils/format.utils";
@@ -33,6 +33,19 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 	const financingFee = Form.useWatch("financingFee", form);
 	const timeToMaturity = Form.useWatch("timeToMaturity", form);
 	const intl = useIntl();
+	const [visible, setVisible] = useState(false);
+
+	const onClose = () => setVisible(false);
+
+	// TODO: reset instead of cancel? This "form" doesn't really save anything.
+	const onCancel = () => {
+		onClose();
+		form.setFieldsValue({
+			trueWaterfall: newDealDefaults.trueWaterfall,
+			slashInterestToPrincipal: newDealDefaults.slashInterestToPrincipal,
+			slashPrincipalToInterest: newDealDefaults.slashPrincipalToInterest,
+		});
+	};
 
 	className = classNames([className, "space-y-8"]);
 
