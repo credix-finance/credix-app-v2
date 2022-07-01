@@ -9,6 +9,7 @@ import { SelectorCard } from "./SelectorCard";
 import { defaultTranches } from "@consts";
 import { AmortizationRepaymentSchedule } from "./AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "./BulletLoanRepaymentSchedule";
+import { Tag } from "./Tag";
 
 interface ReviewDealStepProps {
 	form: FormInstance;
@@ -57,6 +58,9 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 	const principal = Form.useWatch("principal", form);
 	const financingFee = Form.useWatch("financingFee", form);
 	const timeToMaturity = Form.useWatch("timeToMaturity", form);
+	const trueWaterfall = Form.useWatch("trueWaterfall", form);
+	const slashInterestToPrincipal = Form.useWatch("slashInterestToPrincipal", form);
+	const slashPrincipalToInterest = Form.useWatch("slashPrincipalToInterest", form);
 	const intl = useIntl();
 	const tranche = defaultTranches.find(
 		(tranche) => tranche.value === form.getFieldValue("trancheStructure")
@@ -66,9 +70,9 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 
 	return (
 		<div className={className}>
-			<div>
+			<div className="uppercase text-2xl font-bold">
 				{intl.formatMessage({
-					defaultMessage: "Please review details",
+					defaultMessage: "deal details",
 					description: "New deal: review step title",
 				})}
 			</div>
@@ -116,6 +120,47 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 					value={`${form.getFieldValue("timeToMaturity")} DAYS`}
 					className="col-span-1"
 				/>
+				<div className="uppercase text-2xl font-bold col-span-4">
+					{intl.formatMessage({
+						defaultMessage: "advanced deal settings",
+						description: "New deal: review advanced deal settings",
+					})}
+				</div>
+				<div className="col-span-4 flex space-x-8">
+					{!trueWaterfall && !slashInterestToPrincipal && !slashPrincipalToInterest && (
+						<span>No advanced settings</span>
+					)}
+					{slashInterestToPrincipal && (
+						<Tag color="lightGray">
+							{intl.formatMessage({
+								defaultMessage: "Slash interest to principal",
+								description: "New deal: review slash interest to principal",
+							})}
+						</Tag>
+					)}
+					{slashPrincipalToInterest && (
+						<Tag color="lightGray">
+							{intl.formatMessage({
+								defaultMessage: "Slash principal to interest",
+								description: "New deal: review slash principal to interest",
+							})}
+						</Tag>
+					)}
+					{trueWaterfall && (
+						<Tag color="lightGray">
+							{intl.formatMessage({
+								defaultMessage: "True waterfall",
+								description: "New deal: review true waterfall",
+							})}
+						</Tag>
+					)}
+				</div>
+				<div className="uppercase text-2xl font-bold col-span-4">
+					{intl.formatMessage({
+						defaultMessage: "type of loan",
+						description: "New deal: review type of loan",
+					})}
+				</div>
 				{form.getFieldValue("repaymentType") === "amortization" && (
 					<SelectorCard
 						content={
@@ -165,6 +210,12 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 						className="col-span-4"
 					/>
 				)}
+				<div className="uppercase text-2xl font-bold col-span-4">
+					{intl.formatMessage({
+						defaultMessage: "tranche structure",
+						description: "New deal: review tranche structure",
+					})}
+				</div>
 				{tranche && (
 					<SelectorCard
 						content={<TrancheOption trancheData={tranche.trancheData} />}

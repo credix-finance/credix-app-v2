@@ -4,6 +4,7 @@ import * as theme from "../../theme";
 import { classNames } from "@utils/format.utils";
 import { IconName, Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
+import { defineMessages, useIntl } from "react-intl";
 
 export interface DrawerProps {
 	title: string;
@@ -26,6 +27,8 @@ export const Drawer: FunctionComponent<DrawerProps> = ({
 	onCancel,
 	onSave,
 }) => {
+	const intl = useIntl();
+
 	className = classNames([className]);
 	return (
 		<AntDrawer
@@ -52,14 +55,14 @@ export const Drawer: FunctionComponent<DrawerProps> = ({
 					<div className="w-full h-[1px] mt-10  bg-neutral-105"></div>
 					<div className="flex space-x-6">
 						<Button type="default" className="mt-8" onClick={onCancel}>
-							Cancel
+							{intl.formatMessage(MESSAGES.cancel)}
 						</Button>
 						<Button
 							className="mt-8"
 							icon={<Icon name="check-square" size={IconDimension.MIDDLE} />}
 							onClick={onSave}
 						>
-							Save changes
+							{intl.formatMessage(MESSAGES.saveChanges)}
 						</Button>
 					</div>
 				</div>
@@ -67,3 +70,14 @@ export const Drawer: FunctionComponent<DrawerProps> = ({
 		</AntDrawer>
 	);
 };
+
+const MESSAGES = defineMessages({
+	cancel: {
+		defaultMessage: "Cancel",
+		description: "Drawer: cancel button text",
+	},
+	saveChanges: {
+		defaultMessage: "Save changes",
+		description: "Drawer: submit button text",
+	},
+});
