@@ -7,14 +7,17 @@ import {
 	RepaymentScheduleTableDataPoint,
 } from "@credix_types/repaymentschedule.types";
 import { useIntl } from "react-intl";
+import { ColumnConfig } from "@ant-design/charts";
 
 interface RepaymentScheduleProps {
 	graphData: RepaymentScheduleGraphDataPoint[];
+	graphConfig?: Partial<ColumnConfig>;
 	dataSource: RepaymentScheduleTableDataPoint[];
 }
 export const RepaymentSchedule: FunctionComponent<RepaymentScheduleProps> = ({
 	graphData,
 	dataSource,
+	graphConfig,
 }) => {
 	const intl = useIntl();
 	const [showTable, setShowTable] = useState(false);
@@ -40,7 +43,7 @@ export const RepaymentSchedule: FunctionComponent<RepaymentScheduleProps> = ({
 					</div>
 				</div>
 				<div className="text-right">
-					<RepaymentScheduleGraph data={graphData} />
+					<RepaymentScheduleGraph data={graphData} config={graphConfig} />
 				</div>
 			</div>
 			{showTable && <RepaymentScheduleTable dataSource={dataSource} />}

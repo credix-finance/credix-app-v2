@@ -1,15 +1,17 @@
-import { Column } from "@ant-design/plots";
+import { Column, ColumnConfig } from "@ant-design/plots";
 import { RepaymentScheduleGraphDataPoint } from "@credix_types/repaymentschedule.types";
 import { FunctionComponent } from "react";
 import * as Theme from "../../theme.js";
 interface RepaymentScheduleGraphProps {
 	data: RepaymentScheduleGraphDataPoint[];
+	config?: Partial<ColumnConfig>;
 }
 
 export const RepaymentScheduleGraph: FunctionComponent<RepaymentScheduleGraphProps> = ({
 	data,
+	config = {},
 }) => {
-	const config = {
+	const baseConfig = {
 		data,
 		height: 200,
 		width: 320,
@@ -47,7 +49,8 @@ export const RepaymentScheduleGraph: FunctionComponent<RepaymentScheduleGraphPro
 								<div>`;
 			},
 		},
-	};
+		...config,
+	} as ColumnConfig;
 
-	return <Column {...config} />;
+	return <Column {...baseConfig} />;
 };
