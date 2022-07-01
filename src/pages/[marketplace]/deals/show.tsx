@@ -142,7 +142,7 @@ const Show: NextPageWithLayout = () => {
 			) : (
 				<DealAspectGrid deal={deal} className="mt-10" />
 			)}
-			<DealRepaymentSchedule className="mt-10" repaymentSchedule={deal.repaymentSchedule} />
+			<DealRepaymentSchedule className="mt-10" deal={deal} />
 			<DealTrancheStructure className="mt-16" deal={deal} />
 			{(dealStatus === DealStatus.IN_PROGRESS || dealStatus === DealStatus.CLOSED) &&
 				deal.borrower.equals(publicKey) && (

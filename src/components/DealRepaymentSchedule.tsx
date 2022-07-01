@@ -6,15 +6,17 @@ import { RepaymentSchedule } from "@credix/credix-client";
 import { generateGraphAndTableData, repaymentScheduleType } from "@utils/repayment.utils";
 import { RepaymentSchedule as Schedule } from "./RepaymentSchedule";
 import { useIntl } from "react-intl";
+import { DealAdvancedSettings } from "./DealAdvancedSettings";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 interface DealRepaymentScheduleProps {
 	className?: string;
-	repaymentSchedule: RepaymentSchedule;
+	deal: DealWithNestedResources;
 }
 
 export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps> = ({
 	className,
-	repaymentSchedule,
+	deal,
 }) => {
 	const intl = useIntl();
 	const [showDetails, setShowDetails] = useState(false);
@@ -52,7 +54,7 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 							})}
 						</div>
 						<div className="font-mono font-bold text-lg">
-							<span className="capitalize">{repaymentScheduleType(repaymentSchedule)}</span>{" "}
+							<span className="capitalize">{repaymentScheduleType(deal.repaymentSchedule)}</span>{" "}
 							{intl.formatMessage({
 								defaultMessage: "loan",
 								description: "Deal repayment schedule: loan",
@@ -76,7 +78,17 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 						<Icon name="arrow-down" size={IconDimension.MIDDLE} />
 					</Button>
 				</div>
-				{showDetails && <div className="mt-8">{repaymentScheduleComponent(repaymentSchedule)}</div>}
+				{showDetails && (
+					<div className="mt-8">
+						<DealAdvancedSettings
+							slashInterestToPrincipal={deal.slashInterestToPrincipal}
+							slashPrincipalToInterest={deal.slashPrincipalToInterest}
+							trueWaterfall={deal.trueWaterfall}
+							className="mb-8"
+						/>
+						{repaymentScheduleComponent(deal.repaymentSchedule)}
+					</div>
+				)}
 			</div>
 		</div>
 	);
