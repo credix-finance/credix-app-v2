@@ -157,6 +157,6 @@ export const newDealDefaults: Pick<
 	lateFeePercentage: new Fraction(0, 100),
 	maxfundingDuration: 255,
 	trueWaterfall: false,
-	slashInterestToPrincipal: false,
-	slashPrincipalToInterest: false,
+	slashInterestToPrincipal: true,
+	slashPrincipalToInterest: true,
 };
