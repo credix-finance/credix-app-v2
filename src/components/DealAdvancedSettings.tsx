@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { classNames } from "@utils/format.utils";
-import { Deal } from "@credix/credix-client";
-import { useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { Tag } from "./Tag";
 
 interface DealAdvancedSettingsProps {
@@ -24,29 +23,27 @@ export const DealAdvancedSettings: FunctionComponent<DealAdvancedSettingsProps> 
 	return (
 		<div className={className}>
 			{slashInterestToPrincipal && (
-				<Tag color="lightGray">
-					{intl.formatMessage({
-						defaultMessage: "Slash interest to principal",
-						description: "Deal repayment schedule: review slash interest to principal",
-					})}
-				</Tag>
+				<Tag color="lightGray">{intl.formatMessage(MESSAGES.slashInterestToPrincipal)}</Tag>
 			)}
 			{slashPrincipalToInterest && (
-				<Tag color="lightGray">
-					{intl.formatMessage({
-						defaultMessage: "Slash principal to interest",
-						description: "Deal repayment schedule: review slash principal to interest",
-					})}
-				</Tag>
+				<Tag color="lightGray">{intl.formatMessage(MESSAGES.slashPrincipalToInterest)}</Tag>
 			)}
-			{trueWaterfall && (
-				<Tag color="lightGray">
-					{intl.formatMessage({
-						defaultMessage: "True waterfall",
-						description: "Deal repayment schedule: review true waterfall",
-					})}
-				</Tag>
-			)}
+			{trueWaterfall && <Tag color="lightGray">{intl.formatMessage(MESSAGES.trueWaterfall)}</Tag>}
 		</div>
 	);
 };
+
+const MESSAGES = defineMessages({
+	slashInterestToPrincipal: {
+		defaultMessage: "Slash interest to principal",
+		description: "Deal advanced settings: slash interest to principal",
+	},
+	slashPrincipalToInterest: {
+		defaultMessage: "Slash principal to interest",
+		description: "Deal advanced settings: slash principal to interest",
+	},
+	trueWaterfall: {
+		defaultMessage: "True waterfall",
+		description: "Deal advanced settings: true waterfall",
+	},
+});
