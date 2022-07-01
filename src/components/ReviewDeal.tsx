@@ -9,7 +9,7 @@ import { SelectorCard } from "./SelectorCard";
 import { defaultTranches } from "@consts";
 import { AmortizationRepaymentSchedule } from "./AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "./BulletLoanRepaymentSchedule";
-import { Tag } from "./Tag";
+import { DealAdvancedSettings } from "./DealAdvancedSettings";
 
 interface ReviewDealStepProps {
 	form: FormInstance;
@@ -126,108 +126,89 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 						description: "New deal: review advanced deal settings",
 					})}
 				</div>
-				<div className="col-span-4 flex space-x-8">
-					{!trueWaterfall && !slashInterestToPrincipal && !slashPrincipalToInterest && (
-						<span>No advanced settings</span>
-					)}
-					{slashInterestToPrincipal && (
-						<Tag color="lightGray">
-							{intl.formatMessage({
-								defaultMessage: "Slash interest to principal",
-								description: "New deal: review slash interest to principal",
-							})}
-						</Tag>
-					)}
-					{slashPrincipalToInterest && (
-						<Tag color="lightGray">
-							{intl.formatMessage({
-								defaultMessage: "Slash principal to interest",
-								description: "New deal: review slash principal to interest",
-							})}
-						</Tag>
-					)}
-					{trueWaterfall && (
-						<Tag color="lightGray">
-							{intl.formatMessage({
-								defaultMessage: "True waterfall",
-								description: "New deal: review true waterfall",
-							})}
-						</Tag>
-					)}
-				</div>
-				<div className="uppercase text-2xl font-bold col-span-4">
-					{intl.formatMessage({
-						defaultMessage: "type of loan",
-						description: "New deal: review type of loan",
-					})}
-				</div>
-				{form.getFieldValue("repaymentType") === "amortization" && (
-					<SelectorCard
-						content={
-							<AmortizationRepaymentSchedule
-								principal={Number(principal)}
-								financingFee={Number(financingFee)}
-								timeToMaturity={Number(timeToMaturity)}
-							/>
-						}
-						value="amortization"
-						title={intl.formatMessage({
-							defaultMessage: "Amortization loan",
-							description: "Deal form: repayment type selector amortization title",
-						})}
-						subtitle={intl.formatMessage({
-							defaultMessage: "Pay off a debt over time in equal installments",
-							description: "Deal form: repayment type selector amortization subtitle",
-						})}
-						checked={false}
-						isInteractive={false}
-						showContent={true}
-						className="col-span-4"
-					/>
-				)}
-				{form.getFieldValue("repaymentType") === "bullet" && (
-					<SelectorCard
-						content={
-							<BulletLoanRepaymentSchedule
-								principal={Number(principal)}
-								financingFee={Number(financingFee)}
-								timeToMaturity={Number(timeToMaturity)}
-							/>
-						}
-						value="bullet"
-						title={intl.formatMessage({
-							defaultMessage: "Bullet loan",
-							description: "Deal form: repayment type selector bullet title",
-						})}
-						subtitle={intl.formatMessage({
-							defaultMessage:
-								"The Principal that is borrowed is paid back in full at the end of the loan term",
-							description: "Deal form: repayment type selector bullet subtitle",
-						})}
-						checked={false}
-						isInteractive={false}
-						showContent={true}
-						className="col-span-4"
-					/>
-				)}
-				<div className="uppercase text-2xl font-bold col-span-4">
-					{intl.formatMessage({
-						defaultMessage: "tranche structure",
-						description: "New deal: review tranche structure",
-					})}
-				</div>
-				{tranche && (
-					<SelectorCard
-						content={<TrancheOption trancheData={tranche.trancheData} />}
-						value={tranche.value}
-						title={tranche.title}
-						checked={false}
-						isInteractive={false}
-						showContent={true}
-						className="col-span-4"
-					/>
-				)}
 			</div>
+			<div className="flex gap-x-8 gap-y-4 flex-wrap">
+				{!trueWaterfall && !slashInterestToPrincipal && !slashPrincipalToInterest && (
+					<span>No advanced settings</span>
+				)}
+				<DealAdvancedSettings
+					slashInterestToPrincipal={slashInterestToPrincipal}
+					slashPrincipalToInterest={slashPrincipalToInterest}
+					trueWaterfall={trueWaterfall}
+				/>
+			</div>
+			<div className="uppercase text-2xl font-bold">
+				{intl.formatMessage({
+					defaultMessage: "type of loan",
+					description: "New deal: review type of loan",
+				})}
+			</div>
+			{form.getFieldValue("repaymentType") === "amortization" && (
+				<SelectorCard
+					content={
+						<AmortizationRepaymentSchedule
+							principal={Number(principal)}
+							financingFee={Number(financingFee)}
+							timeToMaturity={Number(timeToMaturity)}
+						/>
+					}
+					value="amortization"
+					title={intl.formatMessage({
+						defaultMessage: "Amortization loan",
+						description: "Deal form: repayment type selector amortization title",
+					})}
+					subtitle={intl.formatMessage({
+						defaultMessage: "Pay off a debt over time in equal installments",
+						description: "Deal form: repayment type selector amortization subtitle",
+					})}
+					checked={false}
+					isInteractive={false}
+					showContent={true}
+					className="col-span-4"
+				/>
+			)}
+			{form.getFieldValue("repaymentType") === "bullet" && (
+				<SelectorCard
+					content={
+						<BulletLoanRepaymentSchedule
+							principal={Number(principal)}
+							financingFee={Number(financingFee)}
+							timeToMaturity={Number(timeToMaturity)}
+						/>
+					}
+					value="bullet"
+					title={intl.formatMessage({
+						defaultMessage: "Bullet loan",
+						description: "Deal form: repayment type selector bullet title",
+					})}
+					subtitle={intl.formatMessage({
+						defaultMessage:
+							"The Principal that is borrowed is paid back in full at the end of the loan term",
+						description: "Deal form: repayment type selector bullet subtitle",
+					})}
+					checked={false}
+					isInteractive={false}
+					showContent={true}
+					className="col-span-4"
+				/>
+			)}
+			<div className="uppercase text-2xl font-bold">
+				{intl.formatMessage({
+					defaultMessage: "tranche structure",
+					description: "New deal: review tranche structure",
+				})}
+			</div>
+			{tranche && (
+				<SelectorCard
+					content={<TrancheOption trancheData={tranche.trancheData} />}
+					value={tranche.value}
+					title={tranche.title}
+					checked={false}
+					isInteractive={false}
+					showContent={true}
+					className="col-span-4"
+				/>
+			)}
 			<div className="w-full h-[1px] mt-10  bg-neutral-105"></div>
 			<div className="flex space-x-6">
 				<Button type="default" onClick={onBack}>
