@@ -148,7 +148,11 @@ const Show: NextPageWithLayout = () => {
 				<DealInvestments className="mt-16" deal={deal} />
 			)}
 			{dealStatus === DealStatus.OPEN_FOR_FUNDING && (
-				<DealTrancheInvest className="mt-16" tranches={deal.tranches} />
+				<DealTrancheInvest
+					className="mt-16"
+					tranches={deal.tranches}
+					repaymentSchedule={deal.repaymentSchedule}
+				/>
 			)}
 			{(dealStatus === DealStatus.IN_PROGRESS || dealStatus === DealStatus.CLOSED) &&
 				deal.borrower.equals(publicKey) && (

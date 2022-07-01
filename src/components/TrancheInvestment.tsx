@@ -79,7 +79,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 			);
 			setProjectedReturns(projectedReturns);
 
-			const currentReturns = investorCurrentReturns(tranche, repaymentSchedule, userTrancheBalance);
+			const currentReturns = investorCurrentReturns(tranche, userTrancheBalance);
 			setCurrentReturns(currentReturns);
 		}
 	}, [tranche, repaymentSchedule, userTrancheBalance]);

@@ -456,11 +456,16 @@ export const calculateInvestorPercentageOfTranche = (
 	return new Fraction(userTrancheBalance.uiAmount, tranche.size.uiAmount);
 };
 
+// TODO: Add this to the client
 export const investorProjectedReturns = (
 	tranche: Tranche,
 	repaymentSchedule: RepaymentSchedule,
 	userTrancheBalance: TokenAmount
 ) => {
+	if (!userTrancheBalance) {
+		return Big(0);
+	}
+
 	const trancheInterest = tranche.returnPercentage.apply(repaymentSchedule.totalInterest.uiAmount);
 	const investorPercentageOfTranche = calculateInvestorPercentageOfTranche(
 		tranche,
@@ -470,11 +475,8 @@ export const investorProjectedReturns = (
 	return round(investorPercentageOfTranche.apply(trancheInterest.toNumber()), Big.roundHalfEven);
 };
 
-export const investorCurrentReturns = (
-	tranche: Tranche,
-	repaymentSchedule: RepaymentSchedule,
-	userTrancheBalance: TokenAmount
-) => {
+// TODO: Add this to the client
+export const investorCurrentReturns = (tranche: Tranche, userTrancheBalance: TokenAmount) => {
 	const investorPercentageOfTranche = calculateInvestorPercentageOfTranche(
 		tranche,
 		userTrancheBalance
