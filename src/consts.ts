@@ -1,5 +1,5 @@
 import { IconName } from "@components/Icon";
-import { Fraction } from "@credix/credix-client";
+import { Deal, Fraction } from "@credix/credix-client";
 import { Route } from "types/route.types";
 import { colors as ThemeColors } from "../theme";
 
@@ -142,4 +142,20 @@ export const zeroTokenAmount = {
 	decimals: 0,
 	uiAmount: 0,
 	uiAmountString: "0",
+};
+
+// TODO: check casing of maxfundingDuration
+export const newDealDefaults: Pick<
+	Deal,
+	| "lateFeePercentage"
+	| "maxfundingDuration"
+	| "trueWaterfall"
+	| "slashInterestToPrincipal"
+	| "slashPrincipalToInterest"
+> = {
+	lateFeePercentage: new Fraction(0, 100),
+	maxfundingDuration: 255,
+	trueWaterfall: false,
+	slashInterestToPrincipal: false,
+	slashPrincipalToInterest: false,
 };

@@ -44,6 +44,9 @@ export interface DealFormInput {
 	// TODO: replace with enum
 	repaymentType: string;
 	trancheStructure: string;
+	trueWaterfall: boolean;
+	slashInterestToPrincipal: boolean;
+	slashPrincipalToInterest: boolean;
 }
 
 interface DealFormProps {
