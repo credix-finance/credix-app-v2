@@ -1,5 +1,5 @@
 import { IconName } from "@components/Icon";
-import { Deal, Fraction } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { TokenAmount } from "@solana/web3.js";
 import { Route } from "types/route.types";
 import { colors as ThemeColors } from "../theme";
@@ -144,23 +144,4 @@ export const zeroTokenAmount: TokenAmount = {
 	decimals: 0,
 	uiAmount: 0,
 	uiAmountString: "0",
-};
-
-export type DealAdvancedSettings = Pick<
-	Deal,
-	"trueWaterfall" | "slashInterestToPrincipal" | "slashPrincipalToInterest"
->;
-
-export const defaultAdvancedSettings: DealAdvancedSettings = {
-	trueWaterfall: false,
-	slashInterestToPrincipal: true,
-	slashPrincipalToInterest: true,
-};
-
-// TODO: check casing of maxfundingDuration
-export const newDealDefaults: DealAdvancedSettings &
-	Pick<Deal, "lateFeePercentage" | "maxfundingDuration"> = {
-	lateFeePercentage: new Fraction(0, 100),
-	maxfundingDuration: 255,
-	...defaultAdvancedSettings,
 };
