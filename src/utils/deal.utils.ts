@@ -135,9 +135,8 @@ export const calculateFinancingFee = (repaymentSchedule: RepaymentSchedule) => {
 	);
 };
 
-export const interestToRepay = async (tranches: Tranches) => {
-	const repaid = await totalInterestRepaid(tranches);
-	const total = await totalPrincipalRepaid(tranches);
-
-	return repaid - total;
+export const totalMissingAmount = (repaymentSchedule: RepaymentSchedule) => {
+	return repaymentSchedule.periods.reduce((acc, curr) => {
+		return acc + curr.totalToRepay.uiAmount;
+	}, 0);
 };

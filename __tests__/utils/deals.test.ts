@@ -1,13 +1,12 @@
 import { Deal, Fraction, RepaymentSchedule, Tranche, Tranches } from "@credix/credix-client";
-import { TokenAmount } from "@solana/web3.js";
 import {
 	calculateDaysRemainingRatio,
 	calculateInterestRepaidRatio,
 	calculateMonthlyRepaymentAmount,
 	calculatePrincipalRepaidRatio,
+	totalMissingAmount,
 } from "@utils/deal.utils";
 import { daysToMilliseconds, ratioFormatter } from "@utils/format.utils";
-import Big from "big.js";
 
 describe("monthly repayment amount", () => {
 	it("calculates the monthly repayment amount", () => {
@@ -112,5 +111,29 @@ describe("days remaining ratio", () => {
 		const result = calculateDaysRemainingRatio(deal, repaymentSchedule);
 
 		expect(ratioFormatter.format(result.toNumber())).toEqual(expected);
+	});
+});
+
+describe("total missing amount", () => {
+	it("calculates the total missing amount", () => {
+		const repaymentSchedule = {
+			periods: [
+				{
+					totalToRepay: {
+						uiAmount: 100_000_000,
+					},
+				},
+				{
+					totalToRepay: {
+						uiAmount: 100_000_000,
+					},
+				},
+			],
+		} as RepaymentSchedule;
+		const expected = 200_000_000;
+
+		const result = totalMissingAmount(repaymentSchedule);
+
+		expect(result).toBe(expected);
 	});
 });
