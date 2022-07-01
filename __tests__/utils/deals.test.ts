@@ -1,10 +1,11 @@
-import { Deal, Fraction, RepaymentSchedule, Tranche, Tranches } from "@credix/credix-client";
+import { Deal, Fraction, RepaymentSchedule } from "@credix/credix-client";
 import {
 	calculateDaysRemainingRatio,
 	calculateInterestRepaidRatio,
 	calculateMonthlyRepaymentAmount,
 	calculatePrincipalRepaidRatio,
 	totalMissingAmount,
+	interestToRepay,
 } from "@utils/deal.utils";
 import { daysToMilliseconds, ratioFormatter } from "@utils/format.utils";
 
@@ -34,29 +35,21 @@ describe("monthly repayment amount", () => {
 
 describe("interest repaid ratio", () => {
 	it("calculates the ratio", () => {
-		const tranches = {
-			tranches: [
-				{
-					interestRepaid: {
-						uiAmount: 25_000_000,
-					},
-				},
-				{
-					interestRepaid: {
-						uiAmount: 25_000_000,
-					},
-				},
-			] as Tranche[],
-		} as Tranches;
-
 		const repaymentSchedule = {
+			periods: [
+				{
+					interestRepaid: {
+						uiAmount: 50_000_000,
+					},
+				},
+			],
 			totalInterest: {
 				uiAmount: 100_000_000,
 			},
 		} as RepaymentSchedule;
 
 		const expected = new Fraction(50, 100);
-		const result = calculateInterestRepaidRatio(tranches, repaymentSchedule);
+		const result = calculateInterestRepaidRatio(repaymentSchedule);
 
 		expect(result.equals(expected)).toBeTruthy();
 	});
@@ -64,29 +57,21 @@ describe("interest repaid ratio", () => {
 
 describe("principal repaid ratio", () => {
 	it("calculates the ratio", () => {
-		const tranches = {
-			tranches: [
-				{
-					principalRepaid: {
-						uiAmount: 25_000_000,
-					},
-				},
-				{
-					principalRepaid: {
-						uiAmount: 25_000_000,
-					},
-				},
-			] as Tranche[],
-		} as Tranches;
-
 		const repaymentSchedule = {
+			periods: [
+				{
+					principalRepaid: {
+						uiAmount: 50_000_000,
+					},
+				},
+			],
 			totalPrincipal: {
 				uiAmount: 100_000_000,
 			},
 		} as RepaymentSchedule;
 
 		const expected = new Fraction(50, 100);
-		const result = calculatePrincipalRepaidRatio(tranches, repaymentSchedule);
+		const result = calculatePrincipalRepaidRatio(repaymentSchedule);
 
 		expect(result.equals(expected)).toBeTruthy();
 	});
@@ -111,6 +96,33 @@ describe("days remaining ratio", () => {
 		const result = calculateDaysRemainingRatio(deal, repaymentSchedule);
 
 		expect(ratioFormatter.format(result.toNumber())).toEqual(expected);
+	});
+});
+
+describe("interest to repay", () => {
+	it("calculates the interest to repay", async () => {
+		const repaymentSchedule = {
+			totalInterest: {
+				uiAmount: 100_000_000,
+			},
+			periods: [
+				{
+					interestRepaid: {
+						uiAmount: 10_000_000,
+					},
+				},
+				{
+					interestRepaid: {
+						uiAmount: 10_000_000,
+					},
+				},
+			],
+		} as RepaymentSchedule;
+
+		const expected = 80_000_000;
+		const result = interestToRepay(repaymentSchedule);
+
+		expect(result).toBe(expected);
 	});
 });
 
