@@ -80,17 +80,17 @@ export const twoTrancheStructure = {
 		},
 		{
 			name: "Mezzanine",
-			apr: null,
-			value: null,
-			percentageOfPrincipal: null,
-			percentageOfInterest: null,
-		},
-		{
-			name: "Junior",
 			value: 0.2,
 			apr: new Fraction(135, 1000),
 			percentageOfPrincipal: new Fraction(90, 100),
 			percentageOfInterest: new Fraction(20, 100),
+		},
+		{
+			name: "Junior",
+			apr: null,
+			value: null,
+			percentageOfPrincipal: null,
+			percentageOfInterest: null,
 		},
 	],
 };
