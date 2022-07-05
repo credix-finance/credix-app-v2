@@ -144,6 +144,13 @@ const Show: NextPageWithLayout = () => {
 			)}
 			<DealRepaymentSchedule className="mt-10" repaymentSchedule={deal.repaymentSchedule} />
 			<DealTrancheStructure className="mt-16" deal={deal} />
+			{(dealStatus === DealStatus.IN_PROGRESS || dealStatus === DealStatus.CLOSED) &&
+				deal.borrower.equals(publicKey) && (
+					<div className="grid grid-cols-2 gap-x-28 mt-16">
+						<RepayDeal deal={deal} />
+						<WithdrawFromDeal deal={deal} />
+					</div>
+				)}
 			{(dealStatus === DealStatus.IN_PROGRESS || dealStatus === DealStatus.CLOSED) && (
 				<DealInvestments className="mt-16" deal={deal} />
 			)}
@@ -154,13 +161,6 @@ const Show: NextPageWithLayout = () => {
 					repaymentSchedule={deal.repaymentSchedule}
 				/>
 			)}
-			{(dealStatus === DealStatus.IN_PROGRESS || dealStatus === DealStatus.CLOSED) &&
-				deal.borrower.equals(publicKey) && (
-					<div className="grid grid-cols-2 gap-x-28 mt-16">
-						<RepayDeal deal={deal} />
-						<WithdrawFromDeal deal={deal} />
-					</div>
-				)}
 		</div>
 	);
 };
