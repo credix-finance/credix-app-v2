@@ -1,5 +1,5 @@
 import { DAYS_IN_REPAYMENT_PERIOD, MONTHS_IN_YEAR } from "@consts";
-import { Fraction, RepaymentPeriod } from "@credix/credix-client";
+import { Fraction } from "@credix/credix-client";
 import { RepaymentSchedulePeriod } from "@credix_types/repaymentschedule.types";
 
 export const calculateMonthlyPayment = (

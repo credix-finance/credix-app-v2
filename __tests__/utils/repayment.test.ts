@@ -11,18 +11,18 @@ const defaultRate = new Fraction(3, 100);
 const defaultPeriods = 48;
 
 describe("amortization", () => {
-	test("it calculates the monthly payment", async () => {
+	test("it calculates the monthly payment", () => {
 		const principal = defaultPrincipal;
 		const rate = defaultRate;
 		const repaymentPeriod = defaultPeriods;
 		const monthlyPayment = Amortization.calculateMonthlyPayment(principal, rate, repaymentPeriod);
 
-		const expected = 664.03;
+		const expected = "664.03";
 
-		await expect(monthlyPayment).toBe(expected);
+		expect(round(Big(monthlyPayment), Big.roundHalfEven).eq(expected)).toBeTruthy();
 	});
 
-	test("it calculates the principal repayment", async () => {
+	test("it calculates the principal repayment", () => {
 		const principal = defaultPrincipal;
 		const rate = defaultRate;
 		const repaymentPeriod = defaultPeriods;
@@ -34,12 +34,12 @@ describe("amortization", () => {
 			rate
 		);
 
-		const expected = 589.03;
+		const expected = "589.03";
 
-		await expect(principalPayment).toBe(expected);
+		expect(round(Big(principalPayment), Big.roundHalfEven).eq(expected)).toBeTruthy();
 	});
 
-	test("it calculates the repayment schedule", async () => {
+	test("it calculates the repayment schedule", () => {
 		const periods = 12;
 		const principal = defaultPrincipal;
 		const financingFee = defaultRate;
@@ -48,102 +48,110 @@ describe("amortization", () => {
 
 		const expected: RepaymentSchedulePeriod[] = [
 			{
-				cumulativeInterest: 75,
-				cumulativePrincipal: 2465.81,
-				principal: 2465.81,
-				interest: 75,
+				cumulativeInterest: 76,
+				cumulativePrincipal: 2466,
+				principal: 2466,
+				interest: 76,
 			},
 			{
-				cumulativeInterest: 143.65,
-				cumulativePrincipal: 4937.97,
-				interest: 68.65,
-				principal: 2472.16,
+				cumulativeInterest: 145,
+				cumulativePrincipal: 4938,
+				interest: 69,
+				principal: 2472,
 			},
 			{
-				cumulativeInterest: 205.95,
-				cumulativePrincipal: 7416.48,
-				interest: 62.3,
-				principal: 2478.51,
+				cumulativeInterest: 208,
+				cumulativePrincipal: 7417,
+				interest: 63,
+				principal: 2479,
 			},
 			{
-				cumulativeInterest: 261.89,
-				cumulativePrincipal: 9901.35,
-				interest: 55.94,
-				principal: 2484.87,
+				cumulativeInterest: 265,
+				cumulativePrincipal: 9902,
+				interest: 57,
+				principal: 2485,
 			},
 			{
-				cumulativeInterest: 311.48,
-				cumulativePrincipal: 12392.57,
-				interest: 49.59,
-				principal: 2491.22,
+				cumulativeInterest: 315,
+				cumulativePrincipal: 12393,
+				interest: 50,
+				principal: 2491,
 			},
 			{
-				cumulativeInterest: 354.72,
-				cumulativePrincipal: 14890.14,
-				interest: 43.24,
-				principal: 2497.57,
+				cumulativeInterest: 359,
+				cumulativePrincipal: 14889,
+				interest: 44,
+				principal: 2496,
 			},
 			{
-				cumulativeInterest: 391.61,
-				cumulativePrincipal: 17394.06,
-				interest: 36.89,
-				principal: 2503.92,
+				cumulativeInterest: 396,
+				cumulativePrincipal: 17392,
+				interest: 37,
+				principal: 2503,
 			},
 			{
-				cumulativeInterest: 422.15,
-				cumulativePrincipal: 19904.33,
-				interest: 30.54,
-				principal: 2510.27,
+				cumulativeInterest: 427,
+				cumulativePrincipal: 19901,
+				interest: 31,
+				principal: 2509,
 			},
 			{
-				cumulativeInterest: 446.33,
-				cumulativePrincipal: 22420.96,
-				interest: 24.18,
-				principal: 2516.63,
+				cumulativeInterest: 452,
+				cumulativePrincipal: 22416,
+				interest: 25,
+				principal: 2515,
 			},
 			{
-				cumulativeInterest: 464.16,
-				cumulativePrincipal: 24943.94,
-				interest: 17.83,
-				principal: 2522.98,
+				cumulativeInterest: 470,
+				cumulativePrincipal: 24937,
+				interest: 18,
+				principal: 2521,
 			},
 			{
-				cumulativeInterest: 475.64,
-				cumulativePrincipal: 27473.27,
-				interest: 11.48,
-				principal: 2529.33,
+				cumulativeInterest: 482,
+				cumulativePrincipal: 27465,
+				interest: 12,
+				principal: 2528,
 			},
 			{
-				cumulativeInterest: 480.77,
-				cumulativePrincipal: 30008.95,
-				interest: 5.13,
-				principal: 2535.68,
+				cumulativeInterest: 489.73,
+				cumulativePrincipal: 30000,
+				interest: 7.73,
+				principal: 2535,
 			},
 		];
 
-		await expect(schedule).toEqual(expected);
+		expect(schedule).toEqual(expected);
 	});
 
-	test("the principal and interest in the schedule add up to monthly payment", async () => {
+	test("the sum of all the interest in the schedule adds up to the expected interest", () => {
 		const periods = 12;
 		const principal = defaultPrincipal;
 		const financingFee = defaultRate;
 		const repaymentPeriod = periods * DAYS_IN_REPAYMENT_PERIOD;
 		const schedule = Amortization.repaymentSchedule(principal, financingFee, repaymentPeriod);
-		const monthlyPayment = Amortization.calculateMonthlyPayment(principal, financingFee, periods);
+		const expectedInterest = "489.73";
 
-		schedule.pop();
+		const interestSum = Big(schedule.reduce((acc, curr) => acc + curr.interest, 0));
 
-		schedule.forEach(async (repayment) => {
-			await expect(
-				round(new Big(repayment.principal + repayment.interest), Big.roundHalfEven).toNumber()
-			).toBe(monthlyPayment);
-		});
+		expect(interestSum.eq(expectedInterest)).toBeTruthy();
+	});
+
+	test("the sum of all the principal in the schedule adds up to the starting principal", () => {
+		const periods = 12;
+		const principal = defaultPrincipal;
+		const financingFee = defaultRate;
+		const repaymentPeriod = periods * DAYS_IN_REPAYMENT_PERIOD;
+		const schedule = Amortization.repaymentSchedule(principal, financingFee, repaymentPeriod);
+
+		const principalSum = Big(schedule.reduce((acc, curr) => acc + curr.principal, 0));
+
+		expect(principalSum.eq(principal)).toBeTruthy();
 	});
 });
 
 describe("bullet", () => {
-	test("it calculates the monthly payment", async () => {
+	test("it calculates the monthly payment", () => {
 		const principal = 100_000;
 		const financingFee = new Fraction(12, 100);
 		const numberOfPayments = 12;
@@ -155,10 +163,10 @@ describe("bullet", () => {
 
 		const expected = 1000;
 
-		await expect(monthlyPayment).toBe(expected);
+		expect(monthlyPayment).toBe(expected);
 	});
 
-	test("it calculates the repayment schedule", async () => {
+	test("it calculates the repayment schedule", () => {
 		const principal = 100_000;
 		const financingFee = new Fraction(12, 100);
 		const numberOfPayments = 12 * DAYS_IN_REPAYMENT_PERIOD;
@@ -185,6 +193,6 @@ describe("bullet", () => {
 			},
 		];
 
-		await expect(schedule).toEqual(expected);
+		expect(schedule).toEqual(expected);
 	});
 });
