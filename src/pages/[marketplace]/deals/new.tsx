@@ -1,7 +1,7 @@
 import DealForm, { DealFormInput } from "@components/DealForm";
 import Layout from "@components/Layout";
 import { Link } from "@components/Link";
-import { Deal, Fraction, useCredixClient } from "@credix/credix-client";
+import { Deal, Fraction, TranchesConfig, useCredixClient } from "@credix/credix-client";
 import { PublicKey } from "@solana/web3.js";
 import { getMarketsPaths } from "@utils/export.utils";
 import { compactFormatter, toProgramAmount } from "@utils/format.utils";
@@ -126,25 +126,24 @@ const New: NextPageWithLayout = () => {
 			}),
 		});
 
-		const tranches = [
-			{
-				size: new Fraction(0, 1),
-				returnPercentage: new Fraction(0, 1),
-				maxDepositPercentage: new Fraction(0, 1),
-				earlyWithdrawalInterest: true,
-				earlyWithdrawalPrincipal: true,
-			},
-			...defaultTranches
-				.find((t) => t.value === trancheStructure)
-				.trancheData.filter((t) => t.value)
-				.map((t) => ({
+		const tranches: TranchesConfig = {};
+
+		defaultTranches
+			.find((t) => t.value === trancheStructure)
+			.trancheData.filter((t) => t.value)
+			.forEach((t) => {
+				const tranche = {
 					size: new Fraction(t.percentageOfPrincipal.toNumber() * 100, 100),
 					returnPercentage: new Fraction(t.percentageOfInterest.toNumber() * 100, 100),
 					maxDepositPercentage: new Fraction(1, 1),
 					earlyWithdrawalInterest: true,
 					earlyWithdrawalPrincipal: true,
-				})),
-		];
+				};
+
+				tranches[t.name.toLowerCase()] = tranche;
+			});
+
+		console.log(tranches);
 
 		try {
 			await deal.setTranches(tranches);
