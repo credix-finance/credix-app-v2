@@ -84,9 +84,11 @@ const DealsPage = () => {
 				<TabPane tab={intl.formatMessage(MESSAGES.closed)} key="closedDeals">
 					<DealsTable market={market} status={DealStatus.CLOSED}></DealsTable>
 				</TabPane>
-				<TabPane tab={intl.formatMessage(MESSAGES.pending)} key="pendingDeals">
-					<DealsTable market={market} status={DealStatus.PENDING}></DealsTable>
-				</TabPane>
+				{isAdmin && (
+					<TabPane tab={intl.formatMessage(MESSAGES.pending)} key="pendingDeals">
+						<DealsTable market={market} status={DealStatus.PENDING}></DealsTable>
+					</TabPane>
+				)}
 			</Tabs>
 		</div>
 	);
