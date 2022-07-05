@@ -15,18 +15,21 @@ import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 import { dealFormValidationFields } from "./DealForm";
 import { Drawer } from "./Drawer";
 import { Switch } from "./Switch";
-import { newDealDefaults } from "@consts";
 
 interface DealDetailsStepProps {
 	className?: string;
 	form: FormInstance;
 	onNextStep: (fieldsToValidate: string[], nextStep: number) => void;
+	onCloseAdvancedSettings: () => void;
+	onSaveAdvancedSettings: () => void;
 }
 
 export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 	className,
 	form,
 	onNextStep,
+	onCloseAdvancedSettings,
+	onSaveAdvancedSettings,
 }) => {
 	const selectedRepaymentType = Form.useWatch("repaymentType", form);
 	const principal = Form.useWatch("principal", form);
@@ -37,14 +40,14 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 
 	const onClose = () => setVisible(false);
 
-	// TODO: reset instead of cancel? This "form" doesn't really save anything.
 	const onCancel = () => {
 		onClose();
-		form.setFieldsValue({
-			trueWaterfall: newDealDefaults.trueWaterfall,
-			slashInterestToPrincipal: newDealDefaults.slashInterestToPrincipal,
-			slashPrincipalToInterest: newDealDefaults.slashPrincipalToInterest,
-		});
+		onCloseAdvancedSettings();
+	};
+
+	const onSave = () => {
+		onClose();
+		onSaveAdvancedSettings();
 	};
 
 	className = classNames([className, "space-y-8"]);
@@ -248,7 +251,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				</Button>
 				<Drawer
 					onClose={onClose}
-					onSave={onClose}
+					onSave={onSave}
 					onCancel={onCancel}
 					visible={visible}
 					title={intl.formatMessage(MESSAGES.advancedSettingsTitle)}
