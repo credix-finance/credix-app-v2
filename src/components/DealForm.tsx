@@ -5,7 +5,7 @@ import { DealDetailsStep } from "@components/DealDetailsStep";
 import { DealTranchesStep } from "@components/DealTranchesStep";
 import { ReviewDealStep } from "@components/ReviewDeal";
 import { defineMessages, useIntl } from "react-intl";
-import { threeTrancheStructure } from "@consts";
+import { DealAdvancedSettings, defaultAdvancedSettings, threeTrancheStructure } from "@consts";
 import { newDealDefaults } from "@consts";
 
 const dealFormDefaultValues = {
@@ -20,6 +20,12 @@ export enum dealFormValidationFields {
 	timeToMaturity = "timeToMaturity",
 	repaymentType = "repaymentType",
 }
+
+const advancedSettingsFields = [
+	"slashInterestToPrincipal",
+	"slashPrincipalToInterest",
+	"trueWaterfall",
+];
 
 export interface DealFormInput {
 	principal: number;
@@ -56,6 +62,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		intl.formatMessage(MESSAGES.trancheStructureStep),
 		intl.formatMessage(MESSAGES.reviewStep),
 	];
+	const [advancedSettings, setAdvancedSettings] =
+		useState<Partial<DealAdvancedSettings>>(defaultAdvancedSettings);
 
 	const showStep = (step: number) => {
 		if (step === currentStep) {
@@ -82,6 +90,18 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 					initialValues={initialValues}
 					onFinish={onSubmit}
 					layout="vertical"
+					onValuesChange={(changedValues) => {
+						// save changed advanced settings in state so they can be committed on save or restored on Cancel
+						const changedValue = Object.keys(changedValues)[0];
+						if (advancedSettingsFields.includes(changedValue)) {
+							if (!advancedSettings[changedValue]) {
+								setAdvancedSettings({
+									...advancedSettings,
+									[changedValue]: !changedValues[changedValue],
+								});
+							}
+						}
+					}}
 				>
 					<DealDetailsStep form={form} className={showStep(0)} onNextStep={onNextStep} />
 					<DealTranchesStep form={form} className={showStep(1)} setCurrentStep={setCurrentStep} />
