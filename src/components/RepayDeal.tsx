@@ -13,7 +13,6 @@ import { validateMaxValue } from "@utils/validation.utils";
 import { DealWithNestedResources } from "@state/dealSlice";
 import { totalMissingAmount } from "@utils/deal.utils";
 import { TokenAmount } from "@solana/web3.js";
-import { zeroTokenAmount } from "@consts";
 
 const MESSAGES = defineMessages({
 	repayLoading: {

@@ -145,18 +145,21 @@ export const zeroTokenAmount: TokenAmount = {
 	uiAmountString: "0",
 };
 
-// TODO: check casing of maxfundingDuration
-export const newDealDefaults: Pick<
+export type DealAdvancedSettings = Pick<
 	Deal,
-	| "lateFeePercentage"
-	| "maxfundingDuration"
-	| "trueWaterfall"
-	| "slashInterestToPrincipal"
-	| "slashPrincipalToInterest"
-> = {
-	lateFeePercentage: new Fraction(0, 100),
-	maxfundingDuration: 255,
+	"trueWaterfall" | "slashInterestToPrincipal" | "slashPrincipalToInterest"
+>;
+
+export const defaultAdvancedSettings: DealAdvancedSettings = {
 	trueWaterfall: false,
 	slashInterestToPrincipal: true,
 	slashPrincipalToInterest: true,
+};
+
+// TODO: check casing of maxfundingDuration
+export const newDealDefaults: DealAdvancedSettings &
+	Pick<Deal, "lateFeePercentage" | "maxfundingDuration"> = {
+	lateFeePercentage: new Fraction(0, 100),
+	maxfundingDuration: 255,
+	...defaultAdvancedSettings,
 };

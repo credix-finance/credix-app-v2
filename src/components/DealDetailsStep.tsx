@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { validateMinValue, validatePublicKey } from "@utils/validation.utils";
 import { classNames } from "@utils/format.utils";
@@ -13,9 +13,7 @@ import { Button } from "./Button";
 import { Icon, IconDimension } from "./Icon";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 import { dealFormValidationFields } from "./DealForm";
-import { Drawer } from "./Drawer";
-import { Switch } from "./Switch";
-import { newDealDefaults } from "@consts";
+import { AdvancedSettingsDrawer } from "./AdvancedSettingsDrawer";
 
 interface DealDetailsStepProps {
 	className?: string;
@@ -33,19 +31,6 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 	const financingFee = Form.useWatch("financingFee", form);
 	const timeToMaturity = Form.useWatch("timeToMaturity", form);
 	const intl = useIntl();
-	const [visible, setVisible] = useState(false);
-
-	const onClose = () => setVisible(false);
-
-	// TODO: reset instead of cancel? This "form" doesn't really save anything.
-	const onCancel = () => {
-		onClose();
-		form.setFieldsValue({
-			trueWaterfall: newDealDefaults.trueWaterfall,
-			slashInterestToPrincipal: newDealDefaults.slashInterestToPrincipal,
-			slashPrincipalToInterest: newDealDefaults.slashPrincipalToInterest,
-		});
-	};
 
 	className = classNames([className, "space-y-8"]);
 
@@ -238,35 +223,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				</Radio.Group>
 			</FormItem>
 			<div className="w-full h-[1px] mt-10  bg-neutral-105"></div>
-			<div className="mt-8">
-				<Button
-					type="text"
-					icon={<Icon name="adjust" size={IconDimension.MIDDLE} />}
-					onClick={() => setVisible(true)}
-				>
-					{intl.formatMessage(MESSAGES.advancedSettingsButtonText)}
-				</Button>
-				<Drawer
-					onClose={onClose}
-					onSave={onClose}
-					onCancel={onCancel}
-					visible={visible}
-					title={intl.formatMessage(MESSAGES.advancedSettingsTitle)}
-					titleIcon="adjust"
-				>
-					<div className="">
-						<Switch name="trueWaterfall" label={intl.formatMessage(MESSAGES.trueWaterfall)} />
-						<Switch
-							name="slashInterestToPrincipal"
-							label={intl.formatMessage(MESSAGES.slashInterestToPrincipal)}
-						/>
-						<Switch
-							name="slashPrincipalToInterest"
-							label={intl.formatMessage(MESSAGES.slashPrincipalToInterest)}
-						/>
-					</div>
-				</Drawer>
-			</div>
+			<AdvancedSettingsDrawer className="mt-8" />
 			<Button
 				className="mt-8"
 				icon={<Icon name="plus-square" size={IconDimension.MIDDLE} />}
@@ -279,26 +236,6 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 };
 
 const MESSAGES = defineMessages({
-	advancedSettingsTitle: {
-		defaultMessage: "Advanced settings",
-		description: "Deal form: advanced settings title",
-	},
-	advancedSettingsButtonText: {
-		defaultMessage: "Advanced settings",
-		description: "Deal form: advanced settings button text",
-	},
-	slashPrincipalToInterest: {
-		defaultMessage: "Slash principal to interest",
-		description: "Deal form: slash principal to interest switch label",
-	},
-	slashInterestToPrincipal: {
-		defaultMessage: "Slash interest to principal",
-		description: "Deal form: slash interest to principal switch label",
-	},
-	trueWaterfall: {
-		defaultMessage: "True waterfall",
-		description: "Deal form: true waterfall switch label",
-	},
 	borrowerKeyValidation: {
 		defaultMessage: "'borrower key' isn't valid",
 		description: "Deal form: borrower key validation message",
