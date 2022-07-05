@@ -75,9 +75,6 @@ const DealsPage = () => {
 				{intl.formatMessage(MESSAGES.title)}
 			</h2>
 			<Tabs tabBarExtraContent={<div className="flex space-x-2">{isAdmin && newDealButton}</div>}>
-				<TabPane tab={intl.formatMessage(MESSAGES.pending)} key="pendingDeals">
-					<DealsTable market={market} status={DealStatus.PENDING}></DealsTable>
-				</TabPane>
 				<TabPane tab={intl.formatMessage(MESSAGES.openForFunding)} key="openForFundingDeals">
 					<DealsTable market={market} status={DealStatus.OPEN_FOR_FUNDING}></DealsTable>
 				</TabPane>
@@ -86,6 +83,9 @@ const DealsPage = () => {
 				</TabPane>
 				<TabPane tab={intl.formatMessage(MESSAGES.closed)} key="closedDeals">
 					<DealsTable market={market} status={DealStatus.CLOSED}></DealsTable>
+				</TabPane>
+				<TabPane tab={intl.formatMessage(MESSAGES.pending)} key="pendingDeals">
+					<DealsTable market={market} status={DealStatus.PENDING}></DealsTable>
 				</TabPane>
 			</Tabs>
 		</div>
