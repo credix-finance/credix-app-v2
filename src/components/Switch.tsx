@@ -8,7 +8,13 @@ interface SwitchProps {
 }
 export const Switch: FunctionComponent<SwitchProps> = ({ name, label }) => {
 	return (
-		<FormItem name={name} label={label} valuePropName="checked" itemClassName="switch">
+		<FormItem
+			name={name}
+			label={label}
+			valuePropName="checked"
+			itemClassName="switch"
+			labelClassName="mb-0"
+		>
 			<AntSwitch></AntSwitch>
 		</FormItem>
 	);

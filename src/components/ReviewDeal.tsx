@@ -6,10 +6,11 @@ import { Icon, IconDimension, IconName } from "./Icon";
 import { classNames, compactFormatter } from "@utils/format.utils";
 import { TrancheOption } from "./TrancheOption";
 import { SelectorCard } from "./SelectorCard";
-import { defaultTranches } from "@consts";
+import { defaultTranches, TrancheSettings } from "@consts";
 import { AmortizationRepaymentSchedule } from "./AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "./BulletLoanRepaymentSchedule";
 import { DealAdvancedSettings } from "./DealAdvancedSettings";
+import { TrancheAdvancedSettings } from "./TrancheAdvancedSettings";
 
 interface ReviewDealStepProps {
 	form: FormInstance;
@@ -64,6 +65,10 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 	const intl = useIntl();
 	const tranche = defaultTranches.find(
 		(tranche) => tranche.value === form.getFieldValue("trancheStructure")
+	);
+	const formTranche = form.getFieldValue(tranche.value);
+	const formTranchesWithAdvancedSettings = Object.entries(formTranche as TrancheSettings[]).filter(
+		([_, settings]) => settings.earlyWithdrawalInterest !== undefined
 	);
 
 	className = classNames([className, "space-y-8"]);
@@ -209,12 +214,30 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 					className="col-span-4"
 				/>
 			)}
+			{formTranchesWithAdvancedSettings.length > 0 && (
+				<div className="uppercase text-2xl font-bold">
+					{intl.formatMessage({
+						defaultMessage: "Advanced tranche settings",
+						description: "New deal: review advanced tranche settings",
+					})}
+				</div>
+			)}
+			{formTranchesWithAdvancedSettings.map(([trancheName, settings]) => {
+				return (
+					<TrancheAdvancedSettings
+						key={trancheName}
+						trancheName={trancheName}
+						earlyWithdrawalInterest={settings.earlyWithdrawalInterest}
+						earlyWithdrawalPrincipal={settings.earlyWithdrawalPrincipal}
+					/>
+				);
+			})}
 			<div className="w-full h-[1px] mt-10  bg-neutral-105"></div>
 			<div className="flex space-x-6">
 				<Button type="default" onClick={onBack}>
 					{intl.formatMessage({
 						defaultMessage: "Back",
-						description: "Neaw deal: back button",
+						description: "New deal: back button",
 					})}
 				</Button>
 				<Form.Item className="mb-0">

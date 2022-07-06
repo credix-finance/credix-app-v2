@@ -5,7 +5,13 @@ import { DealDetailsStep } from "@components/DealDetailsStep";
 import { DealTranchesStep } from "@components/DealTranchesStep";
 import { ReviewDealStep } from "@components/ReviewDeal";
 import { defineMessages, useIntl } from "react-intl";
-import { DealAdvancedSettings, defaultAdvancedSettings, threeTrancheStructure } from "@consts";
+import {
+	DealAdvancedSettings,
+	DealTrancheSettings,
+	defaultAdvancedSettings,
+	defaultTrancheSettings,
+	threeTrancheStructure,
+} from "@consts";
 import { newDealDefaults } from "@consts";
 
 const dealFormDefaultValues = {
@@ -26,6 +32,7 @@ const advancedSettingsFields = [
 	"slashPrincipalToInterest",
 	"trueWaterfall",
 ];
+const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
 
 export interface DealFormInput {
 	principal: number;
@@ -64,6 +71,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 	];
 	const [advancedSettings, setAdvancedSettings] =
 		useState<Partial<DealAdvancedSettings>>(defaultAdvancedSettings);
+	const [trancheSettings, setTrancheSettings] =
+		useState<Partial<DealTrancheSettings>>(defaultTrancheSettings);
 
 	const showStep = (step: number) => {
 		if (step === currentStep) {
@@ -71,6 +80,39 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		}
 
 		return "hidden";
+	};
+
+	const onValuesChange = (changedValues) => {
+		const changedValue = Object.keys(changedValues)[0];
+		if (trancheSettingsFields.find((field) => field === changedValue)) {
+			const tranche = Object.keys(changedValues[changedValue])[0];
+			const field = Object.keys(changedValues[changedValue][tranche])[0];
+			if (
+				!trancheSettings[changedValue] &&
+				!trancheSettings[changedValue][tranche] &&
+				!trancheSettings[changedValue][tranche][field]
+			) {
+				setTrancheSettings({
+					...trancheSettings,
+					[changedValue]: {
+						...trancheSettings[changedValue],
+						[tranche]: {
+							...trancheSettings[changedValue][tranche],
+							[field]: !changedValues[changedValue][tranche][field],
+						},
+					},
+				});
+			}
+		}
+
+		if (advancedSettingsFields.find((field) => field === changedValue)) {
+			if (!advancedSettings[changedValue]) {
+				setAdvancedSettings({
+					...advancedSettings,
+					[changedValue]: !changedValues[changedValue],
+				});
+			}
+		}
 	};
 
 	const onNextStep = async (fieldsToValidate: string[], nextStep: number) => {
@@ -82,13 +124,29 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		setAdvancedSettings({});
 	};
 
+	const onCloseTrancheSettings = () => {
+		form.setFieldsValue(trancheSettings);
+		setAdvancedSettings({});
+	};
+
 	const onSaveAdvancedSettings = () => {
 		const updatedAdvancedSettings = form.getFieldsValue(advancedSettingsFields);
 		// Update the advancedSettings "cache"
 		setAdvancedSettings(updatedAdvancedSettings);
 	};
 
-	const initialValues = { ...dealFormDefaultValues, ...newDealDefaults };
+	const onSaveTrancheSettings = () => {
+		const updatedTrancheSettings = form.getFieldsValue(trancheSettingsFields);
+		// Update the TrancheSettings "cache"
+		setTrancheSettings(updatedTrancheSettings);
+	};
+
+	const initialValues = {
+		...dealFormDefaultValues,
+		...newDealDefaults,
+	};
+
+	console.log(initialValues);
 
 	return (
 		<>
@@ -101,18 +159,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 					initialValues={initialValues}
 					onFinish={onSubmit}
 					layout="vertical"
-					onValuesChange={(changedValues) => {
-						// save changed advanced settings in state so they can be committed on save or restored on Cancel
-						const changedValue = Object.keys(changedValues)[0];
-						if (advancedSettingsFields.includes(changedValue)) {
-							if (!advancedSettings[changedValue]) {
-								setAdvancedSettings({
-									...advancedSettings,
-									[changedValue]: !changedValues[changedValue],
-								});
-							}
-						}
-					}}
+					onValuesChange={onValuesChange}
 				>
 					<DealDetailsStep
 						form={form}
@@ -121,7 +168,13 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 						onCloseAdvancedSettings={onCloseAdvancedSettings}
 						onSaveAdvancedSettings={onSaveAdvancedSettings}
 					/>
-					<DealTranchesStep form={form} className={showStep(1)} setCurrentStep={setCurrentStep} />
+					<DealTranchesStep
+						form={form}
+						className={showStep(1)}
+						setCurrentStep={setCurrentStep}
+						onCloseTrancheSettings={onCloseTrancheSettings}
+						onSaveTrancheSettings={onSaveTrancheSettings}
+					/>
 					<ReviewDealStep form={form} onBack={() => setCurrentStep(1)} className={showStep(2)} />
 				</Form>
 			</div>

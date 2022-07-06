@@ -132,8 +132,8 @@ const New: NextPageWithLayout = () => {
 					size: new Fraction(t.percentageOfPrincipal.toNumber() * 100, 100),
 					returnPercentage: new Fraction(t.percentageOfInterest.toNumber() * 100, 100),
 					maxDepositPercentage: new Fraction(1, 1),
-					earlyWithdrawalInterest: true,
-					earlyWithdrawalPrincipal: true,
+					earlyWithdrawalInterest: t.earlyWithdrawalInterest,
+					earlyWithdrawalPrincipal: t.earlyWithdrawalPrincipal,
 				};
 
 				tranches[t.name.toLowerCase()] = tranche;
