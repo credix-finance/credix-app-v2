@@ -93,9 +93,10 @@ export const Input = ({
 		.join(" ");
 
 	labelClassName = [
-		"font-bold text-base mb-7",
+		"font-bold text-base",
 		disabled && "text-neutral-60/40",
 		hasFeedback && validateStatus === "error" && "border-error",
+		!labelClassName?.includes("mb-") && "mb-7",
 		labelClassName,
 	]
 		.filter(Boolean)
