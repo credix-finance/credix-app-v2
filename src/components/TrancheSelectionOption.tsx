@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useState } from "react";
+import React, { FunctionComponent, ReactNode, useState } from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { FormInstance } from "antd";
 import { SelectorCard } from "./SelectorCard";
@@ -8,7 +8,7 @@ import { TrancheOption } from "./TrancheOption";
 import { Drawer } from "./Drawer";
 import { Switch } from "./Switch";
 import { trancheSettingsFields } from "./DealForm";
-import React from "react";
+import { Input } from "./Input";
 
 export const TrancheSelectionOption: FunctionComponent<{
 	tranche: DefaultTranche;
@@ -87,6 +87,69 @@ export const TrancheSelectionOption: FunctionComponent<{
 											name: t.name,
 										})}
 									</div>
+									{t.editable && (
+										<div className="flex gap-x-6">
+											<div>
+												<Input
+													name={[tranche.value, t.name, "percentageOfPrincipal"]}
+													className="bg-credix-primary"
+													labelClassName="flex-col items-start"
+													label={intl.formatMessage(MESSAGES.percentageOfPrincipalInputLabel)}
+													placeholder={intl.formatMessage(
+														MESSAGES.percentageOfPrincipalInputPlaceholder
+													)}
+													type="number"
+													required={true}
+													rules={[
+														{
+															required: true,
+															message: intl.formatMessage(
+																MESSAGES.percentageOfPrincipalRequiredValidation
+															),
+														},
+													]}
+												/>
+											</div>
+											<div>
+												<Input
+													name={[tranche.value, t.name, "percentageOfInterest"]}
+													className="bg-credix-primary"
+													labelClassName="flex-col items-start"
+													label={intl.formatMessage(MESSAGES.percentageOfInterestInputLabel)}
+													placeholder={intl.formatMessage(
+														MESSAGES.percentageOfInterestInputPlaceholder
+													)}
+													type="number"
+													required={true}
+													rules={[
+														{
+															required: true,
+															message: intl.formatMessage(
+																MESSAGES.percentageOfInterestRequiredValidation
+															),
+														},
+													]}
+												/>
+											</div>
+											<div>
+												<Input
+													name={[tranche.value, t.name, "apr"]}
+													className="bg-credix-primary"
+													labelClassName="flex-col items-start"
+													label={intl.formatMessage(MESSAGES.aprInputLabel)}
+													placeholder={intl.formatMessage(MESSAGES.aprInputPlaceholder)}
+													type="number"
+													required={true}
+													rules={[
+														{
+															required: true,
+															message: intl.formatMessage(MESSAGES.aprRequiredValidation),
+														},
+													]}
+												/>
+											</div>
+										</div>
+									)}
 									<div>
 										{t.earlyWithdrawalInterest !== undefined && (
 											<div className="flex justify-between">
