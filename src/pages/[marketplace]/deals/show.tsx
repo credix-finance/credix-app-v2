@@ -155,11 +155,7 @@ const Show: NextPageWithLayout = () => {
 				<DealInvestments className="mt-16" deal={deal} />
 			)}
 			{dealStatus === DealStatus.OPEN_FOR_FUNDING && (
-				<DealTrancheInvest
-					className="mt-16"
-					tranches={deal.tranches}
-					repaymentSchedule={deal.repaymentSchedule}
-				/>
+				<DealTrancheInvest className="mt-16" deal={deal} />
 			)}
 		</div>
 	);

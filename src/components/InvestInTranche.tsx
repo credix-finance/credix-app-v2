@@ -3,13 +3,7 @@ import { Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Form } from "antd";
-import {
-	Fraction,
-	RepaymentSchedule,
-	Tranche,
-	useCredixClient,
-	TranchePass,
-} from "@credix/credix-client";
+import { Fraction, Tranche, useCredixClient, TranchePass } from "@credix/credix-client";
 import { trancheNames, zeroTokenAmount } from "@consts";
 import { ratioFormatter, toProgramAmount } from "@utils/format.utils";
 import { defineMessages, useIntl } from "react-intl";
@@ -26,16 +20,14 @@ import { config } from "@config";
 import { SolanaCluster } from "@credix_types/solana.types";
 import { investorProjectedReturns } from "@utils/tranche.utils";
 import { validateMaxValue, validateMinValue } from "@utils/validation.utils";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 interface InvestInTrancheProps {
 	tranche: Tranche;
-	repaymentSchedule: RepaymentSchedule;
+	deal: DealWithNestedResources;
 }
 
-export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
-	tranche,
-	repaymentSchedule,
-}) => {
+export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranche, deal }) => {
 	const router = useRouter();
 	const { marketplace } = router.query;
 	const intl = useIntl();
@@ -45,7 +37,12 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 	const userBaseBalance = useUserBaseBalance();
 	const client = useCredixClient();
 	const fetchMarket = useStore((state) => state.fetchMarket);
-	const projectedReturns = investorProjectedReturns(tranche, repaymentSchedule, userTrancheBalance);
+	const projectedReturns = investorProjectedReturns(
+		tranche,
+		deal.repaymentSchedule,
+		userTrancheBalance,
+		deal.interestFee
+	);
 	const projectedValue = projectedReturns.add(userTrancheBalance?.uiAmount || 0);
 	const maxInvestmentAmount = Math.min(
 		userBaseBalance?.uiAmount,

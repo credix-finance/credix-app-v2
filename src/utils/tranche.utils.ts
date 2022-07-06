@@ -460,13 +460,17 @@ export const calculateInvestorPercentageOfTranche = (
 export const investorProjectedReturns = (
 	tranche: Tranche,
 	repaymentSchedule: RepaymentSchedule,
-	userTrancheBalance: TokenAmount
+	userTrancheBalance: TokenAmount,
+	interestFee: Fraction
 ) => {
 	if (!userTrancheBalance) {
 		return Big(0);
 	}
 
-	const trancheInterest = tranche.returnPercentage.apply(repaymentSchedule.totalInterest.uiAmount);
+	const interestWithoutPerformanceFee = Big(repaymentSchedule.totalInterest.uiAmountString).minus(
+		interestFee.apply(repaymentSchedule.totalInterest.uiAmount)
+	);
+	const trancheInterest = tranche.returnPercentage.apply(interestWithoutPerformanceFee.toNumber());
 	const investorPercentageOfTranche = calculateInvestorPercentageOfTranche(
 		tranche,
 		userTrancheBalance

@@ -1,19 +1,17 @@
 import React, { FunctionComponent } from "react";
 import { classNames } from "@utils/format.utils";
-import { RepaymentSchedule, Tranches } from "@credix/credix-client";
 import { InvestInTranche } from "@components/InvestInTranche";
 import { useIntl } from "react-intl";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 interface DealTrancheInvestProps {
 	className?: string;
-	tranches: Tranches;
-	repaymentSchedule: RepaymentSchedule;
+	deal: DealWithNestedResources;
 }
 
 export const DealTrancheInvest: FunctionComponent<DealTrancheInvestProps> = ({
 	className,
-	tranches,
-	repaymentSchedule,
+	deal,
 }) => {
 	const intl = useIntl();
 	className = classNames([className, "space-y-6"]);
@@ -26,15 +24,11 @@ export const DealTrancheInvest: FunctionComponent<DealTrancheInvestProps> = ({
 					description: "Deal tranche invest: title",
 				})}
 			</div>
-			{tranches?.tranches
+			{deal.tranches?.tranches
 				// Remove Senior tranche from array
 				.filter((t) => t.index > 1)
 				.map((tranche) => (
-					<InvestInTranche
-						key={tranche.index}
-						tranche={tranche}
-						repaymentSchedule={repaymentSchedule}
-					/>
+					<InvestInTranche key={tranche.index} deal={deal} tranche={tranche} />
 				))}
 		</div>
 	);

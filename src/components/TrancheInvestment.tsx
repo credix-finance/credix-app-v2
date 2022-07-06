@@ -3,7 +3,7 @@ import { Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Form } from "antd";
-import { RepaymentSchedule, Tranche, useCredixClient } from "@credix/credix-client";
+import { Tranche, useCredixClient } from "@credix/credix-client";
 import { trancheNames, zeroTokenAmount } from "@consts";
 import { toProgramAmount } from "@utils/format.utils";
 import { useIntl } from "react-intl";
@@ -22,16 +22,14 @@ import {
 	investorCurrentReturns,
 	investorProjectedReturns,
 } from "@utils/tranche.utils";
+import { DealWithNestedResources } from "@state/dealSlice";
 
 interface TrancheInvestmentProps {
 	tranche: Tranche;
-	repaymentSchedule: RepaymentSchedule;
+	deal: DealWithNestedResources;
 }
 
-export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
-	tranche,
-	repaymentSchedule,
-}) => {
+export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({ tranche, deal }) => {
 	const router = useRouter();
 	const { marketplace } = router.query;
 	const intl = useIntl();
@@ -87,18 +85,19 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 	}, [tranche, publicKey]);
 
 	useEffect(() => {
-		if (tranche && repaymentSchedule && userTrancheBalance) {
+		if (tranche && deal && userTrancheBalance) {
 			const projectedReturns = investorProjectedReturns(
 				tranche,
-				repaymentSchedule,
-				userTrancheBalance
+				deal.repaymentSchedule,
+				userTrancheBalance,
+				deal.interestFee
 			);
 			setProjectedReturns(projectedReturns);
 
 			const currentReturns = investorCurrentReturns(tranche, userTrancheBalance);
 			setCurrentReturns(currentReturns);
 		}
-	}, [tranche, repaymentSchedule, userTrancheBalance]);
+	}, [tranche, deal, userTrancheBalance]);
 
 	useEffect(() => {
 		if (userTrancheBalance && currentReturns && amountWithdrawn) {
