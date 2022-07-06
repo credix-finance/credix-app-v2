@@ -42,7 +42,20 @@ export const dealsRoute: Route = {
 
 export const routes: Route[] = [investWithdrawRoute, dealsRoute];
 
-export const oneTrancheStructure = {
+export interface DefaultTranche {
+	value: string;
+	title: string;
+	trancheData: {
+		name: string;
+		apr: Fraction | null;
+		value: number | null;
+		percentageOfPrincipal: Fraction | null;
+		percentageOfInterest: Fraction | null;
+		earlyWithdrawalInterest?: boolean;
+		earlyWithdrawalPrincipal?: boolean;
+	}[];
+}
+export const oneTrancheStructure: DefaultTranche = {
 	value: "oneTranche",
 	title: "One tranche structure",
 	trancheData: [
@@ -69,7 +82,7 @@ export const oneTrancheStructure = {
 		},
 	],
 };
-export const twoTrancheStructure = {
+export const twoTrancheStructure: DefaultTranche = {
 	title: "Two tranche structure",
 	value: "twoTranche",
 	trancheData: [
@@ -86,6 +99,8 @@ export const twoTrancheStructure = {
 			apr: new Fraction(135, 1000),
 			percentageOfPrincipal: new Fraction(90, 100),
 			percentageOfInterest: new Fraction(20, 100),
+			earlyWithdrawalPrincipal: true,
+			earlyWithdrawalInterest: true,
 		},
 		{
 			name: "Junior",
@@ -97,7 +112,7 @@ export const twoTrancheStructure = {
 	],
 };
 
-export const threeTrancheStructure = {
+export const threeTrancheStructure: DefaultTranche = {
 	title: "Three tranche structure",
 	value: "threeTranche",
 	trancheData: [
@@ -114,6 +129,8 @@ export const threeTrancheStructure = {
 			apr: new Fraction(135, 1000),
 			percentageOfPrincipal: new Fraction(15, 100),
 			percentageOfInterest: new Fraction(25, 100),
+			earlyWithdrawalPrincipal: true,
+			earlyWithdrawalInterest: true,
 		},
 		{
 			name: "Junior",
@@ -121,11 +138,17 @@ export const threeTrancheStructure = {
 			apr: new Fraction(135, 1000),
 			percentageOfPrincipal: new Fraction(75, 100),
 			percentageOfInterest: new Fraction(55, 100),
+			earlyWithdrawalPrincipal: true,
+			earlyWithdrawalInterest: true,
 		},
 	],
 };
 
-export const defaultTranches = [oneTrancheStructure, twoTrancheStructure, threeTrancheStructure];
+export const defaultTranches: DefaultTranche[] = [
+	oneTrancheStructure,
+	twoTrancheStructure,
+	threeTrancheStructure,
+];
 
 export const trancheNames = ["super senior", "senior", "mezzanine", "junior"];
 export const trancheFillColors = {
@@ -157,10 +180,45 @@ export const defaultAdvancedSettings: DealAdvancedSettings = {
 	slashPrincipalToInterest: true,
 };
 
+export type TrancheSettings = {
+	earlyWithdrawalInterest: boolean;
+	earlyWithdrawalPrincipal: boolean;
+};
+export type DealTrancheSettings = {
+	oneTranche: {
+		Senior: TrancheSettings;
+		Mezzanine: TrancheSettings;
+		Junior: TrancheSettings;
+	};
+	twoTranche: {
+		Senior: TrancheSettings;
+		Mezzanine: TrancheSettings;
+		Junior: TrancheSettings;
+	};
+	threeTranche: {
+		Senior: TrancheSettings;
+		Mezzanine: TrancheSettings;
+		Junior: TrancheSettings;
+	};
+};
+export const defaultTrancheSettings: DealTrancheSettings = defaultTranches.reduce((obj, t) => {
+	obj[t.value] = {
+		...t.trancheData.reduce((obj, tranche) => {
+			obj[tranche.name] = {
+				earlyWithdrawalInterest: tranche.earlyWithdrawalInterest,
+				earlyWithdrawalPrincipal: tranche.earlyWithdrawalPrincipal,
+			};
+			return obj;
+		}, {}),
+	};
+	return obj;
+}, {} as DealTrancheSettings);
+
 // TODO: check casing of maxfundingDuration
 export const newDealDefaults: DealAdvancedSettings &
 	Pick<Deal, "lateFeePercentage" | "maxfundingDuration"> = {
 	lateFeePercentage: new Fraction(0, 100),
 	maxfundingDuration: 255,
+	...defaultTrancheSettings,
 	...defaultAdvancedSettings,
 };
