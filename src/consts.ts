@@ -1,5 +1,6 @@
 import { IconName } from "@components/Icon";
 import { Fraction } from "@credix/credix-client";
+import { TokenAmount } from "@solana/web3.js";
 import { Route } from "types/route.types";
 import { colors as ThemeColors } from "../theme";
 
@@ -137,7 +138,7 @@ export const trancheFillColors = {
 	},
 };
 
-export const zeroTokenAmount = {
+export const zeroTokenAmount: TokenAmount = {
 	amount: "0",
 	decimals: 0,
 	uiAmount: 0,

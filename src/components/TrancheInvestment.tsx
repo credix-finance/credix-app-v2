@@ -17,7 +17,11 @@ import { useRouter } from "next/router";
 import { TrancheFillLevel } from "./TrancheFillLevel";
 import { config } from "@config";
 import { SolanaCluster } from "@credix_types/solana.types";
-import { investorCurrentReturns, investorProjectedReturns } from "@utils/tranche.utils";
+import {
+	calculateInvestorPercentageOfTranche,
+	investorCurrentReturns,
+	investorProjectedReturns,
+} from "@utils/tranche.utils";
 
 interface TrancheInvestmentProps {
 	tranche: Tranche;
@@ -45,27 +49,39 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 
 	const getInvestorTranche = useCallback(async () => {
 		if (tranche && publicKey) {
+			let userTrancheBalance = zeroTokenAmount;
 			try {
-				const userTrancheBalance = await tranche.userTrancheBalance(publicKey);
+				userTrancheBalance = await tranche.userTrancheBalance(publicKey);
 				setUserTrancheBalance(userTrancheBalance);
-
-				const investorTranche = await tranche.fetchInvestorTranche(publicKey);
-				setAmountWithdrawn(investorTranche.amountWithdrawn);
-
-				// TODO: this isnt right
-				if (investorTranche?.amountWithdrawn.uiAmount) {
-					setWithdrawableAmount(
-						userTrancheBalance.uiAmount - investorTranche.amountWithdrawn.uiAmount
-					);
-				} else if (userTrancheBalance.uiAmount) {
-					setWithdrawableAmount(userTrancheBalance.uiAmount);
-				}
 			} catch (error) {
 				console.log(error);
 				// User has not yet invested in tranche
 				if (Object.hasOwn(error, "message") && error.message.includes("could not find account")) {
 					setUserTrancheBalance(zeroTokenAmount);
 				}
+			}
+
+			let investorTranche = null;
+			try {
+				investorTranche = await tranche.fetchInvestorTranche(publicKey);
+				setAmountWithdrawn(investorTranche.amountWithdrawn);
+			} catch (error) {
+				// User has not yet withdrawn from tranche
+				console.log(error);
+			}
+
+			const userInvestmentPercentage = calculateInvestorPercentageOfTranche(
+				tranche,
+				userTrancheBalance
+			);
+			const userAvailable = userInvestmentPercentage.apply(tranche.totalRepaid.uiAmount);
+
+			if (investorTranche?.amountWithdrawn.uiAmount) {
+				setWithdrawableAmount(
+					userAvailable.minus(investorTranche.amountWithdrawn.uiAmount).toNumber()
+				);
+			} else if (userAvailable) {
+				setWithdrawableAmount(userAvailable.toNumber());
 			}
 		}
 	}, [tranche, publicKey]);

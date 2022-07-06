@@ -249,10 +249,6 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({
 											},
 										},
 									]}
-									name="amount"
-									description={intl.formatMessage(MESSAGES.investAmountInputDescription, {
-										amount: userBaseBalance.uiAmountString,
-									})}
 									suffix={<AddMaxButtonSuffix form={form} amount={maxInvestmentAmount} />}
 								/>
 								<Form.Item className="mb-0" label={" "}>
