@@ -25,11 +25,7 @@ export const DealInvestments: FunctionComponent<DealInvestmentsProps> = ({ class
 				// Remove Senior tranche from array
 				.filter((t) => t.index > 1)
 				.map((tranche) => (
-					<TrancheInvestment
-						key={tranche.index}
-						tranche={tranche}
-						repaymentSchedule={deal.repaymentSchedule}
-					/>
+					<TrancheInvestment key={tranche.index} tranche={tranche} deal={deal} />
 				))}
 		</div>
 	);
