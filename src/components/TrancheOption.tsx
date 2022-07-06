@@ -2,11 +2,12 @@ import React, { FunctionComponent, useMemo, useState } from "react";
 import { TrancheLine } from "@components/TrancheLine";
 import { TrancheDonut } from "@components/TrancheDonut";
 import { Icon, IconDimension } from "@components/Icon";
-import { Tranche } from "@credix_types/tranche.types";
-import { trancheColors } from "@consts";
+import { trancheColors, TrancheDataElement } from "@consts";
+import Big from "big.js";
+import { Form } from "antd";
 
 interface TrancheOptionProps {
-	trancheData: Tranche[];
+	trancheData: TrancheDataElement[];
 }
 
 export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheData }) => {
@@ -25,7 +26,7 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheDa
 			<TrancheDonut
 				data={trancheData.map((t) => ({
 					name: t.name,
-					value: t.percentageOfPrincipal?.toNumber(),
+					value: t.percentageOfPrincipal ? Big(t.percentageOfPrincipal).toNumber() : null,
 				}))}
 				color={trancheColors}
 				onMouseOver={highlightElement}

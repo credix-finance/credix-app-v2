@@ -1,5 +1,6 @@
 import { IconName } from "@components/Icon";
 import { Deal, Fraction } from "@credix/credix-client";
+import { BigSource } from "big.js";
 import { Route } from "types/route.types";
 import { colors as ThemeColors } from "../theme";
 
@@ -40,18 +41,20 @@ export const dealsRoute: Route = {
 
 export const routes: Route[] = [investWithdrawRoute, dealsRoute];
 
+export interface TrancheDataElement {
+	name: string;
+	apr: BigSource | null;
+	value: number | null;
+	percentageOfPrincipal: BigSource | null;
+	percentageOfInterest: BigSource | null;
+	earlyWithdrawalInterest?: boolean;
+	earlyWithdrawalPrincipal?: boolean;
+	editable: boolean;
+}
 export interface DefaultTranche {
 	value: string;
 	title: string;
-	trancheData: {
-		name: string;
-		apr: Fraction | null;
-		value: number | null;
-		percentageOfPrincipal: Fraction | null;
-		percentageOfInterest: Fraction | null;
-		earlyWithdrawalInterest?: boolean;
-		earlyWithdrawalPrincipal?: boolean;
-	}[];
+	trancheData: TrancheDataElement[];
 }
 export const oneTrancheStructure: DefaultTranche = {
 	value: "oneTranche",
@@ -59,10 +62,11 @@ export const oneTrancheStructure: DefaultTranche = {
 	trancheData: [
 		{
 			name: "Senior",
-			apr: new Fraction(135, 1000),
+			apr: new Fraction(135, 1000).apply(100).toNumber(),
 			value: 1,
-			percentageOfPrincipal: new Fraction(1, 1),
-			percentageOfInterest: new Fraction(1, 1),
+			percentageOfPrincipal: new Fraction(1, 1).apply(100).toNumber(),
+			percentageOfInterest: new Fraction(1, 1).apply(100).toNumber(),
+			editable: false,
 		},
 		{
 			name: "Mezzanine",
@@ -70,6 +74,7 @@ export const oneTrancheStructure: DefaultTranche = {
 			value: null,
 			percentageOfPrincipal: null,
 			percentageOfInterest: null,
+			editable: false,
 		},
 		{
 			name: "Junior",
@@ -77,6 +82,7 @@ export const oneTrancheStructure: DefaultTranche = {
 			value: null,
 			percentageOfPrincipal: null,
 			percentageOfInterest: null,
+			editable: false,
 		},
 	],
 };
@@ -87,18 +93,20 @@ export const twoTrancheStructure: DefaultTranche = {
 		{
 			name: "Senior",
 			value: 0.8,
-			apr: new Fraction(135, 1000),
-			percentageOfPrincipal: new Fraction(80, 100),
-			percentageOfInterest: new Fraction(622, 1000),
+			apr: new Fraction(135, 1000).apply(100).toNumber(),
+			percentageOfPrincipal: new Fraction(80, 100).apply(100).toNumber(),
+			percentageOfInterest: new Fraction(622, 1000).apply(100).toNumber(),
+			editable: false,
 		},
 		{
 			name: "Mezzanine",
 			value: 0.2,
-			apr: new Fraction(135, 1000),
-			percentageOfPrincipal: new Fraction(20, 100),
-			percentageOfInterest: new Fraction(378, 1000),
+			apr: new Fraction(135, 1000).apply(100).toNumber(),
+			percentageOfPrincipal: new Fraction(20, 100).apply(100).toNumber(),
+			percentageOfInterest: new Fraction(378, 1000).apply(100).toNumber(),
 			earlyWithdrawalPrincipal: true,
 			earlyWithdrawalInterest: true,
+			editable: true,
 		},
 		{
 			name: "Junior",
@@ -106,6 +114,7 @@ export const twoTrancheStructure: DefaultTranche = {
 			value: null,
 			percentageOfPrincipal: null,
 			percentageOfInterest: null,
+			editable: false,
 		},
 	],
 };
@@ -117,27 +126,30 @@ export const threeTrancheStructure: DefaultTranche = {
 		{
 			name: "Senior",
 			value: 0.75,
-			apr: new Fraction(135, 1000),
-			percentageOfPrincipal: new Fraction(80, 100),
-			percentageOfInterest: new Fraction(52, 100),
+			apr: new Fraction(135, 1000).apply(100).toNumber(),
+			percentageOfPrincipal: new Fraction(80, 100).apply(100).toNumber(),
+			percentageOfInterest: new Fraction(52, 100).apply(100).toNumber(),
+			editable: true,
 		},
 		{
 			name: "Mezzanine",
 			value: 0.2,
-			apr: new Fraction(135, 1000),
-			percentageOfPrincipal: new Fraction(15, 100),
-			percentageOfInterest: new Fraction(30, 100),
+			apr: new Fraction(135, 1000).apply(100).toNumber(),
+			percentageOfPrincipal: new Fraction(15, 100).apply(100).toNumber(),
+			percentageOfInterest: new Fraction(30, 100).apply(100).toNumber(),
 			earlyWithdrawalPrincipal: true,
 			earlyWithdrawalInterest: true,
+			editable: true,
 		},
 		{
 			name: "Junior",
 			value: 0.05,
-			apr: new Fraction(135, 1000),
-			percentageOfPrincipal: new Fraction(5, 100),
-			percentageOfInterest: new Fraction(18, 100),
+			apr: new Fraction(135, 1000).apply(100).toNumber(),
+			percentageOfPrincipal: new Fraction(5, 100).apply(100).toNumber(),
+			percentageOfInterest: new Fraction(18, 100).apply(100).toNumber(),
 			earlyWithdrawalPrincipal: true,
 			earlyWithdrawalInterest: true,
+			editable: true,
 		},
 	],
 };
@@ -205,6 +217,9 @@ export const defaultTrancheSettings: DealTrancheSettings = defaultTranches.reduc
 			obj[tranche.name] = {
 				earlyWithdrawalInterest: tranche.earlyWithdrawalInterest,
 				earlyWithdrawalPrincipal: tranche.earlyWithdrawalPrincipal,
+				percentageOfPrincipal: tranche.percentageOfPrincipal?.toString(),
+				percentageOfInterest: tranche.percentageOfInterest?.toString(),
+				apr: tranche.apr?.toString(),
 			};
 			return obj;
 		}, {}),

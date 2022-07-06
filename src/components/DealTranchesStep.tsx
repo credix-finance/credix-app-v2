@@ -10,6 +10,7 @@ import { DefaultTranche, defaultTranches } from "@consts";
 import { TrancheOption } from "./TrancheOption";
 import { Drawer } from "./Drawer";
 import { Switch } from "./Switch";
+import { Input } from "./Input";
 
 interface DealTranchesStepProps {
 	className?: string;
@@ -131,6 +132,69 @@ const TrancheSelectionOption: FunctionComponent<{
 										name: t.name,
 									})}
 								</div>
+								{t.editable && (
+									<div className="flex gap-x-6">
+										<div>
+											<Input
+												name={[tranche.value, t.name, "percentageOfPrincipal"]}
+												className="bg-credix-primary"
+												labelClassName="flex-col items-start"
+												label={intl.formatMessage(MESSAGES.percentageOfPrincipalInputLabel)}
+												placeholder={intl.formatMessage(
+													MESSAGES.percentageOfPrincipalInputPlaceholder
+												)}
+												type="number"
+												required={true}
+												rules={[
+													{
+														required: true,
+														message: intl.formatMessage(
+															MESSAGES.percentageOfPrincipalRequiredValidation
+														),
+													},
+												]}
+											/>
+										</div>
+										<div>
+											<Input
+												name={[tranche.value, t.name, "percentageOfInterest"]}
+												className="bg-credix-primary"
+												labelClassName="flex-col items-start"
+												label={intl.formatMessage(MESSAGES.percentageOfInterestInputLabel)}
+												placeholder={intl.formatMessage(
+													MESSAGES.percentageOfInterestInputPlaceholder
+												)}
+												type="number"
+												required={true}
+												rules={[
+													{
+														required: true,
+														message: intl.formatMessage(
+															MESSAGES.percentageOfInterestRequiredValidation
+														),
+													},
+												]}
+											/>
+										</div>
+										<div>
+											<Input
+												name={[tranche.value, t.name, "apr"]}
+												className="bg-credix-primary"
+												labelClassName="flex-col items-start"
+												label={intl.formatMessage(MESSAGES.aprInputLabel)}
+												placeholder={intl.formatMessage(MESSAGES.aprInputPlaceholder)}
+												type="number"
+												required={true}
+												rules={[
+													{
+														required: true,
+														message: intl.formatMessage(MESSAGES.aprRequiredValidation),
+													},
+												]}
+											/>
+										</div>
+									</div>
+								)}
 								{t.earlyWithdrawalInterest !== undefined && (
 									<div className="flex justify-between">
 										<Switch
@@ -184,5 +248,41 @@ const MESSAGES = defineMessages({
 	withdrawPrincipal: {
 		defaultMessage: "Principal withdrawal",
 		description: "Tranche option: withdraw principal",
+	},
+	percentageOfPrincipalInputLabel: {
+		defaultMessage: "Principal",
+		description: "Tranche option: principal input label",
+	},
+	percentageOfPrincipalInputPlaceholder: {
+		defaultMessage: "%",
+		description: "Tranche option: principal input placeholder",
+	},
+	percentageOfPrincipalRequiredValidation: {
+		defaultMessage: "'principal' is required",
+		description: "Tranche option: principal required validation",
+	},
+	percentageOfInterestInputLabel: {
+		defaultMessage: "Interest",
+		description: "Tranche option: interest input label",
+	},
+	percentageOfInterestInputPlaceholder: {
+		defaultMessage: "%",
+		description: "Tranche option: interest input placeholder",
+	},
+	percentageOfInterestRequiredValidation: {
+		defaultMessage: "'interest' is required",
+		description: "Tranche option: interest required validation",
+	},
+	aprInputLabel: {
+		defaultMessage: "Apr",
+		description: "Tranche option: apr input label",
+	},
+	aprInputPlaceholder: {
+		defaultMessage: "%",
+		description: "Tranche option: apr input placeholder",
+	},
+	aprRequiredValidation: {
+		defaultMessage: "'apr' is required",
+		description: "Tranche option: apr required validation",
 	},
 });

@@ -1,15 +1,18 @@
+import { TrancheDataElement } from "@consts";
 import { Fraction } from "@credix/credix-client";
 import { ratioFormatter } from "@utils/format.utils";
+import { Form } from "antd";
+import Big from "big.js";
 import React, { FunctionComponent } from "react";
 
 interface TrancheLineProps {
 	name: string;
 	highlightedElement: string;
 	color: string;
-	apr: Fraction;
+	apr: TrancheDataElement["apr"];
 	value: number;
-	percentageOfPrincipal: Fraction;
-	percentageOfInterest: Fraction;
+	percentageOfPrincipal: TrancheDataElement["percentageOfPrincipal"];
+	percentageOfInterest: TrancheDataElement["percentageOfInterest"];
 }
 
 export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
@@ -30,7 +33,7 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 			return "text-sm font-bold";
 		}
 
-		if (!value || isDeEmphesised()) {
+		if (!percentageOfPrincipal || isDeEmphesised()) {
 			return "text-neutral-35 text-opacity-50";
 		}
 
@@ -41,18 +44,26 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 		<>
 			<div className={`${getTextClassNames()} flex items-baseline`}>
 				<div
-					style={{ backgroundColor: value && !isDeEmphesised() ? color : "transparent" }}
+					style={{
+						backgroundColor: percentageOfPrincipal && !isDeEmphesised() ? color : "transparent",
+					}}
 					className="w-2 h-2 rounded-full mr-2"
 				></div>
 				<span>{name}</span>
 			</div>
 			<div className={getTextClassNames()}>
-				{percentageOfPrincipal ? ratioFormatter.format(percentageOfPrincipal.toNumber()) : "/"}
+				{percentageOfPrincipal
+					? ratioFormatter.format(Big(percentageOfPrincipal).div(100).toNumber())
+					: "/"}
 			</div>
 			<div className={getTextClassNames()}>
-				{percentageOfInterest ? ratioFormatter.format(percentageOfInterest.toNumber()) : "/"}
+				{percentageOfInterest
+					? ratioFormatter.format(Big(percentageOfInterest).div(100).toNumber())
+					: "/"}
 			</div>
-			<div className={getTextClassNames()}>{apr ? ratioFormatter.format(apr.toNumber()) : "/"}</div>
+			<div className={getTextClassNames()}>
+				{apr ? ratioFormatter.format(Big(apr).div(100).toNumber()) : "/"}
+			</div>
 		</>
 	);
 };
