@@ -8,6 +8,8 @@ interface TrancheLineProps {
 	color: string;
 	apr: Fraction;
 	value: number;
+	percentageOfPrincipal: Fraction;
+	percentageOfInterest: Fraction;
 }
 
 export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
@@ -16,6 +18,8 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 	value,
 	color,
 	apr,
+	percentageOfPrincipal,
+	percentageOfInterest,
 }) => {
 	const isDeEmphesised = () => {
 		return null !== highlightedElement && name !== highlightedElement;
@@ -42,8 +46,13 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 				></div>
 				<span>{name}</span>
 			</div>
+			<div className={getTextClassNames()}>
+				{percentageOfPrincipal ? ratioFormatter.format(percentageOfPrincipal.toNumber()) : "/"}
+			</div>
+			<div className={getTextClassNames()}>
+				{percentageOfInterest ? ratioFormatter.format(percentageOfInterest.toNumber()) : "/"}
+			</div>
 			<div className={getTextClassNames()}>{apr ? ratioFormatter.format(apr.toNumber()) : "/"}</div>
-			<div className={getTextClassNames()}>{value ? ratioFormatter.format(value) : "/"}</div>
 		</>
 	);
 };
