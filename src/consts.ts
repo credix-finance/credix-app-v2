@@ -53,7 +53,6 @@ export interface TrancheDataElement {
 	earlyWithdrawalPrincipal?: boolean;
 	editable: boolean;
 }
-
 export interface DefaultTranche {
 	value: string;
 	title: string;
