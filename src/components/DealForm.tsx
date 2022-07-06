@@ -88,6 +88,7 @@ export const trancheSettingsFields = [
 	DealFormField.TwoTranche,
 	DealFormField.ThreeTranche,
 ];
+const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
 
 enum TrancheName {
 	Senior = "Senior",
@@ -973,7 +974,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		setCurrentStep(nextStep);
 	};
 
-	const initialValues = { ...dealFormDefaultValues, ...newDealDefaults };
+	const initialValues = {
+		...dealFormDefaultValues,
+		...newDealDefaults,
+	};
 
 	return (
 		<>
