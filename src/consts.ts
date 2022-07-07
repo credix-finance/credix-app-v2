@@ -207,8 +207,8 @@ export type TrancheStructure = {
 	Junior: TrancheSettings;
 };
 
-export type OneTrancheStructure = Pick<TrancheStructure, "Senior">;
-export type TwoTrancheStructure = Pick<TrancheStructure, "Senior" | "Junior">;
+export type OneTrancheStructure = Pick<TrancheStructure, TrancheName.Senior>;
+export type TwoTrancheStructure = Pick<TrancheStructure, TrancheName.Senior | TrancheName.Junior>;
 export type ThreeTrancheStructure = TrancheStructure;
 
 export type DealTrancheSettings = {
