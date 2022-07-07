@@ -191,25 +191,21 @@ export const defaultAdvancedSettings: DealAdvancedSettings = {
 };
 
 export type TrancheSettings = {
+	apr: BigSource | null;
+	percentageOfPrincipal: BigSource | null;
+	percentageOfInterest: BigSource | null;
 	earlyWithdrawalInterest: boolean;
 	earlyWithdrawalPrincipal: boolean;
 };
+export type TrancheStructure = {
+	Senior: TrancheSettings;
+	Mezzanine: TrancheSettings;
+	Junior: TrancheSettings;
+};
 export type DealTrancheSettings = {
-	oneTranche: {
-		Senior: TrancheSettings;
-		Mezzanine: TrancheSettings;
-		Junior: TrancheSettings;
-	};
-	twoTranche: {
-		Senior: TrancheSettings;
-		Mezzanine: TrancheSettings;
-		Junior: TrancheSettings;
-	};
-	threeTranche: {
-		Senior: TrancheSettings;
-		Mezzanine: TrancheSettings;
-		Junior: TrancheSettings;
-	};
+	oneTranche: TrancheStructure;
+	twoTranche: TrancheStructure;
+	threeTranche: TrancheStructure;
 };
 export const defaultTrancheSettings: DealTrancheSettings = defaultTranches.reduce((obj, t) => {
 	obj[t.value] = {

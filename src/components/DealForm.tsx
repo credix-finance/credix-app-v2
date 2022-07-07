@@ -34,7 +34,7 @@ const advancedSettingsFields = [
 ];
 const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
 
-export interface DealFormInput {
+export interface DealFormInput extends DealTrancheSettings {
 	principal: number;
 	financingFee: number;
 	timeToMaturity: number;
@@ -145,8 +145,6 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		...dealFormDefaultValues,
 		...newDealDefaults,
 	};
-
-	console.log(initialValues);
 
 	return (
 		<>
