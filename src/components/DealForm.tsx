@@ -24,7 +24,7 @@ export enum dealFormValidationFields {
 
 export const trancheSettingsFields = Object.values(TrancheFormValue);
 
-export interface DealFormInput {
+export interface DealFormInput extends DealTrancheSettings {
 	principal: number;
 	financingFee: number;
 	timeToMaturity: number;

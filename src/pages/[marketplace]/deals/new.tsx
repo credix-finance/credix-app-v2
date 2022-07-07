@@ -15,8 +15,16 @@ import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
 import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
 import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
-import { DAYS_IN_REPAYMENT_PERIOD, DAYS_IN_YEAR, defaultTranches, newDealDefaults } from "@consts";
+import {
+	DAYS_IN_REPAYMENT_PERIOD,
+	DAYS_IN_YEAR,
+	DealTrancheSettings,
+	defaultTranches,
+	newDealDefaults,
+	TrancheStructure,
+} from "@consts";
 import Big from "big.js";
+import { DealTrancheStructure } from "@components/DealTrancheStructure";
 
 const New: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -114,7 +122,7 @@ const New: NextPageWithLayout = () => {
 		}
 	};
 
-	const addTrancheConfig = async (deal: Deal, formattedPrincipal: string, trancheStructure) => {
+	const addTrancheConfig = async (deal: Deal, trancheStructure: TrancheStructure) => {
 		const hide = message.loading({
 			content: intl.formatMessage({
 				defaultMessage: "Adding tranches to deal",
@@ -122,24 +130,16 @@ const New: NextPageWithLayout = () => {
 			}),
 		});
 
-		const tranches: TranchesConfig = {};
-
-		defaultTranches
-			.find((t) => t.value === trancheStructure)
-			.trancheData.filter((t) => t.value)
-			.forEach((t) => {
-				const tranche = {
-					size: new Fraction(Big(t.percentageOfPrincipal).toNumber(), 100),
-					returnPercentage: new Fraction(Big(t.percentageOfInterest).toNumber(), 100),
-					maxDepositPercentage: new Fraction(1, 1),
-					earlyWithdrawalInterest: t.earlyWithdrawalInterest,
-					earlyWithdrawalPrincipal: t.earlyWithdrawalPrincipal,
-				};
-
-				tranches[t.name.toLowerCase()] = tranche;
-			});
-
-		console.log(tranches);
+		const tranches = Object.entries(trancheStructure).reduce((tranches, [key, t]) => {
+			tranches[key.toLowerCase()] = {
+				size: new Fraction(Big(t.percentageOfPrincipal).toNumber(), 100),
+				returnPercentage: new Fraction(Big(t.percentageOfInterest).toNumber(), 100),
+				maxDepositPercentage: new Fraction(1, 1),
+				earlyWithdrawalInterest: t.earlyWithdrawalInterest,
+				earlyWithdrawalPrincipal: t.earlyWithdrawalPrincipal,
+			};
+			return tranches;
+		}, {} as TranchesConfig);
 
 		try {
 			await deal.setTranches(tranches);
@@ -232,9 +232,18 @@ const New: NextPageWithLayout = () => {
 		trueWaterfall,
 		slashInterestToPrincipal,
 		slashPrincipalToInterest,
+		oneTranche,
+		twoTranche,
+		threeTranche,
 	}: DealFormInput) => {
 		const borrowerPK = new PublicKey(borrower);
 		const formattedPrincipal = compactFormatter.format(principal);
+		const tranches = {
+			oneTranche,
+			twoTranche,
+			threeTranche,
+		};
+		const selectedTranche = tranches[trancheStructure];
 
 		await checkCredixPass(borrowerPK)
 			.then(
@@ -255,9 +264,7 @@ const New: NextPageWithLayout = () => {
 				async (deal: Deal) =>
 					await addRepaymentSchedule(deal, repaymentType, principal, financingFee, timeToMaturity)
 			)
-			.then(
-				async (deal: Deal) => await addTrancheConfig(deal, formattedPrincipal, trancheStructure)
-			)
+			.then(async (deal: Deal) => await addTrancheConfig(deal, selectedTranche))
 			.then((deal: Deal) =>
 				router.push(`/${marketplace}/deals/show?dealId=${deal.address.toString()}`)
 			);
