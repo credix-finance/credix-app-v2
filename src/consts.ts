@@ -206,23 +206,10 @@ export type TrancheStructure = {
 	Mezzanine: TrancheSettings;
 	Junior: TrancheSettings;
 };
-
 export type DealTrancheSettings = {
-	oneTranche: {
-		Senior: TrancheSettings;
-		Mezzanine: TrancheSettings;
-		Junior: TrancheSettings;
-	};
-	twoTranche: {
-		Senior: TrancheSettings;
-		Mezzanine: TrancheSettings;
-		Junior: TrancheSettings;
-	};
-	threeTranche: {
-		Senior: TrancheSettings;
-		Mezzanine: TrancheSettings;
-		Junior: TrancheSettings;
-	};
+	oneTranche: TrancheStructure;
+	twoTranche: TrancheStructure;
+	threeTranche: TrancheStructure;
 };
 export const defaultTrancheSettings: DealTrancheSettings = defaultTranches.reduce((obj, t) => {
 	obj[t.value] = {
