@@ -88,7 +88,6 @@ export const trancheSettingsFields = [
 	DealFormField.TwoTranche,
 	DealFormField.ThreeTranche,
 ];
-const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
 
 enum TrancheName {
 	Senior = "Senior",
