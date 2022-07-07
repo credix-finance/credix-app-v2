@@ -96,7 +96,9 @@ const TrancheSelectionOption: FunctionComponent<{
 		<>
 			<SelectorCard
 				key={tranche.value}
-				content={<TrancheOption trancheData={tranche.trancheData} />}
+				content={
+					<TrancheOption trancheData={tranche.trancheData} trancheStructure={tranche.value} />
+				}
 				value={tranche.value}
 				title={tranche.title}
 				checked={checked}
@@ -126,88 +128,90 @@ const TrancheSelectionOption: FunctionComponent<{
 				<div className="space-y-12">
 					{tranche.trancheData.map((t) => {
 						return (
-							<div key={t.name} className="space-y-6">
-								<div className="uppercase text-2xl font-bold">
-									{intl.formatMessage(MESSAGES.trancheName, {
-										name: t.name,
-									})}
+							t.percentageOfPrincipal && (
+								<div key={t.name} className="space-y-6">
+									<div className="uppercase text-2xl font-bold">
+										{intl.formatMessage(MESSAGES.trancheName, {
+											name: t.name,
+										})}
+									</div>
+									{
+										<div className={`flex gap-x-6 `}>
+											<div>
+												<Input
+													name={[tranche.value, t.name, "percentageOfPrincipal"]}
+													className="bg-credix-primary"
+													labelClassName="flex-col items-start"
+													label={intl.formatMessage(MESSAGES.percentageOfPrincipalInputLabel)}
+													placeholder={intl.formatMessage(
+														MESSAGES.percentageOfPrincipalInputPlaceholder
+													)}
+													type="number"
+													required={true}
+													rules={[
+														{
+															required: true,
+															message: intl.formatMessage(
+																MESSAGES.percentageOfPrincipalRequiredValidation
+															),
+														},
+													]}
+												/>
+											</div>
+											<div>
+												<Input
+													name={[tranche.value, t.name, "percentageOfInterest"]}
+													className="bg-credix-primary"
+													labelClassName="flex-col items-start"
+													label={intl.formatMessage(MESSAGES.percentageOfInterestInputLabel)}
+													placeholder={intl.formatMessage(
+														MESSAGES.percentageOfInterestInputPlaceholder
+													)}
+													type="number"
+													required={true}
+													rules={[
+														{
+															required: true,
+															message: intl.formatMessage(
+																MESSAGES.percentageOfInterestRequiredValidation
+															),
+														},
+													]}
+												/>
+											</div>
+											<div>
+												<Input
+													name={[tranche.value, t.name, "apr"]}
+													className="bg-credix-primary"
+													labelClassName="flex-col items-start"
+													label={intl.formatMessage(MESSAGES.aprInputLabel)}
+													placeholder={intl.formatMessage(MESSAGES.aprInputPlaceholder)}
+													type="number"
+													required={true}
+													rules={[
+														{
+															required: true,
+															message: intl.formatMessage(MESSAGES.aprRequiredValidation),
+														},
+													]}
+												/>
+											</div>
+										</div>
+									}
+									{t.earlyWithdrawalInterest !== undefined && (
+										<div className="flex justify-between">
+											<Switch
+												name={[tranche.value, t.name, "earlyWithdrawalInterest"]}
+												label={intl.formatMessage(MESSAGES.withdrawInterest)}
+											/>
+											<Switch
+												name={[tranche.value, t.name, "earlyWithdrawalPrincipal"]}
+												label={intl.formatMessage(MESSAGES.withdrawPrincipal)}
+											/>
+										</div>
+									)}
 								</div>
-								{t.editable && (
-									<div className="flex gap-x-6">
-										<div>
-											<Input
-												name={[tranche.value, t.name, "percentageOfPrincipal"]}
-												className="bg-credix-primary"
-												labelClassName="flex-col items-start"
-												label={intl.formatMessage(MESSAGES.percentageOfPrincipalInputLabel)}
-												placeholder={intl.formatMessage(
-													MESSAGES.percentageOfPrincipalInputPlaceholder
-												)}
-												type="number"
-												required={true}
-												rules={[
-													{
-														required: true,
-														message: intl.formatMessage(
-															MESSAGES.percentageOfPrincipalRequiredValidation
-														),
-													},
-												]}
-											/>
-										</div>
-										<div>
-											<Input
-												name={[tranche.value, t.name, "percentageOfInterest"]}
-												className="bg-credix-primary"
-												labelClassName="flex-col items-start"
-												label={intl.formatMessage(MESSAGES.percentageOfInterestInputLabel)}
-												placeholder={intl.formatMessage(
-													MESSAGES.percentageOfInterestInputPlaceholder
-												)}
-												type="number"
-												required={true}
-												rules={[
-													{
-														required: true,
-														message: intl.formatMessage(
-															MESSAGES.percentageOfInterestRequiredValidation
-														),
-													},
-												]}
-											/>
-										</div>
-										<div>
-											<Input
-												name={[tranche.value, t.name, "apr"]}
-												className="bg-credix-primary"
-												labelClassName="flex-col items-start"
-												label={intl.formatMessage(MESSAGES.aprInputLabel)}
-												placeholder={intl.formatMessage(MESSAGES.aprInputPlaceholder)}
-												type="number"
-												required={true}
-												rules={[
-													{
-														required: true,
-														message: intl.formatMessage(MESSAGES.aprRequiredValidation),
-													},
-												]}
-											/>
-										</div>
-									</div>
-								)}
-								{t.earlyWithdrawalInterest !== undefined && (
-									<div className="flex justify-between">
-										<Switch
-											name={[tranche.value, t.name, "earlyWithdrawalInterest"]}
-											label={intl.formatMessage(MESSAGES.withdrawInterest)}
-										/>
-										<Switch
-											name={[tranche.value, t.name, "earlyWithdrawalPrincipal"]}
-											label={intl.formatMessage(MESSAGES.withdrawPrincipal)}
-										/>
-									</div>
-								)}
-							</div>
+							)
 						);
 					})}
 				</div>

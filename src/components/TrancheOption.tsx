@@ -2,16 +2,24 @@ import React, { FunctionComponent, useMemo, useState } from "react";
 import { TrancheLine } from "@components/TrancheLine";
 import { TrancheDonut } from "@components/TrancheDonut";
 import { Icon, IconDimension } from "@components/Icon";
-import { trancheColors, TrancheDataElement } from "@consts";
+import { DefaultTranche, trancheColors, TrancheDataElement } from "@consts";
 import Big from "big.js";
 import { Form } from "antd";
 
 interface TrancheOptionProps {
 	trancheData: TrancheDataElement[];
+	trancheStructure: DefaultTranche["title"];
 }
 
-export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheData }) => {
+export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({
+	trancheData,
+	trancheStructure,
+}) => {
 	const [highlightedElement, setHighlightedElement] = useState(null);
+	const form = Form.useFormInstance();
+	const popSr = Form.useWatch([trancheStructure, "Senior", "percentageOfPrincipal"], form);
+	const popMz = Form.useWatch([trancheStructure, "Mezzanine", "percentageOfPrincipal"], form);
+	const popJr = Form.useWatch([trancheStructure, "Junior", "percentageOfPrincipal"], form);
 
 	const highlightElement = (element) => {
 		setHighlightedElement(element.name);
@@ -21,20 +29,35 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheDa
 		setHighlightedElement(null);
 	};
 
-	const donut = useMemo(
-		() => (
+	const donut = useMemo(() => {
+		const tranches = [
+			{
+				name: "Senior",
+				pop: popSr,
+			},
+			{
+				name: "Mezzanine",
+				pop: popMz,
+			},
+			{
+				name: "Junior",
+				pop: popJr,
+			},
+		];
+		return (
 			<TrancheDonut
-				data={trancheData.map((t) => ({
-					name: t.name,
-					value: t.percentageOfPrincipal ? Big(t.percentageOfPrincipal).toNumber() : null,
-				}))}
+				data={tranches
+					.filter((t) => t.pop !== undefined)
+					.map((t) => ({
+						name: t.name,
+						value: t.pop ? Big(t.pop).toNumber() : null,
+					}))}
 				color={trancheColors}
 				onMouseOver={highlightElement}
 				onMouseLeave={unHighlightElement}
 			/>
-		),
-		[trancheData]
-	);
+		);
+	}, [trancheStructure, popSr, popMz, popJr]);
 
 	return (
 		<div className="flex space-x-12">
@@ -64,7 +87,7 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheDa
 						key={tranche.name}
 						name={tranche.name}
 						apr={tranche.apr}
-						value={tranche.value}
+						trancheTitle={trancheStructure}
 						percentageOfPrincipal={tranche.percentageOfPrincipal}
 						percentageOfInterest={tranche.percentageOfInterest}
 						color={trancheColors[index]}

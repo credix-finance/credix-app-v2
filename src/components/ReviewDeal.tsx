@@ -6,7 +6,7 @@ import { Icon, IconDimension, IconName } from "./Icon";
 import { classNames, compactFormatter } from "@utils/format.utils";
 import { TrancheOption } from "./TrancheOption";
 import { SelectorCard } from "./SelectorCard";
-import { defaultTranches, TrancheSettings } from "@consts";
+import { defaultTranches, newDealDefaults, TrancheSettings } from "@consts";
 import { AmortizationRepaymentSchedule } from "./AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "./BulletLoanRepaymentSchedule";
 import { DealAdvancedSettings } from "./DealAdvancedSettings";
@@ -63,9 +63,8 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 	const slashInterestToPrincipal = Form.useWatch("slashInterestToPrincipal", form);
 	const slashPrincipalToInterest = Form.useWatch("slashPrincipalToInterest", form);
 	const intl = useIntl();
-	const tranche = defaultTranches.find(
-		(tranche) => tranche.value === form.getFieldValue("trancheStructure")
-	);
+	const trancheStructure = Form.useWatch("trancheStructure", form) || "threeTranche";
+	const tranche = defaultTranches.find((tranche) => tranche.value === trancheStructure);
 	const formTranche = form.getFieldValue(tranche.value);
 	const formTranchesWithAdvancedSettings = Object.entries(formTranche as TrancheSettings[]).filter(
 		([_, settings]) => settings.earlyWithdrawalInterest !== undefined
@@ -205,7 +204,9 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 			</div>
 			{tranche && (
 				<SelectorCard
-					content={<TrancheOption trancheData={tranche.trancheData} />}
+					content={
+						<TrancheOption trancheData={tranche.trancheData} trancheStructure={tranche.value} />
+					}
 					value={tranche.value}
 					title={tranche.title}
 					checked={false}
