@@ -73,7 +73,7 @@ const Marketplace: FunctionComponent<MarketplaceProps> = (props) => {
 	return (
 		<main
 			id="index"
-			className="grid grid-cols-1 grid-auto-rows-min gap-y-8 md:grid-cols-12 md:gap-y-12 md:gap-x-14 justify-items-center p-4 pt-8 md:p-8 lg:max-w-6xl lg:justify-self-center"
+			className="grid grid-cols-1 grid-auto-rows-min gap-y-8 md:grid-cols-12 md:gap-y-12 md:gap-x-14 justify-items-center"
 		>
 			<div className="md:text-center md:col-span-12 md:max-w-3xl grid justify-items-center max-w-lg">
 				<h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold font-sans">

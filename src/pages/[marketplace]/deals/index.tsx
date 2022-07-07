@@ -70,7 +70,7 @@ const DealsPage = () => {
 	}
 
 	return (
-		<div className="space-y-14 py-5 px-4 md:pt-20 md:px-28">
+		<div className="space-y-14">
 			<h2 className="text-5xl md:text-5xl lg:text-5xl font-semibold font-sans">
 				{intl.formatMessage(MESSAGES.title)}
 			</h2>

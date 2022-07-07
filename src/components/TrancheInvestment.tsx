@@ -190,7 +190,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({ t
 						APR: 15%
 					</div>
 				</TrancheFillLevel>
-				<div className="">
+				<div>
 					<div className="space-y-6">
 						<div>
 							<div className="font-mono font-bold text-base">
