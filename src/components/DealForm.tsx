@@ -13,9 +13,7 @@ import {
 	threeTrancheMezAPR,
 	twoTrancheJuniorAPR,
 	twoTrancheJuniorPercentageOfInterest,
-	twoTrancheJuniorPercentageOfPrincipal,
 	twoTrancheSeniorPercentageOfInterest,
-	twoTrancheSeniorPercentageOfPrincipal,
 	threeTrancheSeniorPercentageOfInterest,
 	threeTrancheMezPercentageOfInterest,
 } from "@utils/tranche.utils";
