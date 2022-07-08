@@ -13,9 +13,9 @@ import {
 	threeTrancheMezAPR,
 	twoTrancheJuniorAPR,
 	twoTrancheJuniorPercentageOfInterest,
-	twoTrancheSeniorPercentageOfInterest,
 	threeTrancheSeniorPercentageOfInterest,
 	threeTrancheMezPercentageOfInterest,
+	twoTrancheSeniorPercentageOfInterest,
 } from "@utils/tranche.utils";
 import { Fraction } from "@credix/credix-client";
 import Big from "big.js";
