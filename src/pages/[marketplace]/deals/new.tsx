@@ -15,16 +15,8 @@ import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
 import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
 import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
-import {
-	DAYS_IN_REPAYMENT_PERIOD,
-	DAYS_IN_YEAR,
-	DealTrancheSettings,
-	defaultTranches,
-	newDealDefaults,
-	TrancheStructure,
-} from "@consts";
+import { DAYS_IN_REPAYMENT_PERIOD, DAYS_IN_YEAR, newDealDefaults, TrancheStructure } from "@consts";
 import Big from "big.js";
-import { DealTrancheStructure } from "@components/DealTrancheStructure";
 
 const New: NextPageWithLayout = () => {
 	const router = useRouter();
