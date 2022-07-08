@@ -18,6 +18,7 @@ import {
 	threeTrancheJuniorAPR,
 	threeTrancheMezAPR,
 	twoTrancheJuniorAPR,
+	twoTrancheSeniorPercentageOfInterest,
 } from "@utils/tranche.utils";
 import { Fraction } from "@credix/credix-client";
 import Big from "big.js";
@@ -44,6 +45,17 @@ const advancedSettingsFields = [
 	"trueWaterfall",
 ];
 const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
+
+const trancheUpdateMap = {
+	twoTranche: {
+		Senior: {
+			apr: twoTrancheSeniorPercentageOfInterest,
+		},
+		Mezzanine: {
+			apr: ["Senior", "percentageOfInterest"],
+		},
+	},
+};
 
 export interface DealFormInput extends DealTrancheSettings {
 	principal: number;
@@ -99,9 +111,48 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		if (["principal", "financingFee", "timeToMaturity"].includes(changedValue)) {
 			calculateAprs(allValues);
 		}
+
 		if (trancheSettingsFields.find((field) => field === changedValue)) {
 			const tranche = Object.keys(changedValues[changedValue])[0];
 			const field = Object.keys(changedValues[changedValue][tranche])[0];
+			const update = trancheUpdateMap[changedValue][tranche][field];
+
+			const interestFee = new Fraction(Big(allValues.financingFee).toNumber(), 100);
+			const totalPrincipal = Big(allValues.principal).toNumber();
+			const timeToMaturity = Big(allValues.timeToMaturity).toNumber();
+			const popSr = new Fraction(
+				Big(allValues["twoTranche"]["Senior"]["percentageOfPrincipal"]).toNumber(),
+				100
+			);
+
+			// TODO: updating repayment type doesn't trigger onChange
+			const totalInterest = (
+				allValues["repaymentType"] === "amortization"
+					? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
+					: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
+			).reduce((acc, period: { interest: number; principal: number }) => {
+				return (acc += period.interest);
+			}, 0);
+			const srPoi = update({
+				percentageOfPrincipal: popSr,
+				apr: new Fraction(Number(changedValues[changedValue][tranche][field]), 100),
+				interestFee,
+				totalInterest,
+				totalPrincipal,
+				timeToMaturity,
+			});
+			form.setFieldsValue({
+				twoTranche: {
+					Senior: {
+						percentageOfInterest: ratioFormatter.format(srPoi.toNumber()).replace("%", ""),
+					},
+					Mezzanine: {
+						percentageOfInterest: ratioFormatter.format(1 - srPoi.toNumber()).replace("%", ""),
+					},
+				},
+			});
+			calculateAprs(allValues);
+
 			if (
 				!trancheSettings[changedValue] &&
 				!trancheSettings[changedValue][tranche] &&
