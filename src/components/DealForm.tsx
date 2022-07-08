@@ -12,6 +12,7 @@ import {
 	threeTrancheJuniorAPR,
 	threeTrancheMezAPR,
 	twoTrancheJuniorAPR,
+	twoTrancheSeniorPercentageOfInterest,
 } from "@utils/tranche.utils";
 import { Fraction } from "@credix/credix-client";
 import Big from "big.js";
@@ -33,6 +34,17 @@ export enum dealFormValidationFields {
 }
 
 export const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
+
+const trancheUpdateMap = {
+	twoTranche: {
+		Senior: {
+			apr: twoTrancheSeniorPercentageOfInterest,
+		},
+		Mezzanine: {
+			apr: ["Senior", "percentageOfInterest"],
+		},
+	},
+};
 
 export interface DealFormInput extends DealTrancheSettings {
 	principal: number;
