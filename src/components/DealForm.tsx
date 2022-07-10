@@ -12,7 +12,10 @@ import {
 	threeTrancheJuniorAPR,
 	threeTrancheMezAPR,
 	twoTrancheJuniorAPR,
+	twoTrancheJuniorPercentageOfInterest,
+	twoTrancheJuniorPercentageOfPrincipal,
 	twoTrancheSeniorPercentageOfInterest,
+	twoTrancheSeniorPercentageOfPrincipal,
 } from "@utils/tranche.utils";
 import { Fraction } from "@credix/credix-client";
 import Big from "big.js";
@@ -34,17 +37,6 @@ export enum dealFormValidationFields {
 }
 
 export const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
-
-const trancheUpdateMap = {
-	twoTranche: {
-		Senior: {
-			apr: twoTrancheSeniorPercentageOfInterest,
-		},
-		Mezzanine: {
-			apr: ["Senior", "percentageOfInterest"],
-		},
-	},
-};
 
 export interface DealFormInput extends DealTrancheSettings {
 	principal: number;
@@ -96,6 +88,422 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		if (["principal", "financingFee", "timeToMaturity"].includes(changedValue)) {
 			calculateAprs(allValues);
 		}
+
+		if (trancheSettingsFields.find((field) => field === changedValue)) {
+			const tranche = Object.keys(changedValues[changedValue])[0];
+			const field = Object.keys(changedValues[changedValue][tranche])[0];
+			const update = trancheUpdateMap[changedValue][tranche][field];
+			update();
+		}
+	};
+
+	const onTwoTrancheSeniorAprChange = () => {
+		// get form values
+		const {
+			financingFee,
+			principal,
+			timeToMaturity,
+			repaymentType,
+			twoTranche: {
+				Senior: { apr: aprSenior, percentageOfPrincipal: percentageOfPrincipalSenior },
+			},
+		} = form.getFieldsValue([
+			"financingFee",
+			"principal",
+			"timeToMaturity",
+			"repaymentType",
+			["twoTranche", "Senior", "percentageOfPrincipal"],
+			["twoTranche", "Senior", "apr"],
+		]);
+
+		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
+		const totalPrincipal = Big(principal).toNumber();
+		const ttm = Big(timeToMaturity).toNumber();
+
+		const totalInterest = (
+			repaymentType === "amortization"
+				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
+				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
+		).reduce((acc, period: { interest: number; principal: number }) => {
+			return (acc += period.interest);
+		}, 0);
+
+		// calculate percentage of interest for senior
+		const poiSenior = twoTrancheSeniorPercentageOfInterest({
+			apr: new Fraction(aprSenior, 100),
+			percentageOfPrincipal: new Fraction(percentageOfPrincipalSenior, 100),
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+		// update percentage of interest for mezzanine
+		const poiMez = 1 - poiSenior.toNumber();
+		// recalculate apr for mezzanine
+		const aprMez = twoTrancheJuniorAPR({
+			percentageOfInterestSenior: new Fraction(poiSenior.toNumber(), 1),
+			percentageOfPrincipalSenior: new Fraction(percentageOfPrincipalSenior, 100),
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+
+		form.setFieldsValue({
+			twoTranche: {
+				Senior: {
+					percentageOfInterest: ratioFormatter.format(poiSenior.toNumber()).replace("%", ""),
+				},
+				Mezzanine: {
+					percentageOfInterest: ratioFormatter.format(poiMez).replace("%", ""),
+					apr: ratioFormatter.format(aprMez.toNumber()).replace("%", ""),
+				},
+			},
+		});
+	};
+
+	const onTwoTrancheSeniorPOIChange = () => {
+		// get form values
+		const {
+			financingFee,
+			principal,
+			timeToMaturity,
+			repaymentType,
+			twoTranche: {
+				Senior: { percentageOfInterest: percentageOfInterestSenior, apr: aprSenior },
+			},
+		} = form.getFieldsValue([
+			"financingFee",
+			"principal",
+			"timeToMaturity",
+			"repaymentType",
+			["twoTranche", "Senior", "percentageOfInterest"],
+			["twoTranche", "Senior", "apr"],
+		]);
+
+		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
+		const totalPrincipal = Big(principal).toNumber();
+		const ttm = Big(timeToMaturity).toNumber();
+
+		const totalInterest = (
+			repaymentType === "amortization"
+				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
+				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
+		).reduce((acc, period: { interest: number; principal: number }) => {
+			return (acc += period.interest);
+		}, 0);
+
+		// calculate percentage of principal for senior
+		const popSenior = twoTrancheSeniorPercentageOfPrincipal({
+			percentageOfInterest: new Fraction(percentageOfInterestSenior, 100),
+			apr: new Fraction(aprSenior, 100),
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+
+		const poiMez = new Fraction(100 - percentageOfInterestSenior, 100);
+		const popMez = 1 - popSenior.toNumber();
+		const aprMez = twoTrancheJuniorAPR({
+			percentageOfInterestSenior: new Fraction(percentageOfInterestSenior, 100),
+			percentageOfPrincipalSenior: popSenior,
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+
+		form.setFieldsValue({
+			twoTranche: {
+				Senior: {
+					percentageOfPrincipal: ratioFormatter.format(popSenior.toNumber()).replace("%", ""),
+				},
+				Mezzanine: {
+					percentageOfInterest: ratioFormatter.format(poiMez.toNumber()).replace("%", ""),
+					percentageOfPrincipal: ratioFormatter.format(popMez).replace("%", ""),
+					apr: ratioFormatter.format(aprMez.toNumber()).replace("%", ""),
+				},
+			},
+		});
+	};
+
+	const onTwoTrancheSeniorPOPChange = () => {
+		// get form values
+		const {
+			financingFee,
+			principal,
+			timeToMaturity,
+			repaymentType,
+			twoTranche: {
+				Senior: { percentageOfPrincipal: popSenior, percentageOfInterest: poiSenior },
+			},
+		} = form.getFieldsValue([
+			"financingFee",
+			"principal",
+			"timeToMaturity",
+			"repaymentType",
+			["twoTranche", "Senior", "percentageOfPrincipal"],
+			["twoTranche", "Senior", "percentageOfInterest"],
+		]);
+
+		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
+		const totalPrincipal = Big(principal).toNumber();
+		const ttm = Big(timeToMaturity).toNumber();
+
+		const totalInterest = (
+			repaymentType === "amortization"
+				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
+				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
+		).reduce((acc, period: { interest: number; principal: number }) => {
+			return (acc += period.interest);
+		}, 0);
+
+		// calculate apr for senior
+		const aprSenior = seniorAPR({
+			percentageOfPrincipal: new Fraction(popSenior, 100),
+			percentageOfInterest: new Fraction(poiSenior, 100),
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+
+		// update percentage of interest for mezzanine
+		const popMez = new Fraction(100 - popSenior, 100);
+		const aprMez = twoTrancheJuniorAPR({
+			percentageOfInterestSenior: new Fraction(poiSenior, 100),
+			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+
+		// recalculate
+		form.setFieldsValue({
+			twoTranche: {
+				Senior: {
+					apr: ratioFormatter.format(aprSenior.toNumber()).replace("%", ""),
+				},
+				Mezzanine: {
+					percentageOfPrincipal: ratioFormatter.format(popMez.toNumber()).replace("%", ""),
+					apr: ratioFormatter.format(aprMez.toNumber()).replace("%", ""),
+				},
+			},
+		});
+	};
+
+	const onTwoTrancheMezzanineAprChange = () => {
+		// get form values
+		const {
+			financingFee,
+			principal,
+			timeToMaturity,
+			repaymentType,
+			twoTranche: {
+				Senior: { percentageOfPrincipal: popSenior },
+				Mezzanine: { apr: aprMez },
+			},
+		} = form.getFieldsValue([
+			"financingFee",
+			"principal",
+			"timeToMaturity",
+			"repaymentType",
+			["twoTranche", "Mezzanine", "percentageOfInterest"],
+			["twoTranche", "Mezzanine", "percentageOfPrincipal"],
+			["twoTranche", "Mezzanine", "apr"],
+			["twoTranche", "Senior", "percentageOfPrincipal"],
+		]);
+
+		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
+		const totalPrincipal = Big(principal).toNumber();
+		const ttm = Big(timeToMaturity).toNumber();
+
+		const totalInterest = (
+			repaymentType === "amortization"
+				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
+				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
+		).reduce((acc, period: { interest: number; principal: number }) => {
+			return (acc += period.interest);
+		}, 0);
+
+		// calculate percentage of interest for mezzanine
+		const poiMez = twoTrancheJuniorPercentageOfInterest({
+			apr: new Fraction(aprMez, 100),
+			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+		const poiSenior = new Fraction(1 - poiMez.toNumber(), 1);
+		const aprSenior = seniorAPR({
+			percentageOfPrincipal: new Fraction(popSenior, 100),
+			percentageOfInterest: poiSenior,
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+
+		form.setFieldsValue({
+			twoTranche: {
+				Senior: {
+					apr: ratioFormatter.format(aprSenior.toNumber()).replace("%", ""),
+					percentageOfInterest: ratioFormatter.format(poiSenior.toNumber()).replace("%", ""),
+				},
+				Mezzanine: {
+					percentageOfInterest: ratioFormatter.format(poiMez.toNumber()).replace("%", ""),
+				},
+			},
+		});
+	};
+
+	const onTwoTrancheMezzaninePOPChange = () => {
+		// get form values
+		const {
+			financingFee,
+			principal,
+			timeToMaturity,
+			repaymentType,
+			twoTranche: {
+				Senior: { percentageOfInterest: poiSenior },
+				Mezzanine: { percentageOfPrincipal: popMez },
+			},
+		} = form.getFieldsValue([
+			"financingFee",
+			"principal",
+			"timeToMaturity",
+			"repaymentType",
+			["twoTranche", "Mezzanine", "percentageOfPrincipal"],
+			["twoTranche", "Senior", "percentageOfInterest"],
+		]);
+
+		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
+		const totalPrincipal = Big(principal).toNumber();
+		const ttm = Big(timeToMaturity).toNumber();
+
+		const totalInterest = (
+			repaymentType === "amortization"
+				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
+				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
+		).reduce((acc, period: { interest: number; principal: number }) => {
+			return (acc += period.interest);
+		}, 0);
+
+		const popSenior = new Fraction(100 - popMez, 100);
+		// calculate percentage of interest for mezzanine
+		const aprMez = twoTrancheJuniorAPR({
+			percentageOfInterestSenior: new Fraction(poiSenior, 100),
+			percentageOfPrincipalSenior: popSenior,
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+		const aprSenior = seniorAPR({
+			percentageOfPrincipal: popSenior,
+			percentageOfInterest: new Fraction(poiSenior, 100),
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+
+		form.setFieldsValue({
+			twoTranche: {
+				Senior: {
+					apr: ratioFormatter.format(aprSenior.toNumber()).replace("%", ""),
+					percentageOfPrincipal: ratioFormatter.format(popSenior.toNumber()).replace("%", ""),
+				},
+				Mezzanine: {
+					apr: ratioFormatter.format(aprMez.toNumber()).replace("%", ""),
+				},
+			},
+		});
+	};
+
+	const onTwoTrancheMezzaninePOIChange = () => {
+		// get form values
+		const {
+			financingFee,
+			principal,
+			timeToMaturity,
+			repaymentType,
+			twoTranche: {
+				Mezzanine: { apr: aprMez, percentageOfInterest: poiMez },
+			},
+		} = form.getFieldsValue([
+			"financingFee",
+			"principal",
+			"timeToMaturity",
+			"repaymentType",
+			["twoTranche", "Mezzanine", "apr"],
+			["twoTranche", "Mezzanine", "percentageOfInterest"],
+		]);
+
+		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
+		const totalPrincipal = Big(principal).toNumber();
+		const ttm = Big(timeToMaturity).toNumber();
+
+		const totalInterest = (
+			repaymentType === "amortization"
+				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
+				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
+		).reduce((acc, period: { interest: number; principal: number }) => {
+			return (acc += period.interest);
+		}, 0);
+
+		const poiSenior = new Fraction(100 - poiMez, 100);
+		const popMez = twoTrancheJuniorPercentageOfPrincipal({
+			apr: new Fraction(aprMez, 100),
+			percentageOfInterestSenior: poiSenior,
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+		const popSenior = new Fraction(1 - popMez.toNumber(), 1);
+		const aprSenior = seniorAPR({
+			percentageOfPrincipal: popSenior,
+			percentageOfInterest: poiSenior,
+			interestFee: new Fraction(interestFee.toNumber(), 100),
+			timeToMaturity: ttm,
+			totalPrincipal,
+			totalInterest,
+		});
+
+		form.setFieldsValue({
+			twoTranche: {
+				Senior: {
+					apr: ratioFormatter.format(aprSenior.toNumber()).replace("%", ""),
+					percentageOfPrincipal: ratioFormatter.format(popSenior.toNumber()).replace("%", ""),
+					percentageOfInterest: ratioFormatter.format(poiSenior.toNumber()).replace("%", ""),
+				},
+				Mezzanine: {
+					percentageOfPrincipal: ratioFormatter.format(popMez.toNumber()).replace("%", ""),
+					percentageOfInterest: ratioFormatter
+						.format(new Fraction(poiMez, 100).toNumber())
+						.replace("%", ""),
+				},
+			},
+		});
+	};
+
+	const trancheUpdateMap = {
+		twoTranche: {
+			Senior: {
+				apr: onTwoTrancheSeniorAprChange,
+				percentageOfInterest: onTwoTrancheSeniorPOIChange,
+				percentageOfPrincipal: onTwoTrancheSeniorPOPChange,
+			},
+			Mezzanine: {
+				apr: onTwoTrancheMezzanineAprChange,
+				percentageOfPrincipal: onTwoTrancheMezzaninePOPChange,
+				percentageOfInterest: onTwoTrancheMezzaninePOIChange,
+			},
+		},
 	};
 
 	const calculateAprs = (values) => {
