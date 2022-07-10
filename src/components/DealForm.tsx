@@ -146,17 +146,6 @@ export enum TrancheFormField {
 	EarlyWithdrawalPrincipal = "earlyWithdrawalPrincipal",
 }
 
-const trancheUpdateMap = {
-	twoTranche: {
-		Senior: {
-			apr: twoTrancheSeniorPercentageOfInterest,
-		},
-		Mezzanine: {
-			apr: ["Senior", "percentageOfInterest"],
-		},
-	},
-};
-
 export interface DealFormInput extends DealTrancheSettings {
 	principal: number;
 	financingFee: number;
