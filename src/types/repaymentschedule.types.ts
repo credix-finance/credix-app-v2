@@ -15,13 +15,14 @@ export interface RepaymentScheduleGraphDataPoint {
 }
 
 export interface RepaymentScheduleTableDataPoint {
-	date: Date;
+	day: string | number;
 	principal: number;
 	interest: number;
 	balance: number;
 }
 
 export interface RepaymentSchedulePeriod {
+	day?: string;
 	cumulativeInterest: number;
 	cumulativePrincipal: number;
 	interest: number;
