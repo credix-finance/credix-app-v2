@@ -681,6 +681,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				apr: onTwoTrancheMezzanineAprChange,
 				percentageOfPrincipal: onTwoTrancheMezzaninePOPChange,
 				percentageOfInterest: onTwoTrancheMezzaninePOIChange,
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
 			},
 		},
 		threeTranche: {
@@ -693,6 +695,12 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				apr: onThreeTrancheMezzanineAprChange,
 				percentageOfPrincipal: onThreeTrancheMezzaninePOPChange,
 				percentageOfInterest: onThreeTrancheMezzaninePOIChange,
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+			Junior: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
 			},
 		},
 	};
