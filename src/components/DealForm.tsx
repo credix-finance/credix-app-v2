@@ -268,10 +268,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Mezzanine: { apr: aprMez },
 			},
 		} = form.getFieldsValue([
-			["twoTranche", "Mezzanine", "percentageOfInterest"],
-			["twoTranche", "Mezzanine", "percentageOfPrincipal"],
-			["twoTranche", "Mezzanine", "apr"],
 			["twoTranche", "Senior", "percentageOfPrincipal"],
+			["twoTranche", "Mezzanine", "apr"],
 		]);
 
 		const sharedValues = getSharedOnChangeFormValues();
