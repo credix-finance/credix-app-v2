@@ -35,21 +35,21 @@ export const calculateTotalInterest = (
 export const seniorAPR = ({
 	percentageOfInterest,
 	percentageOfPrincipal,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
 }: {
 	percentageOfInterest: Fraction;
 	percentageOfPrincipal: Fraction;
-	interestFee: Fraction;
+	performanceFee: Fraction;
 	totalInterest: number;
 	totalPrincipal: number;
 	timeToMaturity: number;
 }) => {
 	return new Fraction(
 		Big(percentageOfInterest.toNumber())
-			.times(Big(1).minus(interestFee.toNumber()))
+			.times(Big(1).minus(performanceFee.toNumber()))
 			.times(totalInterest)
 			.times(DAYS_IN_YEAR)
 			.toNumber(),
@@ -78,7 +78,7 @@ export const seniorAPR = ({
 const mezAPR = ({
 	percentageOfInterest,
 	percentageOfPrincipal,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
@@ -88,7 +88,7 @@ const mezAPR = ({
 			.minus(percentageOfInterest.toNumber())
 			.times(
 				Big(1)
-					.minus(interestFee.toNumber())
+					.minus(performanceFee.toNumber())
 					.times(totalInterest)
 					.div(totalPrincipal)
 					.times(Big(DAYS_IN_YEAR).div(timeToMaturity))
@@ -119,14 +119,14 @@ const mezAPR = ({
 export const twoTrancheSeniorPercentageOfPrincipal = ({
 	percentageOfInterest,
 	apr,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
 }) => {
 	return new Fraction(
 		Big(DAYS_IN_YEAR)
-			.times(interestFee.toNumber() - 1)
+			.times(performanceFee.toNumber() - 1)
 			.times(totalInterest)
 			.times(percentageOfInterest.toNumber())
 			.times(-1)
@@ -156,7 +156,7 @@ export const twoTrancheSeniorPercentageOfPrincipal = ({
 export const twoTrancheSeniorPercentageOfInterest = ({
 	percentageOfPrincipal,
 	apr,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
@@ -169,7 +169,7 @@ export const twoTrancheSeniorPercentageOfInterest = ({
 			.toNumber(),
 		Big(360)
 			.times(totalInterest)
-			.minus(Big(360).times(interestFee.toNumber()).times(totalInterest))
+			.minus(Big(360).times(performanceFee.toNumber()).times(totalInterest))
 			.toNumber()
 	);
 };
@@ -195,7 +195,7 @@ export const twoTrancheSeniorPercentageOfInterest = ({
 export const twoTrancheJuniorAPR = ({
 	percentageOfInterestSenior,
 	percentageOfPrincipalSenior,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
@@ -203,7 +203,7 @@ export const twoTrancheJuniorAPR = ({
 	return mezAPR({
 		percentageOfInterest: percentageOfInterestSenior,
 		percentageOfPrincipal: percentageOfPrincipalSenior,
-		interestFee,
+		performanceFee,
 		totalInterest,
 		totalPrincipal,
 		timeToMaturity,
@@ -230,14 +230,14 @@ export const twoTrancheJuniorAPR = ({
 export const twoTrancheJuniorPercentageOfPrincipal = ({
 	percentageOfInterestSenior,
 	apr,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
 }) => {
 	return new Fraction(
 		Big(DAYS_IN_YEAR)
-			.times(interestFee.toNumber() - 1)
+			.times(performanceFee.toNumber() - 1)
 			.times(totalInterest)
 			.times(percentageOfInterestSenior.toNumber() - 1)
 			.toNumber(),
@@ -265,7 +265,7 @@ export const twoTrancheJuniorPercentageOfPrincipal = ({
 export const twoTrancheJuniorPercentageOfInterest = ({
 	percentageOfPrincipalSenior,
 	apr,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
@@ -276,7 +276,7 @@ export const twoTrancheJuniorPercentageOfInterest = ({
 			.times(Big(percentageOfPrincipalSenior.toNumber() - 1).times(apr.toNumber()))
 			.toNumber(),
 		Big(DAYS_IN_YEAR)
-			.times(Big(interestFee.toNumber() - 1).times(totalInterest))
+			.times(Big(performanceFee.toNumber() - 1).times(totalInterest))
 			.toNumber()
 	);
 };
@@ -284,21 +284,21 @@ export const twoTrancheJuniorPercentageOfInterest = ({
 export const threeTrancheSeniorPercentageOfPrincipal = ({
 	percentageOfInterest,
 	apr,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
 }: {
 	percentageOfInterest: Fraction;
 	apr: Fraction;
-	interestFee: Fraction;
+	performanceFee: Fraction;
 	totalInterest: number;
 	totalPrincipal: number;
 	timeToMaturity: number;
 }) => {
 	return new Fraction(
 		Big(DAYS_IN_YEAR)
-			.times(interestFee.toNumber() - 1)
+			.times(performanceFee.toNumber() - 1)
 			.times(totalInterest)
 			.times(percentageOfInterest.toNumber())
 			.times(-1)
@@ -310,14 +310,14 @@ export const threeTrancheSeniorPercentageOfPrincipal = ({
 export const threeTrancheSeniorPercentageOfInterest = ({
 	percentageOfPrincipal,
 	apr,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
 }: {
 	percentageOfPrincipal: Fraction;
 	apr: Fraction;
-	interestFee: Fraction;
+	performanceFee: Fraction;
 	totalInterest: number;
 	totalPrincipal: number;
 	timeToMaturity: number;
@@ -330,7 +330,7 @@ export const threeTrancheSeniorPercentageOfInterest = ({
 			.toNumber(),
 		Big(360)
 			.times(totalInterest)
-			.minus(Big(360).times(interestFee.toNumber()).times(totalInterest))
+			.minus(Big(360).times(performanceFee.toNumber()).times(totalInterest))
 			.toNumber()
 	);
 };
@@ -338,14 +338,14 @@ export const threeTrancheSeniorPercentageOfInterest = ({
 export const threeTrancheMezAPR = ({
 	percentageOfInterestMez,
 	percentageOfPrincipalMez,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
 }: {
 	percentageOfInterestMez: Fraction;
 	percentageOfPrincipalMez: Fraction;
-	interestFee: Fraction;
+	performanceFee: Fraction;
 	totalInterest: number;
 	totalPrincipal: number;
 	timeToMaturity: number;
@@ -353,7 +353,7 @@ export const threeTrancheMezAPR = ({
 	return mezAPR({
 		percentageOfInterest: percentageOfInterestMez,
 		percentageOfPrincipal: percentageOfPrincipalMez,
-		interestFee,
+		performanceFee,
 		totalInterest,
 		totalPrincipal,
 		timeToMaturity,
@@ -363,21 +363,21 @@ export const threeTrancheMezAPR = ({
 export const threeTrancheMezPercentageOfPrincipal = ({
 	percentageOfInterestMez,
 	apr,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
 }: {
 	percentageOfInterestMez: Fraction;
 	apr: Fraction;
-	interestFee: Fraction;
+	performanceFee: Fraction;
 	totalInterest: number;
 	totalPrincipal: number;
 	timeToMaturity: number;
 }) => {
 	return new Fraction(
 		Big(DAYS_IN_YEAR)
-			.times(interestFee.toNumber() - 1)
+			.times(performanceFee.toNumber() - 1)
 			.times(totalInterest)
 			.times(percentageOfInterestMez.toNumber() - 1)
 			.toNumber(),
@@ -388,14 +388,14 @@ export const threeTrancheMezPercentageOfPrincipal = ({
 export const threeTrancheMezPercentageOfInterest = ({
 	percentageOfPrincipalMez,
 	apr,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
 }: {
 	percentageOfPrincipalMez: Fraction;
 	apr: Fraction;
-	interestFee: Fraction;
+	performanceFee: Fraction;
 	totalInterest: number;
 	totalPrincipal: number;
 	timeToMaturity: number;
@@ -406,7 +406,7 @@ export const threeTrancheMezPercentageOfInterest = ({
 			.times(Big(percentageOfPrincipalMez.toNumber() - 1).times(apr.toNumber()))
 			.toNumber(),
 		Big(DAYS_IN_YEAR)
-			.times(Big(interestFee.toNumber() - 1).times(totalInterest))
+			.times(Big(performanceFee.toNumber() - 1).times(totalInterest))
 			.toNumber()
 	);
 };
@@ -416,7 +416,7 @@ export const threeTrancheJuniorAPR = ({
 	percentageOfPrincipalSenior,
 	percentageOfInterestMez,
 	percentageOfPrincipalMez,
-	interestFee,
+	performanceFee,
 	totalInterest,
 	totalPrincipal,
 	timeToMaturity,
@@ -425,7 +425,7 @@ export const threeTrancheJuniorAPR = ({
 	percentageOfPrincipalSenior: Fraction;
 	percentageOfInterestMez: Fraction;
 	percentageOfPrincipalMez: Fraction;
-	interestFee: Fraction;
+	performanceFee: Fraction;
 	totalInterest: number;
 	totalPrincipal: number;
 	timeToMaturity: number;
@@ -436,7 +436,7 @@ export const threeTrancheJuniorAPR = ({
 			.minus(percentageOfInterestMez.toNumber())
 			.times(
 				Big(1)
-					.minus(interestFee.toNumber())
+					.minus(performanceFee.toNumber())
 					.times(totalInterest)
 					.div(totalPrincipal)
 					.times(Big(DAYS_IN_YEAR).div(timeToMaturity))

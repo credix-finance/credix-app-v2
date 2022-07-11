@@ -24,6 +24,8 @@ import Big from "big.js";
 import { ratioFormatter } from "@utils/format.utils";
 import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
 import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
+import { useStore } from "@state/useStore";
+import { marketSelector } from "@state/selectors";
 
 const dealFormDefaultValues = {
 	trancheStructure: defaultTranches[defaultTranches.length - 1].value,
@@ -75,6 +77,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		intl.formatMessage(MESSAGES.trancheStructureStep),
 		intl.formatMessage(MESSAGES.reviewStep),
 	];
+	const market = useStore(marketSelector);
+	const performanceFee = market?.defaultInterestFee;
 
 	const showStep = (step: number) => {
 		if (step === currentStep) {
@@ -134,7 +138,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const poiSenior = twoTrancheSeniorPercentageOfInterest({
 			apr: new Fraction(aprSenior, 100),
 			percentageOfPrincipal: new Fraction(percentageOfPrincipalSenior, 100),
-			interestFee: new Fraction(10, 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -145,7 +149,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprMez = twoTrancheJuniorAPR({
 			percentageOfInterestSenior: new Fraction(poiSenior.toNumber(), 1),
 			percentageOfPrincipalSenior: new Fraction(percentageOfPrincipalSenior, 100),
-			interestFee: new Fraction(10, 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -199,7 +203,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const popSenior = twoTrancheSeniorPercentageOfPrincipal({
 			percentageOfInterest: new Fraction(percentageOfInterestSenior, 100),
 			apr: new Fraction(aprSenior, 100),
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -210,7 +214,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprMez = twoTrancheJuniorAPR({
 			percentageOfInterestSenior: new Fraction(percentageOfInterestSenior, 100),
 			percentageOfPrincipalSenior: popSenior,
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -265,7 +269,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprSenior = seniorAPR({
 			percentageOfPrincipal: new Fraction(popSenior, 100),
 			percentageOfInterest: new Fraction(poiSenior, 100),
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -276,7 +280,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprMez = twoTrancheJuniorAPR({
 			percentageOfInterestSenior: new Fraction(poiSenior, 100),
 			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -334,7 +338,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const poiMez = twoTrancheJuniorPercentageOfInterest({
 			apr: new Fraction(aprMez, 100),
 			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -343,7 +347,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprSenior = seniorAPR({
 			percentageOfPrincipal: new Fraction(popSenior, 100),
 			percentageOfInterest: poiSenior,
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -399,7 +403,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprMez = twoTrancheJuniorAPR({
 			percentageOfInterestSenior: new Fraction(poiSenior, 100),
 			percentageOfPrincipalSenior: popSenior,
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -407,7 +411,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprSenior = seniorAPR({
 			percentageOfPrincipal: popSenior,
 			percentageOfInterest: new Fraction(poiSenior, 100),
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -461,7 +465,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const popMez = twoTrancheJuniorPercentageOfPrincipal({
 			apr: new Fraction(aprMez, 100),
 			percentageOfInterestSenior: poiSenior,
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -470,7 +474,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprSenior = seniorAPR({
 			percentageOfPrincipal: popSenior,
 			percentageOfInterest: poiSenior,
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			performanceFee,
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -531,7 +535,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const poiSenior = threeTrancheSeniorPercentageOfInterest({
 			apr: new Fraction(aprSenior, 100),
 			percentageOfPrincipal: new Fraction(popSenior, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -543,7 +547,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
 			percentageOfInterestMez: new Fraction(poiMez, 100),
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -599,7 +603,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const poiSenior = threeTrancheSeniorPercentageOfInterest({
 			percentageOfPrincipal: new Fraction(popSenior, 100),
 			apr: new Fraction(aprSenior, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -613,7 +617,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
 			percentageOfInterestMez: new Fraction(poiMez, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -674,7 +678,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprSenior = seniorAPR({
 			percentageOfInterest: new Fraction(poiSenior, 100),
 			percentageOfPrincipal: new Fraction(popSenior, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -688,7 +692,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
 			percentageOfInterestMez: new Fraction(poiMez, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -747,7 +751,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const poiMez = threeTrancheMezPercentageOfInterest({
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
 			apr: new Fraction(aprMez, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -759,7 +763,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			percentageOfInterestSenior: new Fraction(poiSenior, 100),
 			percentageOfInterestMez: poiMez,
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -816,7 +820,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const poiMez = threeTrancheMezPercentageOfInterest({
 			apr: new Fraction(aprMez, 100),
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -829,7 +833,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			percentageOfInterestSenior: new Fraction(poiSenior, 100),
 			percentageOfInterestMez: poiMez,
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -886,7 +890,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprMez = threeTrancheMezAPR({
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
 			percentageOfInterestMez: new Fraction(poiMez, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -897,7 +901,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			percentageOfInterestSenior: new Fraction(poiSenior, 100),
 			percentageOfInterestMez: new Fraction(poiMez, 100),
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
-			interestFee,
+			performanceFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
@@ -985,7 +989,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const seniorApr = seniorAPR({
 			percentageOfInterest: poiSr,
 			percentageOfPrincipal: popSr,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -1016,7 +1020,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const seniorApr = seniorAPR({
 			percentageOfInterest: poiSr,
 			percentageOfPrincipal: popSr,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -1024,7 +1028,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const mezApr = twoTrancheJuniorAPR({
 			percentageOfInterestSenior: poiSr,
 			percentageOfPrincipalSenior: popSr,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -1067,7 +1071,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			percentageOfPrincipalSenior: popSr,
 			percentageOfInterestMez: poiMez,
 			percentageOfPrincipalMez: popMez,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -1075,7 +1079,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const mezApr = threeTrancheMezAPR({
 			percentageOfInterestMez: poiMez,
 			percentageOfPrincipalMez: popMez,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -1083,7 +1087,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const seniorApr = seniorAPR({
 			percentageOfInterest: poiSr,
 			percentageOfPrincipal: popSr,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
