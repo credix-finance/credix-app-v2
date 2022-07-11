@@ -17,9 +17,9 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 	trancheTitle,
 }) => {
 	const form = Form.useFormInstance();
-	const pop = Form.useWatch([trancheTitle, name, "percentageOfPrincipal"], form);
-	const poi = Form.useWatch([trancheTitle, name, "percentageOfInterest"], form);
-	const apr = Form.useWatch([trancheTitle, name, "apr"], form);
+	const pop = Form.useWatch<string>([trancheTitle, name, "percentageOfPrincipal"], form);
+	const poi = Form.useWatch<string>([trancheTitle, name, "percentageOfInterest"], form);
+	const apr = Form.useWatch<string>([trancheTitle, name, "apr"], form);
 
 	const isDeEmphesised = () => {
 		return null !== highlightedElement && name !== highlightedElement;
@@ -48,14 +48,15 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 				></div>
 				<span>{name}</span>
 			</div>
+			{/* TODO: update input[type=number] with ant design's NumberInput so we don't need to replace the "," */}
 			<div className={getTextClassNames()}>
-				{pop ? ratioFormatter.format(Big(pop).div(100).toNumber()) : "/"}
+				{pop ? ratioFormatter.format(Big(pop.replace(",", "")).div(100).toNumber()) : "/"}
 			</div>
 			<div className={getTextClassNames()}>
-				{poi ? ratioFormatter.format(Big(poi).div(100).toNumber()) : "/"}
+				{poi ? ratioFormatter.format(Big(poi.replace(",", "")).div(100).toNumber()) : "/"}
 			</div>
 			<div className={getTextClassNames()}>
-				{apr ? ratioFormatter.format(Big(apr).div(100).toNumber()) : "/"}
+				{apr ? ratioFormatter.format(Big(apr.replace(",", "")).div(100).toNumber()) : "/"}
 			</div>
 		</>
 	);
