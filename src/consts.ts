@@ -96,7 +96,7 @@ export const twoTrancheStructure: DefaultTranche = {
 			apr: new Fraction(135, 1000).apply(100).toNumber(),
 			percentageOfPrincipal: new Fraction(80, 100).apply(100).toNumber(),
 			percentageOfInterest: new Fraction(622, 1000).apply(100).toNumber(),
-			editable: false,
+			editable: true,
 		},
 		{
 			name: "Mezzanine",
@@ -149,7 +149,7 @@ export const threeTrancheStructure: DefaultTranche = {
 			percentageOfInterest: new Fraction(18, 100).apply(100).toNumber(),
 			earlyWithdrawalPrincipal: true,
 			earlyWithdrawalInterest: true,
-			editable: true,
+			editable: false,
 		},
 	],
 };
