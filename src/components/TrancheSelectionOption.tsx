@@ -10,6 +10,8 @@ import { Switch } from "./Switch";
 import { trancheSettingsFields } from "./DealForm";
 import { Input } from "./Input";
 
+const INPUT_NUMBER_STEP = "0.1";
+
 export const TrancheSelectionOption: FunctionComponent<{
 	tranche: DefaultTranche;
 	editable: boolean;
@@ -99,6 +101,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 														MESSAGES.percentageOfPrincipalInputPlaceholder
 													)}
 													type="number"
+													step={INPUT_NUMBER_STEP}
 													required={true}
 													rules={[
 														{
@@ -120,6 +123,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 														MESSAGES.percentageOfInterestInputPlaceholder
 													)}
 													type="number"
+													step={INPUT_NUMBER_STEP}
 													required={true}
 													rules={[
 														{
@@ -139,6 +143,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 													label={intl.formatMessage(MESSAGES.aprInputLabel)}
 													placeholder={intl.formatMessage(MESSAGES.aprInputPlaceholder)}
 													type="number"
+													step={INPUT_NUMBER_STEP}
 													required={true}
 													rules={[
 														{
