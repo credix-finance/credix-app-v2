@@ -23,9 +23,7 @@ import {
 	twoTrancheSeniorPercentageOfInterest,
 	twoTrancheSeniorPercentageOfPrincipal,
 	threeTrancheSeniorPercentageOfInterest,
-	threeTrancheSeniorPercentageOfPrincipal,
 	threeTrancheMezPercentageOfInterest,
-	threeTrancheMezPercentageOfPrincipal,
 } from "@utils/tranche.utils";
 import { Fraction } from "@credix/credix-client";
 import Big from "big.js";
@@ -177,7 +175,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const poiSenior = twoTrancheSeniorPercentageOfInterest({
 			apr: new Fraction(aprSenior, 100),
 			percentageOfPrincipal: new Fraction(percentageOfPrincipalSenior, 100),
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			interestFee: new Fraction(10, 100),
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -188,7 +186,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		const aprMez = twoTrancheJuniorAPR({
 			percentageOfInterestSenior: new Fraction(poiSenior.toNumber(), 1),
 			percentageOfPrincipalSenior: new Fraction(percentageOfPrincipalSenior, 100),
-			interestFee: new Fraction(interestFee.toNumber(), 100),
+			interestFee: new Fraction(10, 100),
 			timeToMaturity: ttm,
 			totalPrincipal,
 			totalInterest,
@@ -545,8 +543,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			repaymentType,
 			threeTranche: {
 				Senior: { apr: aprSenior, percentageOfPrincipal: popSenior },
-				Mezzanine: { percentageOfPrincipal: popMez },
-				Junior: { percentageOfInterest: poiJunior },
+				Mezzanine: { percentageOfInterest: poiMez, percentageOfPrincipal: popMez },
 			},
 		} = form.getFieldsValue([
 			"financingFee",
@@ -555,9 +552,9 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			"repaymentType",
 			["threeTranche", "Senior", "apr"],
 			["threeTranche", "Senior", "percentageOfPrincipal"],
-			["threeTranche", "Mezzanine", "apr"],
+			["threeTranche", "Mezzanine", "percentageOfInterest"],
 			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
-			["threeTranche", "Junior", "percentageOfInterest"],
+			["threeTranche", "Junior", "percentageOfPrincipal"],
 		]);
 
 		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
@@ -581,8 +578,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			totalPrincipal,
 		});
 
-		const poiMez = 100 - poiJunior - poiSenior.toNumber() * 100;
-		const aprMez = threeTrancheMezAPR({
+		const poiJunior = 100 - poiMez - poiSenior.toNumber() * 100;
+		const aprJunior = threeTrancheJuniorAPR({
+			percentageOfInterestSenior: poiSenior,
+			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
 			percentageOfInterestMez: new Fraction(poiMez, 100),
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
 			interestFee,
@@ -594,17 +593,11 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		form.setFieldsValue({
 			threeTranche: {
 				Senior: {
-					percentageOfPrincipal: ratioFormatter
-						.format(new Fraction(popSenior, 100).toNumber())
-						.replace("%", ""),
 					percentageOfInterest: ratioFormatter.format(poiSenior.toNumber()).replace("%", ""),
 				},
-				Mezzanine: {
-					percentageOfPrincipal: ratioFormatter
-						.format(new Fraction(popMez, 100).toNumber())
-						.replace("%", ""),
-					percentageOfInterest: ratioFormatter.format(poiMez / 100).replace("%", ""),
-					apr: ratioFormatter.format(aprMez.toNumber()).replace("%", ""),
+				Junior: {
+					percentageOfInterest: ratioFormatter.format(poiJunior / 100).replace("%", ""),
+					apr: ratioFormatter.format(aprJunior.toNumber()).replace("%", ""),
 				},
 			},
 		});
@@ -618,9 +611,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			timeToMaturity,
 			repaymentType,
 			threeTranche: {
-				Senior: { percentageOfPrincipal: popSenior, percentageOfInterest: poiSenior },
-				Mezzanine: { percentageOfInterest: poiMez },
-				Junior: { percentageOfInterest: poiJunior, percentageOfPrincipal: popJunior },
+				Senior: { percentageOfPrincipal: popSenior, apr: aprSenior },
+				Mezzanine: { percentageOfInterest: poiMez, percentageOfPrincipal: popMez },
 			},
 		} = form.getFieldsValue([
 			"financingFee",
@@ -628,10 +620,84 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			"timeToMaturity",
 			"repaymentType",
 			["threeTranche", "Senior", "percentageOfPrincipal"],
-			["threeTranche", "Senior", "percentageOfInterest"],
+			["threeTranche", "Senior", "apr"],
 			["threeTranche", "Mezzanine", "percentageOfInterest"],
-			["threeTranche", "Junior", "percentageOfInterest"],
-			["threeTranche", "Junior", "percentageOfPrincipal"],
+			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
+		]);
+
+		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
+		const totalPrincipal = Big(principal).toNumber();
+		const ttm = Big(timeToMaturity).toNumber();
+
+		const totalInterest = (
+			repaymentType === "amortization"
+				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
+				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
+		).reduce((acc, period: { interest: number; principal: number }) => {
+			return (acc += period.interest);
+		}, 0);
+
+		const poiSenior = threeTrancheSeniorPercentageOfInterest({
+			percentageOfPrincipal: new Fraction(popSenior, 100),
+			apr: new Fraction(aprSenior, 100),
+			interestFee,
+			timeToMaturity: ttm,
+			totalInterest,
+			totalPrincipal,
+		});
+
+		const popJunior = 100 - popMez - popSenior;
+		const poiJunior = 100 - poiMez - poiSenior.toNumber() * 100;
+
+		const aprJunior = threeTrancheJuniorAPR({
+			percentageOfInterestSenior: poiSenior,
+			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
+			percentageOfPrincipalMez: new Fraction(popMez, 100),
+			percentageOfInterestMez: new Fraction(poiMez, 100),
+			interestFee,
+			timeToMaturity: ttm,
+			totalInterest,
+			totalPrincipal,
+		});
+
+		form.setFieldsValue({
+			threeTranche: {
+				Senior: {
+					percentageOfInterest: ratioFormatter.format(poiSenior.toNumber()).replace("%", ""),
+				},
+				Junior: {
+					percentageOfPrincipal: ratioFormatter
+						.format(new Fraction(popJunior, 100).toNumber())
+						.replace("%", ""),
+					percentageOfInterest: ratioFormatter
+						.format(new Fraction(poiJunior, 100).toNumber())
+						.replace("%", ""),
+					apr: ratioFormatter.format(aprJunior.toNumber()).replace("%", ""),
+				},
+			},
+		});
+	};
+
+	const onThreeTrancheSeniorPOIChange = () => {
+		// get form values
+		const {
+			financingFee,
+			principal,
+			timeToMaturity,
+			repaymentType,
+			threeTranche: {
+				Senior: { percentageOfInterest: poiSenior, percentageOfPrincipal: popSenior },
+				Mezzanine: { percentageOfInterest: poiMez, percentageOfPrincipal: popMez },
+			},
+		} = form.getFieldsValue([
+			"financingFee",
+			"principal",
+			"timeToMaturity",
+			"repaymentType",
+			["threeTranche", "Senior", "percentageOfInterest"],
+			["threeTranche", "Senior", "percentageOfPrincipal"],
+			["threeTranche", "Mezzanine", "percentageOfInterest"],
+			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
 		]);
 
 		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
@@ -647,16 +713,20 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		}, 0);
 
 		const aprSenior = seniorAPR({
-			percentageOfPrincipal: new Fraction(popSenior, 100),
 			percentageOfInterest: new Fraction(poiSenior, 100),
+			percentageOfPrincipal: new Fraction(popSenior, 100),
 			interestFee,
 			timeToMaturity: ttm,
 			totalInterest,
 			totalPrincipal,
 		});
 
-		const popMez = 100 - popJunior - popSenior;
-		const aprMez = threeTrancheMezAPR({
+		const popJunior = 100 - popMez - popSenior;
+		const poiJunior = 100 - poiMez - poiSenior;
+
+		const aprJunior = threeTrancheJuniorAPR({
+			percentageOfInterestSenior: new Fraction(poiSenior, 100),
+			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
 			percentageOfInterestMez: new Fraction(poiMez, 100),
 			interestFee,
@@ -670,82 +740,12 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Senior: {
 					apr: ratioFormatter.format(aprSenior.toNumber()).replace("%", ""),
 				},
-				Mezzanine: {
+				Junior: {
 					percentageOfPrincipal: ratioFormatter
-						.format(new Fraction(popMez, 100).toNumber())
+						.format(new Fraction(popJunior, 100).toNumber())
 						.replace("%", ""),
-					apr: ratioFormatter.format(aprMez.toNumber()).replace("%", ""),
-				},
-			},
-		});
-	};
-
-	const onThreeTrancheSeniorPOIChange = () => {
-		// get form values
-		const {
-			financingFee,
-			principal,
-			timeToMaturity,
-			repaymentType,
-			threeTranche: {
-				Senior: { apr: aprSenior, percentageOfInterest: poiSenior },
-				Junior: { percentageOfInterest: poiJunior, percentageOfPrincipal: popJunior },
-			},
-		} = form.getFieldsValue([
-			"financingFee",
-			"principal",
-			"timeToMaturity",
-			"repaymentType",
-			["threeTranche", "Senior", "apr"],
-			["threeTranche", "Senior", "percentageOfInterest"],
-			["threeTranche", "Junior", "percentageOfInterest"],
-			["threeTranche", "Junior", "percentageOfPrincipal"],
-		]);
-
-		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
-		const totalPrincipal = Big(principal).toNumber();
-		const ttm = Big(timeToMaturity).toNumber();
-
-		const totalInterest = (
-			repaymentType === "amortization"
-				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
-				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
-		).reduce((acc, period: { interest: number; principal: number }) => {
-			return (acc += period.interest);
-		}, 0);
-
-		const popSenior = threeTrancheSeniorPercentageOfPrincipal({
-			percentageOfInterest: new Fraction(poiSenior, 100),
-			apr: new Fraction(aprSenior, 100),
-			interestFee,
-			timeToMaturity: ttm,
-			totalInterest,
-			totalPrincipal,
-		});
-
-		const popMez = 100 - popJunior - popSenior.toNumber() * 100;
-		const poiMez = 100 - poiJunior - poiSenior;
-
-		const aprMez = threeTrancheMezAPR({
-			percentageOfPrincipalMez: new Fraction(popMez, 100),
-			percentageOfInterestMez: new Fraction(poiMez, 100),
-			interestFee,
-			timeToMaturity: ttm,
-			totalInterest,
-			totalPrincipal,
-		});
-
-		form.setFieldsValue({
-			threeTranche: {
-				Senior: {
-					percentageOfPrincipal: ratioFormatter.format(popSenior.toNumber()).replace("%", ""),
-				},
-				Mezzanine: {
-					percentageOfPrincipal: ratioFormatter
-						.format(new Fraction(popMez, 100).toNumber())
-						.replace("%", ""),
-					percentageOfInterest: ratioFormatter.format(poiMez / 100).replace("%", ""),
-					apr: ratioFormatter.format(aprMez.toNumber()).replace("%", ""),
+					percentageOfInterest: ratioFormatter.format(poiJunior / 100).replace("%", ""),
+					apr: ratioFormatter.format(aprJunior.toNumber()).replace("%", ""),
 				},
 			},
 		});
@@ -759,19 +759,18 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			timeToMaturity,
 			repaymentType,
 			threeTranche: {
-				Mezzanine: { apr: aprMez, percentageOfPrincipal: popMez },
-				Senior: { percentageOfPrincipal: popSenior },
-				Junior: { percentageOfInterest: poiJunior },
+				Senior: { percentageOfPrincipal: popSenior, percentageOfInterest: poiSenior },
+				Mezzanine: { percentageOfPrincipal: popMez, apr: aprMez },
 			},
 		} = form.getFieldsValue([
 			"financingFee",
 			"principal",
 			"timeToMaturity",
 			"repaymentType",
+			["threeTranche", "Senior", "percentageOfPrincipal"],
+			["threeTranche", "Senior", "percentageOfInterest"],
 			["threeTranche", "Mezzanine", "apr"],
 			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
-			["threeTranche", "Senior", "percentageOfPrincipal"],
-			["threeTranche", "Junior", "percentageOfInterest"],
 		]);
 
 		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
@@ -795,10 +794,12 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			totalPrincipal,
 		});
 
-		const poiSenior = 100 - poiMez.toNumber() * 100 - poiJunior;
-		const aprSenior = seniorAPR({
-			percentageOfPrincipal: new Fraction(popSenior, 100),
-			percentageOfInterest: new Fraction(poiSenior, 100),
+		const poiJunior = 100 - poiMez.toNumber() * 100 - poiSenior;
+		const aprJunior = threeTrancheJuniorAPR({
+			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
+			percentageOfInterestSenior: new Fraction(poiSenior, 100),
+			percentageOfInterestMez: poiMez,
+			percentageOfPrincipalMez: new Fraction(popMez, 100),
 			interestFee,
 			timeToMaturity: ttm,
 			totalInterest,
@@ -807,13 +808,13 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 
 		form.setFieldsValue({
 			threeTranche: {
-				Senior: {
-					apr: ratioFormatter.format(aprSenior.toNumber()).replace("%", ""),
-					percentageOfInterest: ratioFormatter.format(poiSenior / 100).replace("%", ""),
-				},
 				Mezzanine: {
 					percentageOfInterest: ratioFormatter.format(poiMez.toNumber()).replace("%", ""),
 					apr: ratioFormatter.format(aprMez / 100).replace("%", ""),
+				},
+				Junior: {
+					percentageOfInterest: ratioFormatter.format(poiJunior / 100).replace("%", ""),
+					apr: ratioFormatter.format(aprJunior.toNumber()).replace("%", ""),
 				},
 			},
 		});
@@ -827,19 +828,88 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			timeToMaturity,
 			repaymentType,
 			threeTranche: {
-				Mezzanine: { percentageOfPrincipal: popMez, percentageOfInterest: poiMez },
-				Senior: { percentageOfInterest: poiSenior },
-				Junior: { percentageOfPrincipal: popJunior },
+				Senior: { percentageOfInterest: poiSenior, percentageOfPrincipal: popSenior },
+				Mezzanine: { percentageOfPrincipal: popMez, apr: aprMez },
 			},
 		} = form.getFieldsValue([
 			"financingFee",
 			"principal",
 			"timeToMaturity",
 			"repaymentType",
+			["threeTranche", "Senior", "percentageOfInterest"],
+			["threeTranche", "Senior", "percentageOfPrincipal"],
+			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
+			["threeTranche", "Mezzanine", "apr"],
+		]);
+
+		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
+		const totalPrincipal = Big(principal).toNumber();
+		const ttm = Big(timeToMaturity).toNumber();
+
+		const totalInterest = (
+			repaymentType === "amortization"
+				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
+				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
+		).reduce((acc, period: { interest: number; principal: number }) => {
+			return (acc += period.interest);
+		}, 0);
+
+		const poiMez = threeTrancheMezPercentageOfInterest({
+			apr: new Fraction(aprMez, 100),
+			percentageOfPrincipalMez: new Fraction(popMez, 100),
+			interestFee,
+			timeToMaturity: ttm,
+			totalInterest,
+			totalPrincipal,
+		});
+
+		const poiJunior = 100 - poiMez.toNumber() * 100 - poiSenior;
+		const popJunior = 100 - popMez - popSenior;
+		const aprJunior = threeTrancheJuniorAPR({
+			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
+			percentageOfInterestSenior: new Fraction(poiSenior, 100),
+			percentageOfInterestMez: poiMez,
+			percentageOfPrincipalMez: new Fraction(popMez, 100),
+			interestFee,
+			timeToMaturity: ttm,
+			totalInterest,
+			totalPrincipal,
+		});
+
+		form.setFieldsValue({
+			threeTranche: {
+				Mezzanine: {
+					percentageOfInterest: ratioFormatter.format(poiMez.toNumber()).replace("%", ""),
+				},
+				Junior: {
+					apr: ratioFormatter.format(aprJunior.toNumber()).replace("%", ""),
+					percentageOfInterest: ratioFormatter.format(poiJunior / 100).replace("%", ""),
+					percentageOfPrincipal: ratioFormatter.format(popJunior / 100).replace("%", ""),
+				},
+			},
+		});
+	};
+
+	const onThreeTrancheMezzaninePOIChange = () => {
+		// get form values
+		const {
+			financingFee,
+			principal,
+			timeToMaturity,
+			repaymentType,
+			threeTranche: {
+				Senior: { percentageOfPrincipal: popSenior, percentageOfInterest: poiSenior },
+				Mezzanine: { percentageOfPrincipal: popMez, percentageOfInterest: poiMez },
+			},
+		} = form.getFieldsValue([
+			"financingFee",
+			"principal",
+			"timeToMaturity",
+			"repaymentType",
+			["threeTranche", "Senior", "percentageOfPrincipal"],
+			["threeTranche", "Senior", "percentageOfInterest"],
 			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
 			["threeTranche", "Mezzanine", "percentageOfInterest"],
-			["threeTranche", "Senior", "percentageOfInterest"],
-			["threeTranche", "Junior", "percentageOfPrincipal"],
 		]);
 
 		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
@@ -855,6 +925,17 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		}, 0);
 
 		const aprMez = threeTrancheMezAPR({
+			percentageOfPrincipalMez: new Fraction(popMez, 100),
+			percentageOfInterestMez: new Fraction(poiMez, 100),
+			interestFee,
+			timeToMaturity: ttm,
+			totalInterest,
+			totalPrincipal,
+		});
+		const poiJunior = 100 - poiMez - poiSenior;
+		const aprJunior = threeTrancheJuniorAPR({
+			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
+			percentageOfInterestSenior: new Fraction(poiSenior, 100),
 			percentageOfInterestMez: new Fraction(poiMez, 100),
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
 			interestFee,
@@ -863,92 +944,14 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			totalPrincipal,
 		});
 
-		const popSenior = 100 - popMez - popJunior;
-		const aprSenior = seniorAPR({
-			percentageOfPrincipal: new Fraction(popSenior, 100),
-			percentageOfInterest: new Fraction(poiSenior, 100),
-			interestFee,
-			timeToMaturity: ttm,
-			totalInterest,
-			totalPrincipal,
-		});
-
 		form.setFieldsValue({
 			threeTranche: {
-				Senior: {
-					apr: ratioFormatter.format(aprSenior.toNumber()).replace("%", ""),
-					percentageOfPrincipal: ratioFormatter.format(popSenior / 100).replace("%", ""),
-				},
 				Mezzanine: {
 					apr: ratioFormatter.format(aprMez.toNumber()).replace("%", ""),
 				},
-			},
-		});
-	};
-
-	const onThreeTrancheMezzaninePOIChange = () => {
-		// get form values
-		const {
-			financingFee,
-			principal,
-			timeToMaturity,
-			repaymentType,
-			threeTranche: {
-				Mezzanine: { apr: aprMez, percentageOfInterest: poiMez },
-				Junior: { percentageOfPrincipal: popJunior, percentageOfInterest: poiJunior },
-			},
-		} = form.getFieldsValue([
-			"financingFee",
-			"principal",
-			"timeToMaturity",
-			"repaymentType",
-			["threeTranche", "Mezzanine", "apr"],
-			["threeTranche", "Mezzanine", "percentageOfInterest"],
-			["threeTranche", "Senior", "percentageOfInterest"],
-			["threeTranche", "Junior", "percentageOfPrincipal"],
-			["threeTranche", "Junior", "percentageOfInterest"],
-		]);
-
-		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
-		const totalPrincipal = Big(principal).toNumber();
-		const ttm = Big(timeToMaturity).toNumber();
-
-		const totalInterest = (
-			repaymentType === "amortization"
-				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
-				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
-		).reduce((acc, period: { interest: number; principal: number }) => {
-			return (acc += period.interest);
-		}, 0);
-
-		const popMez = threeTrancheMezPercentageOfPrincipal({
-			percentageOfInterestMez: new Fraction(poiMez, 100),
-			apr: new Fraction(aprMez, 100),
-			interestFee,
-			timeToMaturity: ttm,
-			totalInterest,
-			totalPrincipal,
-		});
-		const popSenior = 100 - popMez.toNumber() * 100 - popJunior;
-		const poiSenior = 100 - poiMez - poiJunior;
-		const aprSenior = seniorAPR({
-			percentageOfPrincipal: new Fraction(popSenior, 100),
-			percentageOfInterest: new Fraction(poiSenior, 100),
-			interestFee,
-			timeToMaturity: ttm,
-			totalInterest,
-			totalPrincipal,
-		});
-
-		form.setFieldsValue({
-			threeTranche: {
-				Senior: {
-					apr: ratioFormatter.format(aprSenior.toNumber()).replace("%", ""),
-					percentageOfPrincipal: ratioFormatter.format(popSenior / 100).replace("%", ""),
-					percentageOfInterest: ratioFormatter.format(poiSenior / 100).replace("%", ""),
-				},
-				Mezzanine: {
-					percentageOfPrincipal: ratioFormatter.format(popMez.toNumber()).replace("%", ""),
+				Junior: {
+					apr: ratioFormatter.format(aprJunior.toNumber()).replace("%", ""),
+					percentageOfInterest: ratioFormatter.format(poiJunior / 100).replace("%", ""),
 				},
 			},
 		});
