@@ -12,6 +12,8 @@ import { Drawer } from "./Drawer";
 import { Switch } from "./Switch";
 import { Input } from "./Input";
 
+const INPUT_NUMBER_STEP = "0.1";
+
 interface DealTranchesStepProps {
 	className?: string;
 	form: FormInstance;
@@ -148,6 +150,7 @@ const TrancheSelectionOption: FunctionComponent<{
 													)}
 													type="number"
 													required={true}
+													step={INPUT_NUMBER_STEP}
 													rules={[
 														{
 															required: true,
@@ -168,6 +171,7 @@ const TrancheSelectionOption: FunctionComponent<{
 														MESSAGES.percentageOfInterestInputPlaceholder
 													)}
 													type="number"
+													step={INPUT_NUMBER_STEP}
 													required={true}
 													rules={[
 														{
@@ -187,6 +191,7 @@ const TrancheSelectionOption: FunctionComponent<{
 													label={intl.formatMessage(MESSAGES.aprInputLabel)}
 													placeholder={intl.formatMessage(MESSAGES.aprInputPlaceholder)}
 													type="number"
+													step={INPUT_NUMBER_STEP}
 													required={true}
 													rules={[
 														{
