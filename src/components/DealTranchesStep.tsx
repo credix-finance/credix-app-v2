@@ -8,6 +8,8 @@ import { Icon, IconDimension } from "./Icon";
 import { defaultTranches } from "@consts";
 import { TrancheSelectionOption } from "./TrancheSelectionOption";
 
+const INPUT_NUMBER_STEP = "0.1";
+
 interface DealTranchesStepProps {
 	className?: string;
 	form: FormInstance;
