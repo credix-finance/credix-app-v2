@@ -137,13 +137,13 @@ const TrancheSelectionOption: FunctionComponent<{
 											name: t.name,
 										})}
 									</div>
-									{
+									<div>
 										<div className={`flex gap-x-6 `}>
 											<div>
 												<Input
 													name={[tranche.value, t.name, "percentageOfPrincipal"]}
+													disabled={!t.editable}
 													className="bg-credix-primary"
-													labelClassName="flex-col items-start"
 													label={intl.formatMessage(MESSAGES.percentageOfPrincipalInputLabel)}
 													placeholder={intl.formatMessage(
 														MESSAGES.percentageOfPrincipalInputPlaceholder
@@ -164,8 +164,8 @@ const TrancheSelectionOption: FunctionComponent<{
 											<div>
 												<Input
 													name={[tranche.value, t.name, "percentageOfInterest"]}
+													disabled={!t.editable}
 													className="bg-credix-primary"
-													labelClassName="flex-col items-start"
 													label={intl.formatMessage(MESSAGES.percentageOfInterestInputLabel)}
 													placeholder={intl.formatMessage(
 														MESSAGES.percentageOfInterestInputPlaceholder
@@ -186,8 +186,8 @@ const TrancheSelectionOption: FunctionComponent<{
 											<div>
 												<Input
 													name={[tranche.value, t.name, "apr"]}
+													disabled={!t.editable}
 													className="bg-credix-primary"
-													labelClassName="flex-col items-start"
 													label={intl.formatMessage(MESSAGES.aprInputLabel)}
 													placeholder={intl.formatMessage(MESSAGES.aprInputPlaceholder)}
 													type="number"
@@ -202,19 +202,19 @@ const TrancheSelectionOption: FunctionComponent<{
 												/>
 											</div>
 										</div>
-									}
-									{t.earlyWithdrawalInterest !== undefined && (
-										<div className="flex justify-between">
-											<Switch
-												name={[tranche.value, t.name, "earlyWithdrawalInterest"]}
-												label={intl.formatMessage(MESSAGES.withdrawInterest)}
-											/>
-											<Switch
-												name={[tranche.value, t.name, "earlyWithdrawalPrincipal"]}
-												label={intl.formatMessage(MESSAGES.withdrawPrincipal)}
-											/>
-										</div>
-									)}
+										{t.earlyWithdrawalInterest !== undefined && (
+											<div className="flex justify-between">
+												<Switch
+													name={[tranche.value, t.name, "earlyWithdrawalInterest"]}
+													label={intl.formatMessage(MESSAGES.withdrawInterest)}
+												/>
+												<Switch
+													name={[tranche.value, t.name, "earlyWithdrawalPrincipal"]}
+													label={intl.formatMessage(MESSAGES.withdrawPrincipal)}
+												/>
+											</div>
+										)}
+									</div>
 								</div>
 							)
 						);
