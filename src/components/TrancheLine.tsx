@@ -47,6 +47,7 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 				></div>
 				<span>{name}</span>
 			</div>
+			{/* TODO: update input[type=number] with ant design's NumberInput so we don't need to replace the "," */}
 			<div className={getTextClassNames()}>
 				{maybeFormatRatio(trancheSettings?.percentageOfPrincipal)}
 			</div>
