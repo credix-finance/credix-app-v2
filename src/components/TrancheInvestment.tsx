@@ -6,7 +6,7 @@ import { Form } from "antd";
 import { Tranche, useCredixClient } from "@credix/credix-client";
 import { trancheNames, zeroTokenAmount } from "@consts";
 import { round, toProgramAmount } from "@utils/format.utils";
-import { useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
 import { AddMaxButtonSuffix } from "./AddMaxButtonSuffix";
@@ -67,9 +67,11 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 			const userAvailable = userInvestmentPercentage.apply(tranche.totalRepaid.uiAmount);
 
 			if (investorTranche?.amountWithdrawn.uiAmount) {
-				setWithdrawableAmount(userAvailable.minus(investorTranche.amountWithdrawn.uiAmount));
+				setWithdrawableAmount(
+					round(userAvailable.minus(investorTranche.amountWithdrawn.uiAmount), Big.roundUp, 0)
+				);
 			} else if (userAvailable) {
-				setWithdrawableAmount(userAvailable);
+				setWithdrawableAmount(round(userAvailable, Big.roundUp, 0));
 			}
 		}
 	}, [tranche, publicKey, userTrancheBalance]);
@@ -95,7 +97,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 		if (userTrancheBalance && currentReturns && amountWithdrawn) {
 			const currentValue =
 				userTrancheBalance.uiAmount + currentReturns.toNumber() - amountWithdrawn.uiAmount;
-			const roundedCurrentValue = round(currentValue, Big.roundUp, 0);
+			const roundedCurrentValue = round(currentValue, Big.roundDown, 0);
 			setCurrentValue(roundedCurrentValue);
 		}
 	}, [userTrancheBalance, currentReturns, amountWithdrawn]);
@@ -116,13 +118,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 
 	const withdrawFromTranche = async ({ amount }) => {
 		const hide = message.loading({
-			content: intl.formatMessage(
-				{
-					defaultMessage: "Withdrawing {amount} USDC",
-					description: "Withdraw from tranche: withdraw investment loading",
-				},
-				{ amount: amount }
-			),
+			content: intl.formatMessage(MESSAGES.withdrawLoading, { amount: amount }),
 		});
 
 		try {
@@ -132,24 +128,15 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 			await fetchMarket(client, marketplace as string);
 			hide();
 			message.success({
-				content: intl.formatMessage(
-					{
-						defaultMessage: "Successfully withdrew {amount} USDC",
-						description: "Withdraw from tranche: withdraw investment success",
-					},
-					{
-						amount,
-					}
-				),
+				content: intl.formatMessage(MESSAGES.withdrawSuccess, {
+					amount,
+				}),
 			});
 			form.resetFields();
 		} catch {
 			hide();
 			message.error({
-				content: intl.formatMessage({
-					defaultMessage: "Failed to withdraw from tranche",
-					description: "Withdraw from tranche: withdraw investment request failed",
-				}),
+				content: intl.formatMessage(MESSAGES.withdrawFailure),
 			});
 		}
 	};
@@ -167,16 +154,10 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 					trancheIndex={tranche.index}
 				>
 					<div className="absolute top-8 left-8 text-neutral-0 font-normal text-lg font-mono">
-						{intl.formatMessage(
-							{
-								defaultMessage: "Invested: {amount} {currency}",
-								description: "Tranche investment: tranche fill level invested amount",
-							},
-							{
-								amount: round(userTrancheBalance.uiAmountString, Big.roundUp, 0).toString(),
-								currency: "USDC",
-							}
-						)}
+						{intl.formatMessage(MESSAGES.investedAmount, {
+							amount: round(userTrancheBalance.uiAmountString, Big.roundUp, 0).toString(),
+							currency: "USDC",
+						})}
 					</div>
 					<div className="absolute bottom-8 left-8 text-neutral-0 font-normal text-lg font-mono">
 						{/* TODO: add apr */}
@@ -187,40 +168,26 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 					<div className="space-y-6">
 						<div>
 							<div className="font-mono font-bold text-base">
-								{intl.formatMessage({
-									defaultMessage: "Your investment",
-									description: "Tranche investment: your investment",
-								})}
+								{intl.formatMessage(MESSAGES.yourInvestment)}
 							</div>
 							<div className="grid grid-cols-2 mt-4 gap-y-4">
 								<div>
 									<div className="font-normal text-sm font-mono">
-										{intl.formatMessage({
-											defaultMessage: "Invested",
-											description: "Tranche investment: invested label",
-										})}
+										{intl.formatMessage(MESSAGES.invested)}
 									</div>
 									<div className="font-bold text-sm font-mono mt-2">
 										{round(userTrancheBalance.uiAmountString, Big.roundUp, 0).toString()} USDC
 									</div>
 								</div>
 								<div>
-									<div>
-										{intl.formatMessage({
-											defaultMessage: "Projected returns",
-											description: "Tranche investment: projected returns label",
-										})}
-									</div>
+									<div>{intl.formatMessage(MESSAGES.projectedReturns)}</div>
 									<div className="font-bold text-sm font-mono mt-2">
 										{projectedReturns.toString()} USDC
 									</div>
 								</div>
 								<div>
 									<div className="font-normal text-sm font-mono">
-										{intl.formatMessage({
-											defaultMessage: "Current value",
-											description: "Tranche investment: current value label",
-										})}
+										{intl.formatMessage(MESSAGES.currentValue)}
 									</div>
 									<div className="font-bold text-sm font-mono mt-2">
 										{currentValue.toString()} USDC
@@ -228,10 +195,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 								</div>
 								<div>
 									<div className="font-normal text-sm font-mono">
-										{intl.formatMessage({
-											defaultMessage: "Current returns",
-											description: "Tranche investment: current returns label",
-										})}
+										{intl.formatMessage(MESSAGES.currentReturns)}
 									</div>
 									<div className="font-bold text-sm font-mono mt-2">
 										{currentReturns.toString()} USDC
@@ -245,7 +209,6 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 						{/* TODO: fix spacing caused by feedback */}
 						<Form name="deal" form={form} onFinish={withdrawFromTranche} layout="vertical">
 							<div className="flex space-x-4">
-								{/* TODO: set max amount to balance */}
 								<Input
 									type="number"
 									lang="en"
@@ -253,10 +216,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 									label={" "}
 									className="bg-neutral-0"
 									labelClassName="font-bold text-sm"
-									placeholder={intl.formatMessage({
-										defaultMessage: "Amount",
-										description: "Tranche investment: amount input placeholder",
-									})}
+									placeholder={intl.formatMessage(MESSAGES.amount)}
 									name="amount"
 									suffix={<AddMaxButtonSuffix form={form} amount={withdrawableAmount.toNumber()} />}
 								/>
@@ -267,10 +227,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 										icon={<Icon name="line-up" size={IconDimension.MIDDLE} />}
 										className="w-full h-12 md:w-max capitalize"
 									>
-										{intl.formatMessage({
-											defaultMessage: "withdraw",
-											description: "Tranche investment: withdraw form submit button text",
-										})}
+										{intl.formatMessage(MESSAGES.withdraw)}
 									</Button>
 								</Form.Item>
 							</div>
@@ -278,19 +235,13 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 						<div className="grid grid-cols-2">
 							<div>
 								<div className="font-normal text-sm font-mono">
-									{intl.formatMessage({
-										defaultMessage: "Withdrawable",
-										description: "Tranche investment: withdrawable amount label",
-									})}
+									{intl.formatMessage(MESSAGES.withdrawable)}
 								</div>
 								<div className="mt-2 font-bold text-sm">{withdrawableAmount.toString()} USDC</div>
 							</div>
 							<div>
 								<div className="font-normal text-sm font-mono">
-									{intl.formatMessage({
-										defaultMessage: "Withdrawn",
-										description: "Tranche investment: amount withdrawn label",
-									})}
+									{intl.formatMessage(MESSAGES.withdrawn)}
 								</div>
 								<div className="mt-2 font-bold text-sm">
 									{round(amountWithdrawn.uiAmount, Big.roundHalfEven, 0).toString()} USDC
@@ -303,3 +254,58 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 		</div>
 	);
 };
+
+const MESSAGES = defineMessages({
+	amount: {
+		defaultMessage: "Amount",
+		description: "Tranche investment: amount input placeholder",
+	},
+	withdraw: {
+		defaultMessage: "withdraw",
+		description: "Tranche investment: withdraw form submit button text",
+	},
+	withdrawable: {
+		defaultMessage: "Withdrawable",
+		description: "Tranche investment: withdrawable amount label",
+	},
+	withdrawn: {
+		defaultMessage: "Withdrawn",
+		description: "Tranche investment: amount withdrawn label",
+	},
+	currentReturns: {
+		defaultMessage: "Current returns",
+		description: "Tranche investment: current returns label",
+	},
+	currentValue: {
+		defaultMessage: "Current value",
+		description: "Tranche investment: current value label",
+	},
+	projectedReturns: {
+		defaultMessage: "Projected returns",
+		description: "Tranche investment: projected returns label",
+	},
+	invested: {
+		defaultMessage: "Invested",
+		description: "Tranche investment: invested label",
+	},
+	yourInvestment: {
+		defaultMessage: "Your investment",
+		description: "Tranche investment: your investment",
+	},
+	investedAmount: {
+		defaultMessage: "Invested: {amount} {currency}",
+		description: "Tranche investment: tranche fill level invested amount",
+	},
+	withdrawLoading: {
+		defaultMessage: "Withdrawing {amount} USDC",
+		description: "Withdraw from tranche: withdraw investment loading",
+	},
+	withdrawSuccess: {
+		defaultMessage: "Successfully withdrew {amount} USDC",
+		description: "Withdraw from tranche: withdraw investment success",
+	},
+	withdrawFailure: {
+		defaultMessage: "Failed to withdraw from tranche",
+		description: "Withdraw from tranche: withdraw investment request failed",
+	},
+});
