@@ -21,7 +21,7 @@ import {
 } from "@utils/tranche.utils";
 import { Fraction } from "@credix/credix-client";
 import Big from "big.js";
-import { compactRatioFormatter, ratioFormatter } from "@utils/format.utils";
+import { compactRatioFormatter } from "@utils/format.utils";
 import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
 import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
 import { useStore } from "@state/useStore";
@@ -92,7 +92,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 	const onValuesChange = (changedValues, allValues) => {
 		const changedValue = Object.keys(changedValues)[0];
 
-		if (["principal", "financingFee", "timeToMaturity"].includes(changedValue)) {
+		if (["principal", "financingFee", "timeToMaturity", "repaymentType"].includes(changedValue)) {
 			calculateAprs(allValues);
 		}
 
@@ -424,7 +424,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 					percentageOfInterest: compactRatioFormatter(poiSenior.toNumber()),
 				},
 				Junior: {
-					percentageOfInterest: compactRatioFormatter(poiJunior / 100),
+					percentageOfInterest: compactRatioFormatter(new Fraction(poiJunior, 100).toNumber()),
 					apr: compactRatioFormatter(aprJunior.toNumber()),
 				},
 			},
@@ -522,7 +522,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				},
 				Junior: {
 					percentageOfPrincipal: compactRatioFormatter(new Fraction(popJunior, 100).toNumber()),
-					percentageOfInterest: compactRatioFormatter(poiJunior / 100),
+					percentageOfInterest: compactRatioFormatter(new Fraction(poiJunior, 100).toNumber()),
 					apr: compactRatioFormatter(aprJunior.toNumber()),
 				},
 			},
@@ -566,10 +566,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			threeTranche: {
 				Mezzanine: {
 					percentageOfInterest: compactRatioFormatter(poiMez.toNumber()),
-					apr: compactRatioFormatter(aprMez / 100),
+					apr: compactRatioFormatter(new Fraction(aprMez, 100).toNumber()),
 				},
 				Junior: {
-					percentageOfInterest: compactRatioFormatter(poiJunior / 100),
+					percentageOfInterest: compactRatioFormatter(new Fraction(poiJunior, 100).toNumber()),
 					apr: compactRatioFormatter(aprJunior.toNumber()),
 				},
 			},
@@ -617,8 +617,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				},
 				Junior: {
 					apr: compactRatioFormatter(aprJunior.toNumber()),
-					percentageOfInterest: compactRatioFormatter(poiJunior / 100),
-					percentageOfPrincipal: compactRatioFormatter(popJunior / 100),
+					percentageOfInterest: compactRatioFormatter(new Fraction(poiJunior, 100).toNumber()),
+					percentageOfPrincipal: compactRatioFormatter(new Fraction(popJunior, 100).toNumber()),
 				},
 			},
 		});
@@ -705,35 +705,23 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 	};
 
 	const calculateAprs = (values) => {
-		if (!values.timeToMaturity || !values.principal || !values.financingFee) {
+		if (
+			!values.timeToMaturity ||
+			!values.principal ||
+			!values.financingFee ||
+			!values.repaymentType
+		) {
 			return;
 		}
 
-		const interestFee = new Fraction(Big(values.financingFee).toNumber(), 100);
-		const totalPrincipal = Big(values.principal).toNumber();
-		const timeToMaturity = Big(values.timeToMaturity).toNumber();
+		const sharedValues = getSharedOnChangeFormValues();
 
-		// TODO: updating repayment type doesn't trigger onChange
-		const totalInterest = (
-			values["repaymentType"] === "amortization"
-				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
-				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
-		).reduce((acc, period: { interest: number; principal: number }) => {
-			return (acc += period.interest);
-		}, 0);
-
-		calculateOneTrancheApr({ totalInterest, totalPrincipal, timeToMaturity, interestFee }, values);
-		calculateTwoTrancheAprs({ totalInterest, totalPrincipal, timeToMaturity, interestFee }, values);
-		calculateThreeTrancheAprs(
-			{ totalInterest, totalPrincipal, timeToMaturity, interestFee },
-			values
-		);
+		calculateOneTrancheApr(sharedValues, values);
+		calculateTwoTrancheAprs(sharedValues, values);
+		calculateThreeTrancheAprs(sharedValues, values);
 	};
 
-	const calculateOneTrancheApr = (
-		{ totalInterest, totalPrincipal, timeToMaturity, interestFee },
-		values
-	) => {
+	const calculateOneTrancheApr = ({ totalInterest, totalPrincipal, timeToMaturity }, values) => {
 		const poiSr = new Fraction(
 			Big(values["twoTranche"]["Senior"]["percentageOfInterest"]).toNumber(),
 			100
@@ -755,16 +743,13 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		form.setFieldsValue({
 			oneTranche: {
 				Senior: {
-					apr: ratioFormatter.format(seniorApr.toNumber()).replace("%", ""),
+					apr: compactRatioFormatter(seniorApr.toNumber()),
 				},
 			},
 		});
 	};
 
-	const calculateTwoTrancheAprs = (
-		{ totalInterest, totalPrincipal, timeToMaturity, interestFee },
-		values
-	) => {
+	const calculateTwoTrancheAprs = ({ totalInterest, totalPrincipal, timeToMaturity }, values) => {
 		const poiSr = new Fraction(
 			Big(values["twoTranche"]["Senior"]["percentageOfInterest"]).toNumber(),
 			100
@@ -794,19 +779,16 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		form.setFieldsValue({
 			twoTranche: {
 				Senior: {
-					apr: ratioFormatter.format(seniorApr.toNumber()).replace("%", ""),
+					apr: compactRatioFormatter(seniorApr.toNumber()),
 				},
 				Mezzanine: {
-					apr: ratioFormatter.format(mezApr.toNumber()).replace("%", ""),
+					apr: compactRatioFormatter(mezApr.toNumber()),
 				},
 			},
 		});
 	};
 
-	const calculateThreeTrancheAprs = (
-		{ totalInterest, totalPrincipal, timeToMaturity, interestFee },
-		values
-	) => {
+	const calculateThreeTrancheAprs = ({ totalInterest, totalPrincipal, timeToMaturity }, values) => {
 		const poiMez = new Fraction(
 			Big(values["threeTranche"]["Mezzanine"]["percentageOfInterest"]).toNumber(),
 			100
@@ -854,17 +836,18 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		form.setFieldsValue({
 			threeTranche: {
 				Senior: {
-					apr: ratioFormatter.format(seniorApr.toNumber()).replace("%", ""),
+					apr: compactRatioFormatter(seniorApr.toNumber()),
 				},
 				Mezzanine: {
-					apr: ratioFormatter.format(mezApr.toNumber()).replace("%", ""),
+					apr: compactRatioFormatter(mezApr.toNumber()),
 				},
 				Junior: {
-					apr: ratioFormatter.format(juniorApr.toNumber()).replace("%", ""),
+					apr: compactRatioFormatter(juniorApr.toNumber()),
 				},
 			},
 		});
 	};
+
 	const onNextStep = async (fieldsToValidate: string[], nextStep: number) => {
 		await form.validateFields(fieldsToValidate).then(() => setCurrentStep(nextStep));
 	};
