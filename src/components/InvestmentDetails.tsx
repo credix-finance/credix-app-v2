@@ -1,57 +1,29 @@
 import React from "react";
-import { InvestmentReturn } from "@components/InvestmentReturn";
-import { TokenAmount } from "@solana/web3.js";
-import Big from "big.js";
-import { formatNumber, compactFormatter, round } from "@utils/format.utils";
+import { compactFormatter } from "@utils/format.utils";
 import { useIntl } from "react-intl";
+import { Icon, IconDimension } from "./Icon";
 
 interface InvestmentDetailsProps {
-	balance: TokenAmount;
+	balance: number;
 	balanceCurrency: string;
-	investments: number;
-	investmentsCurrency: string;
-	investmentsReturn?: number;
 }
 
-export const InvestmentDetails = ({
-	balance,
-	balanceCurrency,
-	investments,
-	investmentsCurrency,
-	investmentsReturn,
-}: InvestmentDetailsProps) => {
+export const InvestmentDetails = ({ balance, balanceCurrency }: InvestmentDetailsProps) => {
 	const intl = useIntl();
 
 	return (
-		<div className="md:grid md:grid-cols-2 space-y-2 md:space-y-0 md:space-x-4">
-			<div className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block">
-				<div className="text-xs md:text-base font-medium">
+		<div className="md:grid md:grid-cols-2 gap-12 space-y-2 md:space-y-0 md:space-x-4">
+			<div className="rounded border border-solid border-neutral-40 p-6 grid place-items-center md:block">
+				<div className="text-xs md:text-base font-medium flex items-center">
+					<Icon name="trend-up" size={IconDimension.MIDDLE} className="mr-2" />
 					{intl.formatMessage({
-						defaultMessage: "Current balance",
-						description: "Investment details: current balance",
+						defaultMessage: "Current value",
+						description: "Investment details: current value",
 					})}
 				</div>
-				<div className="text-2xl font-bold">{`${
-					balance ? compactFormatter.format(balance.uiAmount) : 0
+				<div className="text-2xl font-bold mt-2">{`${
+					balance ? compactFormatter.format(balance) : 0
 				} ${balanceCurrency}`}</div>
-			</div>
-			<div className="rounded border border-solid border-neutral-40 bg-neutral-0 p-6 grid place-items-center md:block">
-				<div className="flex justify-between items-start md:space-x-24 md:justify-start">
-					<div className="text-xs md:text-base font-medium">
-						{intl.formatMessage({
-							defaultMessage: "Current investments",
-							description: "Investment details: current investments",
-						})}
-					</div>
-					{/* TODO: show this component when the endpoint is implemented */}
-					{false && <InvestmentReturn value={investmentsReturn} className="hidden md:flex" />}
-				</div>
-				<div>
-					<div className="text-2xl font-bold">{`${
-						investments &&
-						formatNumber(round(Big(investments), Big.roundHalfEven), compactFormatter.format)
-					} ${investmentsCurrency}`}</div>
-				</div>
 			</div>
 		</div>
 	);

@@ -20,10 +20,7 @@ export const AddMaxButtonSuffix: FunctionComponent<AddMaxButtonSuffixProps> = ({
 	};
 
 	return (
-		<div
-			onClick={onAddMax}
-			className="md:pr-5 hover:cursor-pointer font-medium hover:font-semibold"
-		>
+		<div onClick={onAddMax} className="pr-5 hover:cursor-pointer font-medium hover:font-semibold">
 			{intl.formatMessage({
 				defaultMessage: "MAX",
 				description: "Add max button suffix: label",

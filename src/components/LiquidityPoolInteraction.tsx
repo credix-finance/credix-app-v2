@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { ReactNode } from "react";
 import { Form } from "antd";
 import { FormProps } from "antd/lib/form";
-import { Icon } from "@components/Icon";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
-import { InvestmentDetails } from "@components/InvestmentDetails";
-import { useCredixClient } from "@credix/credix-client";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { TokenAmount } from "@solana/web3.js";
 import { validateMaxValue, validateMinValue } from "@utils/validation.utils";
-import { useStore } from "@state/useStore";
-import { useRouter } from "next/router";
+import { AddMaxButtonSuffix } from "@components/AddMaxButtonSuffix";
+import { defineMessages } from "@formatjs/intl";
+import { useIntl } from "react-intl";
 
+export enum LPInteraction {
+	INVEST = "invest",
+	WITHDRAW = "withdraw",
+}
 export interface LiquidityPoolInteractionForm {
 	amount: number;
 }
@@ -22,7 +22,7 @@ interface LiquidityPoolInteractionProps {
 	 * "invest" will transfer USDC from the user's wallet to the liquidity pool in exchange for LP tokens
 	 * "withdraw" will transfer USDC from the liquidity pool in exchange for LP tokens
 	 */
-	action: "invest" | "withdraw";
+	action: LPInteraction;
 	/**
 	 * Action to perform when form is submitted
 	 */
@@ -31,87 +31,32 @@ interface LiquidityPoolInteractionProps {
 	 * Action to perform when form submission fails
 	 */
 	onSubmitFailed?: FormProps["onFinishFailed"];
+	maxValue: number;
+	icon: ReactNode;
 }
 
 export const LiquidityPoolInteraction = ({
 	action,
 	onSubmit,
 	onSubmitFailed,
+	maxValue,
+	icon,
 }: LiquidityPoolInteractionProps) => {
-	const router = useRouter();
-	const { marketplace } = router.query;
-	const client = useCredixClient();
-	const maybeFetchMarket = useStore((state) => state.maybeFetchMarket);
-	const market = useStore((state) => state.market);
-	const { publicKey } = useWallet();
-	const [userBaseBalance, setUserBaseBalance] = useState<TokenAmount>();
-	const [userStake, setUserStake] = useState<number>(0);
 	const [form] = Form.useForm();
-	const [maxInvestmentAmount, setMaxInvestmentAmount] = useState<number>(0);
-	const [maxWithdrawalAmount, setMaxWithdrawalAmount] = useState<number>(0);
-
-	const getUserBaseBalance = useCallback(async () => {
-		if (!publicKey) {
-			return;
-		}
-
-		const userBaseBalance = await market?.userBaseBalance(publicKey);
-		setUserBaseBalance(userBaseBalance);
-
-		if (userBaseBalance) {
-			setMaxInvestmentAmount(userBaseBalance.uiAmount);
-		}
-	}, [market, publicKey]);
-
-	const getUserStake = useCallback(async () => {
-		if (!publicKey) {
-			return;
-		}
-
-		try {
-			const userStake = await market?.getUserStake(publicKey);
-
-			if (userStake) {
-				setUserStake(userStake.uiAmount);
-				setMaxWithdrawalAmount(userStake.uiAmount);
-			}
-		} catch (err) {
-			setUserStake(0);
-			setMaxWithdrawalAmount(0);
-		}
-	}, [market, publicKey]);
-
-	useEffect(() => {
-		maybeFetchMarket(client, marketplace as string);
-	}, [client, maybeFetchMarket, marketplace]);
-
-	useEffect(() => {
-		getUserBaseBalance();
-	}, [getUserBaseBalance]);
-
-	useEffect(() => {
-		getUserStake();
-	}, [getUserStake]);
-
-	const onAddMax = () => {
-		form.setFieldsValue({
-			amount: getMaxValue,
-		});
-	};
-
-	const getMaxValue = action === "invest" ? maxInvestmentAmount : maxWithdrawalAmount;
+	const intl = useIntl();
 
 	const validateMaxAmount = (value): Promise<void> => {
-		const maxValue = getMaxValue;
-		const validationMessage = `'amount' needs to be less than or equal to ${
-			action === "invest" ? "your balance" : "your invested amount"
-		}`;
+		const validationMessage = intl.formatMessage(
+			action === LPInteraction.INVEST
+				? MESSAGES.maxBalanceValidationMessage
+				: MESSAGES.maxInvestedAmountValidationMessage
+		);
 
 		return validateMaxValue(value, maxValue, validationMessage);
 	};
 
 	const validateMinAmount = (value): Promise<void> => {
-		const validationMessage = "'amount' needs to be greater than 0";
+		const validationMessage = intl.formatMessage(MESSAGES.minAmountValidationMessage);
 		return validateMinValue(value, 0, validationMessage);
 	};
 
@@ -122,62 +67,66 @@ export const LiquidityPoolInteraction = ({
 	};
 
 	return (
-		<div className="p-6 md:p-12 md:pr-36 bg-neutral-0 space-y-7">
-			<h2 className="space-x-5 flex items-center">
-				<Icon name="line-chart" className="w-7 h-7" />
-				<span className="uppercase font-bold text-2xl">{action}</span>
-			</h2>
-			<InvestmentDetails
-				balance={userBaseBalance}
-				balanceCurrency="USDC"
-				investments={userStake}
-				investmentsCurrency="USDC"
+		<Form
+			name="invest"
+			form={form}
+			onFinish={onFinish}
+			onFinishFailed={onSubmitFailed}
+			layout="vertical"
+		>
+			<Input
+				name="amount"
+				label={intl.formatMessage(MESSAGES.amountInputLabel)}
+				step="0.1"
+				className="bg-credix-primary"
+				placeholder={intl.formatMessage(MESSAGES.amountInputPlaceholder)}
+				labelClassName="mb-4"
+				lang="en"
+				type="number"
+				required={true}
+				rules={[
+					{ required: true, message: intl.formatMessage(MESSAGES.amountRequiredValidationMessage) },
+					{
+						validator: (_, value) => validateMaxAmount(value),
+					},
+					{
+						validator: (_, value) => validateMinAmount(value),
+					},
+				]}
+				suffix={<AddMaxButtonSuffix form={form} amount={maxValue} />}
 			/>
-			<Form
-				name="invest"
-				form={form}
-				onFinish={onFinish}
-				onFinishFailed={onSubmitFailed}
-				layout="vertical"
-			>
-				<Input
-					name="amount"
-					label="AMOUNT"
-					step="0.1"
-					className="bg-neutral-0"
-					placeholder="e.g. 10000"
-					lang="en"
-					type="number"
-					addonBefore="USDC"
-					required={true}
-					rules={[
-						{ required: true },
-						{
-							validator(_, value) {
-								return validateMaxAmount(value);
-							},
-						},
-						{
-							validator(_, value) {
-								return validateMinAmount(value);
-							},
-						},
-					]}
-					suffix={
-						<div
-							onClick={onAddMax}
-							className="md:pr-5 hover:cursor-pointer font-medium hover:font-semibold"
-						>
-							MAX
-						</div>
-					}
-				/>
-				<Form.Item className="mb-0">
-					<Button htmlType="submit" className="w-full md:w-max capitalize">
-						{action}
-					</Button>
-				</Form.Item>
-			</Form>
-		</div>
+			<Form.Item className="mb-0">
+				<Button htmlType="submit" className="w-full md:w-max capitalize" icon={icon}>
+					{action}
+				</Button>
+			</Form.Item>
+		</Form>
 	);
 };
+
+const MESSAGES = defineMessages({
+	amountRequiredValidationMessage: {
+		defaultMessage: "'amount' is required",
+		description: "Liquiditypoolinteraction amount required validation message",
+	},
+	maxBalanceValidationMessage: {
+		defaultMessage: "'amount' needs to be less than or equal to your balance",
+		description: "Liquiditypoolinteraction max balance validation message",
+	},
+	maxInvestedAmountValidationMessage: {
+		defaultMessage: "'amount' needs to be less than or equal to your invested amount",
+		description: "Liquiditypoolinteraction max invested amount validation message",
+	},
+	minAmountValidationMessage: {
+		defaultMessage: "'amount' needs to be greater than 0",
+		description: "Liquiditypoolinteraction min amount validation message",
+	},
+	amountInputLabel: {
+		defaultMessage: "Amount",
+		description: "Liquiditypoolinteraction amount input label",
+	},
+	amountInputPlaceholder: {
+		defaultMessage: "USDC",
+		description: "Liquiditypoolinteraction amount input placeholder",
+	},
+});
