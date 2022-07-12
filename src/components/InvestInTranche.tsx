@@ -74,7 +74,6 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 			if (tranche && publicKey) {
 				const tranchePass = await tranche.fetchPass(publicKey);
 				setTranchePass(tranchePass);
-				form.validateFields(["amount"]);
 			}
 		};
 
