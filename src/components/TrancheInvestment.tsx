@@ -66,7 +66,16 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 				tranche,
 				userTrancheBalance
 			);
-			const userAvailable = userInvestmentPercentage.apply(tranche.totalRepaid.uiAmount);
+			const trancheAvailable = Big(0);
+			if (tranche.earlyWithdrawalInterest) {
+				trancheAvailable.add(Big(tranche.interestRepaid.uiAmountString));
+			}
+
+			if (tranche.earlyWithdrawalPrincipal) {
+				trancheAvailable.add(Big(tranche.principalRepaid.uiAmountString));
+			}
+
+			const userAvailable = userInvestmentPercentage.apply(trancheAvailable.toNumber());
 
 			if (investorTranche?.amountWithdrawn.uiAmount) {
 				setWithdrawableAmount(userAvailable.minus(investorTranche.amountWithdrawn.uiAmount));
@@ -203,7 +212,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 								</div>
 							</div>
 						</div>
-						<div className="w-full h-[1px] bg-neutral-105 my-8"></div>
+						{earlyWithdrawal && <div className="w-full h-[1px] bg-neutral-105 my-8"></div>}
 					</div>
 					<div>
 						{/* TODO: fix spacing caused by feedback */}
