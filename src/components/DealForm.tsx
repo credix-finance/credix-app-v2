@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, SetStateAction, Dispatch, useState } from "react";
 import { Form } from "antd";
 import { Stepper } from "@components/Stepper";
 import { DealDetailsStep } from "@components/DealDetailsStep";
