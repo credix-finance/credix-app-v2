@@ -100,6 +100,14 @@ export const twoTrancheStructure: DefaultTranche = {
 		},
 		{
 			name: "Mezzanine",
+			apr: null,
+			value: null,
+			percentageOfPrincipal: null,
+			percentageOfInterest: null,
+			editable: false,
+		},
+		{
+			name: "Junior",
 			value: 0.2,
 			apr: new Fraction(135, 1000).apply(100).toNumber(),
 			percentageOfPrincipal: new Fraction(20, 100).apply(100).toNumber(),
@@ -107,14 +115,6 @@ export const twoTrancheStructure: DefaultTranche = {
 			earlyWithdrawalPrincipal: true,
 			earlyWithdrawalInterest: true,
 			editable: true,
-		},
-		{
-			name: "Junior",
-			apr: null,
-			value: null,
-			percentageOfPrincipal: null,
-			percentageOfInterest: null,
-			editable: false,
 		},
 	],
 };
