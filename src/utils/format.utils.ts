@@ -41,7 +41,7 @@ export const round = (
 	return null;
 };
 
-const isBig = (n: BigSource | TokenAmount): n is Big => {
+export const isBig = (n: BigSource | TokenAmount): n is Big => {
 	if (typeof n === "number" || typeof n === "string" || Object.hasOwn(n, "c")) {
 		return true;
 	}
@@ -49,7 +49,7 @@ const isBig = (n: BigSource | TokenAmount): n is Big => {
 	return false;
 };
 
-const isTokenAmount = (n: BigSource | TokenAmount): n is TokenAmount => {
+export const isTokenAmount = (n: BigSource | TokenAmount): n is TokenAmount => {
 	if (isBig(n) || typeof n === "number" || typeof n === "string") {
 		return false;
 	}
