@@ -43,7 +43,6 @@ export enum dealFormValidationFields {
 }
 
 export const trancheSettingsFields = Object.values(TrancheFormValue);
-
 export interface DealFormInput extends DealTrancheSettings {
 	principal: number;
 	financingFee: number;
@@ -100,12 +99,12 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		if (trancheSettingsFields.find((field) => field === changedValue)) {
 			const tranche = Object.keys(changedValues[changedValue])[0];
 			const field = Object.keys(changedValues[changedValue][tranche])[0];
-			const update = trancheUpdateMap[changedValue][tranche][field];
-			update();
+			const updateFunction = trancheUpdateMap[changedValue][tranche][field];
+			updateFunction();
 		}
 	};
 
-	const getSharedOnChangeFormValues = (): {
+	const getCommonDealValues = (): {
 		totalPrincipal: number;
 		timeToMaturity: number;
 		totalInterest: number;
@@ -143,7 +142,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["twoTranche", "Senior", "apr"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		const poiSenior = twoTrancheSeniorPercentageOfInterest({
 			apr: new Fraction(aprSenior, 100),
@@ -184,7 +183,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["twoTranche", "Senior", "apr"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 		// calculate percentage of principal for senior
 		const popSenior = twoTrancheSeniorPercentageOfPrincipal({
 			percentageOfInterest: new Fraction(percentageOfInterestSenior, 100),
@@ -227,7 +226,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["twoTranche", "Senior", "percentageOfInterest"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		// calculate apr for senior
 		const aprSenior = seniorAPR({
@@ -272,7 +271,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["twoTranche", "Mezzanine", "apr"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 		// calculate percentage of interest for mezzanine
 		const poiMez = twoTrancheJuniorPercentageOfInterest({
 			apr: new Fraction(aprMez, 100),
@@ -313,7 +312,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["twoTranche", "Senior", "percentageOfInterest"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		const popSenior = new Fraction(100 - popMez, 100);
 		// calculate percentage of interest for mezzanine
@@ -354,7 +353,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["twoTranche", "Mezzanine", "percentageOfInterest"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		const poiSenior = new Fraction(100 - poiMez, 100);
 		const popMez = twoTrancheJuniorPercentageOfPrincipal({
@@ -400,7 +399,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		const poiSenior = threeTrancheSeniorPercentageOfInterest({
 			apr: new Fraction(aprSenior, 100),
@@ -446,7 +445,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		const poiSenior = threeTrancheSeniorPercentageOfInterest({
 			percentageOfPrincipal: new Fraction(popSenior, 100),
@@ -495,7 +494,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		const aprSenior = seniorAPR({
 			percentageOfInterest: new Fraction(poiSenior, 100),
@@ -544,7 +543,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		const poiMez = threeTrancheMezPercentageOfInterest({
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
@@ -591,7 +590,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["threeTranche", "Mezzanine", "apr"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		const poiMez = threeTrancheMezPercentageOfInterest({
 			apr: new Fraction(aprMez, 100),
@@ -639,7 +638,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			["threeTranche", "Mezzanine", "percentageOfInterest"],
 		]);
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		const aprMez = threeTrancheMezAPR({
 			percentageOfPrincipalMez: new Fraction(popMez, 100),
@@ -715,7 +714,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			return;
 		}
 
-		const sharedValues = getSharedOnChangeFormValues();
+		const sharedValues = getCommonDealValues();
 
 		calculateOneTrancheApr(sharedValues, values);
 		calculateTwoTrancheAprs(sharedValues, values);
