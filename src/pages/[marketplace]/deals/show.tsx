@@ -147,7 +147,7 @@ const Show: NextPageWithLayout = () => {
 					</div>
 				)}
 			{(dealStatus === DealStatus.IN_PROGRESS || dealStatus === DealStatus.CLOSED) && (
-				<DealInvestments className="mt-16" deal={deal} />
+				<DealInvestments className="mt-16" deal={deal} dealStatus={dealStatus} />
 			)}
 			{dealStatus === DealStatus.OPEN_FOR_FUNDING && (
 				<DealTrancheInvest className="mt-16" deal={deal} />

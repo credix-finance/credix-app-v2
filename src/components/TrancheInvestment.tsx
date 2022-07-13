@@ -3,7 +3,7 @@ import { Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Form } from "antd";
-import { Tranche, useCredixClient } from "@credix/credix-client";
+import { DealStatus, Tranche, useCredixClient } from "@credix/credix-client";
 import { round, toProgramAmount, toUIAmount } from "@utils/format.utils";
 import { zeroTokenAmount } from "@consts";
 import { defineMessages, useIntl } from "react-intl";
@@ -29,12 +29,14 @@ interface TrancheInvestmentProps {
 	tranche: Tranche;
 	userTrancheBalance: TokenAmount;
 	deal: DealWithNestedResources;
+	dealStatus: DealStatus;
 }
 
 export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 	tranche,
 	deal,
 	userTrancheBalance,
+	dealStatus,
 }) => {
 	const router = useRouter();
 	const { marketplace } = router.query;
@@ -47,9 +49,29 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 	const [currentReturns, setCurrentReturns] = useState<Big>(Big(0));
 	const [currentValue, setCurrentValue] = useState<Big>(Big(0));
 	const trancheNames = Object.values(TrancheName);
+	const withdrawEnabled =
+		dealStatus === DealStatus.CLOSED ||
+		(tranche.earlyWithdrawalInterest && tranche.earlyWithdrawalPrincipal);
 
 	const client = useCredixClient();
 	const fetchMarket = useStore((state) => state.fetchMarket);
+
+	const availableInTranche = (tranche: Tranche, dealStatus: DealStatus) => {
+		if (dealStatus === DealStatus.CLOSED) {
+			return tranche.totalRepaid.amount;
+		}
+
+		const trancheAvailable = Big(0);
+		if (tranche.earlyWithdrawalInterest) {
+			trancheAvailable.add(Big(tranche.interestRepaid.amount));
+		}
+
+		if (tranche.earlyWithdrawalPrincipal) {
+			trancheAvailable.add(Big(tranche.principalRepaid.amount));
+		}
+
+		return trancheAvailable;
+	};
 
 	const getInvestorTranche = useCallback(async () => {
 		if (tranche && publicKey) {
@@ -62,28 +84,21 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 				console.log(error);
 			}
 
+			const trancheAvailable = availableInTranche(tranche, dealStatus);
 			const userInvestmentPercentage = calculateInvestorPercentageOfTranche(
 				tranche,
 				userTrancheBalance
 			);
-			const trancheAvailable = Big(0);
-			if (tranche.earlyWithdrawalInterest) {
-				trancheAvailable.add(Big(tranche.interestRepaid.uiAmountString));
-			}
 
-			if (tranche.earlyWithdrawalPrincipal) {
-				trancheAvailable.add(Big(tranche.principalRepaid.uiAmountString));
-			}
-
-			const userAvailable = userInvestmentPercentage.apply(trancheAvailable.toNumber());
+			const userAvailable = userInvestmentPercentage.apply(Big(trancheAvailable).toNumber());
 
 			if (investorTranche?.amountWithdrawn.uiAmount) {
-				setWithdrawableAmount(userAvailable.minus(investorTranche.amountWithdrawn.uiAmount));
+				setWithdrawableAmount(userAvailable.minus(investorTranche.amountWithdrawn.amount));
 			} else if (userAvailable) {
 				setWithdrawableAmount(userAvailable);
 			}
 		}
-	}, [tranche, publicKey, userTrancheBalance]);
+	}, [tranche, publicKey, userTrancheBalance, dealStatus]);
 
 	useEffect(() => {
 		if (tranche && deal && userTrancheBalance) {
@@ -212,9 +227,9 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 								</div>
 							</div>
 						</div>
-						{earlyWithdrawal && <div className="w-full h-[1px] bg-neutral-105 my-8"></div>}
+						{withdrawEnabled && <div className="w-full h-[1px] bg-neutral-105 my-8"></div>}
 					</div>
-					<div>
+					<div className={`${!withdrawEnabled && "invisible"}`}>
 						{/* TODO: fix spacing caused by feedback */}
 						<Form name="deal" form={form} onFinish={withdrawFromTranche} layout="vertical">
 							<div className="flex space-x-4">
@@ -227,7 +242,12 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 									labelClassName="font-bold text-sm"
 									placeholder={intl.formatMessage(MESSAGES.amount)}
 									name="amount"
-									suffix={<AddMaxButtonSuffix form={form} amount={withdrawableAmount.toNumber()} />}
+									suffix={
+										<AddMaxButtonSuffix
+											form={form}
+											amount={toUIAmount(withdrawableAmount).toNumber()}
+										/>
+									}
 								/>
 								<Form.Item className="mb-0" label={" "}>
 									<Button
@@ -247,7 +267,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 									{intl.formatMessage(MESSAGES.withdrawable)}
 								</div>
 								<div className="mt-2 font-bold text-sm">
-									{round(withdrawableAmount, Big.roundDown, 0).toString()} USDC
+									{round(toUIAmount(withdrawableAmount), Big.roundDown, 0).toString()} USDC
 								</div>
 							</div>
 							<div>

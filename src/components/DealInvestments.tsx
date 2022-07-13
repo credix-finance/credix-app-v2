@@ -3,7 +3,7 @@ import { classNames } from "@utils/format.utils";
 import { useIntl } from "react-intl";
 import { TrancheInvestment } from "./TrancheInvestment";
 import { DealWithNestedResources } from "@state/dealSlice";
-import { Tranche } from "@credix/credix-client";
+import { DealStatus, Tranche } from "@credix/credix-client";
 import { asyncFilter } from "@utils/async.utils";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
@@ -12,9 +12,14 @@ import { SENIOR_TRANCHE_INDEX } from "@consts";
 interface DealInvestmentsProps {
 	className?: string;
 	deal: DealWithNestedResources;
+	dealStatus: DealStatus;
 }
 
-export const DealInvestments: FunctionComponent<DealInvestmentsProps> = ({ className, deal }) => {
+export const DealInvestments: FunctionComponent<DealInvestmentsProps> = ({
+	className,
+	deal,
+	dealStatus,
+}) => {
 	const intl = useIntl();
 	className = classNames([className, "space-y-6"]);
 	const [tranches, setTranches] = useState<Tranche[]>([]);
@@ -62,6 +67,7 @@ export const DealInvestments: FunctionComponent<DealInvestmentsProps> = ({ class
 					tranche={tranche}
 					userTrancheBalance={userTrancheBalances[tranche.index]}
 					deal={deal}
+					dealStatus={dealStatus}
 				/>
 			))}
 		</div>
