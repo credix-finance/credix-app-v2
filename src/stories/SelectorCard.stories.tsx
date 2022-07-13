@@ -147,8 +147,8 @@ BulletLoan.decorators = [
 export const Tranches = Template.bind({});
 Tranches.decorators = [
 	() => (
-		<Form layout="vertical" initialValues={{ repaymentType: "oneTranche" }}>
-			<FormItem name="repaymentType">
+		<Form layout="vertical" initialValues={{ trancheStructure: "oneTranche" }}>
+			<FormItem name="trancheStructure">
 				<Radio.Group>
 					<div className="space-y-8">
 						<SelectorCard
