@@ -1,5 +1,6 @@
 const path = require("path");
 const theme = require("../theme");
+require('@ungap/has-own')
 
 module.exports = {
 	stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
