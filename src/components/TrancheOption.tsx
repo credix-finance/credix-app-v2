@@ -86,10 +86,7 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({
 					<TrancheLine
 						key={tranche.name}
 						name={tranche.name}
-						apr={tranche.apr}
 						trancheTitle={trancheStructure}
-						percentageOfPrincipal={tranche.percentageOfPrincipal}
-						percentageOfInterest={tranche.percentageOfInterest}
 						color={trancheColors[index]}
 						highlightedElement={highlightedElement}
 					/>

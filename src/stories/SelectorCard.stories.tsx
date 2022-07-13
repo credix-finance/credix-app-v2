@@ -147,25 +147,40 @@ BulletLoan.decorators = [
 export const Tranches = Template.bind({});
 Tranches.decorators = [
 	() => (
-		<Form layout="vertical" initialValues={{ repaymentType: "oneTranche" }}>
-			<FormItem name="repaymentType">
+		<Form layout="vertical" initialValues={{ trancheStructure: "oneTranche" }}>
+			<FormItem name="trancheStructure">
 				<Radio.Group>
 					<div className="space-y-8">
 						<SelectorCard
-							content={<TrancheOption trancheData={defaultTranches[0].trancheData} />}
+							content={
+								<TrancheOption
+									trancheData={defaultTranches[0].trancheData}
+									trancheStructure="oneTranche"
+								/>
+							}
 							value="oneTranche"
 							title="One tranche structure"
 							checked={true}
 						/>
 						<SelectorCard
-							content={<TrancheOption trancheData={defaultTranches[1].trancheData} />}
+							content={
+								<TrancheOption
+									trancheData={defaultTranches[1].trancheData}
+									trancheStructure="twoTranche"
+								/>
+							}
 							value="twoTranche"
 							title="Two tranche structure"
 							showContent={true}
 							action={<Button type="text">Edit</Button>}
 						/>
 						<SelectorCard
-							content={<TrancheOption trancheData={defaultTranches[2].trancheData} />}
+							content={
+								<TrancheOption
+									trancheData={defaultTranches[2].trancheData}
+									trancheStructure="threeTranche"
+								/>
+							}
 							value="threeTranche"
 							title="Three tranche structure"
 							showContent={true}

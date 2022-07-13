@@ -6,11 +6,17 @@ import { FormItem } from "./FormItem";
 import { SelectorCard } from "./SelectorCard";
 import { Button } from "./Button";
 import { Icon, IconDimension } from "./Icon";
-import { DefaultTranche, defaultTranches } from "@consts";
+import {
+	DealTrancheSettings,
+	DefaultTranche,
+	defaultTranches,
+	defaultTrancheSettings,
+} from "@consts";
 import { TrancheOption } from "./TrancheOption";
 import { Drawer } from "./Drawer";
 import { Switch } from "./Switch";
 import { Input } from "./Input";
+import { trancheSettingsFields } from "./DealForm";
 
 const INPUT_NUMBER_STEP = "0.1";
 
@@ -18,16 +24,12 @@ interface DealTranchesStepProps {
 	className?: string;
 	form: FormInstance;
 	setCurrentStep: (step: number) => void;
-	onCloseTrancheSettings: () => void;
-	onSaveTrancheSettings: () => void;
 }
 
 export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 	className,
 	form,
 	setCurrentStep,
-	onCloseTrancheSettings,
-	onSaveTrancheSettings,
 }) => {
 	const selectedTranche = Form.useWatch("trancheStructure", form);
 	const intl = useIntl();
@@ -46,8 +48,6 @@ export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 								editable={index !== 0}
 								form={form}
 								checked={selectedTranche === tranche.value}
-								onCloseTrancheSettings={onCloseTrancheSettings}
-								onSaveTrancheSettings={onSaveTrancheSettings}
 							/>
 						))}
 					</div>
@@ -74,24 +74,33 @@ const TrancheSelectionOption: FunctionComponent<{
 	editable: boolean;
 	form: FormInstance;
 	checked: boolean;
-	onCloseTrancheSettings: () => void;
-	onSaveTrancheSettings: () => void;
-}> = ({ tranche, editable, form, checked, onCloseTrancheSettings, onSaveTrancheSettings }) => {
+}> = ({ tranche, editable, form, checked }) => {
 	const intl = useIntl();
 	const [visible, setVisible] = useState(false);
+	const [trancheSettings, setTrancheSettings] =
+		useState<DealTrancheSettings>(defaultTrancheSettings);
 
 	const onClose = () => {
 		setVisible(false);
 	};
 
+	const onOpen = () => {
+		// save the current form values to the trancheSettings "cache"
+		const trancheSettings = form.getFieldsValue(trancheSettingsFields);
+		setTrancheSettings(trancheSettings);
+		setVisible(true);
+	};
+
 	const onSave = () => {
+		const updatedTrancheSettings = form.getFieldsValue(trancheSettingsFields);
+		// Update the TrancheSettings "cache"
+		setTrancheSettings(updatedTrancheSettings);
 		onClose();
-		onSaveTrancheSettings();
 	};
 
 	const onCancel = () => {
+		form.setFieldsValue(trancheSettings);
 		onClose();
-		onCloseTrancheSettings();
 	};
 
 	return (
@@ -107,7 +116,7 @@ const TrancheSelectionOption: FunctionComponent<{
 				showContent={true}
 				action={
 					editable && (
-						<Button type="text" onClick={() => setVisible(true)}>
+						<Button type="text" onClick={onOpen}>
 							{intl.formatMessage(MESSAGES.edit)}
 						</Button>
 					)
@@ -120,7 +129,7 @@ const TrancheSelectionOption: FunctionComponent<{
 				}}
 			/>
 			<Drawer
-				onClose={onClose}
+				onClose={onCancel}
 				onSave={onSave}
 				onCancel={onCancel}
 				visible={visible}

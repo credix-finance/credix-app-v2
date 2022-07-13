@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useContext, useState } from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { validateMinValue, validatePublicKey } from "@utils/validation.utils";
 import { classNames } from "@utils/format.utils";
@@ -15,22 +15,27 @@ import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 import { dealFormValidationFields } from "./DealForm";
 import { Drawer } from "./Drawer";
 import { Switch } from "./Switch";
+import { DealAdvancedSettings, defaultAdvancedSettings } from "@consts";
+
+const advancedSettingsFields = [
+	"slashInterestToPrincipal",
+	"slashPrincipalToInterest",
+	"trueWaterfall",
+];
 
 interface DealDetailsStepProps {
 	className?: string;
 	form: FormInstance;
 	onNextStep: (fieldsToValidate: string[], nextStep: number) => void;
-	onCloseAdvancedSettings: () => void;
-	onSaveAdvancedSettings: () => void;
 }
 
 export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 	className,
 	form,
 	onNextStep,
-	onCloseAdvancedSettings,
-	onSaveAdvancedSettings,
 }) => {
+	const [advancedSettings, setAdvancedSettings] =
+		useState<DealAdvancedSettings>(defaultAdvancedSettings);
 	const selectedRepaymentType = Form.useWatch("repaymentType", form);
 	const principal = Form.useWatch("principal", form);
 	const financingFee = Form.useWatch("financingFee", form);
@@ -38,16 +43,26 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 	const intl = useIntl();
 	const [visible, setVisible] = useState(false);
 
-	const onClose = () => setVisible(false);
+	const onClose = () => {
+		setVisible(false);
+	};
 
-	const onCancel = () => {
-		onClose();
-		onCloseAdvancedSettings();
+	const onOpen = () => {
+		const advancedSettings = form.getFieldsValue(advancedSettingsFields);
+		setAdvancedSettings(advancedSettings);
+		setVisible(true);
 	};
 
 	const onSave = () => {
+		const updatedAdvancedSettings = form.getFieldsValue(advancedSettingsFields);
+		// Update the advancedSettings "cache"
+		setAdvancedSettings(updatedAdvancedSettings);
 		onClose();
-		onSaveAdvancedSettings();
+	};
+
+	const onCancel = () => {
+		form.setFieldsValue(advancedSettings);
+		onClose();
 	};
 
 	className = classNames([className, "space-y-8"]);
@@ -245,12 +260,12 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				<Button
 					type="text"
 					icon={<Icon name="adjust" size={IconDimension.MIDDLE} />}
-					onClick={() => setVisible(true)}
+					onClick={onOpen}
 				>
 					{intl.formatMessage(MESSAGES.advancedSettingsButtonText)}
 				</Button>
 				<Drawer
-					onClose={onClose}
+					onClose={onCancel}
 					onSave={onSave}
 					onCancel={onCancel}
 					visible={visible}
