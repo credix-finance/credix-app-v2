@@ -18,6 +18,7 @@ export const Tag = ({ children, color }: TagProps) => {
 	return (
 		<div
 			className={`text-sm font-semibold inline-block whitespace-nowrap px-4 py-2 rounded-full h-max ${tagColorStyles[color]}`}
+			data-cy="tag"
 		>
 			{children}
 		</div>

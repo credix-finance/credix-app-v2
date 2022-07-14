@@ -13,6 +13,7 @@ interface SelectorCardProps {
 	isInteractive?: boolean;
 	className?: string;
 	onSelectCard?: () => void;
+	dataCy?: string;
 }
 
 export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
@@ -26,6 +27,7 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 	isInteractive,
 	className,
 	onSelectCard,
+	dataCy,
 }) => {
 	const classes = classNames([
 		className,
@@ -37,7 +39,7 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 	]);
 
 	return (
-		<div className={classes} onClick={isInteractive ? onSelectCard : undefined}>
+		<div className={classes} onClick={isInteractive ? onSelectCard : undefined} data-cy={dataCy}>
 			<div className="flex justify-between items-start">
 				{isInteractive ? (
 					<Radio value={value}>

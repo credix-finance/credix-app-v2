@@ -85,6 +85,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, classNam
 				value={`${compactFormatter.format(deal.repaymentSchedule.totalPrincipal.uiAmount)} USDC`}
 				icon="coin-dollar"
 				emphasizeValue={true}
+				dataCy="deal-aspect-principal"
 			/>
 			<DealAspect
 				title={intl.formatMessage({
@@ -92,6 +93,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, classNam
 					description: "Deal aspect: interest",
 				})}
 				value={`${compactFormatter.format(deal.repaymentSchedule.totalInterest.uiAmount)} USDC`}
+				dataCy="deal-aspect-interest"
 			/>
 			<DealAspect
 				title={intl.formatMessage({
@@ -99,6 +101,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, classNam
 					description: "Deal aspect: time to maturity",
 				})}
 				value={`${deal.repaymentSchedule.duration} DAYS`}
+				dataCy="deal-aspect-time-to-maturity"
 			/>
 			<DealAspect
 				title={intl.formatMessage({
@@ -107,6 +110,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, classNam
 				})}
 				value={`${principalRepaid} USDC`}
 				ratio={principalRepaidRatio}
+				dataCy="deal-aspect-principal-repaid"
 			/>
 			<DealAspect
 				title={intl.formatMessage({
@@ -115,6 +119,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, classNam
 				})}
 				value={`${interestRepaid} USDC`}
 				ratio={interestRepaidRatio}
+				dataCy="deal-aspect-interest-repaid"
 			/>
 			<DealAspect
 				title={intl.formatMessage({
@@ -126,6 +131,7 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, classNam
 					{ daysRemaining: daysRemaining }
 				)}
 				ratio={daysRemainingRatio}
+				dataCy="deal-aspect-time-left"
 			/>
 		</div>
 	);

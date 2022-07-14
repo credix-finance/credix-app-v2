@@ -15,7 +15,7 @@ declare global {
 Cypress.on("window:before:load", (win) => {
 	const key = new Uint8Array(Cypress.env("MGMT_KEY"));
 	const payer = Keypair.fromSecretKey(key);
-	const wallet = PhantomWalletMock.create(RPCEndpoint.DEVNET, payer, "confirmed");
+	const wallet = PhantomWalletMock.create(RPCEndpoint.LOCALNET, payer, "confirmed");
 
 	/**
 	 * "Phantom's browser extension and mobile in-app browser will both inject a solana object into the

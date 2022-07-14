@@ -95,6 +95,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				<div>
 					<Input
 						className="bg-credix-primary"
+						data-cy="deal-form-name-input"
 						name={dealFormValidationFields.dealName}
 						label={intl.formatMessage(MESSAGES.nameInputLabel)}
 						placeholder={intl.formatMessage(MESSAGES.nameInputPlaceholder)}
@@ -110,6 +111,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					<Input
 						name={dealFormValidationFields.borrower}
 						className="bg-credix-primary"
+						data-cy="deal-form-borrower-input"
 						label={intl.formatMessage(MESSAGES.borrowerKeyInputLabel)}
 						placeholder={intl.formatMessage(MESSAGES.borrowerKeyInputPlaceholder)}
 						type="text"
@@ -129,6 +131,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					<TextArea
 						rows={6}
 						name="details"
+						data-cy="deal-form-details-input"
 						className="bg-credix-primary"
 						label={intl.formatMessage(MESSAGES.detailsInputLabel)}
 						placeholder={intl.formatMessage(MESSAGES.detailsInputPlaceholder)}
@@ -138,6 +141,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				<div>
 					<Input
 						name={dealFormValidationFields.principal}
+						data-cy="deal-form-principal-input"
 						className="bg-credix-primary"
 						label={intl.formatMessage(MESSAGES.principalInputLabel)}
 						placeholder={intl.formatMessage(MESSAGES.principalInputPlaceholder)}
@@ -157,6 +161,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					<Input
 						name={dealFormValidationFields.financingFee}
 						className="bg-credix-primary"
+						data-cy="deal-form-financing-fee-input"
 						label={intl.formatMessage(MESSAGES.financingFeeInputLabel)}
 						placeholder={intl.formatMessage(MESSAGES.financingFeeInputPlaceholder)}
 						type="number"
@@ -173,6 +178,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					<Input
 						name={dealFormValidationFields.timeToMaturity}
 						className="bg-credix-primary"
+						data-cy="deal-form-time-to-maturity-input"
 						label={intl.formatMessage(MESSAGES.timeToMaturityInputLabel)}
 						placeholder={intl.formatMessage(MESSAGES.timeToMaturityInputPlaceholder)}
 						type="number"
@@ -223,6 +229,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 									timeToMaturity={Number(timeToMaturity)}
 								/>
 							}
+							dataCy="deal-form-repayment-type-amortization"
 							value={RepaymentScheduleType.AMORTIZATION}
 							title={intl.formatMessage(MESSAGES.amortizationLoanTitle)}
 							subtitle={intl.formatMessage(MESSAGES.amortizationLoanSubtitle)}
@@ -242,6 +249,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 									timeToMaturity={Number(timeToMaturity)}
 								/>
 							}
+							dataCy="deal-form-repayment-type-bullet"
 							value={RepaymentScheduleType.BULLET}
 							title={intl.formatMessage(MESSAGES.bulletLoanTitle)}
 							subtitle={intl.formatMessage(MESSAGES.bulletLoanSubtitle)}
@@ -289,6 +297,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				className="mt-8"
 				icon={<Icon name="plus-square" size={IconDimension.MIDDLE} />}
 				onClick={() => onNextStep(Object.values(dealFormValidationFields), 1)}
+				data-cy="deal-form-next-step-button"
 			>
 				{intl.formatMessage(MESSAGES.nextStepButton)}
 			</Button>
