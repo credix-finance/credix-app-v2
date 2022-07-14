@@ -119,6 +119,10 @@ body {
 	@apply gap-1 !important;
 }
 
+.ant-pagination-options {
+	@apply hidden !important;
+}
+
 .ant-table-pagination > * {
 	@apply w-[39px] h-8 border-none m-0 rounded-none !important;
 }
