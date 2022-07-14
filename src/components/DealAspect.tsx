@@ -9,6 +9,7 @@ interface DealAspectProps {
 	ratio?: Fraction;
 	emphasizeValue?: boolean;
 	icon?: IconName;
+	dataCy?: string;
 }
 
 export const DealAspect: FunctionComponent<DealAspectProps> = ({
@@ -17,6 +18,7 @@ export const DealAspect: FunctionComponent<DealAspectProps> = ({
 	ratio,
 	emphasizeValue = false,
 	icon,
+	dataCy,
 }) => {
 	const hasRatio = ratio !== undefined && !ratio.equals(new Fraction(0, 1));
 	return (
@@ -26,7 +28,12 @@ export const DealAspect: FunctionComponent<DealAspectProps> = ({
 					{icon && <Icon name={icon} size={IconDimension.MIDDLE} />}
 					<div className="font-medium text-base">{title}</div>
 				</div>
-				<div className={`${emphasizeValue ? "text-5xl" : "text-2xl"} font-bold pt-2`}>{value}</div>
+				<div
+					className={`${emphasizeValue ? "text-5xl" : "text-2xl"} font-bold pt-2`}
+					data-cy={dataCy}
+				>
+					{value}
+				</div>
 			</div>
 			{hasRatio && (
 				<div className="relative h-2 bg-neutral-90 w-full">

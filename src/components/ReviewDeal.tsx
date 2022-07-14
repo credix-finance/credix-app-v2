@@ -245,7 +245,11 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 					})}
 				</Button>
 				<Form.Item className="mb-0">
-					<Button htmlType="submit" className="w-full md:w-max capitalize">
+					<Button
+						htmlType="submit"
+						className="w-full md:w-max capitalize"
+						data-cy="deal-form-submit-button"
+					>
 						{intl.formatMessage({
 							defaultMessage: "Create Deal",
 							description: "Deal form: submit button",

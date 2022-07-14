@@ -85,6 +85,7 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 				value={`${compactFormatter.format(deal.repaymentSchedule.totalPrincipal.uiAmount)} USDC`}
 				icon="coin-dollar"
 				emphasizeValue={true}
+				dataCy="deal-aspect-principal"
 			/>
 			<DealAspect
 				title={intl.formatMessage({
@@ -92,6 +93,7 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 					description: "Deal aspect: interest",
 				})}
 				value={`${compactFormatter.format(deal.repaymentSchedule.totalInterest.uiAmount)} USDC`}
+				dataCy="deal-aspect-interest"
 			/>
 			<DealAspect
 				title={intl.formatMessage({
@@ -99,6 +101,7 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 					description: "Deal aspect: time to maturity",
 				})}
 				value={`${deal.repaymentSchedule.duration} DAYS`}
+				dataCy="deal-aspect-time-to-maturity"
 			/>
 			{deal.goLiveAt && (
 				<>

@@ -6,6 +6,13 @@ const validDealInput = {
 	timeToMaturity: "300",
 };
 
+const pendingDealData = {
+	tag: "Pending",
+	formattedPrincipal: "1M USDC",
+	formattedInterest: "70K USDC",
+	formattedTTM: `${validDealInput.timeToMaturity} DAYS`,
+};
+
 before(() => {
 	let wallet;
 
@@ -26,37 +33,36 @@ before(() => {
 
 describe("Deals page", () => {
 	it("shows the deals table with tabs", () => {
-		cy.get("#rc-tabs-0-tab-pendingDealsTab").click();
+		cy.get("#rc-tabs-0-tab-pendingDeals").click();
 
-		cy.get("#rc-tabs-0-tab-endedDealsTab").click();
+		cy.get("#rc-tabs-0-tab-openForFundingDeals").click();
 
-		cy.get("#rc-tabs-0-tab-activeDealsTab").click();
+		cy.get("#rc-tabs-0-tab-inProgressDeals").click();
+
+		cy.get("#rc-tabs-0-tab-closedDeals").click();
 	});
 
 	it("Navigates to the new deal page and creates a deal", () => {
 		cy.get("[data-cy=create-deal-button]").click();
 
 		cy.get("[data-cy=deal-form-name-input]").type(validDealInput.name);
-
 		cy.get("[data-cy=deal-form-borrower-input]").type(validDealInput.borrower);
-
 		cy.get("[data-cy=deal-form-principal-input]").type(validDealInput.principal);
-
 		cy.get("[data-cy=deal-form-financing-fee-input]").type(validDealInput.financingFee);
-
 		cy.get("[data-cy=deal-form-time-to-maturity-input]").type(validDealInput.timeToMaturity);
+
+		cy.get("[data-cy=deal-form-repayment-type-amortization]").click();
+
+		cy.get("[data-cy=deal-form-next-step-button]").click();
+
+		cy.get("[data-cy=deal-form-tranches-step-next-button]").click();
 
 		cy.get("[data-cy=deal-form-submit-button]").click();
 
-		cy.intercept("POST", "**.solana.*").as("postTransaction");
-
-		cy.wait("@postTransaction").its("response.statusCode").should("be.oneOf", [200, 304]);
-		cy.wait("@postTransaction").its("response.statusCode").should("be.oneOf", [200, 304]);
-		cy.wait("@postTransaction").its("response.statusCode").should("be.oneOf", [200, 304]);
-		cy.wait("@postTransaction").its("response.statusCode").should("be.oneOf", [200, 304]);
-		cy.wait("@postTransaction").its("response.statusCode").should("be.oneOf", [200, 304]);
-		cy.wait("@postTransaction").its("response.statusCode").should("be.oneOf", [200, 304]);
-
 		cy.get("[data-cy=deal-name]").contains(validDealInput.name);
+		cy.get("[data-cy=tag]").contains(pendingDealData.tag);
+		cy.get("[data-cy=deal-aspect-principal]").contains(pendingDealData.formattedPrincipal);
+		cy.get("[data-cy=deal-aspect-interest]").contains(pendingDealData.formattedInterest);
+		cy.get("[data-cy=deal-aspect-time-to-maturity]").contains(pendingDealData.formattedTTM);
 	});
 });

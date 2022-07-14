@@ -30,7 +30,9 @@ export const DealHeader: FunctionComponent<DealHeaderProps> = ({
 			/>
 			<div className="mt-8 flex justify-between items-center">
 				<div className="flex items-center">
-					<div className="font-sans font-semibold text-7xl">{deal.name}</div>
+					<div className="font-sans font-semibold text-7xl" data-cy="deal-name">
+						{deal.name}
+					</div>
 					<div className="px-6">{tag}</div>
 				</div>
 				{children}

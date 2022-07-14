@@ -51,6 +51,7 @@ export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 				<Button
 					icon={<Icon name="eye" size={IconDimension.MIDDLE} />}
 					onClick={() => setCurrentStep(2)}
+					data-cy="deal-form-tranches-step-next-button"
 				>
 					{intl.formatMessage(MESSAGES.review)}
 				</Button>
