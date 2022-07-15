@@ -125,7 +125,7 @@ export const trancheSettingsFields = [
 	DealFormField.CustomTranche,
 ];
 
-export const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
+export const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche", "customTranche"];
 const dealFormDefaultValues = {
 	trancheStructure: DealFormField.ThreeTranche,
 };
