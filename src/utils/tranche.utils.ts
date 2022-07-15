@@ -1,5 +1,7 @@
+import { DealFormField } from "@components/DealForm";
 import { DAYS_IN_YEAR, DefaultTranche, TrancheDataElement } from "@consts";
 import { Fraction, RepaymentSchedule, Tranche } from "@credix/credix-client";
+import { TrancheFormValue, TrancheName, TrancheTitle } from "@credix_types/tranche.types";
 import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
 import { capitalizeFirstLetter, round } from "./format.utils";
@@ -492,7 +494,7 @@ export const investorCurrentReturns = (tranche: Tranche, userTrancheBalance: Tok
 	);
 };
 
-export const parseTrancheCSV = (text: string) => {
+export const parseTrancheCSV = (text: string): DefaultTranche => {
 	if (typeof text === "string") {
 		const lines = text.trim().split("\n");
 
@@ -515,7 +517,7 @@ export const parseTrancheCSV = (text: string) => {
 					value: 1,
 				} as TrancheDataElement;
 
-				if (trancheName !== "Senior") {
+				if (trancheName !== TrancheName.Senior) {
 					t = {
 						...t,
 						earlyWithdrawalInterest: false,
@@ -527,9 +529,9 @@ export const parseTrancheCSV = (text: string) => {
 			});
 
 		return {
-			title: "Custom Tranche Structure",
-			value: "customTranche",
+			title: TrancheTitle.CustomTranche,
+			value: TrancheFormValue.CustomTranche,
 			trancheData,
-		} as DefaultTranche;
+		};
 	}
 };

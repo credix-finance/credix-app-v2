@@ -3,8 +3,7 @@ import { ColumnsProps, Table } from "@components/Table";
 import { Button } from "@components/Button";
 import { RepaymentScheduleTableDataPoint } from "@credix_types/repaymentschedule.types";
 import { IconDimension } from "./Icon";
-import { currencyFormatter, formatDate } from "@utils/format.utils";
-import { useLocales } from "@hooks/useLocales";
+import { currencyFormatter } from "@utils/format.utils";
 import { useIntl } from "react-intl";
 
 export enum RepaymentScheduleAmountType {

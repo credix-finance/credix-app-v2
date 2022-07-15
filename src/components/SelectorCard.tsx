@@ -48,7 +48,11 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 					<Radio value={value} ref={radioRef}>
 						<div className="pl-2">
 							<div className="font-medium text-base text-darker">{title}</div>
-							{subtitle && <div className="font-normal text-sm text-neutral-60">{subtitle}</div>}
+							{subtitle && (
+								<div className="font-normal text-sm text-neutral-60 whitespace-nowrap">
+									{subtitle}
+								</div>
+							)}
 						</div>
 					</Radio>
 				) : (

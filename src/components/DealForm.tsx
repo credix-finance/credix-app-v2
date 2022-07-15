@@ -60,27 +60,71 @@ type TrancheUpdateMap = {
 			earlyWithdrawalPrincipal: () => void;
 		};
 	};
+	customTranche: {
+		Senior: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+		Mezzanine: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+		Junior: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+		Junior1: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+		Junior2: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+		Junior3: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+		Junior4: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+		Junior5: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+		Junior6: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+		Junior7: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+	};
 };
 
-enum DealFormField {
+export enum DealFormField {
 	DealName = "dealName",
 	Borrower = "borrower",
 	Principal = "principal",
 	FinancingFee = "financingFee",
 	TimeToMaturity = "timeToMaturity",
 	RepaymentType = "repaymentType",
+	TrancheStructure = "trancheStructure",
 	OneTranche = "oneTranche",
 	TwoTranche = "twoTranche",
 	ThreeTranche = "threeTranche",
+	CustomTranche = "customTranche",
 }
 
 export const trancheSettingsFields = [
 	DealFormField.OneTranche,
 	DealFormField.TwoTranche,
 	DealFormField.ThreeTranche,
+	DealFormField.CustomTranche,
 ];
 
-export const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
 const dealFormDefaultValues = {
 	trancheStructure: DealFormField.ThreeTranche,
 };
@@ -773,6 +817,48 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				earlyWithdrawalPrincipal: () => null,
 			},
 			Junior: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+		},
+		customTranche: {
+			Senior: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+			Mezzanine: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+			Junior: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+			Junior1: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+			Junior2: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+			Junior3: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+			Junior4: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+			Junior5: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+			Junior6: {
+				earlyWithdrawalInterest: () => null,
+				earlyWithdrawalPrincipal: () => null,
+			},
+			Junior7: {
 				earlyWithdrawalInterest: () => null,
 				earlyWithdrawalPrincipal: () => null,
 			},

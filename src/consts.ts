@@ -62,8 +62,8 @@ export interface DefaultTranche {
 }
 
 export const oneTrancheStructure: DefaultTranche = {
-	title: TrancheTitle.oneTranche,
-	value: TrancheFormValue.oneTranche,
+	title: TrancheTitle.OneTranche,
+	value: TrancheFormValue.OneTranche,
 	trancheData: [
 		{
 			name: TrancheName.Senior,
@@ -92,8 +92,8 @@ export const oneTrancheStructure: DefaultTranche = {
 	],
 };
 export const twoTrancheStructure: DefaultTranche = {
-	title: TrancheTitle.twoTranche,
-	value: TrancheFormValue.twoTranche,
+	title: TrancheTitle.TwoTranche,
+	value: TrancheFormValue.TwoTranche,
 	trancheData: [
 		{
 			name: TrancheName.Senior,
@@ -125,8 +125,8 @@ export const twoTrancheStructure: DefaultTranche = {
 };
 
 export const threeTrancheStructure: DefaultTranche = {
-	title: TrancheTitle.threeTranche,
-	value: TrancheFormValue.threeTranche,
+	title: TrancheTitle.ThreeTranche,
+	value: TrancheFormValue.ThreeTranche,
 	trancheData: [
 		{
 			name: TrancheName.Senior,
@@ -215,6 +215,7 @@ export type DealTrancheSettings = {
 	oneTranche: OneTrancheStructure;
 	twoTranche: TwoTrancheStructure;
 	threeTranche: ThreeTrancheStructure;
+	customTranche: Partial<TrancheStructure>;
 };
 
 export const defaultTrancheSettings: DealTrancheSettings = defaultTranches.reduce((obj, t) => {

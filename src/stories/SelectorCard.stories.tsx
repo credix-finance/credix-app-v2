@@ -149,7 +149,7 @@ export const Tranches = Template.bind({});
 console.log(defaultTrancheSettings.oneTranche);
 Tranches.decorators = [
 	() => (
-		<Form layout="vertical" initialValues={{ trancheStructure: TrancheFormValue.oneTranche }}>
+		<Form layout="vertical" initialValues={{ trancheStructure: TrancheFormValue.OneTranche }}>
 			<FormItem name="trancheStructure">
 				<Radio.Group>
 					<div className="space-y-8">
@@ -157,8 +157,8 @@ Tranches.decorators = [
 							content={
 								<TrancheOption seniorTrancheSettings={defaultTrancheSettings.oneTranche.Senior} />
 							}
-							value={TrancheFormValue.oneTranche}
-							title={TrancheTitle.oneTranche}
+							value={TrancheFormValue.OneTranche}
+							title={TrancheTitle.OneTranche}
 							checked={true}
 						/>
 						<SelectorCard
@@ -168,8 +168,8 @@ Tranches.decorators = [
 									seniorTrancheSettings={defaultTrancheSettings.twoTranche.Senior}
 								/>
 							}
-							value={TrancheFormValue.twoTranche}
-							title={TrancheTitle.twoTranche}
+							value={TrancheFormValue.TwoTranche}
+							title={TrancheTitle.TwoTranche}
 							showContent={true}
 							action={<Button type="text">Edit</Button>}
 						/>
@@ -181,8 +181,8 @@ Tranches.decorators = [
 									seniorTrancheSettings={defaultTrancheSettings.threeTranche.Senior}
 								/>
 							}
-							value={TrancheFormValue.threeTranche}
-							title={TrancheTitle.threeTranche}
+							value={TrancheFormValue.ThreeTranche}
+							title={TrancheTitle.ThreeTranche}
 							showContent={true}
 							action={<Button type="text">Edit</Button>}
 						/>

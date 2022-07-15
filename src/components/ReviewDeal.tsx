@@ -3,7 +3,7 @@ import { defineMessages, useIntl } from "react-intl";
 import { Button } from "@components/Button";
 import { Form, FormInstance } from "antd";
 import { Icon, IconDimension, IconName } from "./Icon";
-import { classNames, compactFormatter } from "@utils/format.utils";
+import { capitalizeFirstLetter, classNames, compactFormatter } from "@utils/format.utils";
 import { TrancheOption } from "./TrancheOption";
 import { SelectorCard } from "./SelectorCard";
 import { TrancheStructure } from "@consts";
@@ -65,7 +65,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 	const slashInterestToPrincipal = Form.useWatch("slashInterestToPrincipal", form);
 	const slashPrincipalToInterest = Form.useWatch("slashPrincipalToInterest", form);
 	const intl = useIntl();
-	const trancheStructure = Form.useWatch("trancheStructure", form) || TrancheFormValue.threeTranche;
+	const trancheStructure = Form.useWatch("trancheStructure", form) || TrancheFormValue.ThreeTranche;
 	const formTranche: TrancheStructure = form.getFieldValue(trancheStructure);
 	const trancheTitlesMap = Object.entries(TrancheTitle).reduce((acc, [key, value]) => {
 		acc = {
@@ -184,7 +184,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 						/>
 					}
 					value={trancheStructure}
-					title={trancheTitlesMap[trancheStructure]}
+					title={trancheTitlesMap[capitalizeFirstLetter(trancheStructure)]}
 					checked={false}
 					isInteractive={false}
 					showContent={true}
