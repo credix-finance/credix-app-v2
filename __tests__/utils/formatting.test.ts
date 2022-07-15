@@ -10,6 +10,7 @@ import {
 	daysToMilliseconds,
 	millisecondsToDays,
 	compactRatioFormatter,
+	capitalizeFirstLetter,
 } from "@utils/format.utils";
 import { zeroTokenAmount } from "@consts";
 
@@ -167,5 +168,14 @@ describe("compactRatioFormatter", () => {
 		const expected = "12.3";
 
 		expect(compactRatioFormatter(input)).toEqual(expected);
+	});
+});
+
+describe("capitalize word", () => {
+	it("capitalizes the first letter of a word", () => {
+		const input = "hello";
+		const expected = "Hello";
+
+		expect(capitalizeFirstLetter(input)).toEqual(expected);
 	});
 });

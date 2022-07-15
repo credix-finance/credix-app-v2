@@ -79,3 +79,7 @@ export const slicedBased58Key = (key: PublicKey | string) => {
 
 	return key.toBase58().slice(0, 5) + ".." + key.toBase58().slice(-5);
 };
+
+export function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+}

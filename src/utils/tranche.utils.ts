@@ -1,8 +1,8 @@
-import { DAYS_IN_YEAR } from "@consts";
+import { DAYS_IN_YEAR, DefaultTranche, TrancheDataElement } from "@consts";
 import { Fraction, RepaymentSchedule, Tranche } from "@credix/credix-client";
 import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
-import { round } from "./format.utils";
+import { capitalizeFirstLetter, round } from "./format.utils";
 
 export const calculateTotalInterest = (
 	timeToMaturity: number,
@@ -490,4 +490,46 @@ export const investorCurrentReturns = (tranche: Tranche, userTrancheBalance: Tok
 		investorPercentageOfTranche.apply(tranche.interestRepaid.uiAmount),
 		Big.roundHalfEven
 	);
+};
+
+export const parseTrancheCSV = (text: string) => {
+	if (typeof text === "string") {
+		const lines = text.trim().split("\n");
+
+		const _headers = lines[0].split(",");
+
+		// Remove headers
+		lines.shift();
+
+		const trancheData = lines
+			.map((line) => line.trim().split(","))
+			// Reject empty tranches
+			.filter((tranche) => tranche[1] !== "0")
+			.map((tranche) => {
+				const trancheName = capitalizeFirstLetter(tranche[0]);
+				let t = {
+					apr: null,
+					name: trancheName,
+					percentageOfPrincipal: Big(tranche[1]).times(100).toNumber(),
+					percentageOfInterest: Big(tranche[2]).times(100).toNumber(),
+					value: 1,
+				} as TrancheDataElement;
+
+				if (trancheName !== "Senior") {
+					t = {
+						...t,
+						earlyWithdrawalInterest: false,
+						earlyWithdrawalPrincipal: false,
+					};
+				}
+
+				return t;
+			});
+
+		return {
+			title: "Custom Tranche Structure",
+			value: "customTranche",
+			trancheData,
+		} as DefaultTranche;
+	}
 };
