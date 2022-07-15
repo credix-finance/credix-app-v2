@@ -12,7 +12,6 @@ import {
 	compactRatioFormatter,
 	capitalizeFirstLetter,
 } from "@utils/format.utils";
-import { zeroTokenAmount } from "@consts";
 
 describe("date formatting", () => {
 	it("formats a date", () => {
