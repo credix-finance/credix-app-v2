@@ -9588,6 +9588,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"core-js-pure@npm:3.23.5":
+  version: 3.23.5
+  resolution: "core-js-pure@npm:3.23.5"
+  checksum: a46edce5bdde29eda993c1f31086a08ba85e22fb1b3f77c9422e25ccc9e92fb9a1f3e7de5d13c9b807bdfeb0700b00bd5224375429cf44fd7ed5f46cc7d3e4ac
+  languageName: node
+  linkType: hard
+
 "core-js-pure@npm:^3.20.2, core-js-pure@npm:^3.8.1":
   version: 3.23.2
   resolution: "core-js-pure@npm:3.23.2"
@@ -9755,6 +9762,7 @@ __metadata:
     big.js: ^6.1.1
     bs58: ^5.0.0
     chromatic: ^6.5.4
+    core-js-pure: 3.23.5
     eslint: 8.15.0
     eslint-config-next: 12.1.6
     eslint-config-prettier: ^8.5.0
