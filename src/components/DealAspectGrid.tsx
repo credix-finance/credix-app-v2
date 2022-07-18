@@ -19,7 +19,7 @@ interface DealAspectGridProps {
 	className?: string;
 }
 
-const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, className }) => {
+export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, className }) => {
 	const [interestRepaidRatio, setInterestRepaidRatio] = useState<Fraction>();
 	const [principalRepaidRatio, setPrincipalRepaidRatio] = useState<Fraction>();
 	const [daysRemainingRatio, setDaysRemainingRatio] = useState<Fraction>();
@@ -100,35 +100,40 @@ const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, classNam
 				})}
 				value={`${deal.repaymentSchedule.duration} DAYS`}
 			/>
-			<DealAspect
-				title={intl.formatMessage({
-					defaultMessage: "Principal repaid",
-					description: "Deal aspect: principal repaid",
-				})}
-				value={`${principalRepaid} USDC`}
-				ratio={principalRepaidRatio}
-			/>
-			<DealAspect
-				title={intl.formatMessage({
-					defaultMessage: "Interest repaid",
-					description: "Deal aspect: interest repaid",
-				})}
-				value={`${interestRepaid} USDC`}
-				ratio={interestRepaidRatio}
-			/>
-			<DealAspect
-				title={intl.formatMessage({
-					defaultMessage: "Time left",
-					description: "Deal aspect: time left",
-				})}
-				value={intl.formatMessage(
-					{ defaultMessage: "{daysRemaining} DAYS", description: "Deal aspect: days remaining" },
-					{ daysRemaining: daysRemaining }
-				)}
-				ratio={daysRemainingRatio}
-			/>
+			{deal.goLiveAt && (
+				<>
+					<DealAspect
+						title={intl.formatMessage({
+							defaultMessage: "Principal repaid",
+							description: "Deal aspect: principal repaid",
+						})}
+						value={`${principalRepaid} USDC`}
+						ratio={principalRepaidRatio}
+					/>
+					<DealAspect
+						title={intl.formatMessage({
+							defaultMessage: "Interest repaid",
+							description: "Deal aspect: interest repaid",
+						})}
+						value={`${interestRepaid} USDC`}
+						ratio={interestRepaidRatio}
+					/>
+					<DealAspect
+						title={intl.formatMessage({
+							defaultMessage: "Time left",
+							description: "Deal aspect: time left",
+						})}
+						value={intl.formatMessage(
+							{
+								defaultMessage: "{daysRemaining} DAYS",
+								description: "Deal aspect: days remaining",
+							},
+							{ daysRemaining: daysRemaining }
+						)}
+						ratio={daysRemainingRatio}
+					/>
+				</>
+			)}
 		</div>
 	);
 };
-
-export default DealAspectGrid;

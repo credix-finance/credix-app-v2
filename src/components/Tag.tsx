@@ -17,7 +17,7 @@ const tagColorStyles = {
 export const Tag = ({ children, color }: TagProps) => {
 	return (
 		<div
-			className={`text-sm font-semibold inline-block px-4 py-2 rounded-full h-max ${tagColorStyles[color]}`}
+			className={`text-sm font-semibold inline-block px-4 py-2 rounded-full h-max whitespace-nowrap ${tagColorStyles[color]}`}
 		>
 			{children}
 		</div>

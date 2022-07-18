@@ -11,8 +11,7 @@ import { DealHeader } from "@components/DealHeader";
 import { Tag } from "@components/Tag";
 import { useIntl } from "react-intl";
 import { DealKeys } from "@components/DealKeys";
-import { DealAbstract } from "@components/DealAbstract";
-import DealAspectGrid from "@components/DealAspectGrid";
+import { DealAspectGrid } from "@components/DealAspectGrid";
 import { DealTrancheStructure } from "@components/DealTrancheStructure";
 import { DealInvestments } from "@components/DealInvestments";
 import { RepayDeal } from "@components/RepayDeal";
@@ -137,11 +136,7 @@ const Show: NextPageWithLayout = () => {
 				)}
 			</DealHeader>
 			<DealKeys className="mt-8" deal={deal} />
-			{dealStatus === DealStatus.OPEN_FOR_FUNDING ? (
-				<DealAbstract className="mt-10" deal={deal} />
-			) : (
-				<DealAspectGrid deal={deal} className="mt-10" />
-			)}
+			<DealAspectGrid deal={deal} className="mt-10" />
 			<DealRepaymentSchedule className="mt-10" repaymentSchedule={deal.repaymentSchedule} />
 			<DealTrancheStructure className="mt-16" deal={deal} />
 			{(dealStatus === DealStatus.IN_PROGRESS || dealStatus === DealStatus.CLOSED) &&
