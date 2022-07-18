@@ -27,15 +27,7 @@ You should now be able to access the app by going to [http://localhost:3000](htt
 ## Clusters
 
 You can think of clusters as different development environments, traditionally one of [`development`, `staging`, `production`] but in this project they are [`localnet`, `devnet`, `pre-mainnet`, `mainnet`].
-
-You can target one of the available clusters by setting the `NEXT_PUBLIC_REACT_APP_CLUSTER` environment variable.
-The easiest way of setting the variable is by copying the `.env.local.dist` file and renaming it to `.env.local`. The next time you (re)start your `nextjs` server it will automatically be set.
-
-```bash
-# Copy the env dist so it's picked up by nextjs
-cp .env.local.dist .env.local
-```
-
+More info regarding the different clusters can be found [here in the Solana docs.](https://docs.solana.com/cluster/rpc-endpoints)
 By default `devnet` is targetted. Sometimes it's preferable to target `localnet` which will be explained next.
 
 ### Localnet
@@ -44,15 +36,8 @@ Targetting `localnet` means that you'll run a local validator. It has a couple o
 
 - it makes debugging certain issues easier
 - you don't create a lot of bogus data on devnet
-- you don't spam [solana devnet]() and get rate limited (or even ip-banned) if you accidentally create a rendering loop
-- Actions that normally require a multisig are executed without multiple signers
-
-To target `localnet` edit the `.env.local` file like this:
-
-```diff
-- NEXT_PUBLIC_REACT_APP_CLUSTER=devnet
-+ NEXT_PUBLIC_REACT_APP_CLUSTER=localnet
-```
+- you don't spam [solana devnet](https://docs.solana.com/clusters#devnet) and get rate limited (or even ip-banned) if you accidentally create a rendering loop
+- actions that normally require a multisig are executed without multiple signers
 
 For this to work your local validator has to be running.
 If that's not the case, do the following steps:
@@ -88,29 +73,32 @@ Each day our CI deploys this branch to [app.dev.credix.finance](https://app.dev.
 ### Pre-mainnet
 
 `pre-mainnet` can be compared to a staging environment.
-
-Request limits of the default RPC endpoint:
-
-```
-Maximum number of requests per 10 seconds per IP: 100
-Maximum number of requests per 10 seconds per IP for a single RPC: 40
-Maximum concurrent connections per IP: 40
-Maximum connection rate per 10 seconds per IP: 40
-Maximum amount of data per 30 second: 100 MB
-```
+It targets the solana `devnet` cluster as well.
 
 ### Mainnet
 
-`mainnet` is our production environement.
+`mainnet` is our production environment.
 
-Request limits of the default RPC endpoint:
+## Configuring the app
 
+You can configure the app by setting environment variables.
+The easiest way of setting variables is by copying the `.env.local.dist` file and renaming it to `.env.local`. The next time you (re)start your `nextjs` server the variables will be picked up.
+More info regarding the different environment variables can be found in the `.env.local.dist` file.
+
+```bash
+# Copy the env dist so it's picked up by nextjs
+cp .env.local.dist .env.local
 ```
-Maximum number of requests per 10 seconds per IP: 100
-Maximum number of requests per 10 seconds per IP for a single RPC: 40
-Maximum concurrent connections per IP: 40
-Maximum connection rate per 10 seconds per IP: 40
-Maximum amount of data per 30 second: 100 MB
+
+### Targetting a different cluster
+
+The env var you will change frequently is the one used for targetting a different cluster.
+You can target one of the available clusters by setting the `NEXT_PUBLIC_REACT_APP_CLUSTER` environment variable.
+To target `localnet` edit the `.env.local` file like this:
+
+```diff
+- NEXT_PUBLIC_REACT_APP_CLUSTER=devnet
++ NEXT_PUBLIC_REACT_APP_CLUSTER=localnet
 ```
 
 # Development
