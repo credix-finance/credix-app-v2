@@ -97,7 +97,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 		if (userTrancheBalance && currentReturns && amountWithdrawn) {
 			const currentValue =
 				userTrancheBalance.uiAmount + currentReturns.toNumber() - amountWithdrawn.uiAmount;
-			const roundedCurrentValue = round(currentValue, Big.roundDown, 0);
+			const roundedCurrentValue = round(currentValue, Big.roundUp, 0);
 			setCurrentValue(roundedCurrentValue);
 		}
 	}, [userTrancheBalance, currentReturns, amountWithdrawn]);
