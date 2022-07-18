@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import { useCredixClient } from "@credix/credix-client";
 import { defineMessages, useIntl } from "react-intl";
 import { useUserBaseBalance } from "@hooks/useUserBaseBalance";
@@ -12,6 +12,8 @@ import { FormInstance } from "antd";
 import { validateMaxValue } from "@utils/validation.utils";
 import { DealWithNestedResources } from "@state/dealSlice";
 import { totalMissingAmount } from "@utils/deal.utils";
+import { TokenAmount } from "@solana/web3.js";
+import { zeroTokenAmount } from "@consts";
 
 const MESSAGES = defineMessages({
 	repayLoading: {
@@ -54,6 +56,16 @@ export const RepayDeal: FunctionComponent<RepayDealProps> = ({ deal }) => {
 	const userBaseBalance = useUserBaseBalance();
 	const missingAmount = totalMissingAmount(deal.repaymentSchedule);
 	const maxAmount = Math.min(userBaseBalance.uiAmount, missingAmount);
+	const [currentlyMissingAmount, setCurrentlyMissingAmount] = useState<TokenAmount>();
+
+	useEffect(() => {
+		const getCurrentlyMissingAmount = async () => {
+			const currentlyMissing = await deal.repaymentSchedule.currentlyMissing(deal);
+			setCurrentlyMissingAmount(currentlyMissing);
+		};
+
+		getCurrentlyMissingAmount();
+	}, [deal]);
 
 	const repay = async ({ amount }, form: FormInstance) => {
 		const hide = message.loading({
@@ -105,6 +117,7 @@ export const RepayDeal: FunctionComponent<RepayDealProps> = ({ deal }) => {
 			icon="circle-and-square"
 			title={intl.formatMessage(MESSAGES.repayTitle)}
 			maxAmount={maxAmount}
+			initialValues={{ amount: currentlyMissingAmount?.uiAmount }}
 			validationRules={[
 				{
 					validator(_, value) {

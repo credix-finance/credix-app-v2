@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, ReactNode, useEffect } from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { Form, FormInstance } from "antd";
 import { AddMaxButtonSuffix } from "./AddMaxButtonSuffix";
@@ -33,6 +33,7 @@ export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 	content,
 	onSubmit,
 	maxAmount,
+	initialValues = {},
 	validationRules = [],
 }) => {
 	const intl = useIntl();
@@ -45,6 +46,10 @@ export const DealInteraction: FunctionComponent<DealInteractionProps> = ({
 		});
 		return validateMinValue(value, minAmount, validationMessage);
 	};
+
+	useEffect(() => {
+		form.setFieldsValue(initialValues);
+	}, [form, initialValues]);
 
 	return (
 		<div>
@@ -104,6 +109,7 @@ interface DealInteractionProps {
 	icon: IconName;
 	maxAmount: number;
 	onSubmit: ({ amount }, form: FormInstance) => void;
+	initialValues?: { amount: number };
 	content: ReactNode;
 	validationRules?: Rule[];
 }
