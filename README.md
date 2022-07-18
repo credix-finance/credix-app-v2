@@ -126,6 +126,21 @@ Their [screencasts](https://www.youtube.com/tailwindlabs) provide a good introdu
 
 We also use their chart libary: [ant charts](https://charts.ant.design/en). They have pretty good documentation but some of it is in chinese which can make it a bit tricky to use sometimes.
 
+### classNames
+
+`classNames` is a util function that you will come across often. It is used to easily add conditional classes to components.
+A useage example:
+
+```tsx
+const className = classNames([
+	isCondition ? "class-a" : "class-b",
+	isOtherCondition && "class-c",
+	"class-d class-e",
+]);
+```
+
+Without using the `classNames` function you potientially end up with `false` or `undefined` in the class list.
+
 ## Theme configuration
 
 This repository contains a `theme.js` file which is responsible for being the single source of truth when it comes to the Credix brand colors. It also includes the shared configuration code between the configuration files of NextJS, TailwindCSS and Storybook (`next.config.js`, `tailwind.config.js` and `.storybook/main.js` respectively).
