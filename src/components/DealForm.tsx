@@ -69,8 +69,6 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		intl.formatMessage(MESSAGES.trancheStructureStep),
 		intl.formatMessage(MESSAGES.reviewStep),
 	];
-	const [advancedSettings, setAdvancedSettings] =
-		useState<Partial<DealAdvancedSettings>>(defaultAdvancedSettings);
 	const [trancheSettings, setTrancheSettings] =
 		useState<Partial<DealTrancheSettings>>(defaultTrancheSettings);
 
@@ -112,7 +110,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 
 	const onCloseTrancheSettings = () => {
 		form.setFieldsValue(trancheSettings);
-		setAdvancedSettings({});
+		setTrancheSettings({});
 	};
 
 	const onSaveTrancheSettings = () => {

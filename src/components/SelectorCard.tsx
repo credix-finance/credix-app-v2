@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent, ReactNode, useRef } from "react";
 import { Radio } from "antd";
 import { classNames } from "@utils/format.utils";
 
@@ -12,7 +12,6 @@ interface SelectorCardProps {
 	showContent?: boolean;
 	isInteractive?: boolean;
 	className?: string;
-	onSelectCard?: () => void;
 }
 
 export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
@@ -25,8 +24,8 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 	showContent,
 	isInteractive,
 	className,
-	onSelectCard,
 }) => {
+	const radioRef = useRef(null);
 	const classes = classNames([
 		className,
 		"p-6 border",
@@ -36,11 +35,18 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 		checked && "bg-white",
 	]);
 
+	const clickRadio = () => {
+		if (radioRef.current && radioRef.current.input) {
+			console.log("sup");
+			radioRef.current.input.click();
+		}
+	};
+
 	return (
-		<div className={classes} onClick={isInteractive ? onSelectCard : undefined}>
+		<div className={classes} onClick={isInteractive ? clickRadio : undefined}>
 			<div className="flex justify-between items-start">
 				{isInteractive ? (
-					<Radio value={value}>
+					<Radio value={value} ref={radioRef}>
 						<div className="pl-2">
 							<div className="font-medium text-base text-darker">{title}</div>
 							{subtitle && <div className="font-normal text-sm text-neutral-60">{subtitle}</div>}
@@ -49,7 +55,11 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 				) : (
 					<div>
 						<div className="font-medium text-base text-darker">{title}</div>
-						{subtitle && <div className="font-normal text-sm text-neutral-60">{subtitle}</div>}
+						{subtitle && (
+							<div className="font-normal text-sm text-neutral-60 whitespace-nowrap">
+								{subtitle}
+							</div>
+						)}
 					</div>
 				)}
 				{action}
