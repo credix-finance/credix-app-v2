@@ -15,7 +15,7 @@ import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
 import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
 import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
-import { DAYS_IN_REPAYMENT_PERIOD, DAYS_IN_YEAR, defaultTranches } from "@consts";
+import { DAYS_IN_REPAYMENT_PERIOD, DAYS_IN_YEAR, defaultTranches, newDealDefaults } from "@consts";
 import Big from "big.js";
 
 const New: NextPageWithLayout = () => {
@@ -65,10 +65,14 @@ const New: NextPageWithLayout = () => {
 	};
 
 	const createDeal = async (
-		principal: number,
 		formattedPrincipal: string,
 		borrower: PublicKey,
-		dealName: string
+		dealName: string,
+		trueWaterfall: boolean,
+		slashInterestToPrincipal: boolean,
+		slashPrincipalToInterest: boolean,
+		lateFeePercentage: Fraction,
+		maxfundingDuration: number
 	) => {
 		const hide = message.loading({
 			content: intl.formatMessage(
@@ -83,22 +87,14 @@ const New: NextPageWithLayout = () => {
 		});
 
 		try {
-			const defaults = {
-				lateFeePercentage: new Fraction(0, 100),
-				maxFundingDuration: 255,
-				trueWaterfall: true,
-				slashInterestToPrincipal: true,
-				slashPrincipalToInterest: true,
-			};
-
 			await market.createDeal({
 				borrower: borrower,
-				lateFeePercentage: defaults.lateFeePercentage,
-				maxFundingDuration: defaults.maxFundingDuration,
+				lateFeePercentage,
+				maxFundingDuration: maxfundingDuration,
 				name: dealName,
-				trueWaterfall: defaults.trueWaterfall,
-				slashInterestToPrincipal: defaults.slashInterestToPrincipal,
-				slashPrincipalToInterest: defaults.slashPrincipalToInterest,
+				trueWaterfall,
+				slashInterestToPrincipal,
+				slashPrincipalToInterest,
 			});
 			hide();
 		} catch (error) {
@@ -233,12 +229,27 @@ const New: NextPageWithLayout = () => {
 		dealName,
 		repaymentType,
 		trancheStructure,
+		trueWaterfall,
+		slashInterestToPrincipal,
+		slashPrincipalToInterest,
 	}: DealFormInput) => {
 		const borrowerPK = new PublicKey(borrower);
 		const formattedPrincipal = compactFormatter.format(principal);
 
 		await checkCredixPass(borrowerPK)
-			.then(async () => await createDeal(principal, formattedPrincipal, borrowerPK, dealName))
+			.then(
+				async () =>
+					await createDeal(
+						formattedPrincipal,
+						borrowerPK,
+						dealName,
+						trueWaterfall,
+						slashInterestToPrincipal,
+						slashPrincipalToInterest,
+						newDealDefaults.lateFeePercentage,
+						newDealDefaults.maxfundingDuration
+					)
+			)
 			.then(async () => await getDealInfo(borrowerPK))
 			.then(
 				async (deal: Deal) =>

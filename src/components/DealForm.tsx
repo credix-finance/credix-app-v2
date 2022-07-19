@@ -6,21 +6,7 @@ import { DealTranchesStep } from "@components/DealTranchesStep";
 import { ReviewDealStep } from "@components/ReviewDeal";
 import { defineMessages, useIntl } from "react-intl";
 import { threeTrancheStructure } from "@consts";
-
-const MESSAGES = defineMessages({
-	dealDetailsStep: {
-		defaultMessage: "Deal details",
-		description: "Deal form: deal details step title",
-	},
-	trancheStructureStep: {
-		defaultMessage: "Tranche structure",
-		description: "Deal form: tranche structure step title",
-	},
-	reviewStep: {
-		defaultMessage: "Review",
-		description: "Deal form: review step title",
-	},
-});
+import { newDealDefaults } from "@consts";
 
 const dealFormDefaultValues = {
 	trancheStructure: threeTrancheStructure.value,
@@ -44,6 +30,9 @@ export interface DealFormInput {
 	// TODO: replace with enum
 	repaymentType: string;
 	trancheStructure: string;
+	trueWaterfall: boolean;
+	slashInterestToPrincipal: boolean;
+	slashPrincipalToInterest: boolean;
 }
 
 interface DealFormProps {
@@ -80,6 +69,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		await form.validateFields(fieldsToValidate).then(() => setCurrentStep(nextStep));
 	};
 
+	const initialValues = { ...dealFormDefaultValues, ...newDealDefaults };
+
 	return (
 		<>
 			<Stepper current={currentStep} steps={steps} />
@@ -88,7 +79,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				<Form
 					name="deal"
 					form={form}
-					initialValues={dealFormDefaultValues}
+					initialValues={initialValues}
 					onFinish={onSubmit}
 					layout="vertical"
 				>
@@ -100,5 +91,20 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		</>
 	);
 };
+
+const MESSAGES = defineMessages({
+	dealDetailsStep: {
+		defaultMessage: "Deal details",
+		description: "Deal form: deal details step title",
+	},
+	trancheStructureStep: {
+		defaultMessage: "Tranche structure",
+		description: "Deal form: tranche structure step title",
+	},
+	reviewStep: {
+		defaultMessage: "Review",
+		description: "Deal form: review step title",
+	},
+});
 
 export default DealForm;

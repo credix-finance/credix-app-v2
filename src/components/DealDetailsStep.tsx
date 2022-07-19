@@ -13,122 +13,7 @@ import { Button } from "./Button";
 import { Icon, IconDimension } from "./Icon";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 import { dealFormValidationFields } from "./DealForm";
-
-const MESSAGES = defineMessages({
-	borrowerKeyValidation: {
-		defaultMessage: "'borrower key' isn't valid",
-		description: "Deal form: borrower key validation message",
-	},
-	principalValidation: {
-		defaultMessage: "'principal' needs to be greater than {amount}",
-		description: "Deal form: min principal validation message",
-	},
-	timeToMaturityValidation: {
-		defaultMessage: "'time to maturity' needs to be greater than {amount}",
-		description: "Deal form: min time to maturity validation message",
-	},
-	dealFormTitle: {
-		defaultMessage: "Please fill in all information needed to submit a new deal.",
-		description: "New deal: details form title",
-	},
-	nameInputLabel: {
-		defaultMessage: "Deal Name",
-		description: "Deal form: deal name input label",
-	},
-	nameInputPlaceholder: {
-		defaultMessage: "Name",
-		description: "Deal form: deal name input placeholder",
-	},
-	nameRequiredValidation: {
-		defaultMessage: "'deal name' is required",
-		description: "Deal form: deal name required validation message",
-	},
-	borrowerKeyInputLabel: {
-		defaultMessage: "Borrower Key",
-		description: "Deal form: borrower key input label",
-	},
-	borrowerKeyInputPlaceholder: {
-		defaultMessage: "Public key",
-		description: "Deal form: borrower key input placeholder",
-	},
-	borrowerKeyRequiredValidation: {
-		defaultMessage: "'borrower key' is required",
-		description: "Deal form: borrower key required validation message",
-	},
-	detailsInputLabel: {
-		defaultMessage: "More details",
-		description: "Deal form: more details textarea label",
-	},
-	detailsInputPlaceholder: {
-		defaultMessage: "Type more information",
-		description: "Deal form: more details textarea placeholder",
-	},
-	principalInputLabel: {
-		defaultMessage: "Principal",
-		description: "Deal form: principal input label",
-	},
-	principalInputPlaceholder: {
-		defaultMessage: "USDC amount",
-		description: "Deal form: principal input placeholder",
-	},
-	financingFeeInputLabel: {
-		defaultMessage: "Financing Fee",
-		description: "Deal form: financing fee input label",
-	},
-	financingFeeInputPlaceholder: {
-		defaultMessage: "%",
-		description: "Deal form: financing fee input placeholder",
-	},
-	financingFeeRequiredValidation: {
-		defaultMessage: "'financing fee' is required",
-		description: "Deal form: financing fee required validation message",
-	},
-	timeToMaturityInputLabel: {
-		defaultMessage: "Time To Maturity",
-		description: "Deal form: time to maturity input label",
-	},
-	timeToMaturityInputPlaceholder: {
-		defaultMessage: "Number of days",
-		description: "Deal form: time to maturity input placeholder",
-	},
-	timeToMaturityRequiredValidation: {
-		defaultMessage: "'time to maturity' is required",
-		description: "Deal form: time to maturity required validation message",
-	},
-	repaymentPeriodInputLabel: {
-		defaultMessage: "Repayment period",
-		description: "Deal form: repayment period input label",
-	},
-	repaymentPeriodInputPlaceholder: {
-		defaultMessage: "30 days",
-		description: "Deal form: repayment period input placeholder",
-	},
-	repaymentPeriodRequiredValidation: {
-		defaultMessage: "'Repayment schedule' is required",
-		description: "Deal form: repayment schedule required validation message",
-	},
-	amortizationLoanTitle: {
-		defaultMessage: "Amortization loan",
-		description: "Deal form: repayment type selector amortization title",
-	},
-	amortizationLoanSubtitle: {
-		defaultMessage: "Pay off a debt over time in equal installments",
-		description: "Deal form: repayment type selector amortization subtitle",
-	},
-	bulletLoanTitle: {
-		defaultMessage: "Bullet loan",
-		description: "Deal form: repayment type selector bullet title",
-	},
-	bulletLoanSubtitle: {
-		defaultMessage:
-			"The Principal that is borrowed is paid back in full at the end of the loan term",
-		description: "Deal form: repayment type selector bullet subtitle",
-	},
-	nextStepButton: {
-		defaultMessage: "Add tranche structure",
-		description: "Deal form: go to tranche step button",
-	},
-});
+import { AdvancedSettingsDrawer } from "./AdvancedSettingsDrawer";
 
 interface DealDetailsStepProps {
 	className?: string;
@@ -338,6 +223,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				</Radio.Group>
 			</FormItem>
 			<div className="w-full h-[1px] mt-10  bg-neutral-105"></div>
+			<AdvancedSettingsDrawer className="mt-8" />
 			<Button
 				className="mt-8"
 				icon={<Icon name="plus-square" size={IconDimension.MIDDLE} />}
@@ -348,3 +234,119 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 		</div>
 	);
 };
+
+const MESSAGES = defineMessages({
+	borrowerKeyValidation: {
+		defaultMessage: "'borrower key' isn't valid",
+		description: "Deal form: borrower key validation message",
+	},
+	principalValidation: {
+		defaultMessage: "'principal' needs to be greater than {amount}",
+		description: "Deal form: min principal validation message",
+	},
+	timeToMaturityValidation: {
+		defaultMessage: "'time to maturity' needs to be greater than {amount}",
+		description: "Deal form: min time to maturity validation message",
+	},
+	dealFormTitle: {
+		defaultMessage: "Please fill in all information needed to submit a new deal.",
+		description: "New deal: details form title",
+	},
+	nameInputLabel: {
+		defaultMessage: "Deal Name",
+		description: "Deal form: deal name input label",
+	},
+	nameInputPlaceholder: {
+		defaultMessage: "Name",
+		description: "Deal form: deal name input placeholder",
+	},
+	nameRequiredValidation: {
+		defaultMessage: "'deal name' is required",
+		description: "Deal form: deal name required validation message",
+	},
+	borrowerKeyInputLabel: {
+		defaultMessage: "Borrower Key",
+		description: "Deal form: borrower key input label",
+	},
+	borrowerKeyInputPlaceholder: {
+		defaultMessage: "Public key",
+		description: "Deal form: borrower key input placeholder",
+	},
+	borrowerKeyRequiredValidation: {
+		defaultMessage: "'borrower key' is required",
+		description: "Deal form: borrower key required validation message",
+	},
+	detailsInputLabel: {
+		defaultMessage: "More details",
+		description: "Deal form: more details textarea label",
+	},
+	detailsInputPlaceholder: {
+		defaultMessage: "Type more information",
+		description: "Deal form: more details textarea placeholder",
+	},
+	principalInputLabel: {
+		defaultMessage: "Principal",
+		description: "Deal form: principal input label",
+	},
+	principalInputPlaceholder: {
+		defaultMessage: "USDC amount",
+		description: "Deal form: principal input placeholder",
+	},
+	financingFeeInputLabel: {
+		defaultMessage: "Financing Fee",
+		description: "Deal form: financing fee input label",
+	},
+	financingFeeInputPlaceholder: {
+		defaultMessage: "%",
+		description: "Deal form: financing fee input placeholder",
+	},
+	financingFeeRequiredValidation: {
+		defaultMessage: "'financing fee' is required",
+		description: "Deal form: financing fee required validation message",
+	},
+	timeToMaturityInputLabel: {
+		defaultMessage: "Time To Maturity",
+		description: "Deal form: time to maturity input label",
+	},
+	timeToMaturityInputPlaceholder: {
+		defaultMessage: "Number of days",
+		description: "Deal form: time to maturity input placeholder",
+	},
+	timeToMaturityRequiredValidation: {
+		defaultMessage: "'time to maturity' is required",
+		description: "Deal form: time to maturity required validation message",
+	},
+	repaymentPeriodInputLabel: {
+		defaultMessage: "Repayment period",
+		description: "Deal form: repayment period input label",
+	},
+	repaymentPeriodInputPlaceholder: {
+		defaultMessage: "30 days",
+		description: "Deal form: repayment period input placeholder",
+	},
+	repaymentPeriodRequiredValidation: {
+		defaultMessage: "'Repayment schedule' is required",
+		description: "Deal form: repayment schedule required validation message",
+	},
+	amortizationLoanTitle: {
+		defaultMessage: "Amortization loan",
+		description: "Deal form: repayment type selector amortization title",
+	},
+	amortizationLoanSubtitle: {
+		defaultMessage: "Pay off a debt over time in equal installments",
+		description: "Deal form: repayment type selector amortization subtitle",
+	},
+	bulletLoanTitle: {
+		defaultMessage: "Bullet loan",
+		description: "Deal form: repayment type selector bullet title",
+	},
+	bulletLoanSubtitle: {
+		defaultMessage:
+			"The Principal that is borrowed is paid back in full at the end of the loan term",
+		description: "Deal form: repayment type selector bullet subtitle",
+	},
+	nextStepButton: {
+		defaultMessage: "Add tranche structure",
+		description: "Deal form: go to tranche step button",
+	},
+});

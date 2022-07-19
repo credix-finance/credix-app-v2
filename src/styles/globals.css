@@ -554,3 +554,34 @@ body {
 .ant-radio-inner::after {
 	@apply top-[0.45rem] left-[0.45rem] w-6 h-6 bg-white !important;
 }
+
+.switch {
+	@apply flex-row-reverse w-max !important;
+}
+
+.switch .ant-form-item-label > label {
+	@apply font-normal text-sm cursor-pointer !important;
+}
+
+.switch .ant-form-item-label > label::after {
+	@apply hidden !important;
+}
+
+.ant-switch-checked {
+	@apply bg-action-primary shadow-none !important;
+}
+
+.ant-switch-handle {
+	@apply w-4 h-4 !important;
+}
+
+.ant-switch-checked .ant-switch-handle {
+	left: calc(100% - 16px - 2px);
+}
+.ant-click-animating-node {
+	--antd-wave-shadow-color: #398d88;
+}
+
+.ant-switch {
+	@apply mr-3 w-8 h-5 min-w-[20px] !important;
+}
