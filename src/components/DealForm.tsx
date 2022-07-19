@@ -5,17 +5,11 @@ import { DealDetailsStep } from "@components/DealDetailsStep";
 import { DealTranchesStep } from "@components/DealTranchesStep";
 import { ReviewDealStep } from "@components/ReviewDeal";
 import { defineMessages, useIntl } from "react-intl";
-import {
-	DealAdvancedSettings,
-	DealTrancheSettings,
-	defaultAdvancedSettings,
-	defaultTrancheSettings,
-	threeTrancheStructure,
-} from "@consts";
+import { defaultTranches } from "@consts";
 import { newDealDefaults } from "@consts";
 
 const dealFormDefaultValues = {
-	trancheStructure: threeTrancheStructure.value,
+	trancheStructure: defaultTranches[defaultTranches.length - 1].value,
 };
 
 export enum dealFormValidationFields {
@@ -27,12 +21,7 @@ export enum dealFormValidationFields {
 	repaymentType = "repaymentType",
 }
 
-const advancedSettingsFields = [
-	"slashInterestToPrincipal",
-	"slashPrincipalToInterest",
-	"trueWaterfall",
-];
-const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
+export const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
 
 export interface DealFormInput {
 	principal: number;
@@ -69,8 +58,6 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		intl.formatMessage(MESSAGES.trancheStructureStep),
 		intl.formatMessage(MESSAGES.reviewStep),
 	];
-	const [trancheSettings, setTrancheSettings] =
-		useState<Partial<DealTrancheSettings>>(defaultTrancheSettings);
 
 	const showStep = (step: number) => {
 		if (step === currentStep) {
@@ -80,43 +67,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		return "hidden";
 	};
 
-	const onValuesChange = (changedValues) => {
-		const changedValue = Object.keys(changedValues)[0];
-		if (trancheSettingsFields.find((field) => field === changedValue)) {
-			const tranche = Object.keys(changedValues[changedValue])[0];
-			const field = Object.keys(changedValues[changedValue][tranche])[0];
-			if (
-				!trancheSettings[changedValue] &&
-				!trancheSettings[changedValue][tranche] &&
-				!trancheSettings[changedValue][tranche][field]
-			) {
-				setTrancheSettings({
-					...trancheSettings,
-					[changedValue]: {
-						...trancheSettings[changedValue],
-						[tranche]: {
-							...trancheSettings[changedValue][tranche],
-							[field]: !changedValues[changedValue][tranche][field],
-						},
-					},
-				});
-			}
-		}
-	};
-
 	const onNextStep = async (fieldsToValidate: string[], nextStep: number) => {
 		await form.validateFields(fieldsToValidate).then(() => setCurrentStep(nextStep));
-	};
-
-	const onCloseTrancheSettings = () => {
-		form.setFieldsValue(trancheSettings);
-		setTrancheSettings({});
-	};
-
-	const onSaveTrancheSettings = () => {
-		const updatedTrancheSettings = form.getFieldsValue(trancheSettingsFields);
-		// Update the TrancheSettings "cache"
-		setTrancheSettings(updatedTrancheSettings);
 	};
 
 	const initialValues = {
@@ -135,16 +87,9 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 					initialValues={initialValues}
 					onFinish={onSubmit}
 					layout="vertical"
-					onValuesChange={onValuesChange}
 				>
 					<DealDetailsStep form={form} className={showStep(0)} onNextStep={onNextStep} />
-					<DealTranchesStep
-						form={form}
-						className={showStep(1)}
-						setCurrentStep={setCurrentStep}
-						onCloseTrancheSettings={onCloseTrancheSettings}
-						onSaveTrancheSettings={onSaveTrancheSettings}
-					/>
+					<DealTranchesStep form={form} className={showStep(1)} setCurrentStep={setCurrentStep} />
 					<ReviewDealStep form={form} onBack={() => setCurrentStep(1)} className={showStep(2)} />
 				</Form>
 			</div>
