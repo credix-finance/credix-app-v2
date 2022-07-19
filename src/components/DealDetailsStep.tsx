@@ -12,8 +12,9 @@ import { BulletLoanRepaymentSchedule } from "./BulletLoanRepaymentSchedule";
 import { Button } from "./Button";
 import { Icon, IconDimension } from "./Icon";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
-import { DealFormValidationField } from "./DealForm";
+import { DealFormField, DealFormValidationField } from "./DealForm";
 import { AdvancedSettingsDrawer } from "./AdvancedSettingsDrawer";
+import { UploadRepaymentSchedule } from "./UploadRepaymentSchedule";
 
 interface DealDetailsStepProps {
 	className?: string;
@@ -108,6 +109,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					<Input
 						name={DealFormValidationField.Principal}
 						className="bg-credix-primary"
+						disabled={selectedRepaymentType === DealFormField.CustomRepaymentSchedule}
 						label={intl.formatMessage(MESSAGES.principalInputLabel)}
 						placeholder={intl.formatMessage(MESSAGES.principalInputPlaceholder)}
 						type="number"
@@ -126,6 +128,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					<Input
 						name={DealFormValidationField.FinancingFee}
 						className="bg-credix-primary"
+						disabled={selectedRepaymentType === DealFormField.CustomRepaymentSchedule}
 						label={intl.formatMessage(MESSAGES.financingFeeInputLabel)}
 						placeholder={intl.formatMessage(MESSAGES.financingFeeInputPlaceholder)}
 						type="number"
@@ -142,6 +145,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					<Input
 						name={DealFormValidationField.TimeToMaturity}
 						className="bg-credix-primary"
+						disabled={selectedRepaymentType === DealFormField.CustomRepaymentSchedule}
 						label={intl.formatMessage(MESSAGES.timeToMaturityInputLabel)}
 						placeholder={intl.formatMessage(MESSAGES.timeToMaturityInputPlaceholder)}
 						type="number"
@@ -172,6 +176,9 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 					/>
 				</div>
 			</div>
+			<div className="hidden">
+				<FormItem name={DealFormField.Schedule}></FormItem>
+			</div>
 			<FormItem
 				name={DealFormValidationField.RepaymentType}
 				rules={[
@@ -182,7 +189,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 				]}
 			>
 				<Radio.Group>
-					<div className="space-y-4">
+					<div className="space-y-8">
 						<SelectorCard
 							isInteractive={true}
 							content={
@@ -211,6 +218,7 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 							subtitle={intl.formatMessage(MESSAGES.bulletLoanSubtitle)}
 							checked={selectedRepaymentType === RepaymentScheduleType.BULLET}
 						/>
+						<UploadRepaymentSchedule className="pt-14" />
 					</div>
 				</Radio.Group>
 			</FormItem>

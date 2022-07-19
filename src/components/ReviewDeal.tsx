@@ -14,6 +14,8 @@ import { TrancheAdvancedSettings } from "./TrancheAdvancedSettings";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 import { TrancheFormValue, TrancheTitle } from "@credix_types/tranche.types";
 import { capitalize } from "lodash";
+import { DealFormField } from "./DealForm";
+import { CustomRepaymentSchedule } from "./CustomRepaymentSchedule";
 
 interface ReviewDealStepProps {
 	form: FormInstance;
@@ -59,14 +61,16 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 	className,
 	onBack,
 }) => {
-	const principal = Form.useWatch("principal", form);
-	const financingFee = Form.useWatch("financingFee", form);
-	const timeToMaturity = Form.useWatch("timeToMaturity", form);
-	const trueWaterfall = Form.useWatch("trueWaterfall", form);
-	const slashInterestToPrincipal = Form.useWatch("slashInterestToPrincipal", form);
-	const slashPrincipalToInterest = Form.useWatch("slashPrincipalToInterest", form);
+	const principal = Form.useWatch(DealFormField.Principal, form);
+	const financingFee = Form.useWatch(DealFormField.FinancingFee, form);
+	const timeToMaturity = Form.useWatch(DealFormField.TimeToMaturity, form);
+	const trueWaterfall = Form.useWatch(DealFormField.TrueWaterfall, form);
+	const slashInterestToPrincipal = Form.useWatch(DealFormField.SlashInterestToPrincipal, form);
+	const slashPrincipalToInterest = Form.useWatch(DealFormField.SlashPrincipalToInterest, form);
+	const repaymentType = Form.useWatch(DealFormField.RepaymentType, form);
 	const intl = useIntl();
-	const trancheStructure = Form.useWatch("trancheStructure", form) || TrancheFormValue.ThreeTranche;
+	const trancheStructure =
+		Form.useWatch(DealFormField.TrancheStructure, form) || TrancheFormValue.ThreeTranche;
 	const formTranche: TrancheStructure = form.getFieldValue(trancheStructure);
 	const trancheTitlesMap = Object.entries(TrancheTitle).reduce((acc, [key, value]) => {
 		acc = {
@@ -136,7 +140,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 				/>
 			</div>
 			<div className="uppercase text-2xl font-bold">{intl.formatMessage(MESSAGES.typeOfLoan)}</div>
-			{form.getFieldValue("repaymentType") === RepaymentScheduleType.AMORTIZATION && (
+			{repaymentType === RepaymentScheduleType.AMORTIZATION && (
 				<SelectorCard
 					content={
 						<AmortizationRepaymentSchedule
@@ -154,7 +158,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 					className="col-span-4"
 				/>
 			)}
-			{form.getFieldValue("repaymentType") === RepaymentScheduleType.BULLET && (
+			{repaymentType === RepaymentScheduleType.BULLET && (
 				<SelectorCard
 					content={
 						<BulletLoanRepaymentSchedule
@@ -171,6 +175,9 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 					showContent={true}
 					className="col-span-4"
 				/>
+			)}
+			{repaymentType === DealFormField.CustomRepaymentSchedule && (
+				<CustomRepaymentSchedule checked={false} isInteractive={false} showContent={true} />
 			)}
 			<div className="uppercase text-2xl font-bold">
 				{intl.formatMessage(MESSAGES.trancheStructure)}
