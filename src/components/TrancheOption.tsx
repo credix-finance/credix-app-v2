@@ -2,14 +2,14 @@ import React, { FunctionComponent, useMemo, useState } from "react";
 import { TrancheLine } from "@components/TrancheLine";
 import { TrancheDonut } from "@components/TrancheDonut";
 import { Icon, IconDimension } from "@components/Icon";
-import { Tranche } from "@credix_types/tranche.types";
-import { trancheColors } from "@consts";
+import { trancheColors, TrancheStructure } from "@consts";
+import Big from "big.js";
 
 interface TrancheOptionProps {
-	trancheData: Tranche[];
+	trancheStructure: TrancheStructure;
 }
 
-export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheData }) => {
+export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheStructure }) => {
 	const [highlightedElement, setHighlightedElement] = useState(null);
 
 	const highlightElement = (element) => {
@@ -20,20 +20,40 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheDa
 		setHighlightedElement(null);
 	};
 
-	const donut = useMemo(
-		() => (
+	const donut = useMemo(() => {
+		if (!trancheStructure) {
+			return null;
+		}
+
+		const tranches = [
+			{
+				name: "Senior",
+				pop: trancheStructure.Senior?.percentageOfPrincipal,
+			},
+			{
+				name: "Mezzanine",
+				pop: trancheStructure.Mezzanine?.percentageOfPrincipal,
+			},
+			{
+				name: "Junior",
+				pop: trancheStructure.Junior?.percentageOfPrincipal,
+			},
+		];
+
+		return (
 			<TrancheDonut
-				data={trancheData.map((t) => ({
-					name: t.name,
-					value: t.percentageOfPrincipal?.toNumber(),
-				}))}
+				data={tranches
+					.filter((t) => t.pop !== undefined)
+					.map((t) => ({
+						name: t.name,
+						value: t.pop ? Big(t.pop).toNumber() : null,
+					}))}
 				color={trancheColors}
 				onMouseOver={highlightElement}
 				onMouseLeave={unHighlightElement}
 			/>
-		),
-		[trancheData]
-	);
+		);
+	}, [trancheStructure]);
 
 	return (
 		<div className="flex space-x-12">
@@ -58,14 +78,11 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheDa
 						<span>Expected APY</span>
 					</div>
 				</div>
-				{trancheData.map((tranche, index) => (
+				{Object.entries(trancheStructure).map(([name, structure], index) => (
 					<TrancheLine
-						key={tranche.name}
-						name={tranche.name}
-						apr={tranche.apr}
-						value={tranche.value}
-						percentageOfPrincipal={tranche.percentageOfPrincipal}
-						percentageOfInterest={tranche.percentageOfInterest}
+						key={name}
+						name={name}
+						structure={structure}
 						color={trancheColors[index]}
 						highlightedElement={highlightedElement}
 					/>

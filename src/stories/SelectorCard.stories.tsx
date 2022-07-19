@@ -8,7 +8,7 @@ import { AmortizationRepaymentSchedule } from "@components/AmortizationRepayment
 import { BulletLoanRepaymentSchedule } from "@components/BulletLoanRepaymentSchedule";
 import { TrancheOption } from "@components/TrancheOption";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
-import { defaultTranches } from "@consts";
+import { defaultTranches, defaultTrancheSettings } from "@consts";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -152,20 +152,20 @@ Tranches.decorators = [
 				<Radio.Group>
 					<div className="space-y-8">
 						<SelectorCard
-							content={<TrancheOption trancheData={defaultTranches[0].trancheData} />}
+							content={<TrancheOption trancheStructure={defaultTrancheSettings.oneTranche} />}
 							value="oneTranche"
 							title="One tranche structure"
 							checked={true}
 						/>
 						<SelectorCard
-							content={<TrancheOption trancheData={defaultTranches[1].trancheData} />}
+							content={<TrancheOption trancheStructure={defaultTrancheSettings.twoTranche} />}
 							value="twoTranche"
 							title="Two tranche structure"
 							showContent={true}
 							action={<Button type="text">Edit</Button>}
 						/>
 						<SelectorCard
-							content={<TrancheOption trancheData={defaultTranches[2].trancheData} />}
+							content={<TrancheOption trancheStructure={defaultTrancheSettings.threeTranche} />}
 							value="threeTranche"
 							title="Three tranche structure"
 							showContent={true}

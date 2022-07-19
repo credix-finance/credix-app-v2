@@ -6,7 +6,7 @@ import { Icon, IconDimension, IconName } from "./Icon";
 import { classNames, compactFormatter } from "@utils/format.utils";
 import { TrancheOption } from "./TrancheOption";
 import { SelectorCard } from "./SelectorCard";
-import { defaultTranches, TrancheSettings } from "@consts";
+import { TrancheStructure, trancheTitleMap } from "@consts";
 import { AmortizationRepaymentSchedule } from "./AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "./BulletLoanRepaymentSchedule";
 import { DealAdvancedSettings } from "./DealAdvancedSettings";
@@ -63,12 +63,16 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 	const slashInterestToPrincipal = Form.useWatch("slashInterestToPrincipal", form);
 	const slashPrincipalToInterest = Form.useWatch("slashPrincipalToInterest", form);
 	const intl = useIntl();
-	const tranche = defaultTranches.find(
-		(tranche) => tranche.value === form.getFieldValue("trancheStructure")
-	);
-	const formTranche = form.getFieldValue(tranche.value);
-	const formTranchesWithAdvancedSettings = Object.entries(formTranche as TrancheSettings[]).filter(
-		([_, settings]) => settings.earlyWithdrawalInterest !== undefined
+	const trancheStructure = Form.useWatch("trancheStructure", form) || "threeTranche";
+	const formTranche: TrancheStructure = form.getFieldValue(trancheStructure);
+
+	if (!formTranche) {
+		return null;
+	}
+
+	const formTranchesWithAdvancedSettings = Object.entries(formTranche).filter(
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		([_, settings]) => !!settings.earlyWithdrawalInterest || !!settings.earlyWithdrawalPrincipal
 	);
 
 	className = classNames([className, "space-y-8"]);
@@ -203,11 +207,11 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 					description: "New deal: review tranche structure",
 				})}
 			</div>
-			{tranche && (
+			{formTranche && (
 				<SelectorCard
-					content={<TrancheOption trancheData={tranche.trancheData} />}
-					value={tranche.value}
-					title={tranche.title}
+					content={<TrancheOption trancheStructure={formTranche} />}
+					value={trancheStructure}
+					title={trancheTitleMap[trancheStructure]}
 					checked={false}
 					isInteractive={false}
 					showContent={true}

@@ -37,7 +37,6 @@ export const SelectorCard: FunctionComponent<SelectorCardProps> = ({
 
 	const clickRadio = () => {
 		if (radioRef.current && radioRef.current.input) {
-			console.log("sup");
 			radioRef.current.input.click();
 		}
 	};
