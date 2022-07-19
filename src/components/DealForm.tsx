@@ -24,7 +24,10 @@ import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
 import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
 import { useStore } from "@state/useStore";
 import { marketSelector } from "@state/selectors";
-import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
+import {
+	RepaymentSchedulePeriod,
+	RepaymentScheduleType,
+} from "@credix_types/repaymentschedule.types";
 import { TrancheName } from "@credix_types/tranche.types";
 
 type TrancheUpdateMap = {
@@ -110,12 +113,17 @@ export enum DealFormField {
 	Principal = "principal",
 	FinancingFee = "financingFee",
 	TimeToMaturity = "timeToMaturity",
+	TrueWaterfall = "trueWaterfall",
+	SlashInterestToPrincipal = "slashInterestToPrincipal",
+	SlashPrincipalToInterest = "slashPrincipalToInterest",
 	RepaymentType = "repaymentType",
 	TrancheStructure = "trancheStructure",
 	OneTranche = "oneTranche",
 	TwoTranche = "twoTranche",
 	ThreeTranche = "threeTranche",
 	CustomTranche = "customTranche",
+	CustomRepaymentSchedule = "customRepaymentSchedule",
+	Schedule = "schedule",
 }
 
 export const trancheSettingsFields = [
@@ -158,6 +166,7 @@ export interface DealFormInput extends DealTrancheSettings {
 	trueWaterfall: boolean;
 	slashInterestToPrincipal: boolean;
 	slashPrincipalToInterest: boolean;
+	schedule: RepaymentSchedulePeriod[];
 }
 
 interface DealFormProps {
@@ -169,6 +178,7 @@ interface DealFormProps {
 		dealName,
 		repaymentType,
 		trancheStructure,
+		schedule,
 	}: DealFormInput) => void;
 }
 
@@ -205,6 +215,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			].includes(formItemKey)
 		) {
 			calculateAprs(allValues);
+			generateSchedule(allValues);
 			return;
 		}
 
@@ -228,34 +239,50 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		}
 	};
 
+	const generateSchedule = ({ repaymentType, principal, financingFee, timeToMaturity }) => {
+		let schedule = null;
+		if (repaymentType === RepaymentScheduleType.BULLET) {
+			schedule = bulletSchedule(principal, new Fraction(financingFee, 100), timeToMaturity);
+		} else if (repaymentType === RepaymentScheduleType.AMORTIZATION) {
+			schedule = amortizationSchedule(principal, new Fraction(financingFee, 100), timeToMaturity);
+		} else {
+			return;
+		}
+
+		schedule = schedule.map((period: { interest: number; principal: number }) => {
+			return {
+				interest: Big(period.interest).toNumber(),
+				principal: Big(period.principal).toNumber(),
+			};
+		});
+
+		form.setFieldsValue({ schedule });
+	};
+
 	const getCommonDealValues = (): {
 		totalPrincipal: number;
 		timeToMaturity: number;
 		totalInterest: number;
 	} => {
 		const {
-			financingFee,
 			principal,
 			timeToMaturity: ttm,
-			repaymentType,
+			schedule,
 		} = form.getFieldsValue([
-			DealFormField.FinancingFee,
 			DealFormField.Principal,
 			DealFormField.TimeToMaturity,
-			DealFormField.RepaymentType,
+			DealFormField.Schedule,
 		]);
 
-		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
 		const totalPrincipal = Big(principal).toNumber();
 		const timeToMaturity = Big(ttm).toNumber();
 
-		const totalInterest = (
-			repaymentType === RepaymentScheduleType.AMORTIZATION
-				? amortizationSchedule(totalPrincipal, interestFee, timeToMaturity)
-				: bulletSchedule(totalPrincipal, interestFee, timeToMaturity)
-		).reduce((acc, period: { interest: number; principal: number }) => {
-			return (acc += period.interest);
-		}, 0);
+		const totalInterest = schedule.reduce(
+			(acc, period: { interest: number; principal: number }) => {
+				return (acc += period.interest);
+			},
+			0
+		);
 
 		return { totalPrincipal, timeToMaturity, totalInterest };
 	};

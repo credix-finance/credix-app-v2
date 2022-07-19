@@ -13,10 +13,9 @@ import React, { ReactElement, useEffect } from "react";
 import { useStore } from "state/useStore";
 import loadIntlMessages from "@utils/i18n.utils";
 import { useIntl } from "react-intl";
-import { repaymentSchedule as bulletSchedule } from "@utils/bullet.utils";
-import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.utils";
 import { DAYS_IN_REPAYMENT_PERIOD, DAYS_IN_YEAR, newDealDefaults, TrancheStructure } from "@consts";
 import Big from "big.js";
+import { RepaymentSchedulePeriod } from "@credix_types/repaymentschedule.types";
 
 const New: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -156,13 +155,7 @@ const New: NextPageWithLayout = () => {
 		}
 	};
 
-	const addRepaymentSchedule = async (
-		deal: Deal,
-		repaymentType: string,
-		principal: number,
-		financingFee: number,
-		timeToMaturity: number
-	) => {
+	const addRepaymentSchedule = async (deal: Deal, schedule: RepaymentSchedulePeriod[]) => {
 		const hide = message.loading({
 			content: intl.formatMessage({
 				defaultMessage: "Adding repayment schedule to deal",
@@ -170,22 +163,14 @@ const New: NextPageWithLayout = () => {
 			}),
 		});
 
-		const schedule = (
-			repaymentType === "amortization"
-				? amortizationSchedule(principal, new Fraction(financingFee, 100), timeToMaturity)
-				: bulletSchedule(principal, new Fraction(financingFee, 100), timeToMaturity)
-		).map((period: { interest: number; principal: number }) => {
-			return {
-				interest: toProgramAmount(Big(period.interest)).toNumber(),
-				principal: toProgramAmount(Big(period.principal)).toNumber(),
-			};
-		});
-
 		try {
 			await deal.setRepaymentSchedule({
 				daysInYear: DAYS_IN_YEAR,
 				periodDuration: DAYS_IN_REPAYMENT_PERIOD,
-				periods: schedule,
+				periods: schedule.map(({ principal, interest }) => ({
+					principal: toProgramAmount(Big(principal)).toNumber(),
+					interest: toProgramAmount(Big(interest)).toNumber(),
+				})),
 			});
 			hide();
 
@@ -221,11 +206,8 @@ const New: NextPageWithLayout = () => {
 
 	const onSubmit = async ({
 		principal,
-		financingFee,
-		timeToMaturity,
 		borrower,
 		dealName,
-		repaymentType,
 		trancheStructure,
 		trueWaterfall,
 		slashInterestToPrincipal,
@@ -234,6 +216,7 @@ const New: NextPageWithLayout = () => {
 		twoTranche,
 		threeTranche,
 		customTranche,
+		schedule,
 	}: DealFormInput) => {
 		const borrowerPK = new PublicKey(borrower);
 		const formattedPrincipal = compactFormatter.format(principal);
@@ -260,10 +243,7 @@ const New: NextPageWithLayout = () => {
 					)
 			)
 			.then(async () => await getDealInfo(borrowerPK))
-			.then(
-				async (deal: Deal) =>
-					await addRepaymentSchedule(deal, repaymentType, principal, financingFee, timeToMaturity)
-			)
+			.then(async (deal: Deal) => await addRepaymentSchedule(deal, schedule))
 			.then(async (deal: Deal) => await addTrancheConfig(deal, selectedTranche))
 			.then((deal: Deal) =>
 				router.push(`/${marketplace}/deals/show?dealId=${deal.address.toString()}`)

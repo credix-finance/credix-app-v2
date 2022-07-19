@@ -60,3 +60,43 @@ export const repaymentScheduleType = (repaymentSchedule: RepaymentSchedule) => {
 
 	return RepaymentScheduleType.AMORTIZATION;
 };
+
+export const parseScheduleCSV = (text: string): RepaymentSchedulePeriod[] => {
+	const lines = text.trim().split("\n");
+
+	const _headers = lines[0].split(",");
+
+	// Remove headers
+	lines.shift();
+
+	const scheduleData = lines
+		.map((line) => line.trim().split(","))
+		.map(([principal, interest]) => ({
+			principal: Number(principal),
+			interest: Number(interest),
+		}))
+		.reduce(
+			(acc, { principal, interest }) => {
+				const cumulativePrincipal = acc.cumulativePrincipal + principal;
+				const cumulativeInterest = acc.cumulativeInterest + interest;
+
+				acc.periods.push({
+					principal,
+					interest,
+					cumulativeInterest,
+					cumulativePrincipal,
+				});
+				acc.cumulativePrincipal = cumulativePrincipal;
+				acc.cumulativeInterest = cumulativeInterest;
+
+				return acc;
+			},
+			{
+				cumulativePrincipal: 0,
+				cumulativeInterest: 0,
+				periods: [],
+			}
+		);
+
+	return scheduleData.periods;
+};
