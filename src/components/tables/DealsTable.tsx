@@ -106,6 +106,7 @@ export const DealsTable = (props: Props) => {
 			icon: "stacked-column-down",
 			dataIndex: "name",
 			key: "name",
+			width: 300,
 			ellipsis: true,
 		},
 		{
@@ -113,7 +114,7 @@ export const DealsTable = (props: Props) => {
 			icon: "coins-alt",
 			dataIndex: "principal",
 			key: "principal",
-			width: 200,
+			width: 250,
 			titleClassName: "justify-end",
 			align: "right",
 			render: (principal: TokenAmount) => (
@@ -124,7 +125,6 @@ export const DealsTable = (props: Props) => {
 			title: intl.formatMessage(MESSAGES.apr),
 			icon: "coins-alt",
 			key: "apr",
-			width: 200,
 			titleClassName: "justify-end",
 			align: "right",
 			dataIndex: "apr",
@@ -135,7 +135,7 @@ export const DealsTable = (props: Props) => {
 			icon: "coins-alt",
 			key: "trancheStructure",
 			dataIndex: "trancheSizePercentages",
-			width: 400,
+			width: 250,
 			titleClassName: "justify-end",
 			align: "right",
 			render: (tranches: number[]) => (
