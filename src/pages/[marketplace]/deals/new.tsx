@@ -124,8 +124,14 @@ const New: NextPageWithLayout = () => {
 
 		const tranches = Object.entries(trancheStructure).reduce((tranches, [key, t]) => {
 			tranches[key.toLowerCase()] = {
-				size: new Fraction(Big(t.percentageOfPrincipal).toNumber(), 100),
-				returnPercentage: new Fraction(Big(t.percentageOfInterest).toNumber(), 100),
+				size: new Fraction(
+					toProgramAmount(Big(t.percentageOfPrincipal)).toNumber(),
+					toProgramAmount(Big(100)).toNumber()
+				),
+				returnPercentage: new Fraction(
+					toProgramAmount(Big(t.percentageOfInterest)).toNumber(),
+					toProgramAmount(Big(100)).toNumber()
+				),
 				maxDepositPercentage: new Fraction(1, 1),
 				earlyWithdrawalInterest: t.earlyWithdrawalInterest,
 				earlyWithdrawalPrincipal: t.earlyWithdrawalPrincipal,
