@@ -7,6 +7,13 @@ interface RepaymentScheduleGraphProps {
 	config?: Partial<ColumnConfig>;
 }
 
+export const logScaleGraphConfig = {
+	yAxis: {
+		type: "log",
+		base: 10,
+	},
+} as Partial<ColumnConfig>;
+
 export const RepaymentScheduleGraph: FunctionComponent<RepaymentScheduleGraphProps> = ({
 	data,
 	config = {},
