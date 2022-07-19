@@ -89,72 +89,73 @@ export const TrancheSelectionOption: FunctionComponent<{
 											name: t.name,
 										})}
 									</div>
-									{t.editable && (
-										<div className="flex gap-x-6">
-											<div>
-												<Input
-													name={[tranche.value, t.name, "percentageOfPrincipal"]}
-													className="bg-credix-primary"
-													labelClassName="flex-col items-start"
-													label={intl.formatMessage(MESSAGES.percentageOfPrincipalInputLabel)}
-													placeholder={intl.formatMessage(
-														MESSAGES.percentageOfPrincipalInputPlaceholder
-													)}
-													type="number"
-													step={INPUT_NUMBER_STEP}
-													required={true}
-													rules={[
-														{
-															required: true,
-															message: intl.formatMessage(
-																MESSAGES.percentageOfPrincipalRequiredValidation
-															),
-														},
-													]}
-												/>
-											</div>
-											<div>
-												<Input
-													name={[tranche.value, t.name, "percentageOfInterest"]}
-													className="bg-credix-primary"
-													labelClassName="flex-col items-start"
-													label={intl.formatMessage(MESSAGES.percentageOfInterestInputLabel)}
-													placeholder={intl.formatMessage(
-														MESSAGES.percentageOfInterestInputPlaceholder
-													)}
-													type="number"
-													step={INPUT_NUMBER_STEP}
-													required={true}
-													rules={[
-														{
-															required: true,
-															message: intl.formatMessage(
-																MESSAGES.percentageOfInterestRequiredValidation
-															),
-														},
-													]}
-												/>
-											</div>
-											<div>
-												<Input
-													name={[tranche.value, t.name, "apr"]}
-													className="bg-credix-primary"
-													labelClassName="flex-col items-start"
-													label={intl.formatMessage(MESSAGES.aprInputLabel)}
-													placeholder={intl.formatMessage(MESSAGES.aprInputPlaceholder)}
-													type="number"
-													step={INPUT_NUMBER_STEP}
-													required={true}
-													rules={[
-														{
-															required: true,
-															message: intl.formatMessage(MESSAGES.aprRequiredValidation),
-														},
-													]}
-												/>
-											</div>
+									<div className="flex gap-x-6">
+										<div>
+											<Input
+												name={[tranche.value, t.name, "percentageOfPrincipal"]}
+												className="bg-credix-primary"
+												labelClassName="flex-col items-start"
+												label={intl.formatMessage(MESSAGES.percentageOfPrincipalInputLabel)}
+												placeholder={intl.formatMessage(
+													MESSAGES.percentageOfPrincipalInputPlaceholder
+												)}
+												type="number"
+												step={INPUT_NUMBER_STEP}
+												disabled={!t.editable}
+												required={true}
+												rules={[
+													{
+														required: true,
+														message: intl.formatMessage(
+															MESSAGES.percentageOfPrincipalRequiredValidation
+														),
+													},
+												]}
+											/>
 										</div>
-									)}
+										<div>
+											<Input
+												name={[tranche.value, t.name, "percentageOfInterest"]}
+												className="bg-credix-primary"
+												labelClassName="flex-col items-start"
+												label={intl.formatMessage(MESSAGES.percentageOfInterestInputLabel)}
+												placeholder={intl.formatMessage(
+													MESSAGES.percentageOfInterestInputPlaceholder
+												)}
+												type="number"
+												step={INPUT_NUMBER_STEP}
+												disabled={!t.editable}
+												required={true}
+												rules={[
+													{
+														required: true,
+														message: intl.formatMessage(
+															MESSAGES.percentageOfInterestRequiredValidation
+														),
+													},
+												]}
+											/>
+										</div>
+										<div>
+											<Input
+												name={[tranche.value, t.name, "apr"]}
+												className="bg-credix-primary"
+												labelClassName="flex-col items-start"
+												label={intl.formatMessage(MESSAGES.aprInputLabel)}
+												placeholder={intl.formatMessage(MESSAGES.aprInputPlaceholder)}
+												type="number"
+												step={INPUT_NUMBER_STEP}
+												disabled={!t.editable}
+												required={true}
+												rules={[
+													{
+														required: true,
+														message: intl.formatMessage(MESSAGES.aprRequiredValidation),
+													},
+												]}
+											/>
+										</div>
+									</div>
 									<div>
 										{t.earlyWithdrawalInterest !== undefined && (
 											<div className="flex justify-between">
