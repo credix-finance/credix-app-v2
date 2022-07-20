@@ -5,7 +5,7 @@ import { DealDetailsStep } from "@components/DealDetailsStep";
 import { DealTranchesStep } from "@components/DealTranchesStep";
 import { ReviewDealStep } from "@components/ReviewDeal";
 import { defineMessages, useIntl } from "react-intl";
-import { DealTrancheSettings, defaultTranches } from "@consts";
+import { DealTrancheSettings } from "@consts";
 import { newDealDefaults } from "@consts";
 import {
 	seniorAPR,
@@ -28,19 +28,84 @@ import { useStore } from "@state/useStore";
 import { marketSelector } from "@state/selectors";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 
-export const trancheSettingsFields = defaultTranches.map((t) => t.value);
+type TrancheUpdateMap = {
+	twoTranche: {
+		Senior: {
+			apr: () => void;
+			percentageOfInterest: () => void;
+			percentageOfPrincipal: () => void;
+		};
+		Junior: {
+			apr: () => void;
+			percentageOfPrincipal: () => void;
+			percentageOfInterest: () => void;
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+	};
+	threeTranche: {
+		Senior: {
+			apr: () => void;
+			percentageOfPrincipal: () => void;
+			percentageOfInterest: () => void;
+		};
+		Mezzanine: {
+			apr: () => void;
+			percentageOfPrincipal: () => void;
+			percentageOfInterest: () => void;
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+		Junior: {
+			earlyWithdrawalInterest: () => void;
+			earlyWithdrawalPrincipal: () => void;
+		};
+	};
+};
+
+enum DealFormField {
+	DealName = "dealName",
+	Borrower = "borrower",
+	Principal = "principal",
+	FinancingFee = "financingFee",
+	TimeToMaturity = "timeToMaturity",
+	RepaymentType = "repaymentType",
+	OneTranche = "oneTranche",
+	TwoTranche = "twoTranche",
+	ThreeTranche = "threeTranche",
+}
+
+export enum DealFormValidationField {
+	DealName = DealFormField.DealName,
+	Borrower = DealFormField.Borrower,
+	Principal = DealFormField.Principal,
+	FinancingFee = DealFormField.FinancingFee,
+	TimeToMaturity = DealFormField.TimeToMaturity,
+	RepaymentType = DealFormField.RepaymentType,
+}
+export const trancheSettingsFields = [
+	DealFormField.OneTranche,
+	DealFormField.TwoTranche,
+	DealFormField.ThreeTranche,
+];
+
+enum TrancheName {
+	Senior = "Senior",
+	Mezzanine = "Mezzanine",
+	Junior = "Junior",
+}
+
+export enum TrancheFormField {
+	Apr = "apr",
+	PercentageOfPrincipal = "percentageOfPrincipal",
+	PercentageOfInterest = "percentageOfInterest",
+	EarlyWithdrawalInterest = "earlyWithdrawalInterest",
+	EarlyWithdrawalPrincipal = "earlyWithdrawalPrincipal",
+}
+
 const dealFormDefaultValues = {
 	trancheStructure: trancheSettingsFields[2],
 };
-
-export enum dealFormValidationFields {
-	dealName = "dealName",
-	borrower = "borrower",
-	principal = "principal",
-	financingFee = "financingFee",
-	timeToMaturity = "timeToMaturity",
-	repaymentType = "repaymentType",
-}
 
 export interface DealFormInput extends DealTrancheSettings {
 	principal: number;
@@ -89,16 +154,37 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 	};
 
 	const onValuesChange = (changedValues, allValues) => {
-		const changedValue = Object.keys(changedValues)[0];
+		// Get the name of the changed field
+		const formItemKey = Object.keys(changedValues)[0] as DealFormField;
 
-		if (["principal", "financingFee", "timeToMaturity", "repaymentType"].includes(changedValue)) {
+		if (
+			[
+				DealFormField.Principal,
+				DealFormField.FinancingFee,
+				DealFormField.TimeToMaturity,
+				DealFormField.RepaymentType,
+			].includes(formItemKey)
+		) {
 			calculateAprs(allValues);
+			return;
 		}
 
-		if (trancheSettingsFields.find((field) => field === changedValue)) {
-			const tranche = Object.keys(changedValues[changedValue])[0];
-			const field = Object.keys(changedValues[changedValue][tranche])[0];
-			const updateFunction = trancheUpdateMap[changedValue][tranche][field];
+		if (trancheSettingsFields.includes(formItemKey)) {
+			// Get the name of the tranche the updated field belongs to
+			const tranche = Object.keys(changedValues[formItemKey])[0];
+
+			// Get the name of the field that was updated
+			const field = Object.keys(changedValues[formItemKey][tranche])[0];
+
+			/**
+			 * Get the function to update the tranche settings.
+			 * trancheUpdateMap will return a function based on the tranche structure, tranche and field that was updated.
+			 * e.g.: threeTranche, Senior, apr.
+			 * where formItemKey = "threeTranche",
+			 * 			tranche = "Senior",
+			 * 			field = "apr"
+			 */
+			const updateFunction = trancheUpdateMap[formItemKey][tranche][field];
 			updateFunction();
 		}
 	};
@@ -113,7 +199,12 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			principal,
 			timeToMaturity: ttm,
 			repaymentType,
-		} = form.getFieldsValue(["financingFee", "principal", "timeToMaturity", "repaymentType"]);
+		} = form.getFieldsValue([
+			DealFormField.FinancingFee,
+			DealFormField.Principal,
+			DealFormField.TimeToMaturity,
+			DealFormField.RepaymentType,
+		]);
 
 		const interestFee = new Fraction(Big(financingFee).toNumber(), 100);
 		const totalPrincipal = Big(principal).toNumber();
@@ -137,8 +228,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Senior: { apr: aprSenior, percentageOfPrincipal: percentageOfPrincipalSenior },
 			},
 		} = form.getFieldsValue([
-			["twoTranche", "Senior", "percentageOfPrincipal"],
-			["twoTranche", "Senior", "apr"],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.Apr],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -178,8 +269,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Senior: { percentageOfInterest: percentageOfInterestSenior, apr: aprSenior },
 			},
 		} = form.getFieldsValue([
-			["twoTranche", "Senior", "percentageOfInterest"],
-			["twoTranche", "Senior", "apr"],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfInterest],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.Apr],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -221,8 +312,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Senior: { percentageOfPrincipal: popSenior, percentageOfInterest: poiSenior },
 			},
 		} = form.getFieldsValue([
-			["twoTranche", "Senior", "percentageOfPrincipal"],
-			["twoTranche", "Senior", "percentageOfInterest"],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfInterest],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -266,8 +357,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Junior: { apr: aprJunior },
 			},
 		} = form.getFieldsValue([
-			["twoTranche", "Senior", "percentageOfPrincipal"],
-			["twoTranche", "Junior", "apr"],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.TwoTranche, TrancheName.Junior, TrancheFormField.Apr],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -307,8 +398,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Junior: { percentageOfPrincipal: popJunior },
 			},
 		} = form.getFieldsValue([
-			["twoTranche", "Junior", "percentageOfPrincipal"],
-			["twoTranche", "Senior", "percentageOfInterest"],
+			[DealFormField.TwoTranche, TrancheName.Junior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfInterest],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -348,8 +439,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Junior: { apr: aprJunior, percentageOfInterest: poiJunior },
 			},
 		} = form.getFieldsValue([
-			["twoTranche", "Junior", "apr"],
-			["twoTranche", "Junior", "percentageOfInterest"],
+			[DealFormField.TwoTranche, TrancheName.Junior, TrancheFormField.Apr],
+			[DealFormField.TwoTranche, TrancheName.Junior, TrancheFormField.PercentageOfInterest],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -392,10 +483,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Mezzanine: { percentageOfInterest: poiMez, percentageOfPrincipal: popMez },
 			},
 		} = form.getFieldsValue([
-			["threeTranche", "Senior", "apr"],
-			["threeTranche", "Senior", "percentageOfPrincipal"],
-			["threeTranche", "Mezzanine", "percentageOfInterest"],
-			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.Apr],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.PercentageOfInterest],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.PercentageOfPrincipal],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -438,10 +529,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Mezzanine: { percentageOfInterest: poiMez, percentageOfPrincipal: popMez },
 			},
 		} = form.getFieldsValue([
-			["threeTranche", "Senior", "percentageOfPrincipal"],
-			["threeTranche", "Senior", "apr"],
-			["threeTranche", "Mezzanine", "percentageOfInterest"],
-			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.Apr],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.PercentageOfInterest],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.PercentageOfPrincipal],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -487,10 +578,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Mezzanine: { percentageOfInterest: poiMez, percentageOfPrincipal: popMez },
 			},
 		} = form.getFieldsValue([
-			["threeTranche", "Senior", "percentageOfInterest"],
-			["threeTranche", "Senior", "percentageOfPrincipal"],
-			["threeTranche", "Mezzanine", "percentageOfInterest"],
-			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.PercentageOfInterest],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.PercentageOfInterest],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.PercentageOfPrincipal],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -536,10 +627,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Mezzanine: { percentageOfPrincipal: popMez, apr: aprMez },
 			},
 		} = form.getFieldsValue([
-			["threeTranche", "Senior", "percentageOfPrincipal"],
-			["threeTranche", "Senior", "percentageOfInterest"],
-			["threeTranche", "Mezzanine", "apr"],
-			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.PercentageOfInterest],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.Apr],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.PercentageOfPrincipal],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -583,10 +674,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Mezzanine: { percentageOfPrincipal: popMez, apr: aprMez },
 			},
 		} = form.getFieldsValue([
-			["threeTranche", "Senior", "percentageOfInterest"],
-			["threeTranche", "Senior", "percentageOfPrincipal"],
-			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
-			["threeTranche", "Mezzanine", "apr"],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.PercentageOfInterest],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.Apr],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -631,10 +722,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				Mezzanine: { percentageOfPrincipal: popMez, percentageOfInterest: poiMez },
 			},
 		} = form.getFieldsValue([
-			["threeTranche", "Senior", "percentageOfPrincipal"],
-			["threeTranche", "Senior", "percentageOfInterest"],
-			["threeTranche", "Mezzanine", "percentageOfPrincipal"],
-			["threeTranche", "Mezzanine", "percentageOfInterest"],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.ThreeTranche, TrancheName.Senior, TrancheFormField.PercentageOfInterest],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.ThreeTranche, TrancheName.Mezzanine, TrancheFormField.PercentageOfInterest],
 		]);
 
 		const sharedValues = getCommonDealValues();
@@ -668,7 +759,7 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		});
 	};
 
-	const trancheUpdateMap = {
+	const trancheUpdateMap: TrancheUpdateMap = {
 		twoTranche: {
 			Senior: {
 				apr: onTwoTrancheSeniorAprChange,
@@ -722,11 +813,15 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 
 	const calculateOneTrancheApr = ({ totalInterest, totalPrincipal, timeToMaturity }, values) => {
 		const poiSr = new Fraction(
-			Big(values["twoTranche"]["Senior"]["percentageOfInterest"]).toNumber(),
+			Big(
+				values[DealFormField.TwoTranche][TrancheName.Senior][TrancheFormField.PercentageOfInterest]
+			).toNumber(),
 			100
 		);
 		const popSr = new Fraction(
-			Big(values["twoTranche"]["Senior"]["percentageOfPrincipal"]).toNumber(),
+			Big(
+				values[DealFormField.TwoTranche][TrancheName.Senior][TrancheFormField.PercentageOfPrincipal]
+			).toNumber(),
 			100
 		);
 
@@ -750,11 +845,15 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 
 	const calculateTwoTrancheAprs = ({ totalInterest, totalPrincipal, timeToMaturity }, values) => {
 		const poiSr = new Fraction(
-			Big(values["twoTranche"]["Senior"]["percentageOfInterest"]).toNumber(),
+			Big(
+				values[DealFormField.TwoTranche][TrancheName.Senior][TrancheFormField.PercentageOfInterest]
+			).toNumber(),
 			100
 		);
 		const popSr = new Fraction(
-			Big(values["twoTranche"]["Senior"]["percentageOfPrincipal"]).toNumber(),
+			Big(
+				values[DealFormField.TwoTranche][TrancheName.Senior][TrancheFormField.PercentageOfPrincipal]
+			).toNumber(),
 			100
 		);
 
@@ -789,19 +888,35 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 
 	const calculateThreeTrancheAprs = ({ totalInterest, totalPrincipal, timeToMaturity }, values) => {
 		const poiMez = new Fraction(
-			Big(values["threeTranche"]["Mezzanine"]["percentageOfInterest"]).toNumber(),
+			Big(
+				values[DealFormField.ThreeTranche][TrancheName.Mezzanine][
+					TrancheFormField.PercentageOfInterest
+				]
+			).toNumber(),
 			100
 		);
 		const popMez = new Fraction(
-			Big(values["threeTranche"]["Mezzanine"]["percentageOfPrincipal"]).toNumber(),
+			Big(
+				values[DealFormField.ThreeTranche][TrancheName.Mezzanine][
+					TrancheFormField.PercentageOfPrincipal
+				]
+			).toNumber(),
 			100
 		);
 		const poiSr = new Fraction(
-			Big(values["threeTranche"]["Senior"]["percentageOfInterest"]).toNumber(),
+			Big(
+				values[DealFormField.ThreeTranche][TrancheName.Senior][
+					TrancheFormField.PercentageOfInterest
+				]
+			).toNumber(),
 			100
 		);
 		const popSr = new Fraction(
-			Big(values["threeTranche"]["Senior"]["percentageOfPrincipal"]).toNumber(),
+			Big(
+				values[DealFormField.ThreeTranche][TrancheName.Senior][
+					TrancheFormField.PercentageOfPrincipal
+				]
+			).toNumber(),
 			100
 		);
 		const juniorApr = threeTrancheJuniorAPR({
@@ -847,8 +962,15 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		});
 	};
 
-	const onNextStep = async (fieldsToValidate: string[], nextStep: number) => {
-		await form.validateFields(fieldsToValidate).then(() => setCurrentStep(nextStep));
+	const onNextStep = async (shouldValidateFields: boolean, nextStep: number) => {
+		if (shouldValidateFields) {
+			await form
+				.validateFields(Object.values(DealFormValidationField))
+				.then(() => setCurrentStep(nextStep));
+			return;
+		}
+
+		setCurrentStep(nextStep);
 	};
 
 	const initialValues = {
