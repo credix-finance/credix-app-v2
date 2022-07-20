@@ -1,5 +1,6 @@
 import { PublicKey } from "@solana/web3.js";
 import Big, { BigSource } from "big.js";
+import { IntlShape, MessageDescriptor } from "react-intl";
 
 export const validateMaxValue = (
 	value: BigSource,
@@ -38,3 +39,8 @@ export const validatePublicKey = (value: string, validationMessage: string) => {
 		return Promise.reject(validationMessage);
 	}
 };
+
+export const required = (intl: IntlShape, message: MessageDescriptor) => ({
+	required: true,
+	message: intl.formatMessage(message),
+});

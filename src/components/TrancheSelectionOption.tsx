@@ -9,6 +9,7 @@ import { Drawer } from "./Drawer";
 import { Switch } from "./Switch";
 import { trancheSettingsFields } from "./DealForm";
 import { Input } from "./Input";
+import { required } from "@utils/validation.utils";
 
 const INPUT_NUMBER_STEP = "0.1";
 
@@ -103,14 +104,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 												step={INPUT_NUMBER_STEP}
 												disabled={!t.editable}
 												required={true}
-												rules={[
-													{
-														required: true,
-														message: intl.formatMessage(
-															MESSAGES.percentageOfPrincipalRequiredValidation
-														),
-													},
-												]}
+												rules={[required(intl, MESSAGES.percentageOfPrincipalRequiredValidation)]}
 											/>
 										</div>
 										<div>
@@ -126,14 +120,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 												step={INPUT_NUMBER_STEP}
 												disabled={!t.editable}
 												required={true}
-												rules={[
-													{
-														required: true,
-														message: intl.formatMessage(
-															MESSAGES.percentageOfInterestRequiredValidation
-														),
-													},
-												]}
+												rules={[required(intl, MESSAGES.percentageOfInterestRequiredValidation)]}
 											/>
 										</div>
 										<div>
@@ -147,12 +134,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 												step={INPUT_NUMBER_STEP}
 												disabled={!t.editable}
 												required={true}
-												rules={[
-													{
-														required: true,
-														message: intl.formatMessage(MESSAGES.aprRequiredValidation),
-													},
-												]}
+												rules={[required(intl, MESSAGES.aprRequiredValidation)]}
 											/>
 										</div>
 									</div>
