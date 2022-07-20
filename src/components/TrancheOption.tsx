@@ -2,11 +2,18 @@ import React, { FunctionComponent, useMemo, useState } from "react";
 import { TrancheLine } from "@components/TrancheLine";
 import { TrancheDonut } from "@components/TrancheDonut";
 import { Icon, IconDimension } from "@components/Icon";
-import { trancheColors, TrancheStructure } from "@consts";
+import {
+	isThreeTrancheStructure,
+	isTwoTrancheStructure,
+	OneTrancheStructure,
+	trancheColors,
+	TrancheStructure,
+	TwoTrancheStructure,
+} from "@consts";
 import Big from "big.js";
 
 interface TrancheOptionProps {
-	trancheStructure: TrancheStructure;
+	trancheStructure: TrancheStructure | TwoTrancheStructure | OneTrancheStructure;
 }
 
 export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheStructure }) => {
@@ -32,13 +39,20 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheSt
 			},
 			{
 				name: "Mezzanine",
-				pop: trancheStructure.Mezzanine?.percentageOfPrincipal,
+				pop: 0,
 			},
 			{
 				name: "Junior",
-				pop: trancheStructure.Junior?.percentageOfPrincipal,
+				pop: 0,
 			},
 		];
+
+		if (isTwoTrancheStructure(trancheStructure)) {
+			tranches[2].pop = trancheStructure.Junior.percentageOfPrincipal;
+		} else if (isThreeTrancheStructure(trancheStructure)) {
+			tranches[1].pop = trancheStructure.Mezzanine.percentageOfPrincipal;
+			tranches[2].pop = trancheStructure.Junior.percentageOfPrincipal;
+		}
 
 		return (
 			<TrancheDonut
