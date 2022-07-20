@@ -1,4 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
+import { IntlShape, MessageDescriptor } from "react-intl";
 
 export const validateMaxValue = (value: string, maxValue: number, validationMessage: string) => {
 	if (!value || Number(value) <= maxValue) {
@@ -29,3 +30,8 @@ export const validatePublicKey = (value: string, validationMessage: string) => {
 		return Promise.reject(validationMessage);
 	}
 };
+
+export const required = (intl: IntlShape, message: MessageDescriptor) => ({
+	required: true,
+	message: intl.formatMessage(message),
+});
