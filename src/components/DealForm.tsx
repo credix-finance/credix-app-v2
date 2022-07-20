@@ -7,7 +7,6 @@ import { ReviewDealStep } from "@components/ReviewDeal";
 import { defineMessages, useIntl } from "react-intl";
 import { DealTrancheSettings } from "@consts";
 import { newDealDefaults } from "@consts";
-import { TrancheName } from "@credix_types/tranche.types";
 import {
 	seniorAPR,
 	threeTrancheJuniorAPR,
@@ -28,6 +27,7 @@ import { repaymentSchedule as amortizationSchedule } from "@utils/amortization.u
 import { useStore } from "@state/useStore";
 import { marketSelector } from "@state/selectors";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
+import { TrancheName } from "@credix_types/tranche.types";
 
 type TrancheUpdateMap = {
 	twoTranche: {

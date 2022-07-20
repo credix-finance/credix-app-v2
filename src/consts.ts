@@ -206,11 +206,43 @@ export type TrancheStructure = {
 	Mezzanine: TrancheSettings;
 	Junior: TrancheSettings;
 };
+
+export type OneTrancheStructure = Pick<TrancheStructure, "Senior">;
+export type TwoTrancheStructure = Pick<TrancheStructure, "Senior" | "Junior">;
+export type ThreeTrancheStructure = TrancheStructure;
+
 export type DealTrancheSettings = {
-	oneTranche: TrancheStructure;
-	twoTranche: TrancheStructure;
-	threeTranche: TrancheStructure;
+	oneTranche: OneTrancheStructure;
+	twoTranche: TwoTrancheStructure;
+	threeTranche: ThreeTrancheStructure;
 };
+
+export function isThreeTrancheStructure(
+	tranche: OneTrancheStructure | TwoTrancheStructure | ThreeTrancheStructure
+): tranche is ThreeTrancheStructure {
+	return (
+		(tranche as ThreeTrancheStructure).Junior !== undefined &&
+		(tranche as ThreeTrancheStructure).Mezzanine !== undefined &&
+		(tranche as ThreeTrancheStructure).Senior !== undefined
+	);
+}
+
+export function isTwoTrancheStructure(
+	tranche: OneTrancheStructure | TwoTrancheStructure | ThreeTrancheStructure
+): tranche is TwoTrancheStructure {
+	return (
+		!isThreeTrancheStructure(tranche) &&
+		(tranche as TwoTrancheStructure).Junior !== undefined &&
+		(tranche as TwoTrancheStructure).Senior !== undefined
+	);
+}
+
+export function isOneTrancheStructure(
+	tranche: OneTrancheStructure | TwoTrancheStructure | ThreeTrancheStructure
+): tranche is OneTrancheStructure {
+	return !isThreeTrancheStructure(tranche) && !isTwoTrancheStructure(tranche);
+}
+
 export const defaultTrancheSettings: DealTrancheSettings = defaultTranches.reduce((obj, t) => {
 	obj[t.value] = {
 		...t.trancheData.reduce((obj, tranche) => {
