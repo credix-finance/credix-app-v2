@@ -24,7 +24,7 @@ function InvestWithdraw() {
 	}, [publicKey, client, fetchMarket, marketplace]);
 
 	return (
-		<div className="py-5 px-4 md:pt-12 md:px-20 md:justify-self-center md:w-full md:max-w-7xl lg:max-w-5xl">
+		<div>
 			<div className="md:-ml-[22px] mb-16">
 				<MarketStats market={market} />
 			</div>

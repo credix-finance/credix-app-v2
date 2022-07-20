@@ -24,7 +24,9 @@ const WithMainMenu = ({ children, showLogo = true }: WithMainMenuProps) => {
 	return (
 		<div className="grid grid-rows-layout">
 			<MainMenu showLogo={showLogo} />
-			{children}
+			<div className="flex justify-center">
+				<div className="max-w-5xl w-full md:py-20 mx-8 pb-8">{children}</div>
+			</div>
 		</div>
 	);
 };

@@ -264,7 +264,7 @@ const New: NextPageWithLayout = () => {
 	};
 
 	return (
-		<div className="py-5 px-4 md:p-20 md:justify-self-center w-full">
+		<div>
 			<Link to={`/${marketplace}/deals`} label="Go back to all deals" icon="chevron-left-square" />
 			<div className="text-4xl font-sans pt-3 mb-8 capitalize">
 				{intl.formatMessage({
