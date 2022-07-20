@@ -29,8 +29,9 @@ import { useStore } from "@state/useStore";
 import { marketSelector } from "@state/selectors";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 
+export const trancheSettingsFields = Object.values(TrancheFormValue);
 const dealFormDefaultValues = {
-	trancheStructure: defaultTranches[defaultTranches.length - 1].value,
+	trancheStructure: TrancheFormValue.threeTranche,
 };
 
 export enum dealFormValidationFields {
@@ -42,7 +43,6 @@ export enum dealFormValidationFields {
 	repaymentType = "repaymentType",
 }
 
-export const trancheSettingsFields = Object.values(TrancheFormValue);
 export interface DealFormInput extends DealTrancheSettings {
 	principal: number;
 	financingFee: number;
