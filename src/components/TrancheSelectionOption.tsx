@@ -7,7 +7,7 @@ import { DealTrancheSettings, DefaultTranche, defaultTrancheSettings } from "@co
 import { TrancheOption } from "./TrancheOption";
 import { Drawer } from "./Drawer";
 import { Switch } from "./Switch";
-import { trancheSettingsFields } from "./DealForm";
+import { TrancheFormField, trancheSettingsFields } from "./DealForm";
 import { Input } from "./Input";
 import { required } from "@utils/validation.utils";
 
@@ -93,7 +93,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 									<div className="flex gap-x-6">
 										<div>
 											<Input
-												name={[tranche.value, t.name, "percentageOfPrincipal"]}
+												name={[tranche.value, t.name, TrancheFormField.PercentageOfPrincipal]}
 												className="bg-credix-primary"
 												labelClassName="flex-col items-start"
 												label={intl.formatMessage(MESSAGES.percentageOfPrincipalInputLabel)}
@@ -109,7 +109,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 										</div>
 										<div>
 											<Input
-												name={[tranche.value, t.name, "percentageOfInterest"]}
+												name={[tranche.value, t.name, TrancheFormField.PercentageOfInterest]}
 												className="bg-credix-primary"
 												labelClassName="flex-col items-start"
 												label={intl.formatMessage(MESSAGES.percentageOfInterestInputLabel)}
@@ -125,7 +125,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 										</div>
 										<div>
 											<Input
-												name={[tranche.value, t.name, "apr"]}
+												name={[tranche.value, t.name, TrancheFormField.Apr]}
 												className="bg-credix-primary"
 												labelClassName="flex-col items-start"
 												label={intl.formatMessage(MESSAGES.aprInputLabel)}
@@ -142,11 +142,11 @@ export const TrancheSelectionOption: FunctionComponent<{
 										{t.earlyWithdrawalInterest !== undefined && (
 											<div className="flex justify-between">
 												<Switch
-													name={[tranche.value, t.name, "earlyWithdrawalInterest"]}
+													name={[tranche.value, t.name, TrancheFormField.EarlyWithdrawalInterest]}
 													label={intl.formatMessage(MESSAGES.withdrawInterest)}
 												/>
 												<Switch
-													name={[tranche.value, t.name, "earlyWithdrawalPrincipal"]}
+													name={[tranche.value, t.name, TrancheFormField.EarlyWithdrawalPrincipal]}
 													label={intl.formatMessage(MESSAGES.withdrawPrincipal)}
 												/>
 											</div>
