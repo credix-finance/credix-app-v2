@@ -9,6 +9,7 @@ import {
 	classNames,
 	daysToMilliseconds,
 	millisecondsToDays,
+	compactRatioFormatter,
 } from "@utils/format.utils";
 
 describe("date formatting", () => {
@@ -151,10 +152,19 @@ describe("daysToMilliseconds", () => {
 });
 
 describe("millisecondsToDays", () => {
-	it.only("returns the given amount of milliseconds in days", () => {
+	it("returns the given amount of milliseconds in days", () => {
 		const input = 2_592_000_000;
 		const expected = 30;
 
 		expect(millisecondsToDays(input)).toEqual(expected);
+	});
+});
+
+describe("compactRatioFormatter", () => {
+	it("formats a ratio without the percentage sign", () => {
+		const input = 0.123;
+		const expected = "12.3";
+
+		expect(compactRatioFormatter(input)).toEqual(expected);
 	});
 });
