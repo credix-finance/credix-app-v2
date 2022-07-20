@@ -25,6 +25,10 @@ export const DealInvestments: FunctionComponent<DealInvestmentsProps> = ({ class
 		const getInvestedTranches = async () => {
 			const balances = {} as { index: TokenAmount };
 			const tranches = await asyncFilter(deal.tranches.tranches, async (tranche) => {
+				if (tranche.index === SENIOR_TRANCHE_INDEX) {
+					return false;
+				}
+
 				try {
 					const userTrancheBalance = await tranche.userTrancheBalance(publicKey);
 					balances[tranche.index] = userTrancheBalance;
@@ -52,17 +56,14 @@ export const DealInvestments: FunctionComponent<DealInvestmentsProps> = ({ class
 					description: "Deal investments: title",
 				})}
 			</div>
-			{deal.tranches?.tranches
-				// Remove Senior tranche from array
-				.filter((t) => t.index !== SENIOR_TRANCHE_INDEX)
-				.map((tranche) => (
-					<TrancheInvestment
-						key={tranche.index}
-						tranche={tranche}
-						userTrancheBalance={userTrancheBalances[tranche.index]}
-						deal={deal}
-					/>
-				))}
+			{tranches.map((tranche) => (
+				<TrancheInvestment
+					key={tranche.index}
+					tranche={tranche}
+					userTrancheBalance={userTrancheBalances[tranche.index]}
+					deal={deal}
+				/>
+			))}
 		</div>
 	);
 };
