@@ -4,12 +4,14 @@ import { TrancheDonut } from "@components/TrancheDonut";
 import { Icon, IconDimension } from "@components/Icon";
 import { trancheColors, TrancheStructure } from "@consts";
 import Big from "big.js";
+import { defineMessages, useIntl } from "react-intl";
 
 interface TrancheOptionProps {
 	trancheStructure: TrancheStructure;
 }
 
 export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheStructure }) => {
+	const intl = useIntl();
 	const [highlightedElement, setHighlightedElement] = useState(null);
 
 	const highlightElement = (element) => {
@@ -63,26 +65,26 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheSt
 				<div className="col-span-1">
 					<div className="flex items-center space-x-1">
 						<Icon name="pie-chart" size={IconDimension.SMALL} />
-						<span>Principal</span>
+						<span>{intl.formatMessage(MESSAGES.principal)}</span>
 					</div>
 				</div>
 				<div className="col-span-1">
 					<div className="flex items-center space-x-1">
 						<Icon name="pie-chart" size={IconDimension.SMALL} />
-						<span>Interest</span>
+						<span>{intl.formatMessage(MESSAGES.interest)}</span>
 					</div>
 				</div>
 				<div className="col-span-1">
 					<div className="flex items-center space-x-1">
 						<Icon name="trend-up" size={IconDimension.SMALL} />
-						<span>Expected APY</span>
+						<span>{intl.formatMessage(MESSAGES.expectedAPY)}</span>
 					</div>
 				</div>
 				{Object.entries(trancheStructure).map(([name, structure], index) => (
 					<TrancheLine
 						key={name}
 						name={name}
-						structure={structure}
+						trancheSettings={structure}
 						color={trancheColors[index]}
 						highlightedElement={highlightedElement}
 					/>
@@ -91,3 +93,18 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheSt
 		</div>
 	);
 };
+
+const MESSAGES = defineMessages({
+	principal: {
+		defaultMessage: "Principal",
+		description: "Tranche option: principal",
+	},
+	interest: {
+		defaultMessage: "Interest",
+		description: "Tranche option: interest",
+	},
+	expectedAPY: {
+		defaultMessage: "Expected APY",
+		description: "Tranche option: expected APY",
+	},
+});

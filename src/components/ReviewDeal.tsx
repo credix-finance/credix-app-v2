@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { Button } from "@components/Button";
 import { Form, FormInstance } from "antd";
 import { Icon, IconDimension, IconName } from "./Icon";
@@ -11,6 +11,7 @@ import { AmortizationRepaymentSchedule } from "./AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "./BulletLoanRepaymentSchedule";
 import { DealAdvancedSettings } from "./DealAdvancedSettings";
 import { TrancheAdvancedSettings } from "./TrancheAdvancedSettings";
+import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 
 interface ReviewDealStepProps {
 	form: FormInstance;
@@ -80,65 +81,44 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 	return (
 		<div className={className}>
 			<div className="uppercase text-2xl font-bold">
-				{intl.formatMessage({
-					defaultMessage: "deal details",
-					description: "New deal: review step title",
-				})}
+				{intl.formatMessage(MESSAGES.reviewDealTitle)}
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 				<DealDetail
 					icon="key"
-					title={intl.formatMessage({
-						defaultMessage: "Public key",
-						description: "New deal: review public key",
-					})}
+					title={intl.formatMessage(MESSAGES.borrower)}
 					value={form.getFieldValue("borrower")}
 					className="col-span-2"
 					valueSize={ValueSize.SMALL}
 				/>
 				<div className="col-span-2"></div>
 				<DealDetail
-					title={intl.formatMessage({
-						defaultMessage: "Deal name",
-						description: "New deal: review deal name",
-					})}
+					title={intl.formatMessage(MESSAGES.dealName)}
 					value={form.getFieldValue("dealName")}
 					className="col-span-1"
 				/>
 				<DealDetail
-					title={intl.formatMessage({
-						defaultMessage: "Principal",
-						description: "New deal: review deal principal",
-					})}
+					title={intl.formatMessage(MESSAGES.principal)}
 					value={`${compactFormatter.format(Number(form.getFieldValue("principal")))} USDC`}
 					className="col-span-1"
 				/>
 				<DealDetail
-					title={intl.formatMessage({
-						defaultMessage: "Financing fee",
-						description: "New deal: review deal financing fee",
-					})}
+					title={intl.formatMessage(MESSAGES.financingFee)}
 					value={`${form.getFieldValue("financingFee")}%`}
 					className="col-span-1"
 				/>
 				<DealDetail
-					title={intl.formatMessage({
-						defaultMessage: "Time to maturity",
-						description: "New deal: review deal time to maturity",
-					})}
+					title={intl.formatMessage(MESSAGES.timeToMaturity)}
 					value={`${form.getFieldValue("timeToMaturity")} DAYS`}
 					className="col-span-1"
 				/>
 				<div className="uppercase text-2xl font-bold col-span-4">
-					{intl.formatMessage({
-						defaultMessage: "advanced deal settings",
-						description: "New deal: review advanced deal settings",
-					})}
+					{intl.formatMessage(MESSAGES.advancedDealSettings)}
 				</div>
 			</div>
 			<div className="flex gap-x-8 gap-y-4 flex-wrap">
 				{!trueWaterfall && !slashInterestToPrincipal && !slashPrincipalToInterest && (
-					<span>No advanced settings</span>
+					<span>{intl.formatMessage(MESSAGES.noAdvancedSettings)}</span>
 				)}
 				<DealAdvancedSettings
 					slashInterestToPrincipal={slashInterestToPrincipal}
@@ -146,13 +126,8 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 					trueWaterfall={trueWaterfall}
 				/>
 			</div>
-			<div className="uppercase text-2xl font-bold">
-				{intl.formatMessage({
-					defaultMessage: "type of loan",
-					description: "New deal: review type of loan",
-				})}
-			</div>
-			{form.getFieldValue("repaymentType") === "amortization" && (
+			<div className="uppercase text-2xl font-bold">{intl.formatMessage(MESSAGES.typeOfLoan)}</div>
+			{form.getFieldValue("repaymentType") === RepaymentScheduleType.AMORTIZATION && (
 				<SelectorCard
 					content={
 						<AmortizationRepaymentSchedule
@@ -161,22 +136,16 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 							timeToMaturity={Number(timeToMaturity)}
 						/>
 					}
-					value="amortization"
-					title={intl.formatMessage({
-						defaultMessage: "Amortization loan",
-						description: "Deal form: repayment type selector amortization title",
-					})}
-					subtitle={intl.formatMessage({
-						defaultMessage: "Pay off a debt over time in equal installments",
-						description: "Deal form: repayment type selector amortization subtitle",
-					})}
+					value={RepaymentScheduleType.AMORTIZATION}
+					title={intl.formatMessage(MESSAGES.amortizationLoan)}
+					subtitle={intl.formatMessage(MESSAGES.amortizationLoanSubtitle)}
 					checked={false}
 					isInteractive={false}
 					showContent={true}
 					className="col-span-4"
 				/>
 			)}
-			{form.getFieldValue("repaymentType") === "bullet" && (
+			{form.getFieldValue("repaymentType") === RepaymentScheduleType.BULLET && (
 				<SelectorCard
 					content={
 						<BulletLoanRepaymentSchedule
@@ -185,16 +154,9 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 							timeToMaturity={Number(timeToMaturity)}
 						/>
 					}
-					value="bullet"
-					title={intl.formatMessage({
-						defaultMessage: "Bullet loan",
-						description: "Deal form: repayment type selector bullet title",
-					})}
-					subtitle={intl.formatMessage({
-						defaultMessage:
-							"The Principal that is borrowed is paid back in full at the end of the loan term",
-						description: "Deal form: repayment type selector bullet subtitle",
-					})}
+					value={RepaymentScheduleType.BULLET}
+					title={intl.formatMessage(MESSAGES.bulletLoan)}
+					subtitle={intl.formatMessage(MESSAGES.bulletLoanSubtitle)}
 					checked={false}
 					isInteractive={false}
 					showContent={true}
@@ -202,10 +164,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 				/>
 			)}
 			<div className="uppercase text-2xl font-bold">
-				{intl.formatMessage({
-					defaultMessage: "tranche structure",
-					description: "New deal: review tranche structure",
-				})}
+				{intl.formatMessage(MESSAGES.trancheStructure)}
 			</div>
 			{formTranche && (
 				<SelectorCard
@@ -220,10 +179,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 			)}
 			{formTranchesWithAdvancedSettings.length > 0 && (
 				<div className="uppercase text-2xl font-bold">
-					{intl.formatMessage({
-						defaultMessage: "Advanced tranche settings",
-						description: "New deal: review advanced tranche settings",
-					})}
+					{intl.formatMessage(MESSAGES.advancedTrancheSettings)}
 				</div>
 			)}
 			{formTranchesWithAdvancedSettings.map(([trancheName, settings]) => {
@@ -239,20 +195,86 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 			<div className="w-full h-[1px] mt-10  bg-neutral-105"></div>
 			<div className="flex space-x-6">
 				<Button type="default" onClick={onBack}>
-					{intl.formatMessage({
-						defaultMessage: "Back",
-						description: "New deal: back button",
-					})}
+					{intl.formatMessage(MESSAGES.back)}
 				</Button>
 				<Form.Item className="mb-0">
 					<Button htmlType="submit" className="w-full md:w-max capitalize">
-						{intl.formatMessage({
-							defaultMessage: "Create Deal",
-							description: "Deal form: submit button",
-						})}
+						{intl.formatMessage(MESSAGES.submit)}
 					</Button>
 				</Form.Item>
 			</div>
 		</div>
 	);
 };
+
+const MESSAGES = defineMessages({
+	submit: {
+		defaultMessage: "Create Deal",
+		description: "Review deal: submit button",
+	},
+	back: {
+		defaultMessage: "Back",
+		description: "Review deal: back button",
+	},
+	advancedTrancheSettings: {
+		defaultMessage: "Advanced tranche settings",
+		description: "Review deal: review advanced tranche settings",
+	},
+	trancheStructure: {
+		defaultMessage: "tranche structure",
+		description: "Review deal: review tranche structure",
+	},
+	bulletLoanSubtitle: {
+		defaultMessage:
+			"The Principal that is borrowed is paid back in full at the end of the loan term",
+		description: "Reivew deal: repayment type selector bullet subtitle",
+	},
+	bulletLoan: {
+		defaultMessage: "Bullet loan",
+		description: "Review deal: repayment type selector bullet title",
+	},
+	amortizationLoanSubtitle: {
+		defaultMessage: "Pay off a debt over time in equal installments",
+		description: "Review deal: repayment type selector amortization subtitle",
+	},
+	amortizationLoan: {
+		defaultMessage: "Amortization loan",
+		description: "Review deal: repayment type selector amortization title",
+	},
+	typeOfLoan: {
+		defaultMessage: "type of loan",
+		description: "Review deal: review type of loan",
+	},
+	noAdvancedSettings: {
+		defaultMessage: "No advanced settings",
+		description: "Review deal: no advanced settings",
+	},
+	advancedDealSettings: {
+		defaultMessage: "advanced deal settings",
+		description: "Review deal: review advanced deal settings",
+	},
+	timeToMaturity: {
+		defaultMessage: "Time to maturity",
+		description: "Review deal: review deal time to maturity",
+	},
+	financingFee: {
+		defaultMessage: "Financing fee",
+		description: "Review deal: review deal financing fee",
+	},
+	principal: {
+		defaultMessage: "Principal",
+		description: "Review deal: review deal principal",
+	},
+	borrower: {
+		defaultMessage: "Public key",
+		description: "Review deal: review public key",
+	},
+	dealName: {
+		defaultMessage: "Deal name",
+		description: "Review deal: review deal name",
+	},
+	reviewDealTitle: {
+		defaultMessage: "deal details",
+		description: "Review deal: review step title",
+	},
+});
