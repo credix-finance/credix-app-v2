@@ -89,7 +89,6 @@ export const FormItem = ({
 		"font-bold text-base",
 		disabled && "text-neutral-60/40",
 		hasFeedback && validateStatus === "error" && "border-error",
-		labelClassName && !labelClassName.includes("mb-") && "mb-7",
 		labelClassName,
 	]);
 
