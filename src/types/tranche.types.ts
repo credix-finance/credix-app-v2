@@ -7,3 +7,9 @@ export interface Tranche {
 	percentageOfPrincipal: Fraction;
 	percentageOfInterest: Fraction;
 }
+
+export enum TrancheName {
+	Senior = "Senior",
+	Mezzanine = "Mezzanine",
+	Junior = "Junior",
+}

@@ -4,6 +4,7 @@ import { TrancheDonut } from "@components/TrancheDonut";
 import { Icon, IconDimension } from "@components/Icon";
 import { trancheColors, TrancheStructure } from "@consts";
 import Big from "big.js";
+import { TrancheName } from "@credix_types/tranche.types";
 import { defineMessages, useIntl } from "react-intl";
 
 interface TrancheOptionProps {
@@ -29,15 +30,15 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheSt
 
 		const tranches = [
 			{
-				name: "Senior",
+				name: TrancheName.Senior,
 				pop: trancheStructure.Senior?.percentageOfPrincipal,
 			},
 			{
-				name: "Mezzanine",
+				name: TrancheName.Mezzanine,
 				pop: trancheStructure.Mezzanine?.percentageOfPrincipal,
 			},
 			{
-				name: "Junior",
+				name: TrancheName.Junior,
 				pop: trancheStructure.Junior?.percentageOfPrincipal,
 			},
 		];
