@@ -1,22 +1,22 @@
 import { TrancheSettings } from "@consts";
 import { ratioFormatter } from "@utils/format.utils";
-import Big from "big.js";
+import Big, { BigSource } from "big.js";
 import React, { FunctionComponent } from "react";
 
 interface TrancheLineProps {
 	name: string;
 	highlightedElement: string;
 	color: string;
-	structure: TrancheSettings;
+	trancheSettings: TrancheSettings;
 }
 
 export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 	highlightedElement,
 	name,
 	color,
-	structure,
+	trancheSettings,
 }) => {
-	const { percentageOfPrincipal, percentageOfInterest, apr } = structure;
+	const { percentageOfPrincipal, percentageOfInterest, apr } = trancheSettings;
 	const isDeEmphesised = () => {
 		return null !== highlightedElement && name !== highlightedElement;
 	};
@@ -33,6 +33,9 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 		return;
 	};
 
+	const maybeFormatRatio = (ratio: BigSource) =>
+		ratio ? ratioFormatter.format(Big(ratio).div(100).toNumber()) : "/";
+
 	return (
 		<>
 			<div className={`${getTextClassNames()} flex items-baseline`}>
@@ -44,26 +47,9 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 				></div>
 				<span>{name}</span>
 			</div>
-			<div className={getTextClassNames()}>
-				{percentageOfPrincipal
-					? ratioFormatter.format(
-							Big(percentageOfPrincipal.toString().replace(",", "")).div(100).toNumber()
-					  )
-					: "/"}
-			</div>
-			<div className={getTextClassNames()}>
-				{percentageOfInterest
-					? ratioFormatter.format(
-							Big(percentageOfInterest.toString().replace(",", "")).div(100).toNumber()
-					  )
-					: "/"}
-			</div>
-			<div className={getTextClassNames()}>
-				{" "}
-				{apr
-					? ratioFormatter.format(Big(apr.toString().replace(",", "")).div(100).toNumber())
-					: "/"}
-			</div>
+			<div className={getTextClassNames()}>{maybeFormatRatio(percentageOfPrincipal)}</div>
+			<div className={getTextClassNames()}>{maybeFormatRatio(percentageOfInterest)}</div>
+			<div className={getTextClassNames()}>{maybeFormatRatio(apr)}</div>
 		</>
 	);
 };
