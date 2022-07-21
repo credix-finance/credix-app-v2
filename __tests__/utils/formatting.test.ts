@@ -9,8 +9,6 @@ import {
 	classNames,
 	daysToMilliseconds,
 	millisecondsToDays,
-	isBig,
-	isTokenAmount,
 } from "@utils/format.utils";
 import { zeroTokenAmount } from "@consts";
 
@@ -159,37 +157,5 @@ describe("millisecondsToDays", () => {
 		const expected = 30;
 
 		expect(millisecondsToDays(input)).toEqual(expected);
-	});
-});
-
-describe("isBig", () => {
-	it("returns true for a Big number", () => {
-		const input = new Big(100);
-		const expected = true;
-
-		expect(isBig(input)).toEqual(expected);
-	});
-
-	it("returns false for a TokenAmount", () => {
-		const input = zeroTokenAmount;
-		const expected = false;
-
-		expect(isBig(input)).toEqual(expected);
-	});
-});
-
-describe("isTokenAmount", () => {
-	it("returns true for a TokenAmount", () => {
-		const input = zeroTokenAmount;
-		const expected = true;
-
-		expect(isTokenAmount(input)).toEqual(expected);
-	});
-
-	it("returns false for a Big number", () => {
-		const input = new Big(100);
-		const expected = false;
-
-		expect(isTokenAmount(input)).toEqual(expected);
 	});
 });

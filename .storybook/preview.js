@@ -4,7 +4,6 @@ import "@solana/wallet-adapter-react-ui/styles.css";
 import "../src/styles/globals.css";
 import "../src/styles/antd.less";
 import * as NextImage from "next/image";
-import "@ungap/has-own";
 const theme = require("../theme");
 
 const OriginalNextImage = NextImage.default;

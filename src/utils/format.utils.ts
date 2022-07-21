@@ -25,36 +25,8 @@ export const currencyFormatter = Intl.NumberFormat("en", {
 	maximumFractionDigits: 2,
 });
 
-export const round = (
-	n: BigSource | TokenAmount,
-	roundingMode: RoundingMode,
-	precision = roundingPrecision
-) => {
-	if (isBig(n)) {
-		return Big(n).round(precision, roundingMode);
-	}
-
-	if (isTokenAmount(n)) {
-		return Big(n.uiAmount).round(precision, roundingMode);
-	}
-
-	return null;
-};
-
-export const isBig = (n: BigSource | TokenAmount): n is Big => {
-	if (typeof n === "number" || typeof n === "string" || Object.hasOwn(n, "c")) {
-		return true;
-	}
-
-	return false;
-};
-
-export const isTokenAmount = (n: BigSource | TokenAmount): n is TokenAmount => {
-	if (isBig(n) || typeof n === "number" || typeof n === "string") {
-		return false;
-	}
-
-	return Object.hasOwn(n, "uiAmountString");
+export const round = (n: BigSource, roundingMode: RoundingMode, precision = roundingPrecision) => {
+	return Big(n).round(precision, roundingMode);
 };
 
 export const formatNumber = (n: Big, formatter: formatter) => formatter(n.toNumber());

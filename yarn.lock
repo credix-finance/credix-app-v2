@@ -6927,13 +6927,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ungap/has-own@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@ungap/has-own@npm:0.1.1"
-  checksum: 0134429b522b981d22113e9867675752dd37a6e4e2bbe0ffdb77c2f60af98a8ddab09c50669ca8eb4d6edce34af6819a571002de117a2611872b9cb78caa55e9
-  languageName: node
-  linkType: hard
-
 "@vue/compiler-core@npm:3.2.37, @vue/compiler-core@npm:^3.2.23":
   version: 3.2.37
   resolution: "@vue/compiler-core@npm:3.2.37"
@@ -9588,13 +9581,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js-pure@npm:3.23.5":
-  version: 3.23.5
-  resolution: "core-js-pure@npm:3.23.5"
-  checksum: a46edce5bdde29eda993c1f31086a08ba85e22fb1b3f77c9422e25ccc9e92fb9a1f3e7de5d13c9b807bdfeb0700b00bd5224375429cf44fd7ed5f46cc7d3e4ac
-  languageName: node
-  linkType: hard
-
 "core-js-pure@npm:^3.20.2, core-js-pure@npm:^3.8.1":
   version: 3.23.2
   resolution: "core-js-pure@npm:3.23.2"
@@ -9754,7 +9740,6 @@ __metadata:
     "@types/node": ^17.0.33
     "@types/react": ^18.0.9
     "@typescript-eslint/eslint-plugin": ^5.23.0
-    "@ungap/has-own": ^0.1.1
     antd: ^4.20.4
     autoprefixer: ^10.4.7
     babel-loader: ^8.2.5
@@ -9762,7 +9747,6 @@ __metadata:
     big.js: ^6.1.1
     bs58: ^5.0.0
     chromatic: ^6.5.4
-    core-js-pure: 3.23.5
     eslint: 8.15.0
     eslint-config-next: 12.1.6
     eslint-config-prettier: ^8.5.0
