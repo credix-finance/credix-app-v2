@@ -86,7 +86,7 @@ export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> 
 								</div>
 							</div>
 							<div className="flex items-center font-mono font-normal text-base">
-								{round(tranche.size, Big.roundHalfEven, 0).toString()} USDC -{" "}
+								{round(tranche.size.uiAmount, Big.roundHalfEven, 0).toString()} USDC -{" "}
 								{ratioFormatter.format(
 									new Fraction(
 										tranche.size.uiAmount,

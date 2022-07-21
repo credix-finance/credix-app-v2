@@ -5,7 +5,7 @@ import { Input } from "./Input";
 import { Form } from "antd";
 import { Fraction, Tranche, useCredixClient, TranchePass } from "@credix/credix-client";
 import { trancheNames, zeroTokenAmount } from "@consts";
-import { ratioFormatter, round, toProgramAmount } from "@utils/format.utils";
+import { ratioFormatter, round, toProgramAmount, toUIAmount } from "@utils/format.utils";
 import { defineMessages, useIntl } from "react-intl";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
@@ -44,11 +44,13 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 		deal.interestFee
 	);
 	const projectedValue = projectedReturns.add(userTrancheBalance?.uiAmount || 0);
-	const maxInvestmentAmount = round(
-		Math.min(userBaseBalance?.uiAmount, tranche.size.uiAmount - tranche.amountDeposited.uiAmount),
-		Big.roundUp,
-		0
+	const maxInvestmentAmount = Big(
+		Math.min(
+			Big(userBaseBalance?.amount || 0).toNumber(),
+			Big(tranche.size.amount).minus(tranche.amountDeposited.amount).toNumber()
+		)
 	);
+
 	const [tranchePass, setTranchePass] = useState<TranchePass | null>();
 
 	const getInvestorTranche = useCallback(async () => {
@@ -122,10 +124,18 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 	};
 
 	const validateMaxAmount = (value): Promise<void> => {
+		if (!value) {
+			return Promise.resolve();
+		}
+
+		const valueProgramAmount = toProgramAmount(Big(value));
+		const maxInvestmentUiAmountString = toUIAmount(maxInvestmentAmount).toString();
+
 		const validationMessage = intl.formatMessage(MESSAGES.maxInvestmentAmountValidation, {
-			amount: maxInvestmentAmount.toString(),
+			amount: maxInvestmentUiAmountString,
 		});
-		return validateMaxValue(value, maxInvestmentAmount, validationMessage);
+
+		return validateMaxValue(valueProgramAmount, maxInvestmentAmount, validationMessage);
 	};
 
 	const validateTranchePass = (): Promise<void> => {
@@ -184,7 +194,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 								{/* TODO: get apr */}
 								<div className="font-mono font-medium text-sm">15%</div>
 								<div className="font-mono font-medium text-sm">
-									{round(tranche.size, Big.roundHalfEven, 0).toString()} USDC
+									{round(tranche.size.uiAmount, Big.roundHalfEven, 0).toString()} USDC
 								</div>
 							</div>
 						</div>
@@ -200,7 +210,9 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 								}`}
 							>
 								<div>{intl.formatMessage(MESSAGES.value)}:</div>
-								<div>{round(userTrancheBalance, Big.roundHalfEven, 0).toString()} USDC</div>
+								<div>
+									{round(userTrancheBalance.uiAmount, Big.roundHalfEven, 0).toString()} USDC
+								</div>
 							</div>
 							<div className="font-mono font-normal text-sm space-x-2 text-[#afafaf] flex mt-[16px]">
 								<div>{intl.formatMessage(MESSAGES.projectedValue)}:</div>
@@ -224,7 +236,7 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 									placeholder={intl.formatMessage(MESSAGES.investAmountInputPlaceholder)}
 									name="amount"
 									description={intl.formatMessage(MESSAGES.investAmountInputDescription, {
-										amount: maxInvestmentAmount.toString(),
+										amount: round(toUIAmount(maxInvestmentAmount), Big.roundUp, 0).toString(),
 									})}
 									required={true}
 									rules={[
@@ -248,7 +260,12 @@ export const InvestInTranche: FunctionComponent<InvestInTrancheProps> = ({ tranc
 											},
 										},
 									]}
-									suffix={<AddMaxButtonSuffix form={form} amount={maxInvestmentAmount} />}
+									suffix={
+										<AddMaxButtonSuffix
+											form={form}
+											amount={round(toUIAmount(maxInvestmentAmount), Big.roundUp, 0)}
+										/>
+									}
 								/>
 								<Form.Item className="mb-0" label={" "}>
 									<Button

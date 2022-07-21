@@ -5,7 +5,7 @@ import { Input } from "./Input";
 import { Form } from "antd";
 import { Tranche, useCredixClient } from "@credix/credix-client";
 import { trancheNames, zeroTokenAmount } from "@consts";
-import { round, toProgramAmount } from "@utils/format.utils";
+import { round, toProgramAmount, toUIAmount } from "@utils/format.utils";
 import { defineMessages, useIntl } from "react-intl";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
@@ -67,11 +67,9 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 			const userAvailable = userInvestmentPercentage.apply(tranche.totalRepaid.uiAmount);
 
 			if (investorTranche?.amountWithdrawn.uiAmount) {
-				setWithdrawableAmount(
-					round(userAvailable.minus(investorTranche.amountWithdrawn.uiAmount), Big.roundUp, 0)
-				);
+				setWithdrawableAmount(userAvailable.minus(investorTranche.amountWithdrawn.uiAmount));
 			} else if (userAvailable) {
-				setWithdrawableAmount(round(userAvailable, Big.roundUp, 0));
+				setWithdrawableAmount(userAvailable);
 			}
 		}
 	}, [tranche, publicKey, userTrancheBalance]);
@@ -84,21 +82,21 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 				userTrancheBalance,
 				deal.interestFee
 			);
-			const roundedProjectedReturns = round(projectedReturns, Big.roundDown, 0);
-			setProjectedReturns(roundedProjectedReturns);
+			setProjectedReturns(projectedReturns);
 
 			const currentReturns = investorCurrentReturns(tranche, userTrancheBalance);
-			const roundedCurrentReturns = round(currentReturns, Big.roundDown, 0);
-			setCurrentReturns(roundedCurrentReturns);
+			setCurrentReturns(currentReturns);
 		}
 	}, [tranche, deal, userTrancheBalance]);
 
 	useEffect(() => {
 		if (userTrancheBalance && currentReturns && amountWithdrawn) {
-			const currentValue =
-				userTrancheBalance.uiAmount + currentReturns.toNumber() - amountWithdrawn.uiAmount;
-			const roundedCurrentValue = round(currentValue, Big.roundUp, 0);
-			setCurrentValue(roundedCurrentValue);
+			const programAmountCurrentReturns = toProgramAmount(currentReturns);
+			const currentValue = Big(userTrancheBalance.amount)
+				.add(programAmountCurrentReturns)
+				.minus(amountWithdrawn.amount);
+
+			setCurrentValue(currentValue);
 		}
 	}, [userTrancheBalance, currentReturns, amountWithdrawn]);
 
@@ -182,7 +180,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 								<div>
 									<div>{intl.formatMessage(MESSAGES.projectedReturns)}</div>
 									<div className="font-bold text-sm font-mono mt-2">
-										{projectedReturns.toString()} USDC
+										{round(projectedReturns, Big.roundDown, 0).toString()} USDC
 									</div>
 								</div>
 								<div>
@@ -190,7 +188,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 										{intl.formatMessage(MESSAGES.currentValue)}
 									</div>
 									<div className="font-bold text-sm font-mono mt-2">
-										{currentValue.toString()} USDC
+										{round(toUIAmount(currentValue), Big.roundUp, 0).toString()} USDC
 									</div>
 								</div>
 								<div>
@@ -198,7 +196,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 										{intl.formatMessage(MESSAGES.currentReturns)}
 									</div>
 									<div className="font-bold text-sm font-mono mt-2">
-										{currentReturns.toString()} USDC
+										{round(currentReturns, Big.roundDown, 0).toString()} USDC
 									</div>
 								</div>
 							</div>
@@ -218,7 +216,12 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 									labelClassName="font-bold text-sm"
 									placeholder={intl.formatMessage(MESSAGES.amount)}
 									name="amount"
-									suffix={<AddMaxButtonSuffix form={form} amount={withdrawableAmount.toNumber()} />}
+									suffix={
+										<AddMaxButtonSuffix
+											form={form}
+											amount={round(withdrawableAmount, Big.roundUp, 0).toNumber()}
+										/>
+									}
 								/>
 								<Form.Item className="mb-0" label={" "}>
 									<Button
@@ -237,7 +240,9 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 								<div className="font-normal text-sm font-mono">
 									{intl.formatMessage(MESSAGES.withdrawable)}
 								</div>
-								<div className="mt-2 font-bold text-sm">{withdrawableAmount.toString()} USDC</div>
+								<div className="mt-2 font-bold text-sm">
+									{round(withdrawableAmount, Big.roundUp, 0).toString()} USDC
+								</div>
 							</div>
 							<div>
 								<div className="font-normal text-sm font-mono">
