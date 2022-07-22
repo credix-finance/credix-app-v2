@@ -116,7 +116,7 @@ const Show: NextPageWithLayout = () => {
 	}
 
 	return (
-		<div className="py-5 px-4 md:p-20 md:justify-self-center w-full">
+		<div>
 			<DealHeader marketplace={marketplace as string} deal={deal} tag={tag}>
 				{dealStatus === DealStatus.PENDING && isAdmin && (
 					<Button onClick={openDealForFunding}>
