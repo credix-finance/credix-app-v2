@@ -7,6 +7,7 @@ import { ReviewDealStep } from "@components/ReviewDeal";
 import { defineMessages, useIntl } from "react-intl";
 import { defaultTranches } from "@consts";
 import { newDealDefaults } from "@consts";
+import { TrancheFormValue } from "@credix_types/tranche.types";
 
 const dealFormDefaultValues = {
 	trancheStructure: defaultTranches[defaultTranches.length - 1].value,
@@ -21,7 +22,7 @@ export enum dealFormValidationFields {
 	repaymentType = "repaymentType",
 }
 
-export const trancheSettingsFields = ["oneTranche", "twoTranche", "threeTranche"];
+export const trancheSettingsFields = Object.values(TrancheFormValue);
 
 export interface DealFormInput {
 	principal: number;

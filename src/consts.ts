@@ -1,5 +1,6 @@
 import { IconName } from "@components/Icon";
 import { Deal, Fraction } from "@credix/credix-client";
+import { TrancheFormValue, TrancheName, TrancheTitle } from "@credix_types/tranche.types";
 import { TokenAmount } from "@solana/web3.js";
 import { BigSource } from "big.js";
 import { Route } from "types/route.types";
@@ -61,11 +62,11 @@ export interface DefaultTranche {
 }
 
 export const oneTrancheStructure: DefaultTranche = {
-	value: "oneTranche",
-	title: "One tranche structure",
+	title: TrancheTitle.oneTranche,
+	value: TrancheFormValue.oneTranche,
 	trancheData: [
 		{
-			name: "Senior",
+			name: TrancheName.Senior,
 			apr: new Fraction(135, 1000).apply(100).toNumber(),
 			value: 1,
 			percentageOfPrincipal: new Fraction(1, 1).apply(100).toNumber(),
@@ -73,7 +74,7 @@ export const oneTrancheStructure: DefaultTranche = {
 			editable: false,
 		},
 		{
-			name: "Mezzanine",
+			name: TrancheName.Mezzanine,
 			apr: null,
 			value: null,
 			percentageOfPrincipal: null,
@@ -81,7 +82,7 @@ export const oneTrancheStructure: DefaultTranche = {
 			editable: false,
 		},
 		{
-			name: "Junior",
+			name: TrancheName.Junior,
 			apr: null,
 			value: null,
 			percentageOfPrincipal: null,
@@ -91,11 +92,11 @@ export const oneTrancheStructure: DefaultTranche = {
 	],
 };
 export const twoTrancheStructure: DefaultTranche = {
-	title: "Two tranche structure",
-	value: "twoTranche",
+	title: TrancheTitle.twoTranche,
+	value: TrancheFormValue.twoTranche,
 	trancheData: [
 		{
-			name: "Senior",
+			name: TrancheName.Senior,
 			value: 0.8,
 			apr: new Fraction(135, 1000).apply(100).toNumber(),
 			percentageOfPrincipal: new Fraction(80, 100).apply(100).toNumber(),
@@ -103,7 +104,7 @@ export const twoTrancheStructure: DefaultTranche = {
 			editable: true,
 		},
 		{
-			name: "Mezzanine",
+			name: TrancheName.Mezzanine,
 			apr: null,
 			value: null,
 			percentageOfPrincipal: null,
@@ -111,7 +112,7 @@ export const twoTrancheStructure: DefaultTranche = {
 			editable: false,
 		},
 		{
-			name: "Junior",
+			name: TrancheName.Junior,
 			value: 0.2,
 			apr: new Fraction(135, 1000).apply(100).toNumber(),
 			percentageOfPrincipal: new Fraction(20, 100).apply(100).toNumber(),
@@ -124,11 +125,11 @@ export const twoTrancheStructure: DefaultTranche = {
 };
 
 export const threeTrancheStructure: DefaultTranche = {
-	title: "Three tranche structure",
-	value: "threeTranche",
+	title: TrancheTitle.threeTranche,
+	value: TrancheFormValue.threeTranche,
 	trancheData: [
 		{
-			name: "Senior",
+			name: TrancheName.Senior,
 			value: 0.75,
 			apr: new Fraction(135, 1000).apply(100).toNumber(),
 			percentageOfPrincipal: new Fraction(80, 100).apply(100).toNumber(),
@@ -136,7 +137,7 @@ export const threeTrancheStructure: DefaultTranche = {
 			editable: true,
 		},
 		{
-			name: "Mezzanine",
+			name: TrancheName.Mezzanine,
 			value: 0.2,
 			apr: new Fraction(135, 1000).apply(100).toNumber(),
 			percentageOfPrincipal: new Fraction(15, 100).apply(100).toNumber(),
@@ -146,7 +147,7 @@ export const threeTrancheStructure: DefaultTranche = {
 			editable: true,
 		},
 		{
-			name: "Junior",
+			name: TrancheName.Junior,
 			value: 0.05,
 			apr: new Fraction(135, 1000).apply(100).toNumber(),
 			percentageOfPrincipal: new Fraction(5, 100).apply(100).toNumber(),
@@ -164,7 +165,6 @@ export const defaultTranches: DefaultTranche[] = [
 	threeTrancheStructure,
 ];
 
-export const trancheNames = ["super senior", "senior", "mezzanine", "junior"];
 export const trancheFillColors = {
 	2: {
 		filled: "#656565",
@@ -247,10 +247,4 @@ export const newDealDefaults: DealAdvancedSettings &
 	maxfundingDuration: 255,
 	...defaultTrancheSettings,
 	...defaultAdvancedSettings,
-};
-
-export const trancheTitleMap = {
-	oneTranche: "One tranche structure",
-	twoTranche: "Two tranche structure",
-	threeTranche: "Three tranche structure",
 };

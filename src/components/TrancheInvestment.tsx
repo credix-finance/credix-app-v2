@@ -4,8 +4,8 @@ import { Button } from "./Button";
 import { Input } from "./Input";
 import { Form } from "antd";
 import { Tranche, useCredixClient } from "@credix/credix-client";
-import { trancheNames, zeroTokenAmount } from "@consts";
 import { round, toProgramAmount, toUIAmount } from "@utils/format.utils";
+import { zeroTokenAmount } from "@consts";
 import { defineMessages, useIntl } from "react-intl";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { TokenAmount } from "@solana/web3.js";
@@ -23,6 +23,7 @@ import {
 	investorProjectedReturns,
 } from "@utils/tranche.utils";
 import { DealWithNestedResources } from "@state/dealSlice";
+import { TrancheName } from "@credix_types/tranche.types";
 
 interface TrancheInvestmentProps {
 	tranche: Tranche;
@@ -45,6 +46,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 	const [projectedReturns, setProjectedReturns] = useState<Big>(Big(0));
 	const [currentReturns, setCurrentReturns] = useState<Big>(Big(0));
 	const [currentValue, setCurrentValue] = useState<Big>(Big(0));
+	const trancheNames = Object.values(TrancheName);
 
 	const client = useCredixClient();
 	const fetchMarket = useStore((state) => state.fetchMarket);

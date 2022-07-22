@@ -6,12 +6,13 @@ import { Icon, IconDimension, IconName } from "./Icon";
 import { classNames, compactFormatter } from "@utils/format.utils";
 import { TrancheOption } from "./TrancheOption";
 import { SelectorCard } from "./SelectorCard";
-import { TrancheStructure, trancheTitleMap } from "@consts";
+import { TrancheStructure } from "@consts";
 import { AmortizationRepaymentSchedule } from "./AmortizationRepaymentSchedule";
 import { BulletLoanRepaymentSchedule } from "./BulletLoanRepaymentSchedule";
 import { DealAdvancedSettings } from "./DealAdvancedSettings";
 import { TrancheAdvancedSettings } from "./TrancheAdvancedSettings";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
+import { TrancheFormValue, TrancheTitle } from "@credix_types/tranche.types";
 
 interface ReviewDealStepProps {
 	form: FormInstance;
@@ -64,8 +65,15 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 	const slashInterestToPrincipal = Form.useWatch("slashInterestToPrincipal", form);
 	const slashPrincipalToInterest = Form.useWatch("slashPrincipalToInterest", form);
 	const intl = useIntl();
-	const trancheStructure = Form.useWatch("trancheStructure", form) || "threeTranche";
+	const trancheStructure = Form.useWatch("trancheStructure", form) || TrancheFormValue.threeTranche;
 	const formTranche: TrancheStructure = form.getFieldValue(trancheStructure);
+	const trancheTitlesMap = Object.entries(TrancheTitle).reduce((acc, [key, value]) => {
+		acc = {
+			...acc,
+			[key]: value,
+		};
+		return acc;
+	}, {});
 
 	if (!formTranche) {
 		return null;
@@ -170,7 +178,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 				<SelectorCard
 					content={<TrancheOption trancheStructure={formTranche} />}
 					value={trancheStructure}
-					title={trancheTitleMap[trancheStructure]}
+					title={trancheTitlesMap[trancheStructure]}
 					checked={false}
 					isInteractive={false}
 					showContent={true}

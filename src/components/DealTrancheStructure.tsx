@@ -2,11 +2,12 @@ import React, { FunctionComponent } from "react";
 import { Icon, IconDimension } from "./Icon";
 import { classNames, ratioFormatter, round } from "@utils/format.utils";
 import { Fraction } from "@credix/credix-client";
-import { trancheColors, trancheNames } from "@consts";
+import { trancheColors } from "@consts";
 import { TrancheDonut } from "./TrancheDonut";
 import { useIntl } from "react-intl";
 import { DealWithNestedResources } from "@state/dealSlice";
 import Big from "big.js";
+import { TrancheName } from "@credix_types/tranche.types";
 
 interface DealTrancheStructureProps {
 	className?: string;
@@ -19,6 +20,7 @@ export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> 
 }) => {
 	const intl = useIntl();
 	className = classNames([className, "space-y-6"]);
+	const trancheNames = Object.values(TrancheName);
 	const trancheData = deal.tranches?.tranches.map((t) => ({
 		name: trancheNames[t.index],
 		value: new Fraction(t.size.uiAmount, deal.repaymentSchedule.totalPrincipal.uiAmount).toNumber(),
