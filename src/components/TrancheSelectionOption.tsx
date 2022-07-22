@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useState } from "react";
+import React, { FunctionComponent, ReactNode, useState } from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { FormInstance } from "antd";
 import { SelectorCard } from "./SelectorCard";
@@ -7,8 +7,11 @@ import { DealTrancheSettings, DefaultTranche, defaultTrancheSettings } from "@co
 import { TrancheOption } from "./TrancheOption";
 import { Drawer } from "./Drawer";
 import { Switch } from "./Switch";
-import { trancheSettingsFields } from "./DealForm";
-import React from "react";
+import { TrancheFormField, trancheSettingsFields } from "./DealForm";
+import { Input } from "./Input";
+import { required } from "@utils/validation.utils";
+
+const INPUT_NUMBER_STEP = "0.1";
 
 export const TrancheSelectionOption: FunctionComponent<{
 	tranche: DefaultTranche;
@@ -51,7 +54,13 @@ export const TrancheSelectionOption: FunctionComponent<{
 		<>
 			<SelectorCard
 				key={tranche.value}
-				content={<TrancheOption trancheStructure={formTranche} />}
+				content={
+					<TrancheOption
+						juniorTrancheSettings={formTranche.Junior}
+						mezzanineTrancheSettings={formTranche.Mezzanine}
+						seniorTrancheSettings={formTranche.Senior}
+					/>
+				}
 				value={tranche.value}
 				title={tranche.title}
 				subtitle={subtitle}
@@ -87,15 +96,63 @@ export const TrancheSelectionOption: FunctionComponent<{
 											name: t.name,
 										})}
 									</div>
+									<div className="flex gap-x-6">
+										<div>
+											<Input
+												name={[tranche.value, t.name, TrancheFormField.PercentageOfPrincipal]}
+												className="bg-credix-primary"
+												labelClassName="flex-col items-start"
+												label={intl.formatMessage(MESSAGES.percentageOfPrincipalInputLabel)}
+												placeholder={intl.formatMessage(
+													MESSAGES.percentageOfPrincipalInputPlaceholder
+												)}
+												type="number"
+												step={INPUT_NUMBER_STEP}
+												disabled={!t.editable}
+												required={true}
+												rules={[required(intl, MESSAGES.percentageOfPrincipalRequiredValidation)]}
+											/>
+										</div>
+										<div>
+											<Input
+												name={[tranche.value, t.name, TrancheFormField.PercentageOfInterest]}
+												className="bg-credix-primary"
+												labelClassName="flex-col items-start"
+												label={intl.formatMessage(MESSAGES.percentageOfInterestInputLabel)}
+												placeholder={intl.formatMessage(
+													MESSAGES.percentageOfInterestInputPlaceholder
+												)}
+												type="number"
+												step={INPUT_NUMBER_STEP}
+												disabled={!t.editable}
+												required={true}
+												rules={[required(intl, MESSAGES.percentageOfInterestRequiredValidation)]}
+											/>
+										</div>
+										<div>
+											<Input
+												name={[tranche.value, t.name, TrancheFormField.Apr]}
+												className="bg-credix-primary"
+												labelClassName="flex-col items-start"
+												label={intl.formatMessage(MESSAGES.aprInputLabel)}
+												placeholder={intl.formatMessage(MESSAGES.aprInputPlaceholder)}
+												type="number"
+												step={INPUT_NUMBER_STEP}
+												disabled={!t.editable}
+												required={true}
+												rules={[required(intl, MESSAGES.aprRequiredValidation)]}
+											/>
+										</div>
+									</div>
 									<div>
 										{t.earlyWithdrawalInterest !== undefined && (
 											<div className="flex justify-between">
 												<Switch
-													name={[tranche.value, t.name, "earlyWithdrawalInterest"]}
+													name={[tranche.value, t.name, TrancheFormField.EarlyWithdrawalInterest]}
 													label={intl.formatMessage(MESSAGES.withdrawInterest)}
 												/>
 												<Switch
-													name={[tranche.value, t.name, "earlyWithdrawalPrincipal"]}
+													name={[tranche.value, t.name, TrancheFormField.EarlyWithdrawalPrincipal]}
 													label={intl.formatMessage(MESSAGES.withdrawPrincipal)}
 												/>
 											</div>

@@ -32,7 +32,7 @@ describe("one tranche", () => {
 	it("calculates the senior apr", () => {
 		const percentageOfInterest = new Fraction(100, 100);
 		const percentageOfPrincipal = new Fraction(100, 100);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -40,7 +40,7 @@ describe("one tranche", () => {
 		const result = seniorAPR({
 			percentageOfInterest,
 			percentageOfPrincipal,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -55,7 +55,7 @@ describe("two tranche", () => {
 	it("calculates the senior apr", () => {
 		const percentageOfInterest = new Fraction(50, 100);
 		const percentageOfPrincipal = new Fraction(50, 100);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -63,7 +63,7 @@ describe("two tranche", () => {
 		const result = seniorAPR({
 			percentageOfInterest,
 			percentageOfPrincipal,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -74,7 +74,7 @@ describe("two tranche", () => {
 	it("calculates the senior percentage of principal", () => {
 		const percentageOfInterest = new Fraction(50, 100);
 		const aprSenior = new Fraction(135, 1000);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -82,7 +82,7 @@ describe("two tranche", () => {
 		const result = twoTrancheSeniorPercentageOfPrincipal({
 			percentageOfInterest,
 			apr: aprSenior,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -93,7 +93,7 @@ describe("two tranche", () => {
 	it("calculates the senior percentage of interest", () => {
 		const percentageOfPrincipal = new Fraction(50, 100);
 		const aprSenior = new Fraction(135, 1000);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -101,7 +101,7 @@ describe("two tranche", () => {
 		const result = twoTrancheSeniorPercentageOfInterest({
 			percentageOfPrincipal,
 			apr: aprSenior,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -112,7 +112,7 @@ describe("two tranche", () => {
 	it("calculates the junior apr", () => {
 		const percentageOfInterestSenior = new Fraction(50, 100);
 		const percentageOfPrincipalSenior = new Fraction(50, 100);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -120,7 +120,7 @@ describe("two tranche", () => {
 		const result = twoTrancheJuniorAPR({
 			percentageOfInterestSenior,
 			percentageOfPrincipalSenior,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -130,7 +130,7 @@ describe("two tranche", () => {
 	it("calculates the junior percentage of principal", () => {
 		const percentageOfInterestSenior = new Fraction(50, 100);
 		const aprJunior = new Fraction(250, 1000);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -138,7 +138,7 @@ describe("two tranche", () => {
 		const result = twoTrancheJuniorPercentageOfPrincipal({
 			percentageOfInterestSenior,
 			apr: aprJunior,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -149,7 +149,7 @@ describe("two tranche", () => {
 	it("calculates the junior percentage of interest", () => {
 		const percentageOfPrincipalSenior = new Fraction(50, 100);
 		const aprJunior = new Fraction(135, 1000);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -157,7 +157,7 @@ describe("two tranche", () => {
 		const result = twoTrancheJuniorPercentageOfInterest({
 			percentageOfPrincipalSenior,
 			apr: aprJunior,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -172,7 +172,7 @@ describe("three tranche", () => {
 	it("calculates the senior apr", () => {
 		const percentageOfInterest = new Fraction(50, 100);
 		const percentageOfPrincipal = new Fraction(50, 100);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -180,7 +180,7 @@ describe("three tranche", () => {
 		const result = seniorAPR({
 			percentageOfInterest,
 			percentageOfPrincipal,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -191,7 +191,7 @@ describe("three tranche", () => {
 	it("calculates the senior percentage of principal", () => {
 		const percentageOfInterest = new Fraction(50, 100);
 		const aprSenior = new Fraction(135, 1000);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -199,7 +199,7 @@ describe("three tranche", () => {
 		const result = threeTrancheSeniorPercentageOfPrincipal({
 			percentageOfInterest,
 			apr: aprSenior,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -211,7 +211,7 @@ describe("three tranche", () => {
 	it("calculates the senior percentage of interest", () => {
 		const percentageOfPrincipal = new Fraction(50, 100);
 		const aprSenior = new Fraction(135, 1000);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -219,7 +219,7 @@ describe("three tranche", () => {
 		const result = threeTrancheSeniorPercentageOfInterest({
 			percentageOfPrincipal,
 			apr: aprSenior,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -231,7 +231,7 @@ describe("three tranche", () => {
 	it("calculates the mez apr", () => {
 		const percentageOfInterestMez = new Fraction(50, 100);
 		const percentageOfPrincipalMez = new Fraction(50, 100);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -239,7 +239,7 @@ describe("three tranche", () => {
 		const result = threeTrancheMezAPR({
 			percentageOfInterestMez,
 			percentageOfPrincipalMez,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -250,7 +250,7 @@ describe("three tranche", () => {
 	it("calculates the mez percentage of principal", () => {
 		const percentageOfInterestMez = new Fraction(50, 100);
 		const aprJunior = new Fraction(250, 1000);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -258,7 +258,7 @@ describe("three tranche", () => {
 		const result = threeTrancheMezPercentageOfPrincipal({
 			percentageOfInterestMez,
 			apr: aprJunior,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -268,7 +268,7 @@ describe("three tranche", () => {
 	it("calculates the mez percentage of interest", () => {
 		const percentageOfPrincipalMez = new Fraction(50, 100);
 		const aprJunior = new Fraction(135, 1000);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -276,7 +276,7 @@ describe("three tranche", () => {
 		const result = threeTrancheMezPercentageOfInterest({
 			percentageOfPrincipalMez,
 			apr: aprJunior,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,
@@ -290,7 +290,7 @@ describe("three tranche", () => {
 		const percentageOfPrincipalSenior = new Fraction(15, 100);
 		const percentageOfInterestMez = new Fraction(15, 100);
 		const percentageOfPrincipalMez = new Fraction(20, 100);
-		const interestFee = new Fraction(10, 100);
+		const performanceFee = new Fraction(10, 100);
 		const totalInterest = 150_000;
 		const totalPrincipal = 1_000_000;
 		const timeToMaturity = 360;
@@ -300,7 +300,7 @@ describe("three tranche", () => {
 			percentageOfInterestSenior,
 			percentageOfInterestMez,
 			percentageOfPrincipalMez,
-			interestFee,
+			performanceFee,
 			totalInterest,
 			totalPrincipal,
 			timeToMaturity,

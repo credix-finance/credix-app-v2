@@ -2,18 +2,29 @@ import React, { FunctionComponent, useMemo, useState } from "react";
 import { TrancheLine } from "@components/TrancheLine";
 import { TrancheDonut } from "@components/TrancheDonut";
 import { Icon, IconDimension } from "@components/Icon";
-import { trancheColors, TrancheStructure } from "@consts";
+import { trancheColors, TrancheSettings } from "@consts";
 import Big from "big.js";
 import { TrancheName } from "@credix_types/tranche.types";
 import { defineMessages, useIntl } from "react-intl";
 
 interface TrancheOptionProps {
-	trancheStructure: TrancheStructure;
+	juniorTrancheSettings?: TrancheSettings;
+	mezzanineTrancheSettings?: TrancheSettings;
+	seniorTrancheSettings?: TrancheSettings;
 }
 
-export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheStructure }) => {
+export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({
+	juniorTrancheSettings,
+	mezzanineTrancheSettings,
+	seniorTrancheSettings,
+}) => {
 	const intl = useIntl();
 	const [highlightedElement, setHighlightedElement] = useState(null);
+	const tranches = {
+		[TrancheName.Senior]: seniorTrancheSettings,
+		[TrancheName.Mezzanine]: mezzanineTrancheSettings,
+		[TrancheName.Junior]: juniorTrancheSettings,
+	};
 
 	const highlightElement = (element) => {
 		setHighlightedElement(element.name);
@@ -24,22 +35,22 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheSt
 	};
 
 	const donut = useMemo(() => {
-		if (!trancheStructure) {
+		if (!juniorTrancheSettings && !mezzanineTrancheSettings && !seniorTrancheSettings) {
 			return null;
 		}
 
 		const tranches = [
 			{
 				name: TrancheName.Senior,
-				pop: trancheStructure.Senior?.percentageOfPrincipal,
+				pop: seniorTrancheSettings?.percentageOfPrincipal,
 			},
 			{
 				name: TrancheName.Mezzanine,
-				pop: trancheStructure.Mezzanine?.percentageOfPrincipal,
+				pop: mezzanineTrancheSettings?.percentageOfPrincipal,
 			},
 			{
 				name: TrancheName.Junior,
-				pop: trancheStructure.Junior?.percentageOfPrincipal,
+				pop: juniorTrancheSettings?.percentageOfPrincipal,
 			},
 		];
 
@@ -56,7 +67,7 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheSt
 				onMouseLeave={unHighlightElement}
 			/>
 		);
-	}, [trancheStructure]);
+	}, [juniorTrancheSettings, mezzanineTrancheSettings, seniorTrancheSettings]);
 
 	return (
 		<div className="flex space-x-12">
@@ -81,11 +92,11 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({ trancheSt
 						<span>{intl.formatMessage(MESSAGES.expectedAPY)}</span>
 					</div>
 				</div>
-				{Object.entries(trancheStructure).map(([name, structure], index) => (
+				{Object.entries(tranches).map(([name, settings], index) => (
 					<TrancheLine
 						key={name}
 						name={name}
-						trancheSettings={structure}
+						trancheSettings={settings}
 						color={trancheColors[index]}
 						highlightedElement={highlightedElement}
 					/>

@@ -1,5 +1,5 @@
 import { MILLISECONDS_IN_DAY } from "@consts";
-import { PublicKey, TokenAmount } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import Big, { BigSource, RoundingMode } from "big.js";
 
 type formatter = (value: number) => string;
@@ -35,6 +35,8 @@ export const ratioFormatter = Intl.NumberFormat("en", {
 	minimumFractionDigits: 0,
 	maximumFractionDigits: 1,
 });
+export const compactRatioFormatter = (n: BigSource) =>
+	ratioFormatter.format(Big(n).toNumber()).replace("%", "");
 
 export const toUIAmount = (n: Big) => n.div(conversionFactor);
 
