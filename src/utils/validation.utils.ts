@@ -1,7 +1,11 @@
 import { PublicKey } from "@solana/web3.js";
 import Big, { BigSource } from "big.js";
 
-export const validateMaxValue = (value: string, maxValue: BigSource, validationMessage: string) => {
+export const validateMaxValue = (
+	value: BigSource,
+	maxValue: BigSource,
+	validationMessage: string
+) => {
 	if (!value || Big(value).lte(maxValue)) {
 		// Do nothing
 		return Promise.resolve();
@@ -10,7 +14,11 @@ export const validateMaxValue = (value: string, maxValue: BigSource, validationM
 	return Promise.reject(validationMessage);
 };
 
-export const validateMinValue = (value: string, minValue: BigSource, validationMessage: string) => {
+export const validateMinValue = (
+	value: BigSource,
+	minValue: BigSource,
+	validationMessage: string
+) => {
 	if (!value || Big(value).gte(minValue)) {
 		return Promise.resolve();
 	}

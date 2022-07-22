@@ -1,5 +1,5 @@
 import { FormInstance } from "antd";
-import { BigSource } from "big.js";
+import Big, { BigSource } from "big.js";
 import { FunctionComponent } from "react";
 import { useIntl } from "react-intl";
 
@@ -16,7 +16,7 @@ export const AddMaxButtonSuffix: FunctionComponent<AddMaxButtonSuffixProps> = ({
 
 	const onAddMax = () => {
 		form.setFieldsValue({
-			amount: amount,
+			amount: Big(amount).toString(),
 		});
 	};
 
