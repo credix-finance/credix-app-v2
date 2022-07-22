@@ -54,7 +54,13 @@ export const TrancheSelectionOption: FunctionComponent<{
 		<>
 			<SelectorCard
 				key={tranche.value}
-				content={<TrancheOption trancheStructure={formTranche} />}
+				content={
+					<TrancheOption
+						juniorTrancheSettings={formTranche.Junior}
+						mezzanineTrancheSettings={formTranche.Mezzanine}
+						seniorTrancheSettings={formTranche.Senior}
+					/>
+				}
 				value={tranche.value}
 				title={tranche.title}
 				subtitle={subtitle}

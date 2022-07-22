@@ -16,7 +16,6 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 	color,
 	trancheSettings,
 }) => {
-	const { percentageOfPrincipal, percentageOfInterest, apr } = trancheSettings;
 	const isDeEmphesised = () => {
 		return null !== highlightedElement && name !== highlightedElement;
 	};
@@ -26,7 +25,7 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 			return "text-sm font-bold";
 		}
 
-		if (!percentageOfInterest || isDeEmphesised()) {
+		if (!trancheSettings?.percentageOfInterest || isDeEmphesised()) {
 			return "text-neutral-35 text-opacity-50";
 		}
 
@@ -41,15 +40,20 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 			<div className={`${getTextClassNames()} flex items-baseline`}>
 				<div
 					style={{
-						backgroundColor: percentageOfInterest && !isDeEmphesised() ? color : "transparent",
+						backgroundColor:
+							trancheSettings?.percentageOfInterest && !isDeEmphesised() ? color : "transparent",
 					}}
 					className="w-2 h-2 rounded-full mr-2"
 				></div>
 				<span>{name}</span>
 			</div>
-			<div className={getTextClassNames()}>{maybeFormatRatio(percentageOfPrincipal)}</div>
-			<div className={getTextClassNames()}>{maybeFormatRatio(percentageOfInterest)}</div>
-			<div className={getTextClassNames()}>{maybeFormatRatio(apr)}</div>
+			<div className={getTextClassNames()}>
+				{maybeFormatRatio(trancheSettings?.percentageOfPrincipal)}
+			</div>
+			<div className={getTextClassNames()}>
+				{maybeFormatRatio(trancheSettings?.percentageOfInterest)}
+			</div>
+			<div className={getTextClassNames()}>{maybeFormatRatio(trancheSettings?.apr)}</div>
 		</>
 	);
 };

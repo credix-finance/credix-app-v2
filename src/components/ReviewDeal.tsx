@@ -176,7 +176,13 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 			</div>
 			{formTranche && (
 				<SelectorCard
-					content={<TrancheOption trancheStructure={formTranche} />}
+					content={
+						<TrancheOption
+							juniorTrancheSettings={formTranche.Junior}
+							mezzanineTrancheSettings={formTranche.Mezzanine}
+							seniorTrancheSettings={formTranche.Senior}
+						/>
+					}
 					value={trancheStructure}
 					title={trancheTitlesMap[trancheStructure]}
 					checked={false}

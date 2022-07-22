@@ -8,8 +8,8 @@ import { AmortizationRepaymentSchedule } from "@components/AmortizationRepayment
 import { BulletLoanRepaymentSchedule } from "@components/BulletLoanRepaymentSchedule";
 import { TrancheOption } from "@components/TrancheOption";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
-import { defaultTranches, defaultTrancheSettings } from "@consts";
-import { TrancheFormValue, TrancheName, TrancheTitle } from "@credix_types/tranche.types";
+import { defaultTrancheSettings } from "@consts";
+import { TrancheFormValue, TrancheTitle } from "@credix_types/tranche.types";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -146,6 +146,7 @@ BulletLoan.decorators = [
 ];
 
 export const Tranches = Template.bind({});
+console.log(defaultTrancheSettings.oneTranche);
 Tranches.decorators = [
 	() => (
 		<Form layout="vertical" initialValues={{ trancheStructure: TrancheFormValue.oneTranche }}>
@@ -153,20 +154,33 @@ Tranches.decorators = [
 				<Radio.Group>
 					<div className="space-y-8">
 						<SelectorCard
-							content={<TrancheOption trancheStructure={defaultTrancheSettings.oneTranche} />}
+							content={
+								<TrancheOption seniorTrancheSettings={defaultTrancheSettings.oneTranche.Senior} />
+							}
 							value={TrancheFormValue.oneTranche}
 							title={TrancheTitle.oneTranche}
 							checked={true}
 						/>
 						<SelectorCard
-							content={<TrancheOption trancheStructure={defaultTrancheSettings.twoTranche} />}
+							content={
+								<TrancheOption
+									juniorTrancheSettings={defaultTrancheSettings.twoTranche.Junior}
+									seniorTrancheSettings={defaultTrancheSettings.twoTranche.Senior}
+								/>
+							}
 							value={TrancheFormValue.twoTranche}
 							title={TrancheTitle.twoTranche}
 							showContent={true}
 							action={<Button type="text">Edit</Button>}
 						/>
 						<SelectorCard
-							content={<TrancheOption trancheStructure={defaultTrancheSettings.threeTranche} />}
+							content={
+								<TrancheOption
+									juniorTrancheSettings={defaultTrancheSettings.threeTranche.Junior}
+									mezzanineTrancheSettings={defaultTrancheSettings.threeTranche.Mezzanine}
+									seniorTrancheSettings={defaultTrancheSettings.threeTranche.Senior}
+								/>
+							}
 							value={TrancheFormValue.threeTranche}
 							title={TrancheTitle.threeTranche}
 							showContent={true}
