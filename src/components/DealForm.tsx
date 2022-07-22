@@ -262,27 +262,29 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		// get form values
 		const {
 			twoTranche: {
-				Senior: { percentageOfInterest: percentageOfInterestSenior, apr: aprSenior },
+				Senior: { percentageOfInterest: poiSenior, percentageOfPrincipal: popSenior },
 			},
 		} = form.getFieldsValue([
 			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfInterest],
-			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.Apr],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
 		]);
+
+		// When % of interest is changed, update the APR
 
 		const sharedValues = getCommonDealValues();
 		// calculate percentage of principal for senior
-		const popSenior = twoTrancheSeniorPercentageOfPrincipal({
-			percentageOfInterest: new Fraction(percentageOfInterestSenior, 100),
-			apr: new Fraction(aprSenior, 100),
+		const aprSenior = seniorAPR({
+			percentageOfInterest: new Fraction(poiSenior, 100),
+			percentageOfPrincipal: new Fraction(popSenior, 100),
 			performanceFee,
 			...sharedValues,
 		});
 
-		const poiJunior = new Fraction(100 - percentageOfInterestSenior, 100);
-		const popJunior = 1 - popSenior.toNumber();
+		const poiJunior = new Fraction(100 - poiSenior, 100);
+		const popJunior = new Fraction(100 - popSenior, 100);
 		const aprJunior = twoTrancheJuniorAPR({
-			percentageOfInterestSenior: new Fraction(percentageOfInterestSenior, 100),
-			percentageOfPrincipalSenior: popSenior,
+			percentageOfInterestSenior: new Fraction(poiSenior, 100),
+			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
 			performanceFee,
 			...sharedValues,
 		});
@@ -290,11 +292,11 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		form.setFieldsValue({
 			twoTranche: {
 				Senior: {
-					percentageOfPrincipal: compactRatioFormatter(popSenior.toNumber()),
+					apr: compactRatioFormatter(aprSenior.toNumber()),
 				},
 				Junior: {
 					percentageOfInterest: compactRatioFormatter(poiJunior.toNumber()),
-					percentageOfPrincipal: compactRatioFormatter(popJunior),
+					percentageOfPrincipal: compactRatioFormatter(popJunior.toNumber()),
 					apr: compactRatioFormatter(aprJunior.toNumber()),
 				},
 			},
@@ -305,41 +307,36 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		// get form values
 		const {
 			twoTranche: {
-				Senior: { percentageOfPrincipal: popSenior, percentageOfInterest: poiSenior },
+				Senior: { percentageOfPrincipal: popSenior, apr: aprSenior },
 			},
 		} = form.getFieldsValue([
 			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
-			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfInterest],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.Apr],
 		]);
 
 		const sharedValues = getCommonDealValues();
 
-		// calculate apr for senior
-		const aprSenior = seniorAPR({
+		// calculate interest % for senior
+		const poiSenior = twoTrancheSeniorPercentageOfInterest({
 			percentageOfPrincipal: new Fraction(popSenior, 100),
-			percentageOfInterest: new Fraction(poiSenior, 100),
+			apr: new Fraction(aprSenior, 100),
 			performanceFee,
 			...sharedValues,
 		});
 
 		// update percentage of interest for junior
 		const popJunior = new Fraction(100 - popSenior, 100);
-		const aprJunior = twoTrancheJuniorAPR({
-			percentageOfInterestSenior: new Fraction(poiSenior, 100),
-			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
-			performanceFee,
-			...sharedValues,
-		});
+		const poiJunior = 1 - poiSenior.toNumber();
 
 		// recalculate
 		form.setFieldsValue({
 			twoTranche: {
 				Senior: {
-					apr: compactRatioFormatter(aprSenior.toNumber()),
+					percentageOfInterest: compactRatioFormatter(poiSenior.toNumber()),
 				},
 				Junior: {
 					percentageOfPrincipal: compactRatioFormatter(popJunior.toNumber()),
-					apr: compactRatioFormatter(aprJunior.toNumber()),
+					percentageOfInterest: compactRatioFormatter(poiJunior),
 				},
 			},
 		});
@@ -390,11 +387,11 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		// get form values
 		const {
 			twoTranche: {
-				Senior: { percentageOfInterest: poiSenior },
-				Junior: { percentageOfPrincipal: popJunior },
+				Junior: { percentageOfPrincipal: popJunior, apr: aprJunior },
 			},
 		} = form.getFieldsValue([
 			[DealFormField.TwoTranche, TrancheName.Junior, TrancheFormField.PercentageOfPrincipal],
+			[DealFormField.TwoTranche, TrancheName.Junior, TrancheFormField.Apr],
 			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfInterest],
 		]);
 
@@ -402,27 +399,22 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 
 		const popSenior = new Fraction(100 - popJunior, 100);
 		// calculate percentage of interest for mezzanine
-		const aprJunior = twoTrancheJuniorAPR({
-			percentageOfInterestSenior: new Fraction(poiSenior, 100),
+		const poiJunior = twoTrancheJuniorPercentageOfInterest({
 			percentageOfPrincipalSenior: popSenior,
+			apr: new Fraction(aprJunior, 100),
 			performanceFee,
 			...sharedValues,
 		});
-		const aprSenior = seniorAPR({
-			percentageOfPrincipal: popSenior,
-			percentageOfInterest: new Fraction(poiSenior, 100),
-			performanceFee,
-			...sharedValues,
-		});
+		const poiSenior = new Fraction(1 - poiJunior.toNumber(), 1);
 
 		form.setFieldsValue({
 			twoTranche: {
 				Senior: {
-					apr: compactRatioFormatter(aprSenior.toNumber()),
+					percentageOfInterest: compactRatioFormatter(poiSenior.toNumber()),
 					percentageOfPrincipal: compactRatioFormatter(popSenior.toNumber()),
 				},
 				Junior: {
-					apr: compactRatioFormatter(aprJunior.toNumber()),
+					percentageOfInterest: compactRatioFormatter(poiJunior.toNumber()),
 				},
 			},
 		});
@@ -432,25 +424,27 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		// get form values
 		const {
 			twoTranche: {
-				Junior: { apr: aprJunior, percentageOfInterest: poiJunior },
+				Senior: { percentageOfPrincipal: popSenior },
+				Junior: { percentageOfInterest: poiJunior },
 			},
 		} = form.getFieldsValue([
-			[DealFormField.TwoTranche, TrancheName.Junior, TrancheFormField.Apr],
+			[DealFormField.TwoTranche, TrancheName.Senior, TrancheFormField.PercentageOfPrincipal],
 			[DealFormField.TwoTranche, TrancheName.Junior, TrancheFormField.PercentageOfInterest],
 		]);
 
 		const sharedValues = getCommonDealValues();
 
 		const poiSenior = new Fraction(100 - poiJunior, 100);
-		const popMez = twoTrancheJuniorPercentageOfPrincipal({
-			apr: new Fraction(aprJunior, 100),
+
+		const aprJunior = twoTrancheJuniorAPR({
+			percentageOfPrincipalSenior: new Fraction(popSenior, 100),
 			percentageOfInterestSenior: poiSenior,
 			performanceFee,
 			...sharedValues,
 		});
-		const popSenior = new Fraction(1 - popMez.toNumber(), 1);
+
 		const aprSenior = seniorAPR({
-			percentageOfPrincipal: popSenior,
+			percentageOfPrincipal: new Fraction(popSenior, 100),
 			percentageOfInterest: poiSenior,
 			performanceFee,
 			...sharedValues,
@@ -460,12 +454,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			twoTranche: {
 				Senior: {
 					apr: compactRatioFormatter(aprSenior.toNumber()),
-					percentageOfPrincipal: compactRatioFormatter(popSenior.toNumber()),
 					percentageOfInterest: compactRatioFormatter(poiSenior.toNumber()),
 				},
 				Junior: {
-					percentageOfPrincipal: compactRatioFormatter(popMez.toNumber()),
-					percentageOfInterest: compactRatioFormatter(new Fraction(poiJunior, 100).toNumber()),
+					apr: compactRatioFormatter(aprJunior.toNumber()),
 				},
 			},
 		});
@@ -589,7 +581,6 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			...sharedValues,
 		});
 
-		const popJunior = 100 - popMez - popSenior;
 		const poiJunior = 100 - poiMez - poiSenior;
 
 		const aprJunior = threeTrancheJuniorAPR({
@@ -607,7 +598,6 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 					apr: compactRatioFormatter(aprSenior.toNumber()),
 				},
 				Junior: {
-					percentageOfPrincipal: compactRatioFormatter(new Fraction(popJunior, 100).toNumber()),
 					percentageOfInterest: compactRatioFormatter(new Fraction(poiJunior, 100).toNumber()),
 					apr: compactRatioFormatter(aprJunior.toNumber()),
 				},
