@@ -1,13 +1,16 @@
 import React, { FunctionComponent, useState } from "react";
 import { Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
-import { classNames } from "@utils/format.utils";
+import { classNames, formatDate } from "@utils/format.utils";
 import { RepaymentSchedule } from "@credix/credix-client";
 import { generateGraphAndTableData, repaymentScheduleType } from "@utils/repayment.utils";
 import { RepaymentSchedule as Schedule } from "./RepaymentSchedule";
 import { useIntl } from "react-intl";
 import { DealAdvancedSettings } from "./DealAdvancedSettings";
 import { DealWithNestedResources } from "@state/dealSlice";
+import { DAYS_IN_REPAYMENT_PERIOD } from "@consts";
+import { useLocales } from "@hooks/useLocales";
+import dayjs from "dayjs";
 
 interface DealRepaymentScheduleProps {
 	className?: string;
@@ -19,13 +22,23 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 	deal,
 }) => {
 	const intl = useIntl();
+	const locales = useLocales();
 	const [showDetails, setShowDetails] = useState(false);
+	const goLiveAt = deal.goLiveAt * 1000;
 
 	className = classNames([className, "space-y-6"]);
 
 	const repaymentScheduleComponent = (repaymentSchedule: RepaymentSchedule) => {
 		const { graphData, dataSource } = generateGraphAndTableData(
-			repaymentSchedule.periods.map((p) => ({
+			repaymentSchedule.periods.map((p, index) => ({
+				day: goLiveAt
+					? formatDate(
+							dayjs(goLiveAt)
+								.add((index + 1) * DAYS_IN_REPAYMENT_PERIOD, "day")
+								.toDate(),
+							locales as string[]
+					  )
+					: undefined,
 				cumulativeInterest: p.cumulativeInterest.uiAmount,
 				cumulativePrincipal: p.cumulativePrincipal.uiAmount,
 				interest: p.interest.uiAmount,

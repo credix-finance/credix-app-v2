@@ -1,3 +1,4 @@
+import { DAYS_IN_REPAYMENT_PERIOD } from "@consts";
 import { RepaymentSchedule } from "@credix/credix-client";
 import {
 	RepaymentScheduleAmountType,
@@ -10,7 +11,6 @@ import {
 } from "@credix_types/repaymentschedule.types";
 
 export const generateGraphAndTableData = (schedule: RepaymentSchedulePeriod[]) => {
-	const currentDate = new Date();
 	const principal = schedule[schedule.length - 1].cumulativePrincipal;
 	const interest = schedule[schedule.length - 1].cumulativeInterest;
 	const totalToRepay = principal + interest;
@@ -18,6 +18,7 @@ export const generateGraphAndTableData = (schedule: RepaymentSchedulePeriod[]) =
 	return schedule.reduce(
 		(acc, repayment, index) => {
 			const {
+				day,
 				interest: interestToRepay,
 				principal: principalToRepay,
 				cumulativeInterest,
@@ -37,7 +38,7 @@ export const generateGraphAndTableData = (schedule: RepaymentSchedulePeriod[]) =
 			});
 
 			acc.dataSource.push({
-				date: new Date(currentDate.getFullYear(), index + 1, 1),
+				day: day ? day : (index + 1) * DAYS_IN_REPAYMENT_PERIOD,
 				principal: principalToRepay,
 				interest: interestToRepay,
 				balance: totalToRepay - (cumulativeInterest + cumulativePrincipal),

@@ -26,19 +26,17 @@ export const RepaymentScheduleTable: FunctionComponent<RepaymentScheduleTablePro
 	dataSource,
 }) => {
 	const intl = useIntl();
-	const locales = useLocales();
 
 	const columns: ColumnsProps[] = [
 		{
 			title: intl.formatMessage({
-				defaultMessage: "Date",
-				description: "Repayment schedule table column: date",
+				defaultMessage: "Day",
+				description: "Repayment schedule table column: day",
 			}),
 			icon: "calendar",
 			iconSize: IconDimension.MIDDLE,
-			dataIndex: "date",
-			key: "date",
-			render: (text) => <span>{formatDate(text, locales as string[])}</span>,
+			dataIndex: "day",
+			key: "day",
 		},
 		{
 			title: intl.formatMessage({
