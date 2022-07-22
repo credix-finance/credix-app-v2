@@ -188,7 +188,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 										{intl.formatMessage(MESSAGES.currentValue)}
 									</div>
 									<div className="font-bold text-sm font-mono mt-2">
-										{round(toUIAmount(currentValue), Big.roundUp, 0).toString()} USDC
+										{round(toUIAmount(currentValue), Big.roundDown, 0).toString()} USDC
 									</div>
 								</div>
 								<div>
@@ -216,12 +216,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 									labelClassName="font-bold text-sm"
 									placeholder={intl.formatMessage(MESSAGES.amount)}
 									name="amount"
-									suffix={
-										<AddMaxButtonSuffix
-											form={form}
-											amount={round(withdrawableAmount, Big.roundUp, 0).toNumber()}
-										/>
-									}
+									suffix={<AddMaxButtonSuffix form={form} amount={withdrawableAmount.toNumber()} />}
 								/>
 								<Form.Item className="mb-0" label={" "}>
 									<Button
@@ -241,7 +236,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 									{intl.formatMessage(MESSAGES.withdrawable)}
 								</div>
 								<div className="mt-2 font-bold text-sm">
-									{round(withdrawableAmount, Big.roundUp, 0).toString()} USDC
+									{round(withdrawableAmount, Big.roundDown, 0).toString()} USDC
 								</div>
 							</div>
 							<div>
@@ -249,7 +244,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 									{intl.formatMessage(MESSAGES.withdrawn)}
 								</div>
 								<div className="mt-2 font-bold text-sm">
-									{round(amountWithdrawn.uiAmount, Big.roundHalfEven, 0).toString()} USDC
+									{round(amountWithdrawn.uiAmount, Big.roundDown, 0).toString()} USDC
 								</div>
 							</div>
 						</div>
