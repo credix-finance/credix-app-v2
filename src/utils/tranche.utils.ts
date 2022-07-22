@@ -476,7 +476,7 @@ export const investorProjectedReturns = (
 		userTrancheBalance
 	);
 
-	return round(investorPercentageOfTranche.apply(trancheInterest.toNumber()), Big.roundHalfEven);
+	return investorPercentageOfTranche.apply(trancheInterest.toNumber());
 };
 
 // TODO: Add this to the client

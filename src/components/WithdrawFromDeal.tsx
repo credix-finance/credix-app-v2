@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { useCredixClient } from "@credix/credix-client";
 import { defineMessages, useIntl } from "react-intl";
 import message from "@message";
-import { toProgramAmount } from "@utils/format.utils";
+import { round, toProgramAmount } from "@utils/format.utils";
 import Big from "big.js";
 import { useRouter } from "next/router";
 import { useStore } from "@state/useStore";
@@ -23,7 +23,7 @@ export const WithdrawFromDeal: FunctionComponent<WithdrawFromDealProps> = ({ dea
 		if (deal) {
 			const withdrawableAmount =
 				deal.repaymentSchedule.totalPrincipal.uiAmount - deal.amountWithdrawn.uiAmount;
-			setWithdrawableAmount(withdrawableAmount);
+			setWithdrawableAmount(round(withdrawableAmount, Big.roundUp, 0).toNumber());
 		}
 	}, [deal]);
 

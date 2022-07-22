@@ -44,10 +44,7 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 
 	useEffect(() => {
 		if (deal) {
-			const daysRemaining = round(
-				Big(calculateDaysRemaining(deal, deal.repaymentSchedule)),
-				Big.roundHalfEven
-			).toNumber();
+			const daysRemaining = calculateDaysRemaining(deal, deal.repaymentSchedule);
 			setDaysRemaining(daysRemaining);
 		}
 	}, [deal]);
@@ -107,7 +104,7 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 							defaultMessage: "Principal repaid",
 							description: "Deal aspect: principal repaid",
 						})}
-						value={`${principalRepaid} USDC`}
+						value={`${round(principalRepaid, Big.roundDown, 0)} USDC`}
 						ratio={principalRepaidRatio}
 					/>
 					<DealAspect
@@ -115,7 +112,7 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 							defaultMessage: "Interest repaid",
 							description: "Deal aspect: interest repaid",
 						})}
-						value={`${interestRepaid} USDC`}
+						value={`${round(interestRepaid, Big.roundDown, 0)} USDC`}
 						ratio={interestRepaidRatio}
 					/>
 					<DealAspect
@@ -128,7 +125,7 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 								defaultMessage: "{daysRemaining} DAYS",
 								description: "Deal aspect: days remaining",
 							},
-							{ daysRemaining: daysRemaining }
+							{ daysRemaining: round(daysRemaining, Big.roundHalfEven, 0).toString() }
 						)}
 						ratio={daysRemainingRatio}
 					/>
