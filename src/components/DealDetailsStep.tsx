@@ -194,11 +194,6 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 							title={intl.formatMessage(MESSAGES.amortizationLoanTitle)}
 							subtitle={intl.formatMessage(MESSAGES.amortizationLoanSubtitle)}
 							checked={selectedRepaymentType === RepaymentScheduleType.AMORTIZATION}
-							onSelectCard={() => {
-								form.setFieldsValue({
-									repaymentType: RepaymentScheduleType.AMORTIZATION,
-								});
-							}}
 						/>
 						<SelectorCard
 							isInteractive={true}
@@ -213,11 +208,6 @@ export const DealDetailsStep: FunctionComponent<DealDetailsStepProps> = ({
 							title={intl.formatMessage(MESSAGES.bulletLoanTitle)}
 							subtitle={intl.formatMessage(MESSAGES.bulletLoanSubtitle)}
 							checked={selectedRepaymentType === RepaymentScheduleType.BULLET}
-							onSelectCard={() => {
-								form.setFieldsValue({
-									repaymentType: RepaymentScheduleType.BULLET,
-								});
-							}}
 						/>
 					</div>
 				</Radio.Group>

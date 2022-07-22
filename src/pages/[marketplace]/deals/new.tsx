@@ -129,11 +129,11 @@ const New: NextPageWithLayout = () => {
 			.trancheData.filter((t) => t.value)
 			.forEach((t) => {
 				const tranche = {
-					size: new Fraction(t.percentageOfPrincipal.toNumber() * 100, 100),
-					returnPercentage: new Fraction(t.percentageOfInterest.toNumber() * 100, 100),
+					size: new Fraction(Big(t.percentageOfPrincipal).toNumber(), 100),
+					returnPercentage: new Fraction(Big(t.percentageOfInterest).toNumber(), 100),
 					maxDepositPercentage: new Fraction(1, 1),
-					earlyWithdrawalInterest: true,
-					earlyWithdrawalPrincipal: true,
+					earlyWithdrawalInterest: t.earlyWithdrawalInterest,
+					earlyWithdrawalPrincipal: t.earlyWithdrawalPrincipal,
 				};
 
 				tranches[t.name.toLowerCase()] = tranche;

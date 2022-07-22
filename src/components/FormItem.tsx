@@ -86,7 +86,7 @@ export const FormItem = ({
 	}
 
 	const className = classNames([
-		"font-bold text-base mb-7",
+		"font-bold text-base",
 		disabled && "text-neutral-60/40",
 		hasFeedback && validateStatus === "error" && "border-error",
 		labelClassName,

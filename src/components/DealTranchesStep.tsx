@@ -1,13 +1,12 @@
 import { FunctionComponent } from "react";
-import { useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { classNames } from "@utils/format.utils";
 import { Form, FormInstance, Radio } from "antd";
 import { FormItem } from "./FormItem";
-import { SelectorCard } from "./SelectorCard";
 import { Button } from "./Button";
 import { Icon, IconDimension } from "./Icon";
 import { defaultTranches } from "@consts";
-import { TrancheOption } from "./TrancheOption";
+import { TrancheSelectionOption } from "./TrancheSelectionOption";
 
 interface DealTranchesStepProps {
 	className?: string;
@@ -26,29 +25,17 @@ export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 
 	return (
 		<div className={className}>
-			<div>
-				{intl.formatMessage({
-					defaultMessage: "Please fill in all information needed to submit a new deal.",
-					description: "New deal: details form title",
-				})}
-			</div>
+			<div>{intl.formatMessage(MESSAGES.detailsTitle)}</div>
 			<FormItem name="trancheStructure">
 				<Radio.Group>
 					<div className="space-y-8">
-						{defaultTranches.map((tranche) => (
-							<SelectorCard
-								key={tranche.value}
-								content={<TrancheOption trancheData={tranche.trancheData} />}
-								value={tranche.value}
-								title={tranche.title}
+						{defaultTranches.map((tranche, index) => (
+							<TrancheSelectionOption
+								key={tranche.title}
+								tranche={tranche}
+								editable={index !== 0}
+								form={form}
 								checked={selectedTranche === tranche.value}
-								showContent={true}
-								isInteractive={true}
-								onSelectCard={() => {
-									form.setFieldsValue({
-										trancheStructure: tranche.value,
-									});
-								}}
 							/>
 						))}
 					</div>
@@ -57,21 +44,30 @@ export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 			<div className="w-full h-[1px] mt-10  bg-neutral-105"></div>
 			<div className="flex space-x-6">
 				<Button type="default" onClick={() => setCurrentStep(0)}>
-					{intl.formatMessage({
-						defaultMessage: "Back",
-						description: "Deal form: back button",
-					})}
+					{intl.formatMessage(MESSAGES.back)}
 				</Button>
 				<Button
 					icon={<Icon name="eye" size={IconDimension.MIDDLE} />}
 					onClick={() => setCurrentStep(2)}
 				>
-					{intl.formatMessage({
-						defaultMessage: "Review Deal",
-						description: "Deal form: review button",
-					})}
+					{intl.formatMessage(MESSAGES.review)}
 				</Button>
 			</div>
 		</div>
 	);
 };
+
+const MESSAGES = defineMessages({
+	detailsTitle: {
+		defaultMessage: "Please fill in all information needed to submit a new deal.",
+		description: "New deal: details form title",
+	},
+	back: {
+		defaultMessage: "Back",
+		description: "Deal form: back button",
+	},
+	review: {
+		defaultMessage: "Review Deal",
+		description: "Deal form: review button",
+	},
+});

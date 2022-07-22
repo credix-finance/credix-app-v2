@@ -5,11 +5,12 @@ import { DealDetailsStep } from "@components/DealDetailsStep";
 import { DealTranchesStep } from "@components/DealTranchesStep";
 import { ReviewDealStep } from "@components/ReviewDeal";
 import { defineMessages, useIntl } from "react-intl";
-import { threeTrancheStructure } from "@consts";
+import { defaultTranches } from "@consts";
 import { newDealDefaults } from "@consts";
+import { TrancheFormValue } from "@credix_types/tranche.types";
 
 const dealFormDefaultValues = {
-	trancheStructure: threeTrancheStructure.value,
+	trancheStructure: defaultTranches[defaultTranches.length - 1].value,
 };
 
 export enum dealFormValidationFields {
@@ -20,6 +21,8 @@ export enum dealFormValidationFields {
 	timeToMaturity = "timeToMaturity",
 	repaymentType = "repaymentType",
 }
+
+export const trancheSettingsFields = Object.values(TrancheFormValue);
 
 export interface DealFormInput {
 	principal: number;
@@ -69,7 +72,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 		await form.validateFields(fieldsToValidate).then(() => setCurrentStep(nextStep));
 	};
 
-	const initialValues = { ...dealFormDefaultValues, ...newDealDefaults };
+	const initialValues = {
+		...dealFormDefaultValues,
+		...newDealDefaults,
+	};
 
 	return (
 		<>
