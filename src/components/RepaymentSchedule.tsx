@@ -13,11 +13,13 @@ interface RepaymentScheduleProps {
 	graphData: RepaymentScheduleGraphDataPoint[];
 	graphConfig?: Partial<ColumnConfig>;
 	dataSource: RepaymentScheduleTableDataPoint[];
+	showRepaid?: boolean;
 }
 export const RepaymentSchedule: FunctionComponent<RepaymentScheduleProps> = ({
 	graphData,
 	dataSource,
 	graphConfig,
+	showRepaid,
 }) => {
 	const intl = useIntl();
 	const [showTable, setShowTable] = useState(false);
@@ -46,7 +48,7 @@ export const RepaymentSchedule: FunctionComponent<RepaymentScheduleProps> = ({
 					<RepaymentScheduleGraph data={graphData} config={graphConfig} />
 				</div>
 			</div>
-			{showTable && <RepaymentScheduleTable dataSource={dataSource} />}
+			{showTable && <RepaymentScheduleTable dataSource={dataSource} showRepaid={showRepaid} />}
 		</div>
 	);
 };

@@ -23,6 +23,7 @@ export const generateGraphAndTableData = (schedule: RepaymentSchedulePeriod[]) =
 				principal: principalToRepay,
 				cumulativeInterest,
 				cumulativePrincipal,
+				repaid,
 			} = repayment;
 			const month = (index + 1).toString();
 
@@ -41,6 +42,7 @@ export const generateGraphAndTableData = (schedule: RepaymentSchedulePeriod[]) =
 				day: day ? day : (index + 1) * DAYS_IN_REPAYMENT_PERIOD,
 				principal: principalToRepay,
 				interest: interestToRepay,
+				repaid,
 				balance: totalToRepay - (cumulativeInterest + cumulativePrincipal),
 			});
 

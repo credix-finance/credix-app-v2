@@ -19,6 +19,7 @@ export interface RepaymentScheduleTableDataPoint {
 	principal: number;
 	interest: number;
 	balance: number;
+	repaid?: number;
 }
 
 export interface RepaymentSchedulePeriod {
@@ -27,4 +28,5 @@ export interface RepaymentSchedulePeriod {
 	cumulativePrincipal: number;
 	interest: number;
 	principal: number;
+	repaid?: number;
 }

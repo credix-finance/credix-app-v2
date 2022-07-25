@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from "react";
 import { Icon, IconDimension } from "./Icon";
 import { Button } from "./Button";
 import { classNames, formatDate } from "@utils/format.utils";
-import { RepaymentSchedule } from "@credix/credix-client";
+import { DealStatus, RepaymentSchedule } from "@credix/credix-client";
 import { generateGraphAndTableData, repaymentScheduleType } from "@utils/repayment.utils";
 import { RepaymentSchedule as Schedule } from "./RepaymentSchedule";
 import { useIntl } from "react-intl";
@@ -15,16 +15,19 @@ import dayjs from "dayjs";
 interface DealRepaymentScheduleProps {
 	className?: string;
 	deal: DealWithNestedResources;
+	dealStatus: DealStatus;
 }
 
 export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps> = ({
 	className,
 	deal,
+	dealStatus,
 }) => {
 	const intl = useIntl();
 	const locales = useLocales();
 	const [showDetails, setShowDetails] = useState(false);
 	const goLiveAt = deal.goLiveAt * 1000;
+	const showRepaid = DealStatus.IN_PROGRESS === dealStatus || DealStatus.CLOSED === dealStatus;
 
 	className = classNames([className, "space-y-6"]);
 
@@ -43,10 +46,11 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 				cumulativePrincipal: p.cumulativePrincipal.uiAmount,
 				interest: p.interest.uiAmount,
 				principal: p.principal.uiAmount,
+				repaid: p.totalRepaid?.uiAmount,
 			}))
 		);
 
-		return <Schedule graphData={graphData} dataSource={dataSource} />;
+		return <Schedule graphData={graphData} dataSource={dataSource} showRepaid={showRepaid} />;
 	};
 
 	return (
