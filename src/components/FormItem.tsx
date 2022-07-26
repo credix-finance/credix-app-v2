@@ -4,7 +4,7 @@ import { InputProps as AntInputProps } from "antd/lib/input";
 import { FormItemProps as AntFormItemProps } from "antd/lib/form";
 import { classNames } from "@utils/format.utils";
 
-interface FormItemProps {
+export interface FormItemProps {
 	/**
 	 * Label text
 	 */
@@ -44,6 +44,7 @@ interface FormItemProps {
 	suffix?: AntInputProps["suffix"];
 	className?: AntInputProps["className"];
 	labelClassName?: AntInputProps["className"];
+	itemClassName?: AntInputProps["className"];
 	children?: AntInputProps["children"];
 	value?: AntInputProps["value"];
 	rules?: AntFormItemProps["rules"];
@@ -70,6 +71,7 @@ export const FormItem = ({
 	help,
 	rules,
 	labelClassName,
+	itemClassName,
 	isDisplay = false,
 	disabled = false,
 	required = false,
@@ -84,25 +86,32 @@ export const FormItem = ({
 	}
 
 	const className = classNames([
-		"font-bold text-base mb-7",
+		"font-bold text-base",
 		disabled && "text-neutral-60/40",
 		hasFeedback && validateStatus === "error" && "border-error",
 		labelClassName,
 	]);
 
+	itemClassName = classNames(["mb-0", itemClassName]);
+
 	return (
 		<Form.Item
-			label={label}
 			help={help}
 			hasFeedback={hasFeedback}
 			validateStatus={validateStatus}
 			required={required}
 			className={className}
 		>
-			{description && <div className="font-normal text-sm mt-0 mb-[10px]">{description}</div>}
-			<Form.Item name={name} valuePropName={valuePropName} className="mb-0" rules={rules}>
+			<Form.Item
+				name={name}
+				label={label}
+				valuePropName={valuePropName}
+				className={itemClassName}
+				rules={rules}
+			>
 				{children}
 			</Form.Item>
+			{description && <div className="font-normal text-sm mt-0 mb-[10px]">{description}</div>}
 		</Form.Item>
 	);
 };

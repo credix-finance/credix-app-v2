@@ -5,33 +5,39 @@ import { Tag } from "@components/Tag";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: "Components/Tag",
+	title: "Tag",
 	component: Tag,
 } as ComponentMeta<typeof Tag>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof Tag> = (args) => <Tag {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const Green = Template.bind({});
+Green.args = {
 	children: "Active",
-	type: "active",
+	color: "green",
 };
 
-export const Pending = Template.bind({});
-Pending.args = {
-	children: "Pending",
-	type: "pending",
-};
-
-export const Inactive = Template.bind({});
-Inactive.args = {
-	children: "Inactive",
-	type: "inactive",
-};
-
-export const Ended = Template.bind({});
-Ended.args = {
+export const Orange = Template.bind({});
+Orange.args = {
 	children: "Ended",
-	type: "ended",
+	color: "orange",
+};
+
+export const Yellow = Template.bind({});
+Yellow.args = {
+	children: "Open for funding",
+	color: "yellow",
+};
+
+export const LightGray = Template.bind({});
+LightGray.args = {
+	children: "Principal withdrawal",
+	color: "lightGray",
+};
+
+export const MidGray = Template.bind({});
+MidGray.args = {
+	children: "Interest withdrawal",
+	color: "midGray",
 };

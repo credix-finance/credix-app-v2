@@ -23,6 +23,15 @@ body {
 	box-sizing: border-box;
 }
 
+*,
+::before,
+::after {
+	box-sizing: border-box; /* 1 */
+	border-width: 0; /* 2 */
+	border-style: solid; /* 2 */
+	border-color: theme("borderColor.DEFAULT", currentColor); /* 2 */
+}
+
 #__next {
 	@apply grid grid-rows-layout h-full;
 }
@@ -68,10 +77,10 @@ body {
 }
 
 .ant-input-affix-wrapper {
-	@apply border rounded rounded-l-none border-neutral-40 bg-neutral-0 !important;
+	@apply border rounded rounded-l-none border-neutral-40 !important;
 }
 .ant-input-affix-wrapper.ant-input-affix-wrapper-lg .ant-input {
-	@apply py-4 px-4 bg-neutral-0 font-normal !important;
+	@apply py-4 px-4 bg-inherit font-normal !important;
 }
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
 	@apply border border-neutral-60 !important;
@@ -175,7 +184,7 @@ body {
 }
 
 .ant-form-item-control-input-content .ant-input {
-	@apply px-4 py-3 font-medium text-base bg-neutral-0 placeholder-neutral-100/70 !important;
+	@apply px-4 py-3 font-medium text-base placeholder-neutral-100/70 !important;
 }
 
 .ant-form-item-control-input-content .ant-input-suffix {
@@ -211,7 +220,7 @@ body {
 }
 
 .ant-input-affix-wrapper {
-	@apply h-14 border border-neutral-40 !important;
+	@apply border border-neutral-40 !important;
 }
 
 .ant-select-selector {
@@ -346,4 +355,233 @@ body {
 
 .ant-checkbox-inner::after {
 	@apply left-[23.5%] w-[10px] h-[14px] !important;
+}
+
+.ant-steps-navigation.ant-steps-vertical > .ant-steps-item.ant-steps-item-active::before {
+	@apply bottom-0 top-[unset] !important;
+}
+
+.ant-steps-item-container {
+	@apply w-full flex items-center !important;
+}
+
+.ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon .ant-steps-icon {
+	@apply text-neutral-80 !important;
+}
+
+.ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+	@apply text-neutral-35 text-opacity-50 font-medium !important;
+}
+
+.ant-steps-navigation .ant-steps-item::after {
+	@apply hidden !important;
+}
+
+.ant-steps-navigation .ant-steps-item-container .ant-steps-item-content {
+	@apply w-full flex !important;
+}
+
+.ant-steps-navigation.ant-steps-horizontal
+	> .ant-steps-item
+	> .ant-steps-item-container
+	> .ant-steps-item-tail {
+	@apply hidden !important;
+}
+
+.ant-steps-item-icon {
+	@apply hidden !important;
+}
+
+.ant-steps-navigation .ant-steps-item-container {
+	@apply ml-0 pb-4 !important;
+}
+
+.ant-steps-navigation {
+	@apply gap-6 !important;
+}
+
+.ant-steps-item-active .ant-steps-item-title {
+	@apply text-base font-bold !important;
+}
+.ant-steps-navigation .ant-steps-item::before {
+	@apply h-2 left-0 w-full !important;
+}
+
+.ant-steps-navigation .ant-steps-item-wait.ant-steps-item::before {
+	@apply bg-neutral-30 bg-opacity-25 !important;
+}
+
+.ant-steps-navigation .ant-steps-item-active.ant-steps-item::before {
+	@apply bg-neutral-80 !important;
+}
+
+.ant-steps-navigation .ant-steps-item-finish.ant-steps-item::before {
+	@apply bg-action-primary !important;
+}
+
+.ant-radio {
+	@apply top-[unset] !important;
+}
+
+.ant-radio-group {
+	@apply w-full !important;
+}
+
+.ant-radio-wrapper {
+	@apply items-center w-1/2 !important;
+}
+
+.ant-radio:hover .ant-radio-inner,
+.ant-radio:hover {
+	@apply border-action-primary !important;
+}
+
+.ant-radio-checked .ant-radio-inner {
+	@apply border-action-primary bg-action-primary !important;
+}
+
+.ant-radio-input {
+	@apply w-6 h-6 !important;
+}
+
+.ant-radio-input:focus + .ant-radio-inner {
+	@apply shadow-none !important;
+}
+
+.ant-radio-inner {
+	@apply w-6 h-6 bg-transparent border-neutral-60 !important;
+}
+
+.ant-radio-inner::after {
+	@apply top-[0.45rem] left-[0.45rem] w-6 h-6 bg-white !important;
+}
+
+.ant-steps-navigation.ant-steps-vertical > .ant-steps-item.ant-steps-item-active::before {
+	@apply bottom-0 top-[unset] !important;
+}
+
+.ant-steps-item-container {
+	@apply w-full flex items-center !important;
+}
+
+.ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon .ant-steps-icon {
+	@apply text-neutral-80 !important;
+}
+
+.ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+	@apply text-neutral-35 text-opacity-50 font-medium !important;
+}
+
+.ant-steps-navigation .ant-steps-item::after {
+	@apply hidden !important;
+}
+
+.ant-steps-navigation .ant-steps-item-container .ant-steps-item-content {
+	@apply w-full flex !important;
+}
+
+.ant-steps-navigation.ant-steps-horizontal
+	> .ant-steps-item
+	> .ant-steps-item-container
+	> .ant-steps-item-tail {
+	@apply hidden !important;
+}
+
+.ant-steps-item-icon {
+	@apply hidden !important;
+}
+
+.ant-steps-navigation .ant-steps-item-container {
+	@apply ml-0 pb-4 !important;
+}
+
+.ant-steps-navigation {
+	@apply gap-6 !important;
+}
+
+.ant-steps-item-active .ant-steps-item-title {
+	@apply text-base font-bold !important;
+}
+.ant-steps-navigation .ant-steps-item::before {
+	@apply h-2 left-0 w-full !important;
+}
+
+.ant-steps-navigation .ant-steps-item-wait.ant-steps-item::before {
+	@apply bg-neutral-30 bg-opacity-25 !important;
+}
+
+.ant-steps-navigation .ant-steps-item-active.ant-steps-item::before {
+	@apply bg-neutral-80 !important;
+}
+
+.ant-steps-navigation .ant-steps-item-finish.ant-steps-item::before {
+	@apply bg-action-primary !important;
+}
+
+.ant-radio {
+	@apply top-[unset] !important;
+}
+
+.ant-radio-group {
+	@apply w-full !important;
+}
+
+.ant-radio-wrapper {
+	@apply items-center w-1/2 !important;
+}
+
+.ant-radio:hover .ant-radio-inner,
+.ant-radio:hover {
+	@apply border-action-primary !important;
+}
+
+.ant-radio-checked .ant-radio-inner {
+	@apply border-action-primary bg-action-primary !important;
+}
+
+.ant-radio-input {
+	@apply w-6 h-6 !important;
+}
+
+.ant-radio-input:focus + .ant-radio-inner {
+	@apply shadow-none !important;
+}
+
+.ant-radio-inner {
+	@apply w-6 h-6 bg-transparent border-neutral-60 !important;
+}
+
+.ant-radio-inner::after {
+	@apply top-[0.45rem] left-[0.45rem] w-6 h-6 bg-white !important;
+}
+
+.switch {
+	@apply flex-row-reverse w-max !important;
+}
+
+.switch .ant-form-item-label > label {
+	@apply font-normal text-sm cursor-pointer !important;
+}
+
+.switch .ant-form-item-label > label::after {
+	@apply hidden !important;
+}
+
+.ant-switch-checked {
+	@apply bg-action-primary shadow-none !important;
+}
+
+.ant-switch-handle {
+	@apply w-4 h-4 !important;
+}
+
+.ant-switch-checked .ant-switch-handle {
+	left: calc(100% - 16px - 2px);
+}
+.ant-click-animating-node {
+	--antd-wave-shadow-color: #398d88;
+}
+
+.ant-switch {
+	@apply mr-3 w-8 h-5 min-w-[20px] !important;
 }
