@@ -14,8 +14,8 @@ import {
 	maybeFetchDealsSelector,
 } from "@state/selectors";
 import { useStore } from "@state/useStore";
-import { asyncFilter, asyncMap } from "@utils/async.utils";
-import { isDealRepayableByUser, isDealVisible } from "@utils/deal.utils";
+import { asyncMap } from "@utils/async.utils";
+import { isDealRepayableByUser } from "@utils/deal.utils";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
@@ -163,11 +163,7 @@ export const DealsTable = (props: Props) => {
 				return;
 			}
 
-			const visibleDeals = await asyncFilter(deals, async (d) =>
-				isDealVisible(wallet?.publicKey, d, credixPass, isAdmin)
-			);
-
-			const tableDeals: TableDeal[] = await asyncMap(visibleDeals, async (d) => {
+			const tableDeals: TableDeal[] = await asyncMap(deals, async (d) => {
 				const repaymentSchedule = d.repaymentSchedule;
 				const tranches = d.tranches;
 				const structure = tranches.tranches.map((t) => {
@@ -179,7 +175,7 @@ export const DealsTable = (props: Props) => {
 					return fraction.toNumber() * 100;
 				});
 
-				const repayable = await isDealRepayableByUser(wallet.publicKey, d, credixPass);
+				const repayable = await isDealRepayableByUser(wallet?.publicKey, d, credixPass);
 
 				return {
 					name: d.name,

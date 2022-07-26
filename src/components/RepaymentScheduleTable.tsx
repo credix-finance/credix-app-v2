@@ -60,24 +60,10 @@ export const RepaymentScheduleTable: FunctionComponent<RepaymentScheduleTablePro
 				<span className="font-medium text-lg">{currencyFormatter.format(text)} USDC</span>
 			),
 		},
-		{},
-		{
-			title: intl.formatMessage(MESSAGES.balance),
-			icon: "line-chart",
-			iconSize: IconDimension.MIDDLE,
-			dataIndex: "balance",
-			key: "balance",
-			titleClassName: "justify-end",
-			align: "right",
-			render: (text) => (
-				<span className="font-medium text-lg">{currencyFormatter.format(text)} USDC</span>
-			),
-		},
 	];
 
 	if (showRepaid) {
-		// Insert repaid column between interest and balance columns
-		columns.splice(3, 0, {
+		columns.push({
 			title: intl.formatMessage(MESSAGES.repaid),
 			icon: "trend-up",
 			iconSize: IconDimension.MIDDLE,
@@ -105,10 +91,6 @@ const MESSAGES = defineMessages({
 	export: {
 		defaultMessage: "Export table",
 		description: "Deal form: repayment schedule table export button",
-	},
-	balance: {
-		defaultMessage: "Balance",
-		description: "Repayment schedule table column: balance",
 	},
 	repaid: {
 		defaultMessage: "Repaid",

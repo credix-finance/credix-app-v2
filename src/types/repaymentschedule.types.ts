@@ -14,19 +14,16 @@ export interface RepaymentScheduleGraphDataPoint {
 	amount: number;
 }
 
-export interface RepaymentScheduleTableDataPoint {
-	day: string | number;
-	principal: number;
-	interest: number;
-	balance: number;
-	repaid?: number;
-}
-
 export interface RepaymentSchedulePeriod {
-	day?: string;
+	day?: string | number;
 	cumulativeInterest: number;
 	cumulativePrincipal: number;
 	interest: number;
 	principal: number;
 	repaid?: number;
 }
+
+export type RepaymentScheduleTableDataPoint = Pick<
+	RepaymentSchedulePeriod,
+	"day" | "interest" | "principal" | "repaid"
+>;
