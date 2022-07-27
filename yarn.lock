@@ -2490,14 +2490,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@civic/solana-gateway-react@npm:0.4.13":
-  version: 0.4.13
-  resolution: "@civic/solana-gateway-react@npm:0.4.13"
+"@civic/common-gateway-react@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@civic/common-gateway-react@npm:0.2.0"
   dependencies:
-    "@identity.com/prove-solana-wallet": ^0.2.3
-    "@identity.com/solana-gateway-ts": ^0.7.0
-    "@solana/web3.js": ^1.33.0
-    "@types/styled-components": ^5.1.15
     fetch-retry-ts: ^1.1.24
     iframe-resizer-react: ^1.1.0
     ramda: ^0.27.1
@@ -2505,7 +2501,22 @@ __metadata:
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: 7e49c2acdccd2da9043532d479a4e1b8148c9975787c313420540afae63d7bc28f948948c904168843f3ddf32070c15794d5b9a5a2106d5e33c50e846a01d8cd
+  checksum: 13945f58a22a770b0ce151026facaa996f2dde876cf00d0f45569701df7beb1c1b6c1c7d8bb983af36ad0fc356d36d2e7fcfbdbefa7d557a345b059cdc32d184
+  languageName: node
+  linkType: hard
+
+"@civic/solana-gateway-react@npm:0.9.0":
+  version: 0.9.0
+  resolution: "@civic/solana-gateway-react@npm:0.9.0"
+  dependencies:
+    "@civic/common-gateway-react": ^0.2.0
+    "@identity.com/prove-solana-wallet": 0.2.9
+    "@identity.com/solana-gateway-ts": ^0.7.0
+    "@solana/web3.js": 1.39.0
+  peerDependencies:
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  checksum: 9ece4175ac59515109cf5f32c8c85b9577902e86bb38720fe9d886476ab7f7e74c5a673a7a8b8837ea62ac59506e90f0c321ed27091ef14f491e8935eb253ed7
   languageName: node
   linkType: hard
 
@@ -3090,13 +3101,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@identity.com/prove-solana-wallet@npm:^0.2.3":
-  version: 0.2.5
-  resolution: "@identity.com/prove-solana-wallet@npm:0.2.5"
+"@identity.com/prove-solana-wallet@npm:0.2.9":
+  version: 0.2.9
+  resolution: "@identity.com/prove-solana-wallet@npm:0.2.9"
   dependencies:
-    "@solana/web3.js": ^1.22.0
+    "@solana/web3.js": 1.39.0
     bs58: ^4.0.1
-  checksum: 5f3b2e89894bc44e1b7c3eee8cf1519b21cd132b2598de854230fd281d2ceb3ade1df8b2b35495fa2c947499703d05fbfdb06d157711294c45fa669930d94cc2
+  checksum: fb53458753c0e8f229bbaa3919182fc95898b9a6e4f1f8482498ca7c031449199648d7e81629016cb95ef1b0480f63db2587d2c93b7adbd7b4f36e1090dee265
   languageName: node
   linkType: hard
 
@@ -4562,7 +4573,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.20.0, @solana/web3.js@npm:^1.21.0, @solana/web3.js@npm:^1.22.0, @solana/web3.js@npm:^1.30.2, @solana/web3.js@npm:^1.33.0, @solana/web3.js@npm:^1.35.0, @solana/web3.js@npm:^1.36.0, @solana/web3.js@npm:^1.41.9, @solana/web3.js@npm:^1.43.4":
+"@solana/web3.js@npm:1.39.0":
+  version: 1.39.0
+  resolution: "@solana/web3.js@npm:1.39.0"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@ethersproject/sha2": ^5.5.0
+    "@solana/buffer-layout": ^4.0.0
+    bn.js: ^5.0.0
+    borsh: ^0.7.0
+    bs58: ^4.0.1
+    buffer: 6.0.1
+    cross-fetch: ^3.1.4
+    jayson: ^3.4.4
+    js-sha3: ^0.8.0
+    rpc-websockets: ^7.4.2
+    secp256k1: ^4.0.2
+    superstruct: ^0.14.2
+    tweetnacl: ^1.0.0
+  checksum: 9b7da2d46b5c87cae354d451f3fdb850928ec0ac8486ac3c83afb80f725aff48076a3d447ce8c177d56256df44083d6ee95af9b8a830420ffcce6562f4a069ec
+  languageName: node
+  linkType: hard
+
+"@solana/web3.js@npm:^1.20.0, @solana/web3.js@npm:^1.21.0, @solana/web3.js@npm:^1.22.0, @solana/web3.js@npm:^1.30.2, @solana/web3.js@npm:^1.35.0, @solana/web3.js@npm:^1.36.0, @solana/web3.js@npm:^1.41.9, @solana/web3.js@npm:^1.43.4":
   version: 1.44.2
   resolution: "@solana/web3.js@npm:1.44.2"
   dependencies:
@@ -6348,7 +6381,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hoist-non-react-statics@npm:*, @types/hoist-non-react-statics@npm:^3.3.1":
+"@types/hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.1
   resolution: "@types/hoist-non-react-statics@npm:3.3.1"
   dependencies:
@@ -6687,17 +6720,6 @@ __metadata:
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
   checksum: 205fdbe3326b7046d7eaf5e494d8084f2659086a266f3f9cf00bccc549c8e36e407f88168ad4383c8b07099957ad669f75f2532ed4bc70be2b037330f7bae019
-  languageName: node
-  linkType: hard
-
-"@types/styled-components@npm:^5.1.15":
-  version: 5.1.25
-  resolution: "@types/styled-components@npm:5.1.25"
-  dependencies:
-    "@types/hoist-non-react-statics": "*"
-    "@types/react": "*"
-    csstype: ^3.0.2
-  checksum: 60ce64f13283b01da54fd3a4c5703769d8575c979d5ec6b67ad124c2d4df980c9b96bb91af87e03f6447a816a5d2b0270c63eefad60cfa885091b594984525f5
   languageName: node
   linkType: hard
 
@@ -9711,7 +9733,7 @@ __metadata:
   dependencies:
     "@ant-design/charts": ^1.3.6
     "@babel/core": ^7.17.10
-    "@civic/solana-gateway-react": 0.4.13
+    "@civic/solana-gateway-react": 0.9.0
     "@commitlint/cli": ^16.2.4
     "@commitlint/config-conventional": ^16.2.4
     "@credix/credix-client": 0.9.1-beta.0
@@ -9774,7 +9796,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cross-fetch@npm:^3.1.5":
+"cross-fetch@npm:^3.1.4, cross-fetch@npm:^3.1.5":
   version: 3.1.5
   resolution: "cross-fetch@npm:3.1.5"
   dependencies:
