@@ -7,6 +7,7 @@ import { defineMessages, useIntl } from "react-intl";
 import { DealFormField } from "./DealForm";
 import { FileDropZone } from "./FileDropZone";
 import { TrancheSelectionOption } from "./TrancheSelectionOption";
+import notification from "@notification";
 
 export const CustomTranche = () => {
 	const intl = useIntl();
@@ -24,23 +25,31 @@ export const CustomTranche = () => {
 		beforeUpload(file) {
 			readFileAsText(file, (text) => {
 				setFileName(file.name);
-				const trancheStructure = parseTrancheCSV(text);
-				const mapped = trancheStructure.trancheData.reduce((obj, tranche) => {
-					obj[tranche.name] = {
-						earlyWithdrawalInterest: tranche.earlyWithdrawalInterest,
-						earlyWithdrawalPrincipal: tranche.earlyWithdrawalPrincipal,
-						percentageOfPrincipal: tranche.percentageOfPrincipal?.toString(),
-						percentageOfInterest: tranche.percentageOfInterest?.toString(),
-						apr: tranche.apr?.toString(),
-					};
-					return obj;
-				}, {});
-				setCustomTranche(trancheStructure);
-				form.resetFields([DealFormField.CustomTranche]);
-				form.setFieldsValue({
-					trancheStructure: DealFormField.CustomTranche,
-					customTranche: mapped,
-				});
+				try {
+					const trancheStructure = parseTrancheCSV(text);
+					const mapped = trancheStructure.trancheData.reduce((obj, tranche) => {
+						obj[tranche.name] = {
+							earlyWithdrawalInterest: tranche.earlyWithdrawalInterest,
+							earlyWithdrawalPrincipal: tranche.earlyWithdrawalPrincipal,
+							percentageOfPrincipal: tranche.percentageOfPrincipal?.toString(),
+							percentageOfInterest: tranche.percentageOfInterest?.toString(),
+							apr: tranche.apr?.toString(),
+						};
+						return obj;
+					}, {});
+					setCustomTranche(trancheStructure);
+					form.resetFields([DealFormField.CustomTranche]);
+					form.setFieldsValue({
+						trancheStructure: DealFormField.CustomTranche,
+						customTranche: mapped,
+					});
+				} catch (error) {
+					notification.error({
+						message: "Invalid CSV file",
+						error,
+					});
+					return false;
+				}
 			});
 			return false;
 		},

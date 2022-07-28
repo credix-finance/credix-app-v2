@@ -3,7 +3,7 @@ import { defineMessages, useIntl } from "react-intl";
 import { Button } from "@components/Button";
 import { Form, FormInstance } from "antd";
 import { Icon, IconDimension, IconName } from "./Icon";
-import { capitalizeFirstLetter, classNames, compactFormatter } from "@utils/format.utils";
+import { classNames, compactFormatter } from "@utils/format.utils";
 import { TrancheOption } from "./TrancheOption";
 import { SelectorCard } from "./SelectorCard";
 import { TrancheStructure } from "@consts";
@@ -13,6 +13,7 @@ import { DealAdvancedSettings } from "./DealAdvancedSettings";
 import { TrancheAdvancedSettings } from "./TrancheAdvancedSettings";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 import { TrancheFormValue, TrancheTitle } from "@credix_types/tranche.types";
+import { capitalize } from "lodash";
 
 interface ReviewDealStepProps {
 	form: FormInstance;
@@ -184,7 +185,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 						/>
 					}
 					value={trancheStructure}
-					title={trancheTitlesMap[capitalizeFirstLetter(trancheStructure)]}
+					title={trancheTitlesMap[capitalize(trancheStructure)]}
 					checked={false}
 					isInteractive={false}
 					showContent={true}
