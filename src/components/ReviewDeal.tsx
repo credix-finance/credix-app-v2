@@ -3,7 +3,7 @@ import { defineMessages, useIntl } from "react-intl";
 import { Button } from "@components/Button";
 import { Form, FormInstance } from "antd";
 import { Icon, IconDimension, IconName } from "./Icon";
-import { classNames, compactFormatter } from "@utils/format.utils";
+import { classNames, compactFormatter, slicedBased58Key } from "@utils/format.utils";
 import { TrancheOption } from "./TrancheOption";
 import { SelectorCard } from "./SelectorCard";
 import { TrancheStructure } from "@consts";
@@ -40,7 +40,9 @@ const DealDetail: FunctionComponent<DealDetailProps> = ({
 	valueSize = ValueSize.LARGE,
 }) => {
 	className = classNames([className, "p-6 border border-neutral-40 h-30 space-y-2"]);
-	const valueClassName = classNames([valueSize === ValueSize.LARGE && "font-bold text-2xl"]);
+	const valueClassName = classNames([
+		valueSize === ValueSize.LARGE ? "font-bold text-2xl" : "font-medium text-base",
+	]);
 
 	return (
 		<div className={className}>
@@ -91,19 +93,18 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 			<div className="uppercase text-2xl font-bold">
 				{intl.formatMessage(MESSAGES.reviewDealTitle)}
 			</div>
-			<div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+			<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 				<DealDetail
 					icon="key"
 					title={intl.formatMessage(MESSAGES.borrower)}
-					value={form.getFieldValue("borrower")}
-					className="col-span-2"
+					value={slicedBased58Key(form.getFieldValue("borrower"))}
+					className="col-span-1"
 					valueSize={ValueSize.SMALL}
 				/>
-				<div className="col-span-2"></div>
 				<DealDetail
 					title={intl.formatMessage(MESSAGES.dealName)}
 					value={form.getFieldValue("dealName")}
-					className="col-span-1"
+					className="col-span-2"
 				/>
 				<DealDetail
 					title={intl.formatMessage(MESSAGES.principal)}
@@ -120,6 +121,8 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 					value={`${form.getFieldValue("timeToMaturity")} DAYS`}
 					className="col-span-1"
 				/>
+			</div>
+			<div>
 				<div className="uppercase text-2xl font-bold col-span-4">
 					{intl.formatMessage(MESSAGES.advancedDealSettings)}
 				</div>
