@@ -8,6 +8,7 @@ import { useIntl } from "react-intl";
 import { DealWithNestedResources } from "@state/dealSlice";
 import Big from "big.js";
 import { TrancheName } from "@credix_types/tranche.types";
+import { TrancheAPR } from "./TrancheAPR";
 
 interface DealTrancheStructureProps {
 	className?: string;
@@ -97,7 +98,9 @@ export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> 
 								)}
 							</div>
 							{/* TODO: get tranche APR */}
-							<div className="flex items-center font-mono font-bold text-base">5%</div>
+							<div className="flex items-center font-mono font-bold text-base">
+								<TrancheAPR tranche={tranche} repaymentSchedule={deal.repaymentSchedule} />
+							</div>
 							{/* TODO: add border  */}
 						</React.Fragment>
 					))}
