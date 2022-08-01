@@ -88,12 +88,11 @@ export const DealsTable = (props: Props) => {
 			icon: "stacked-column-down",
 			dataIndex: "name",
 			key: "name",
-			width: 150,
+			width: 250,
 			ellipsis: true,
 		},
 		{
 			title: intl.formatMessage(MESSAGES.amount),
-			icon: "coins-alt",
 			dataIndex: "principal",
 			key: "principal",
 			width: 250,
@@ -105,19 +104,18 @@ export const DealsTable = (props: Props) => {
 		},
 		{
 			title: intl.formatMessage(MESSAGES.financingFee),
-			icon: "coins-alt",
 			key: "financingFee",
 			titleClassName: "justify-end",
 			align: "right",
+			width: 160,
 			dataIndex: "financingFee",
 			render: (financingFee: string) => <span className="font-medium text-lg">{financingFee}</span>,
 		},
 		{
 			title: intl.formatMessage(MESSAGES.trancheStructure),
-			icon: "coins-alt",
 			key: "trancheStructure",
 			dataIndex: "trancheSizePercentages",
-			width: 250,
+			width: 150,
 			titleClassName: "justify-end",
 			align: "right",
 			render: (tranches: number[]) => (
@@ -213,7 +211,7 @@ const MESSAGES = defineMessages({
 		description: "deal table financingFee title",
 	},
 	trancheStructure: {
-		defaultMessage: "Tranche structure",
+		defaultMessage: "Tranches",
 		description: "deal table tranche structure title",
 	},
 });

@@ -1,24 +1,17 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import { Fraction } from "@credix/credix-client";
 import { clamp } from "@utils/format.utils";
 import { Icon, IconDimension, IconName } from "./Icon";
 
 interface DealAspectProps {
 	title: string;
-	value: string;
+	value: ReactNode;
 	ratio?: Fraction;
-	emphasizeValue?: boolean;
 	icon?: IconName;
 }
 
-export const DealAspect: FunctionComponent<DealAspectProps> = ({
-	title,
-	value,
-	ratio,
-	emphasizeValue = false,
-	icon,
-}) => {
-	const hasRatio = ratio !== undefined && !ratio.equals(new Fraction(0, 1));
+export const DealAspect: FunctionComponent<DealAspectProps> = ({ title, value, ratio, icon }) => {
+	const hasRatio = ratio !== undefined;
 	return (
 		<div>
 			<div className="p-6 border border-solid border-neutral-40 relative w-full h-full">
@@ -26,7 +19,7 @@ export const DealAspect: FunctionComponent<DealAspectProps> = ({
 					{icon && <Icon name={icon} size={IconDimension.MIDDLE} />}
 					<div className="font-medium text-base">{title}</div>
 				</div>
-				<div className={`${emphasizeValue ? "text-5xl" : "text-2xl"} font-bold pt-2`}>{value}</div>
+				<div className="text-2xl font-bold pt-2">{value}</div>
 			</div>
 			{hasRatio && (
 				<div className="relative h-2 bg-neutral-90 w-full">

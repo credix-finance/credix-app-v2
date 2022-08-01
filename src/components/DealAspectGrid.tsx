@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Fraction } from "@credix/credix-client";
 import { DealAspect } from "@components/DealAspect";
-import { classNames, compactFormatter, round } from "@utils/format.utils";
+import { classNames, compactFormatter, ratioFormatter, round } from "@utils/format.utils";
 import Big from "big.js";
 import {
 	calculateDaysRemaining,
@@ -26,6 +26,7 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 	const [principalRepaid, setPrincipalRepaid] = useState<number>(0);
 	const [interestRepaid, setInterestRepaid] = useState<number>(0);
 	const [daysRemaining, setDaysRemaining] = useState<number>(0);
+	const [financingFee, setFinancingFee] = useState<Fraction>(new Fraction(0, 1));
 	const intl = useIntl();
 
 	useEffect(() => {
@@ -70,32 +71,42 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 		}
 	}, [deal]);
 
+	useEffect(() => {
+		const getWeightedAverageFinancingFee = async () => {
+			const financingFee = await deal.repaymentSchedule.calculateFinancingFee();
+			setFinancingFee(financingFee);
+		};
+
+		if (deal) {
+			getWeightedAverageFinancingFee();
+		}
+	}, [deal]);
+
 	className = classNames([className, "grid grid-cols-1 md:grid-cols-3 gap-5"]);
 
 	return (
 		<div className={className}>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "Deal principal",
+					defaultMessage: "Principal",
 					description: "Deal aspect: principal",
 				})}
 				value={`${compactFormatter.format(deal.repaymentSchedule.totalPrincipal.uiAmount)} USDC`}
 				icon="coin-dollar"
-				emphasizeValue={true}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "Deal interest",
+					defaultMessage: "Interest",
 					description: "Deal aspect: interest",
 				})}
 				value={`${compactFormatter.format(deal.repaymentSchedule.totalInterest.uiAmount)} USDC`}
 			/>
 			<DealAspect
 				title={intl.formatMessage({
-					defaultMessage: "Time to maturity",
-					description: "Deal aspect: time to maturity",
+					defaultMessage: "Financing fee",
+					description: "Deal aspect: financing fee",
 				})}
-				value={`${deal.repaymentSchedule.duration} DAYS`}
+				value={ratioFormatter.format(financingFee.toNumber())}
 			/>
 			{deal.goLiveAt && (
 				<>
@@ -120,13 +131,18 @@ export const DealAspectGrid: FunctionComponent<DealAspectGridProps> = ({ deal, c
 							defaultMessage: "Time left",
 							description: "Deal aspect: time left",
 						})}
-						value={intl.formatMessage(
-							{
-								defaultMessage: "{daysRemaining} DAYS",
-								description: "Deal aspect: days remaining",
-							},
-							{ daysRemaining: round(daysRemaining, Big.roundHalfEven, 0).toString() }
-						)}
+						value={
+							<div>
+								<span>{round(daysRemaining, Big.roundHalfEven, 0).toString()}</span>
+								<span className="text-disabled">/{deal.repaymentSchedule.duration}&nbsp;</span>
+								<span>
+									{intl.formatMessage({
+										defaultMessage: " DAYS",
+										description: "Deal aspect: days",
+									})}
+								</span>
+							</div>
+						}
 						ratio={daysRemainingRatio}
 					/>
 				</>
