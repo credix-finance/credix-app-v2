@@ -89,7 +89,7 @@ export const repaymentSchedule = (
 		} else {
 			schedule[paymentPeriods - 1].principal += round(
 				Big(cumulativePrincipalRest),
-				Big.roundDown
+				Big.roundHalfEven
 			).toNumber();
 		}
 

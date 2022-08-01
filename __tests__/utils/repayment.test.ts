@@ -148,6 +148,18 @@ describe("amortization", () => {
 
 		expect(principalSum.eq(principal)).toBeTruthy();
 	});
+
+	test.only("the sum of all the principal in the schedule adds up to the starting principal with a fractional rate", () => {
+		const periods = 12;
+		const principal = defaultPrincipal;
+		const financingFee = new Fraction(125, 1000);
+		const repaymentPeriod = periods * DAYS_IN_REPAYMENT_PERIOD;
+		const schedule = Amortization.repaymentSchedule(principal, financingFee, repaymentPeriod);
+
+		const principalSum = Big(schedule.reduce((acc, curr) => acc + curr.principal, 0));
+
+		expect(principalSum.eq(principal)).toBeTruthy();
+	});
 });
 
 describe("bullet", () => {
