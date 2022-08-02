@@ -6,7 +6,7 @@ export const Footer = () => {
 	const date = intl.formatDate(new Date());
 
 	return (
-		<div className="flex justify-center text-xs">
+		<div className="flex justify-center text-xs border-t border-credix-secondary">
 			<footer className="max-w-5xl w-full py-8 text-micro leading-[10px] font-normal">
 				<div>{intl.formatMessage(MESSAGES.apr)}</div>
 				<div>{intl.formatMessage(MESSAGES.disclaimer, { date })}</div>
