@@ -15,6 +15,6 @@ describe("error parsing", () => {
 		const errorMessage = "Something wrong";
 		const error = new Error(errorMessage);
 
-		expect(parseError(error)).toBeNull();
+		expect(parseError(error)).toEqual(errorMessage);
 	});
 });

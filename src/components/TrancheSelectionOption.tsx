@@ -7,7 +7,7 @@ import { DealTrancheSettings, DefaultTranche, defaultTrancheSettings } from "@co
 import { TrancheOption } from "./TrancheOption";
 import { Drawer } from "./Drawer";
 import { Switch } from "./Switch";
-import { TrancheFormField, trancheSettingsFields } from "./DealForm";
+import { DealFormField, TrancheFormField, trancheSettingsFields } from "./DealForm";
 import { Input } from "./Input";
 import { required } from "@utils/validation.utils";
 
@@ -26,6 +26,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 	const [trancheSettings, setTrancheSettings] =
 		useState<DealTrancheSettings>(defaultTrancheSettings);
 	const formTranche = form.getFieldValue(tranche.value);
+	const isCustomTranche = tranche.value === DealFormField.CustomTranche;
 
 	const onClose = () => {
 		setVisible(false);
@@ -139,25 +140,23 @@ export const TrancheSelectionOption: FunctionComponent<{
 												type="number"
 												step={INPUT_NUMBER_STEP}
 												disabled={!t.editable}
-												required={true}
-												rules={[required(intl, MESSAGES.aprRequiredValidation)]}
+												required={!isCustomTranche}
+												rules={[!isCustomTranche && required(intl, MESSAGES.aprRequiredValidation)]}
 											/>
 										</div>
 									</div>
-									<div>
-										{t.earlyWithdrawalInterest !== undefined && (
-											<div className="flex justify-between">
-												<Switch
-													name={[tranche.value, t.name, TrancheFormField.EarlyWithdrawalInterest]}
-													label={intl.formatMessage(MESSAGES.withdrawInterest)}
-												/>
-												<Switch
-													name={[tranche.value, t.name, TrancheFormField.EarlyWithdrawalPrincipal]}
-													label={intl.formatMessage(MESSAGES.withdrawPrincipal)}
-												/>
-											</div>
-										)}
-									</div>
+									{t.earlyWithdrawalInterest !== undefined && (
+										<div className="flex justify-between">
+											<Switch
+												name={[tranche.value, t.name, TrancheFormField.EarlyWithdrawalInterest]}
+												label={intl.formatMessage(MESSAGES.withdrawInterest)}
+											/>
+											<Switch
+												name={[tranche.value, t.name, TrancheFormField.EarlyWithdrawalPrincipal]}
+												label={intl.formatMessage(MESSAGES.withdrawPrincipal)}
+											/>
+										</div>
+									)}
 								</div>
 							)
 						);

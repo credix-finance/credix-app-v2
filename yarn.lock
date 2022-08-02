@@ -2490,14 +2490,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@civic/solana-gateway-react@npm:0.4.13":
-  version: 0.4.13
-  resolution: "@civic/solana-gateway-react@npm:0.4.13"
+"@civic/common-gateway-react@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@civic/common-gateway-react@npm:0.2.0"
   dependencies:
-    "@identity.com/prove-solana-wallet": ^0.2.3
-    "@identity.com/solana-gateway-ts": ^0.7.0
-    "@solana/web3.js": ^1.33.0
-    "@types/styled-components": ^5.1.15
     fetch-retry-ts: ^1.1.24
     iframe-resizer-react: ^1.1.0
     ramda: ^0.27.1
@@ -2505,7 +2501,22 @@ __metadata:
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: 7e49c2acdccd2da9043532d479a4e1b8148c9975787c313420540afae63d7bc28f948948c904168843f3ddf32070c15794d5b9a5a2106d5e33c50e846a01d8cd
+  checksum: 13945f58a22a770b0ce151026facaa996f2dde876cf00d0f45569701df7beb1c1b6c1c7d8bb983af36ad0fc356d36d2e7fcfbdbefa7d557a345b059cdc32d184
+  languageName: node
+  linkType: hard
+
+"@civic/solana-gateway-react@npm:0.9.0":
+  version: 0.9.0
+  resolution: "@civic/solana-gateway-react@npm:0.9.0"
+  dependencies:
+    "@civic/common-gateway-react": ^0.2.0
+    "@identity.com/prove-solana-wallet": 0.2.9
+    "@identity.com/solana-gateway-ts": ^0.7.0
+    "@solana/web3.js": 1.39.0
+  peerDependencies:
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  checksum: 9ece4175ac59515109cf5f32c8c85b9577902e86bb38720fe9d886476ab7f7e74c5a673a7a8b8837ea62ac59506e90f0c321ed27091ef14f491e8935eb253ed7
   languageName: node
   linkType: hard
 
@@ -3090,13 +3101,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@identity.com/prove-solana-wallet@npm:^0.2.3":
-  version: 0.2.5
-  resolution: "@identity.com/prove-solana-wallet@npm:0.2.5"
+"@identity.com/prove-solana-wallet@npm:0.2.9":
+  version: 0.2.9
+  resolution: "@identity.com/prove-solana-wallet@npm:0.2.9"
   dependencies:
-    "@solana/web3.js": ^1.22.0
+    "@solana/web3.js": 1.39.0
     bs58: ^4.0.1
-  checksum: 5f3b2e89894bc44e1b7c3eee8cf1519b21cd132b2598de854230fd281d2ceb3ade1df8b2b35495fa2c947499703d05fbfdb06d157711294c45fa669930d94cc2
+  checksum: fb53458753c0e8f229bbaa3919182fc95898b9a6e4f1f8482498ca7c031449199648d7e81629016cb95ef1b0480f63db2587d2c93b7adbd7b4f36e1090dee265
   languageName: node
   linkType: hard
 
@@ -4562,7 +4573,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.20.0, @solana/web3.js@npm:^1.21.0, @solana/web3.js@npm:^1.22.0, @solana/web3.js@npm:^1.30.2, @solana/web3.js@npm:^1.33.0, @solana/web3.js@npm:^1.35.0, @solana/web3.js@npm:^1.36.0, @solana/web3.js@npm:^1.41.9, @solana/web3.js@npm:^1.43.4":
+"@solana/web3.js@npm:1.39.0":
+  version: 1.39.0
+  resolution: "@solana/web3.js@npm:1.39.0"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@ethersproject/sha2": ^5.5.0
+    "@solana/buffer-layout": ^4.0.0
+    bn.js: ^5.0.0
+    borsh: ^0.7.0
+    bs58: ^4.0.1
+    buffer: 6.0.1
+    cross-fetch: ^3.1.4
+    jayson: ^3.4.4
+    js-sha3: ^0.8.0
+    rpc-websockets: ^7.4.2
+    secp256k1: ^4.0.2
+    superstruct: ^0.14.2
+    tweetnacl: ^1.0.0
+  checksum: 9b7da2d46b5c87cae354d451f3fdb850928ec0ac8486ac3c83afb80f725aff48076a3d447ce8c177d56256df44083d6ee95af9b8a830420ffcce6562f4a069ec
+  languageName: node
+  linkType: hard
+
+"@solana/web3.js@npm:^1.20.0, @solana/web3.js@npm:^1.21.0, @solana/web3.js@npm:^1.22.0, @solana/web3.js@npm:^1.30.2, @solana/web3.js@npm:^1.35.0, @solana/web3.js@npm:^1.36.0, @solana/web3.js@npm:^1.41.9, @solana/web3.js@npm:^1.43.4":
   version: 1.44.2
   resolution: "@solana/web3.js@npm:1.44.2"
   dependencies:
@@ -6348,7 +6381,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hoist-non-react-statics@npm:*, @types/hoist-non-react-statics@npm:^3.3.1":
+"@types/hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.1
   resolution: "@types/hoist-non-react-statics@npm:3.3.1"
   dependencies:
@@ -6687,17 +6720,6 @@ __metadata:
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
   checksum: 205fdbe3326b7046d7eaf5e494d8084f2659086a266f3f9cf00bccc549c8e36e407f88168ad4383c8b07099957ad669f75f2532ed4bc70be2b037330f7bae019
-  languageName: node
-  linkType: hard
-
-"@types/styled-components@npm:^5.1.15":
-  version: 5.1.25
-  resolution: "@types/styled-components@npm:5.1.25"
-  dependencies:
-    "@types/hoist-non-react-statics": "*"
-    "@types/react": "*"
-    csstype: ^3.0.2
-  checksum: 60ce64f13283b01da54fd3a4c5703769d8575c979d5ec6b67ad124c2d4df980c9b96bb91af87e03f6447a816a5d2b0270c63eefad60cfa885091b594984525f5
   languageName: node
   linkType: hard
 
@@ -9711,7 +9733,7 @@ __metadata:
   dependencies:
     "@ant-design/charts": ^1.3.6
     "@babel/core": ^7.17.10
-    "@civic/solana-gateway-react": 0.4.13
+    "@civic/solana-gateway-react": 0.9.0
     "@commitlint/cli": ^16.2.4
     "@commitlint/config-conventional": ^16.2.4
     "@credix/credix-client": 0.9.1-beta.0
@@ -9747,6 +9769,7 @@ __metadata:
     big.js: ^6.1.1
     bs58: ^5.0.0
     chromatic: ^6.5.4
+    csv: ^6.2.0
     dayjs: ^1.11.4
     eslint: 8.15.0
     eslint-config-next: 12.1.6
@@ -9757,6 +9780,7 @@ __metadata:
     jest: ^27.5.1
     less: ^4.1.2
     less-loader: ^10.2.0
+    lodash: ^4.17.21
     next: ^12.1.6
     next-with-less: ^2.0.5
     phan-wallet-mock: ^0.1.0
@@ -9774,7 +9798,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cross-fetch@npm:^3.1.5":
+"cross-fetch@npm:^3.1.4, cross-fetch@npm:^3.1.5":
   version: 3.1.5
   resolution: "cross-fetch@npm:3.1.5"
   dependencies:
@@ -9983,6 +10007,39 @@ __metadata:
   version: 3.1.0
   resolution: "csstype@npm:3.1.0"
   checksum: 644e986cefab86525f0b674a06889cfdbb1f117e5b7d1ce0fc55b0423ecc58807a1ea42ecc75c4f18999d14fc42d1d255f84662a45003a52bb5840e977eb2ffd
+  languageName: node
+  linkType: hard
+
+"csv-generate@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "csv-generate@npm:4.2.0"
+  checksum: 833984bfea37fd4da6747031e8a290a650a618d119673208701be7678e8b6e330ef9f333f67d433e5ba956292a289293a423449850003dfd7a25536a8b2aaed7
+  languageName: node
+  linkType: hard
+
+"csv-parse@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "csv-parse@npm:5.3.0"
+  checksum: 6754e85aef9dfdf19da99206b4a83f51fb881b3a75f9f7b6221864252c386410e1f535a013911d6e52f77a017d3dadf10f1e526fe31e01b2b79074c3fb4b3aaa
+  languageName: node
+  linkType: hard
+
+"csv-stringify@npm:^6.2.0":
+  version: 6.2.0
+  resolution: "csv-stringify@npm:6.2.0"
+  checksum: c2fa074fbf2bcb8cea966c1bdf89d377f1f79bbd33e13092131cac511363479a4e7a923f26fe741e2ef5bad479a400c72e18ceb4b7c33e1f0a60cf33f5c31f1c
+  languageName: node
+  linkType: hard
+
+"csv@npm:^6.2.0":
+  version: 6.2.0
+  resolution: "csv@npm:6.2.0"
+  dependencies:
+    csv-generate: ^4.2.0
+    csv-parse: ^5.3.0
+    csv-stringify: ^6.2.0
+    stream-transform: ^3.2.0
+  checksum: 2610f248980a0321d6083ad5a5be6525734a27f29ffbdcfaea0cfab5cd979508c519c6c4917482dba670f4e2abf9d05bd4cb8d8e6c82d52291d60a7f675f96bd
   languageName: node
   linkType: hard
 
@@ -20355,6 +20412,13 @@ __metadata:
     inherits: ~2.0.4
     readable-stream: ^3.5.0
   checksum: 4c47ef64d6f03815a9ca3874e2319805e8e8a85f3550776c47ce523b6f4c6cd57f40e46ec6a9ab8ad260fde61863c2718f250d3bedb3fe9052444eb9abfd9921
+  languageName: node
+  linkType: hard
+
+"stream-transform@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "stream-transform@npm:3.2.0"
+  checksum: a3c726d9b6938ffc93dcd5aa0fc9da9365280b0f919950829a81446229f4b3e432f63fb0e5d7d047134c072d84e8d9572235a5aaee0c941772e6b0969242902d
   languageName: node
   linkType: hard
 

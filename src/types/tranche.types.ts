@@ -16,13 +16,15 @@ export enum TrancheName {
 }
 
 export enum TrancheTitle {
-	oneTranche = "One tranche structure",
-	twoTranche = "Two tranche structure",
-	threeTranche = "Three tranche structure",
+	OneTranche = "One tranche structure",
+	TwoTranche = "Two tranche structure",
+	ThreeTranche = "Three tranche structure",
+	CustomTranche = "Custom Tranche Structure",
 }
 
 export enum TrancheFormValue {
-	oneTranche = "oneTranche",
-	twoTranche = "twoTranche",
-	threeTranche = "threeTranche",
+	OneTranche = "oneTranche",
+	TwoTranche = "twoTranche",
+	ThreeTranche = "threeTranche",
+	CustomTranche = "customTranche",
 }

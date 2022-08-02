@@ -23,6 +23,7 @@ const customJestConfig = {
 		"^@notification": "<rootDir>/src/notification",
 		"^@state/(.*)": "<rootDir>/src/state/$1",
 		"^@utils/(.*)": "<rootDir>/src/utils/$1",
+		"^csv-parse/browser/esm/sync": "<rootDir>/node_modules/csv-parse/dist/cjs/sync.cjs",
 	},
 	modulePathIgnorePatterns: ["__mocks__", ".yalc"],
 };

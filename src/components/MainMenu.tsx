@@ -17,7 +17,7 @@ export const MainMenu = ({ showLogo = true }: MainMenuProps) => {
 	const path = (router?.query?.marketplace as string) || "/";
 
 	return (
-		<div className="w-full bg-credix-primary flex justify-between items-center py-4 px-4 md:px-20">
+		<div className="w-full bg-credix-primary flex justify-between items-center py-6 px-4 md:px-20 border-b border-credix-secondary">
 			<div>
 				{showLogo && (
 					<Link href={path}>

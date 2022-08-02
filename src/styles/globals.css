@@ -585,3 +585,11 @@ body {
 .ant-switch {
 	@apply mr-3 w-8 h-5 min-w-[20px] !important;
 }
+
+.ant-upload.ant-upload-drag:not(.ant-upload-disabled):hover,
+.ant-upload.ant-upload-drag {
+	@apply border-black;
+}
+.ant-upload.ant-upload-btn {
+	@apply p-6 bg-credix-primary !important;
+}
