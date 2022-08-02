@@ -1,8 +1,11 @@
-import { DAYS_IN_YEAR } from "@consts";
+import { DAYS_IN_YEAR, DefaultTranche, TrancheDataElement } from "@consts";
 import { Fraction, RepaymentSchedule, Tranche } from "@credix/credix-client";
+import { TrancheFormValue, TrancheName, TrancheTitle } from "@credix_types/tranche.types";
 import { TokenAmount } from "@solana/web3.js";
 import Big from "big.js";
 import { round } from "./format.utils";
+import { parse } from "csv-parse/browser/esm/sync";
+import { capitalize } from "lodash";
 
 export const calculateTotalInterest = (
 	timeToMaturity: number,
@@ -490,4 +493,63 @@ export const investorCurrentReturns = (tranche: Tranche, userTrancheBalance: Tok
 		investorPercentageOfTranche.apply(tranche.interestRepaid.uiAmount),
 		Big.roundHalfEven
 	);
+};
+
+interface TrancheCSVRecord {
+	Tranche: string;
+	Size: string;
+	Return: string;
+}
+
+/**
+ * Parses a CSV string into a DefaultTranche. The first record of the csv should be the header.
+ * @param input  A CSV string to be parsed, which should have the follwing format: tranche,size,return
+ * @returns the parsed CSV string as a DefaultTranche
+ * @throws if the CSV string headers are not valid
+ */
+export const parseTrancheCSV = (input: string): DefaultTranche => {
+	const trancheCSVHeaders = [`"Tranche"`, `"Size"`, `"Return"`];
+	let records: TrancheCSVRecord[] = null;
+	records = parse(input, {
+		skip_empty_lines: true,
+		trim: true,
+		columns: true, // Parse the first line as the headers
+	});
+
+	try {
+		const trancheData = records
+			// Reject empty tranches
+			.filter((tranche) => !Big(tranche.Size).eq(0))
+			.map((tranche) => {
+				const trancheName = capitalize(tranche.Tranche);
+				let t = {
+					apr: null,
+					name: trancheName,
+					percentageOfPrincipal: Big(tranche.Size).times(100).toNumber(),
+					percentageOfInterest: Big(tranche.Return).times(100).toNumber(),
+					value: 1,
+				} as TrancheDataElement;
+
+				if (trancheName !== TrancheName.Senior) {
+					t = {
+						...t,
+						earlyWithdrawalInterest: false,
+						earlyWithdrawalPrincipal: false,
+					};
+				}
+
+				return t;
+			});
+
+		return {
+			title: TrancheTitle.CustomTranche,
+			value: TrancheFormValue.CustomTranche,
+			trancheData,
+		};
+	} catch {
+		// The mapping failed, meaning the headers were not valid or not present
+		throw new Error(
+			`Expected headers: ${trancheCSVHeaders.join(", ")} to be present in that order`
+		);
+	}
 };

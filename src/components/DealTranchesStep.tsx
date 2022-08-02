@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { classNames } from "@utils/format.utils";
 import { Form, FormInstance, Radio } from "antd";
@@ -7,6 +7,7 @@ import { Button } from "./Button";
 import { Icon, IconDimension } from "./Icon";
 import { defaultTranches } from "@consts";
 import { TrancheSelectionOption } from "./TrancheSelectionOption";
+import { CustomTranche } from "./CustomTranche";
 
 interface DealTranchesStepProps {
 	className?: string;
@@ -38,6 +39,9 @@ export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 								checked={selectedTranche === tranche.value}
 							/>
 						))}
+						<div className="pt-16">
+							<CustomTranche />
+						</div>
 					</div>
 				</Radio.Group>
 			</FormItem>
@@ -57,7 +61,7 @@ export const DealTranchesStep: FunctionComponent<DealTranchesStepProps> = ({
 	);
 };
 
-const MESSAGES = defineMessages({
+export const MESSAGES = defineMessages({
 	detailsTitle: {
 		defaultMessage: "Please fill in all information needed to submit a new deal.",
 		description: "New deal: details form title",

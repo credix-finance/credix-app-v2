@@ -9769,6 +9769,7 @@ __metadata:
     big.js: ^6.1.1
     bs58: ^5.0.0
     chromatic: ^6.5.4
+    csv: ^6.2.0
     dayjs: ^1.11.4
     eslint: 8.15.0
     eslint-config-next: 12.1.6
@@ -9779,6 +9780,7 @@ __metadata:
     jest: ^27.5.1
     less: ^4.1.2
     less-loader: ^10.2.0
+    lodash: ^4.17.21
     next: ^12.1.6
     next-with-less: ^2.0.5
     phan-wallet-mock: ^0.1.0
@@ -10005,6 +10007,39 @@ __metadata:
   version: 3.1.0
   resolution: "csstype@npm:3.1.0"
   checksum: 644e986cefab86525f0b674a06889cfdbb1f117e5b7d1ce0fc55b0423ecc58807a1ea42ecc75c4f18999d14fc42d1d255f84662a45003a52bb5840e977eb2ffd
+  languageName: node
+  linkType: hard
+
+"csv-generate@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "csv-generate@npm:4.2.0"
+  checksum: 833984bfea37fd4da6747031e8a290a650a618d119673208701be7678e8b6e330ef9f333f67d433e5ba956292a289293a423449850003dfd7a25536a8b2aaed7
+  languageName: node
+  linkType: hard
+
+"csv-parse@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "csv-parse@npm:5.3.0"
+  checksum: 6754e85aef9dfdf19da99206b4a83f51fb881b3a75f9f7b6221864252c386410e1f535a013911d6e52f77a017d3dadf10f1e526fe31e01b2b79074c3fb4b3aaa
+  languageName: node
+  linkType: hard
+
+"csv-stringify@npm:^6.2.0":
+  version: 6.2.0
+  resolution: "csv-stringify@npm:6.2.0"
+  checksum: c2fa074fbf2bcb8cea966c1bdf89d377f1f79bbd33e13092131cac511363479a4e7a923f26fe741e2ef5bad479a400c72e18ceb4b7c33e1f0a60cf33f5c31f1c
+  languageName: node
+  linkType: hard
+
+"csv@npm:^6.2.0":
+  version: 6.2.0
+  resolution: "csv@npm:6.2.0"
+  dependencies:
+    csv-generate: ^4.2.0
+    csv-parse: ^5.3.0
+    csv-stringify: ^6.2.0
+    stream-transform: ^3.2.0
+  checksum: 2610f248980a0321d6083ad5a5be6525734a27f29ffbdcfaea0cfab5cd979508c519c6c4917482dba670f4e2abf9d05bd4cb8d8e6c82d52291d60a7f675f96bd
   languageName: node
   linkType: hard
 
@@ -20377,6 +20412,13 @@ __metadata:
     inherits: ~2.0.4
     readable-stream: ^3.5.0
   checksum: 4c47ef64d6f03815a9ca3874e2319805e8e8a85f3550776c47ce523b6f4c6cd57f40e46ec6a9ab8ad260fde61863c2718f250d3bedb3fe9052444eb9abfd9921
+  languageName: node
+  linkType: hard
+
+"stream-transform@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "stream-transform@npm:3.2.0"
+  checksum: a3c726d9b6938ffc93dcd5aa0fc9da9365280b0f919950829a81446229f4b3e432f63fb0e5d7d047134c072d84e8d9572235a5aaee0c941772e6b0969242902d
   languageName: node
   linkType: hard
 

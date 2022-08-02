@@ -5,7 +5,7 @@
 import * as Sentry from "@sentry/nextjs";
 import { config } from "./src/config";
 
-if (process.env.NODE_ENV !== "test") {
+if (!["development", "test"].includes(process.env.NODE_ENV)) {
 	Sentry.init({
 		dsn: `https://${process.env.NEXT_PUBLIC_SENTRY_TOKEN}@o1140639.ingest.sentry.io/6328186`,
 		tracesSampleRate: 1.0,

@@ -13,6 +13,7 @@ import { DealAdvancedSettings } from "./DealAdvancedSettings";
 import { TrancheAdvancedSettings } from "./TrancheAdvancedSettings";
 import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
 import { TrancheFormValue, TrancheTitle } from "@credix_types/tranche.types";
+import { capitalize } from "lodash";
 
 interface ReviewDealStepProps {
 	form: FormInstance;
@@ -65,7 +66,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 	const slashInterestToPrincipal = Form.useWatch("slashInterestToPrincipal", form);
 	const slashPrincipalToInterest = Form.useWatch("slashPrincipalToInterest", form);
 	const intl = useIntl();
-	const trancheStructure = Form.useWatch("trancheStructure", form) || TrancheFormValue.threeTranche;
+	const trancheStructure = Form.useWatch("trancheStructure", form) || TrancheFormValue.ThreeTranche;
 	const formTranche: TrancheStructure = form.getFieldValue(trancheStructure);
 	const trancheTitlesMap = Object.entries(TrancheTitle).reduce((acc, [key, value]) => {
 		acc = {
@@ -184,7 +185,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 						/>
 					}
 					value={trancheStructure}
-					title={trancheTitlesMap[trancheStructure]}
+					title={trancheTitlesMap[capitalize(trancheStructure)]}
 					checked={false}
 					isInteractive={false}
 					showContent={true}

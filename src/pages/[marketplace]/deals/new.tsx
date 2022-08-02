@@ -233,6 +233,7 @@ const New: NextPageWithLayout = () => {
 		oneTranche,
 		twoTranche,
 		threeTranche,
+		customTranche,
 	}: DealFormInput) => {
 		const borrowerPK = new PublicKey(borrower);
 		const formattedPrincipal = compactFormatter.format(principal);
@@ -240,6 +241,7 @@ const New: NextPageWithLayout = () => {
 			oneTranche,
 			twoTranche,
 			threeTranche,
+			customTranche,
 		};
 		const selectedTranche = tranches[trancheStructure];
 
