@@ -10,7 +10,7 @@ module.exports = {
 	theme: {
 		extend: {
 			gridTemplateRows: {
-				layout: "min-content 1fr",
+				layout: "min-content 1fr min-content",
 			},
 			gridTemplateColumns: {
 				layout: "min-content 1fr",
@@ -18,6 +18,9 @@ module.exports = {
 			borderRadius: { DEFAULT: "0.0625rem", md: "0.25rem" },
 			height: {
 				30: "7.5rem"
+			},
+			fontSize: {
+				micro: "0.5rem",
 			},
 			colors: theme.colors,
 			fontFamily: {
