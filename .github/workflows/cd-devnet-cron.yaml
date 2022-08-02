@@ -40,16 +40,6 @@ jobs:
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
 
-      # Critical
-      - name: Run Trivy for critical vulnerabilities
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs' # Filesystem mode
-          ignore-unfixed: true # Ignore vulnerabilities with no available fix
-          format: 'table' # Table output mode as next step will report in security tab
-          severity: 'CRITICAL' # Error only on critical vulnerabilities
-          exit-code: '0' # Don't fail the job if a critical vulnerability with fix available is found
-
       # Build app
       - uses: actions/cache@v2
         with:
@@ -59,7 +49,13 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
         run: |
-          SENTRY_ENVIRONMENT=devnet NEXT_PUBLIC_REACT_APP_CLUSTER=devnet NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }} yarn build
+          SENTRY_ENVIRONMENT=devnet
+          SENTRY_AUTH_TOKEN=${{secrets.SENTRY_AUTH_TOKEN}}
+          NEXT_PUBLIC_REACT_APP_CLUSTER=devnet
+          NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}
+          NEXT_PUBLIC_PROGRAM_ID=${{ secrets.NEXT_PUBLIC_DEVNET_AND_MAINNET_PROGRAM_ID }}
+          NEXT_PUBLIC_SENTRY_TOKEN=${{ secrets.NEXT_PUBLIC_SENTRY_TOKEN }}
+          yarn build
           yarn export
 
       - name: Checkout target repository
