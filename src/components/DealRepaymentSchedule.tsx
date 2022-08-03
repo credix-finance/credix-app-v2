@@ -11,8 +11,6 @@ import { DealWithNestedResources } from "@state/dealSlice";
 import { DAYS_IN_REPAYMENT_PERIOD } from "@consts";
 import { useLocales } from "@hooks/useLocales";
 import dayjs from "dayjs";
-import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
-import { ColumnConfig } from "@ant-design/charts";
 
 interface DealRepaymentScheduleProps {
 	className?: string;
@@ -49,17 +47,7 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 			}))
 		);
 
-		let graphConfig = null;
-		if (scheduleType === RepaymentScheduleType.BULLET) {
-			graphConfig = {
-				yAxis: {
-					type: "log",
-					base: 10,
-				},
-			} as Partial<ColumnConfig>;
-		}
-
-		return <Schedule graphData={graphData} dataSource={dataSource} graphConfig={graphConfig} />;
+		return <Schedule graphData={graphData} dataSource={dataSource} />;
 	};
 
 	return (
