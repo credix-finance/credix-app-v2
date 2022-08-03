@@ -214,8 +214,8 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 				DealFormField.RepaymentType,
 			].includes(formItemKey)
 		) {
-			calculateAprs(allValues);
 			generateSchedule(allValues);
+			calculateAprs(allValues);
 			return;
 		}
 

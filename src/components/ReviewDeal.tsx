@@ -75,7 +75,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 	const trancheTitlesMap = Object.entries(TrancheTitle).reduce((acc, [key, value]) => {
 		acc = {
 			...acc,
-			[key]: value,
+			[key.toLowerCase()]: value,
 		};
 		return acc;
 	}, {});
@@ -192,7 +192,7 @@ export const ReviewDealStep: FunctionComponent<ReviewDealStepProps> = ({
 						/>
 					}
 					value={trancheStructure}
-					title={trancheTitlesMap[capitalize(trancheStructure)]}
+					title={trancheTitlesMap[trancheStructure.toLowerCase()]}
 					checked={false}
 					isInteractive={false}
 					showContent={true}
