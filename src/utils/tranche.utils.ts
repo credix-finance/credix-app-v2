@@ -87,17 +87,12 @@ const mezAPR = ({
 	timeToMaturity,
 }) => {
 	return new Fraction(
-		Big(1)
-			.minus(percentageOfInterest.toNumber())
-			.times(
-				Big(1)
-					.minus(performanceFee.toNumber())
-					.times(totalInterest)
-					.div(totalPrincipal)
-					.times(Big(DAYS_IN_YEAR).div(timeToMaturity))
-			)
+		Big(percentageOfInterest.toNumber())
+			.times(Big(1).minus(performanceFee.toNumber()))
+			.times(totalInterest)
+			.times(DAYS_IN_YEAR)
 			.toNumber(),
-		Big(1).minus(percentageOfPrincipal.toNumber()).toNumber()
+		Big(percentageOfPrincipal.toNumber()).times(totalPrincipal).times(timeToMaturity).toNumber()
 	);
 };
 
@@ -434,20 +429,20 @@ export const threeTrancheJuniorAPR = ({
 	timeToMaturity: number;
 }) => {
 	return new Fraction(
-		Big(1)
-			.minus(percentageOfInterestSenior.toNumber())
-			.minus(percentageOfInterestMez.toNumber())
-			.times(
-				Big(1)
-					.minus(performanceFee.toNumber())
-					.times(totalInterest)
-					.div(totalPrincipal)
-					.times(Big(DAYS_IN_YEAR).div(timeToMaturity))
-			)
+		Big(
+			Big(1).minus(percentageOfInterestSenior.toNumber()).minus(percentageOfInterestMez.toNumber())
+		)
+			.times(Big(1).minus(performanceFee.toNumber()))
+			.times(totalInterest)
+			.times(DAYS_IN_YEAR)
 			.toNumber(),
-		Big(1)
-			.minus(percentageOfPrincipalSenior.toNumber())
-			.minus(percentageOfPrincipalMez.toNumber())
+		Big(
+			Big(1)
+				.minus(percentageOfPrincipalSenior.toNumber())
+				.minus(percentageOfPrincipalMez.toNumber())
+		)
+			.times(totalPrincipal)
+			.times(timeToMaturity)
 			.toNumber()
 	);
 };
