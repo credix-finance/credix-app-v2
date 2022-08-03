@@ -37,7 +37,7 @@ export const TrancheAPR: FunctionComponent<TrancheAPRProps> = ({
 
 const MESSAGES = defineMessages({
 	apr: {
-		defaultMessage: "APR",
+		defaultMessage: "Expected APR",
 		description: "deal table apr label",
 	},
 });

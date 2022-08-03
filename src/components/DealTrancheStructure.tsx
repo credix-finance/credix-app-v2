@@ -43,7 +43,7 @@ export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> 
 					description: "Deal tranche structure: title",
 				})}
 			</div>
-			<div className="border border-neutral-40 p-10 grid grid-cols-[1fr,1fr,1fr,0.5fr] gap-y-6 gap-x-2 justify-items-end">
+			<div className="border border-neutral-40 p-10 grid grid-cols-[1fr,1fr,1fr,1fr] gap-y-6 gap-x-2 justify-items-end">
 				<div></div>
 				<div></div>
 				<div className="flex items-center space-x-2">
@@ -59,7 +59,7 @@ export const DealTrancheStructure: FunctionComponent<DealTrancheStructureProps> 
 					<Icon name="trend-up" size={IconDimension.SMALL} />
 					<div className="font-mono font-bold text-sm">
 						{intl.formatMessage({
-							defaultMessage: "APR",
+							defaultMessage: "Expected APR",
 							description: "Deal tranche structure: apr",
 						})}
 					</div>
