@@ -1,4 +1,4 @@
-import { CredixPass, Market } from "@credix/credix-client";
+import { CredixPass } from "@credix/credix-client";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { marketSelector } from "@state/selectors";
 import { useStore } from "@state/useStore";
