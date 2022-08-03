@@ -25,6 +25,7 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 	const locales = useLocales();
 	const [showDetails, setShowDetails] = useState(false);
 	const goLiveAt = deal.goLiveAt * 1000;
+	const scheduleType = repaymentScheduleType(deal.repaymentSchedule);
 
 	className = classNames([className, "space-y-6"]);
 
@@ -67,7 +68,7 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 							})}
 						</div>
 						<div className="font-mono font-bold text-lg">
-							<span className="capitalize">{repaymentScheduleType(deal.repaymentSchedule)}</span>{" "}
+							<span className="capitalize">{scheduleType}</span>{" "}
 							{intl.formatMessage({
 								defaultMessage: "loan",
 								description: "Deal repayment schedule: loan",

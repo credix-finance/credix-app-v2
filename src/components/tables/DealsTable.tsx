@@ -16,29 +16,11 @@ import {
 import { useStore } from "@state/useStore";
 import { asyncFilter, asyncMap } from "@utils/async.utils";
 import { isDealRepayableByUser, isDealVisible } from "@utils/deal.utils";
+import { ratioFormatter } from "@utils/format.utils";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { defineMessages, useIntl } from "react-intl";
-
-const MESSAGES = defineMessages({
-	apr: {
-		description: "deal table apr title",
-		defaultMessage: "APR",
-	},
-	trancheStructure: {
-		description: "deal table tranche structure title",
-		defaultMessage: "Tranche structure",
-	},
-	repay: {
-		description: "deal table repay action button text",
-		defaultMessage: "Repay",
-	},
-	show: {
-		description: "deal table show action button text",
-		defaultMessage: "Show",
-	},
-});
 
 interface Props {
 	market: Market;
@@ -54,7 +36,7 @@ interface TableDeal {
 	id: PublicKey;
 	name: string;
 	principal: TokenAmount;
-	apr: number;
+	financingFee: string;
 	trancheSizePercentages: number[];
 	action: DealAction;
 }
@@ -102,16 +84,15 @@ export const DealsTable = (props: Props) => {
 
 	const columns: ColumnsProps[] = [
 		{
-			title: "Name",
+			title: intl.formatMessage(MESSAGES.name),
 			icon: "stacked-column-down",
 			dataIndex: "name",
 			key: "name",
-			width: 300,
+			width: 250,
 			ellipsis: true,
 		},
 		{
-			title: "Amount",
-			icon: "coins-alt",
+			title: intl.formatMessage(MESSAGES.amount),
 			dataIndex: "principal",
 			key: "principal",
 			width: 250,
@@ -122,20 +103,19 @@ export const DealsTable = (props: Props) => {
 			),
 		},
 		{
-			title: intl.formatMessage(MESSAGES.apr),
-			icon: "coins-alt",
-			key: "apr",
+			title: intl.formatMessage(MESSAGES.financingFee),
+			key: "financingFee",
 			titleClassName: "justify-end",
 			align: "right",
-			dataIndex: "apr",
-			render: (apr: number) => <span className="font-medium text-lg">{apr}%</span>,
+			width: 160,
+			dataIndex: "financingFee",
+			render: (financingFee: string) => <span className="font-medium text-lg">{financingFee}</span>,
 		},
 		{
 			title: intl.formatMessage(MESSAGES.trancheStructure),
-			icon: "coins-alt",
 			key: "trancheStructure",
 			dataIndex: "trancheSizePercentages",
-			width: 250,
+			width: 150,
 			titleClassName: "justify-end",
 			align: "right",
 			render: (tranches: number[]) => (
@@ -180,13 +160,13 @@ export const DealsTable = (props: Props) => {
 				});
 
 				const repayable = await isDealRepayableByUser(wallet.publicKey, d, credixPass);
+				const financingFee = await d.repaymentSchedule.calculateFinancingFee();
 
 				return {
 					name: d.name,
 					id: d.address,
 					principal: repaymentSchedule.totalPrincipal,
-					// TODO: fix when tranche utils is merged
-					apr: 0,
+					financingFee: ratioFormatter.format(financingFee.toNumber()),
 					trancheSizePercentages: structure,
 					action: repayable ? DealAction.REPAY : DealAction.SHOW,
 				};
@@ -206,5 +186,34 @@ export const DealsTable = (props: Props) => {
 		maybeFetchDeals(client, market);
 	}, [client, market, maybeFetchDeals]);
 
-	return <Table loading={isLoadingDeals} dataSource={tableDeals} columns={columns}></Table>;
+	return (
+		<Table loading={isLoadingDeals} dataSource={tableDeals} columns={columns} rowKey="name"></Table>
+	);
 };
+
+const MESSAGES = defineMessages({
+	repay: {
+		defaultMessage: "Repay",
+		description: "deal table repay action button text",
+	},
+	show: {
+		defaultMessage: "Show",
+		description: "deal table show action button text",
+	},
+	name: {
+		defaultMessage: "Name",
+		description: "deal table name column title",
+	},
+	amount: {
+		defaultMessage: "Amount",
+		description: "deal table amount column title",
+	},
+	financingFee: {
+		defaultMessage: "Financing fee",
+		description: "deal table financingFee title",
+	},
+	trancheStructure: {
+		defaultMessage: "Tranches",
+		description: "deal table tranche structure title",
+	},
+});

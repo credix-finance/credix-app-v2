@@ -72,7 +72,7 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({
 	return (
 		<div className="flex space-x-12">
 			{donut}
-			<div className="grid grid-cols-4 w-1/2 gap-x-12 gap-y-2 text-sm">
+			<div className="grid grid-cols-3 w-1/2 gap-x-12 gap-y-2 text-sm">
 				<div className="col-span-1"></div>
 				<div className="col-span-1">
 					<div className="flex items-center space-x-1">
@@ -82,14 +82,8 @@ export const TrancheOption: FunctionComponent<TrancheOptionProps> = ({
 				</div>
 				<div className="col-span-1">
 					<div className="flex items-center space-x-1">
-						<Icon name="pie-chart" size={IconDimension.SMALL} />
-						<span>{intl.formatMessage(MESSAGES.interest)}</span>
-					</div>
-				</div>
-				<div className="col-span-1">
-					<div className="flex items-center space-x-1">
 						<Icon name="trend-up" size={IconDimension.SMALL} />
-						<span>{intl.formatMessage(MESSAGES.expectedAPY)}</span>
+						<span>{intl.formatMessage(MESSAGES.expectedAPR)}</span>
 					</div>
 				</div>
 				{Object.entries(tranches).map(([name, settings], index) => (
@@ -115,8 +109,8 @@ const MESSAGES = defineMessages({
 		defaultMessage: "Interest",
 		description: "Tranche option: interest",
 	},
-	expectedAPY: {
-		defaultMessage: "Expected APY",
-		description: "Tranche option: expected APY",
+	expectedAPR: {
+		defaultMessage: "Expected APR",
+		description: "Tranche option: expected APR",
 	},
 });

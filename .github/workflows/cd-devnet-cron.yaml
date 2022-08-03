@@ -11,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: devnet
-      url: https://app-v2.dev.credix.finance
+      url: https://app.dev.credix.finance
     steps:
       - uses: actions/checkout@v2
         with:
           ref: devnet
 
       # Install
-      - name: Use Node.js 14.17
+      - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
-          node-version: 14.17
+          node-version: 16
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
@@ -48,15 +48,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
-        run: |
-          SENTRY_ENVIRONMENT=devnet
-          SENTRY_AUTH_TOKEN=${{secrets.SENTRY_AUTH_TOKEN}}
+        run: >
           NEXT_PUBLIC_REACT_APP_CLUSTER=devnet
           NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}
           NEXT_PUBLIC_PROGRAM_ID=${{ secrets.NEXT_PUBLIC_DEVNET_AND_MAINNET_PROGRAM_ID }}
           NEXT_PUBLIC_SENTRY_TOKEN=${{ secrets.NEXT_PUBLIC_SENTRY_TOKEN }}
+          SENTRY_AUTH_TOKEN=${{secrets.SENTRY_AUTH_TOKEN}}
+          SENTRY_ENVIRONMENT=devnet
           yarn build
-          yarn export
+
+      - name: Export app
+        run: yarn export
 
       - name: Checkout target repository
         uses: actions/checkout@v2

@@ -7,7 +7,6 @@ import { repaymentSchedule } from "@utils/bullet.utils";
 import { Fraction } from "@credix/credix-client";
 import { generateGraphAndTableData } from "@utils/repayment.utils";
 import { RepaymentSchedule } from "./RepaymentSchedule";
-import { ColumnConfig } from "@ant-design/charts";
 
 interface BulletLoanRepaymentScheduleProps {
 	principal: number;
@@ -22,12 +21,6 @@ export const BulletLoanRepaymentSchedule: FunctionComponent<BulletLoanRepaymentS
 }) => {
 	const [graphData, setGraphData] = useState<RepaymentScheduleGraphDataPoint[]>([]);
 	const [dataSource, setDataSource] = useState<RepaymentScheduleTableDataPoint[]>();
-	const graphConfig = {
-		yAxis: {
-			type: "log",
-			base: 10,
-		},
-	} as Partial<ColumnConfig>;
 
 	useEffect(() => {
 		if (principal && financingFee && timeToMaturity) {
@@ -40,7 +33,5 @@ export const BulletLoanRepaymentSchedule: FunctionComponent<BulletLoanRepaymentS
 		}
 	}, [principal, financingFee, timeToMaturity]);
 
-	return (
-		<RepaymentSchedule graphData={graphData} graphConfig={graphConfig} dataSource={dataSource} />
-	);
+	return <RepaymentSchedule graphData={graphData} dataSource={dataSource} />;
 };
