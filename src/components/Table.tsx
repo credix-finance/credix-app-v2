@@ -33,7 +33,7 @@ export interface TableProps {
 	/**
 	 * rowKey provides a way to uniquely identify each row.
 	 */
-	rowkey?: AntdTableProps<any>["rowKey"];
+	rowKey?: AntdTableProps<any>["rowKey"];
 	/**
 	 * controls whether the table displays a loading spinner
 	 */

@@ -155,10 +155,12 @@ describe("bullet", () => {
 		const principal = 100_000;
 		const financingFee = new Fraction(12, 100);
 		const numberOfPayments = 12;
+		const timeToMaturity = 360;
 		const monthlyPayment = Bullet.calculateMonthlyPayment(
 			principal,
 			financingFee,
-			numberOfPayments
+			numberOfPayments,
+			timeToMaturity
 		);
 
 		const expected = 1000;

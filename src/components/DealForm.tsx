@@ -877,28 +877,15 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 
 		const sharedValues = getCommonDealValues();
 
-		calculateOneTrancheApr(sharedValues, values);
+		calculateOneTrancheApr(sharedValues);
 		calculateTwoTrancheAprs(sharedValues, values);
 		calculateThreeTrancheAprs(sharedValues, values);
 	};
 
-	const calculateOneTrancheApr = ({ totalInterest, totalPrincipal, timeToMaturity }, values) => {
-		const poiSr = new Fraction(
-			Big(
-				values[DealFormField.TwoTranche][TrancheName.Senior][TrancheFormField.PercentageOfInterest]
-			).toNumber(),
-			100
-		);
-		const popSr = new Fraction(
-			Big(
-				values[DealFormField.TwoTranche][TrancheName.Senior][TrancheFormField.PercentageOfPrincipal]
-			).toNumber(),
-			100
-		);
-
+	const calculateOneTrancheApr = ({ totalInterest, totalPrincipal, timeToMaturity }) => {
 		const seniorApr = seniorAPR({
-			percentageOfInterest: poiSr,
-			percentageOfPrincipal: popSr,
+			percentageOfInterest: new Fraction(1, 1),
+			percentageOfPrincipal: new Fraction(1, 1),
 			performanceFee,
 			totalInterest,
 			totalPrincipal,
@@ -928,6 +915,19 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			100
 		);
 
+		const poiJr = new Fraction(
+			Big(
+				values[DealFormField.TwoTranche][TrancheName.Junior][TrancheFormField.PercentageOfInterest]
+			).toNumber(),
+			100
+		);
+		const popJr = new Fraction(
+			Big(
+				values[DealFormField.TwoTranche][TrancheName.Junior][TrancheFormField.PercentageOfPrincipal]
+			).toNumber(),
+			100
+		);
+
 		const seniorApr = seniorAPR({
 			percentageOfInterest: poiSr,
 			percentageOfPrincipal: popSr,
@@ -936,9 +936,10 @@ const DealForm: FunctionComponent<DealFormProps> = ({ onSubmit }) => {
 			totalPrincipal,
 			timeToMaturity,
 		});
+
 		const juniorApr = twoTrancheJuniorAPR({
-			percentageOfInterestSenior: poiSr,
-			percentageOfPrincipalSenior: popSr,
+			percentageOfInterestSenior: poiJr,
+			percentageOfPrincipalSenior: popJr,
 			performanceFee,
 			totalInterest,
 			totalPrincipal,

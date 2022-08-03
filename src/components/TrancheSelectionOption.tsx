@@ -114,7 +114,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 												rules={[required(intl, MESSAGES.percentageOfPrincipalRequiredValidation)]}
 											/>
 										</div>
-										<div>
+										<div className="hidden">
 											<Input
 												name={[tranche.value, t.name, TrancheFormField.PercentageOfInterest]}
 												className="bg-credix-primary"
@@ -146,7 +146,7 @@ export const TrancheSelectionOption: FunctionComponent<{
 										</div>
 									</div>
 									{t.earlyWithdrawalInterest !== undefined && (
-										<div className="flex justify-between">
+										<div className="justify-between hidden">
 											<Switch
 												name={[tranche.value, t.name, TrancheFormField.EarlyWithdrawalInterest]}
 												label={intl.formatMessage(MESSAGES.withdrawInterest)}
@@ -213,7 +213,7 @@ export const MESSAGES = defineMessages({
 		description: "Tranche option: interest required validation",
 	},
 	aprInputLabel: {
-		defaultMessage: "Apr",
+		defaultMessage: "APR",
 		description: "Tranche option: apr input label",
 	},
 	aprInputPlaceholder: {

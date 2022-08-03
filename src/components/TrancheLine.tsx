@@ -50,9 +50,6 @@ export const TrancheLine: FunctionComponent<TrancheLineProps> = ({
 			<div className={getTextClassNames()}>
 				{maybeFormatRatio(trancheSettings?.percentageOfPrincipal)}
 			</div>
-			<div className={getTextClassNames()}>
-				{maybeFormatRatio(trancheSettings?.percentageOfInterest)}
-			</div>
 			<div className={getTextClassNames()}>{maybeFormatRatio(trancheSettings?.apr)}</div>
 		</>
 	);

@@ -24,6 +24,7 @@ import {
 } from "@utils/tranche.utils";
 import { DealWithNestedResources } from "@state/dealSlice";
 import { TrancheName } from "@credix_types/tranche.types";
+import { TrancheAPR } from "./TrancheAPR";
 
 interface TrancheInvestmentProps {
 	tranche: Tranche;
@@ -160,8 +161,7 @@ export const TrancheInvestment: FunctionComponent<TrancheInvestmentProps> = ({
 						})}
 					</div>
 					<div className="absolute bottom-8 left-8 text-neutral-0 font-normal text-lg font-mono">
-						{/* TODO: add apr */}
-						APR: 15%
+						<TrancheAPR tranche={tranche} repaymentSchedule={deal.repaymentSchedule} label />
 					</div>
 				</TrancheFillLevel>
 				<div>

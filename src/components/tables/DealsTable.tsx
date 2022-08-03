@@ -206,5 +206,7 @@ export const DealsTable = (props: Props) => {
 		maybeFetchDeals(client, market);
 	}, [client, market, maybeFetchDeals]);
 
-	return <Table loading={isLoadingDeals} dataSource={tableDeals} columns={columns}></Table>;
+	return (
+		<Table loading={isLoadingDeals} dataSource={tableDeals} columns={columns} rowKey="name"></Table>
+	);
 };
