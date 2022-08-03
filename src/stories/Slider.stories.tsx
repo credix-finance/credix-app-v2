@@ -5,7 +5,7 @@ import { Slider } from "@components/Slider";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: "Components/Slider",
+	title: "Slider",
 	component: Slider,
 } as ComponentMeta<typeof Slider>;
 

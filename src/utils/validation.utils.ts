@@ -1,7 +1,13 @@
 import { PublicKey } from "@solana/web3.js";
+import Big, { BigSource } from "big.js";
+import { IntlShape, MessageDescriptor } from "react-intl";
 
-export const validateMaxValue = (value: string, maxValue: number, validationMessage: string) => {
-	if (!value || Number(value) <= maxValue) {
+export const validateMaxValue = (
+	value: BigSource,
+	maxValue: BigSource,
+	validationMessage: string
+) => {
+	if (!value || Big(value).lte(maxValue)) {
 		// Do nothing
 		return Promise.resolve();
 	}
@@ -9,8 +15,12 @@ export const validateMaxValue = (value: string, maxValue: number, validationMess
 	return Promise.reject(validationMessage);
 };
 
-export const validateMinValue = (value: string, minValue: number, validationMessage: string) => {
-	if (!value || Number(value) >= minValue) {
+export const validateMinValue = (
+	value: BigSource,
+	minValue: BigSource,
+	validationMessage: string
+) => {
+	if (!value || Big(value).gte(minValue)) {
 		return Promise.resolve();
 	}
 	return Promise.reject(validationMessage);
@@ -29,3 +39,8 @@ export const validatePublicKey = (value: string, validationMessage: string) => {
 		return Promise.reject(validationMessage);
 	}
 };
+
+export const required = (intl: IntlShape, message: MessageDescriptor) => ({
+	required: true,
+	message: intl.formatMessage(message),
+});

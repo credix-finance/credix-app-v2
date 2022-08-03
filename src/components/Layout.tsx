@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import { SideMenu } from "@components/SideMenu";
 import { MainMenu } from "@components/MainMenu";
+import { Footer } from "@components/Footer";
 import { routes } from "../consts";
 
 interface LayoutProps {
@@ -22,9 +23,12 @@ interface WithMainMenuProps extends LayoutProps {
 
 const WithMainMenu = ({ children, showLogo = true }: WithMainMenuProps) => {
 	return (
-		<div className="grid grid-rows-layout">
+		<div className="grid grid-rows-layout min-h-screen">
 			<MainMenu showLogo={showLogo} />
-			{children}
+			<div className="flex justify-center">
+				<div className="max-w-5xl w-full md:py-20 mx-8 pb-8">{children}</div>
+			</div>
+			<Footer />
 		</div>
 	);
 };

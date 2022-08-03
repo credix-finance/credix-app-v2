@@ -7,40 +7,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  check:
-    runs-on: ubuntu-latest
-    name: Check latest commit
-    outputs:
-      should-run: ${{ steps.should-run.outputs.should-run }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: print latest_commit
-        run: echo ${{ github.sha }}
-
-      - id: should-run
-        name: check latest commit is less than a day
-        run: |
-          if test -z "$(git rev-list --after="24 hours" ${{ github.sha }})" ; then
-            echo "::set-output name=should-run::false"
-          fi
-
   cd-devnet:
     runs-on: ubuntu-latest
-    needs: check
-    if: ${{ needs.check.outputs.should-run != 'false' }}
     environment:
       name: devnet
-      url: https://app-v2.dev.credix.finance
+      url: https://app.dev.credix.finance
     steps:
       - uses: actions/checkout@v2
         with:
           ref: devnet
 
       # Install
-      - name: Use Node.js 14.17
+      - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
-          node-version: 14.17
+          node-version: 16
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
@@ -59,16 +40,6 @@ jobs:
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
 
-      # Critical
-      - name: Run Trivy for critical vulnerabilities
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs' # Filesystem mode
-          ignore-unfixed: true # Ignore vulnerabilities with no available fix
-          format: 'table' # Table output mode as next step will report in security tab
-          severity: 'CRITICAL' # Error only on critical vulnerabilities
-          exit-code: '0' # Don't fail the job if a critical vulnerability with fix available is found
-
       # Build app
       - uses: actions/cache@v2
         with:
@@ -77,9 +48,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build app
-        run: |
-          NEXT_PUBLIC_REACT_APP_CLUSTER=devnet NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }} yarn build
-          yarn export
+        run: >
+          NEXT_PUBLIC_REACT_APP_CLUSTER=devnet
+          NEXT_PUBLIC_GOOGLE_ANALYTICS=${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}
+          NEXT_PUBLIC_PROGRAM_ID=${{ secrets.NEXT_PUBLIC_DEVNET_AND_MAINNET_PROGRAM_ID }}
+          NEXT_PUBLIC_SENTRY_TOKEN=${{ secrets.NEXT_PUBLIC_SENTRY_TOKEN }}
+          SENTRY_AUTH_TOKEN=${{secrets.SENTRY_AUTH_TOKEN}}
+          SENTRY_ENVIRONMENT=devnet
+          yarn build
+
+      - name: Export app
+        run: yarn export
 
       - name: Checkout target repository
         uses: actions/checkout@v2

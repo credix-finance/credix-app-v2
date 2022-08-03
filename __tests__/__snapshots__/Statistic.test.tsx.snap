@@ -2,7 +2,7 @@
 
 exports[`Currency statistic 1`] = `
 <div
-  className="bg-transparent border border-solid border-darker rounded-[1px] font-sans h-36 w-min min-w-[16rem] md:w-full md:min-w-[12rem] ml-[21.5px] pr-5 flex items-center"
+  className="bg-transparent border border-solid border-darker rounded-[1px] font-sans h-36 max-w-lg min-w-[16rem] w-full md:min-w-[12rem] ml-[21.5px] pr-5 flex items-center"
 >
   <div
     className="bg-transparent ml-[-21.5px] relative"
@@ -31,7 +31,7 @@ exports[`Currency statistic 1`] = `
 
 exports[`Percentage statistic 1`] = `
 <div
-  className="bg-transparent border border-solid border-darker rounded-[1px] font-sans h-36 w-min min-w-[16rem] md:w-full md:min-w-[12rem] ml-[21.5px] pr-5 flex items-center"
+  className="bg-transparent border border-solid border-darker rounded-[1px] font-sans h-36 max-w-lg min-w-[16rem] w-full md:min-w-[12rem] ml-[21.5px] pr-5 flex items-center"
 >
   <div
     className="bg-transparent ml-[-21.5px] relative"

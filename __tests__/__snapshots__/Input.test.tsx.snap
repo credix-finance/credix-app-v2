@@ -47,7 +47,6 @@ exports[`Default input 1`] = `
                 >
                   <input
                     className="ant-input ant-input-lg border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
-                    disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -74,7 +73,7 @@ exports[`Disabled input 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="ant-row ant-form-item font-bold text-base mb-7 text-neutral-60/40"
+    className="ant-row ant-form-item font-bold text-base text-neutral-60/40 mb-7"
     style={Object {}}
   >
     <div
@@ -224,7 +223,6 @@ exports[`Input with description 1`] = `
                 >
                   <input
                     className="ant-input ant-input-lg border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
-                    disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -256,7 +254,7 @@ exports[`Input with error feedback 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="ant-row ant-form-item font-bold text-base mb-7 border-error ant-form-item-has-feedback ant-form-item-has-error"
+    className="ant-row ant-form-item font-bold text-base border-error mb-7 ant-form-item-has-feedback ant-form-item-has-error"
     style={Object {}}
   >
     <div
@@ -296,7 +294,6 @@ exports[`Input with error feedback 1`] = `
                 >
                   <input
                     className="ant-input ant-input-lg border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40 border-error focus:ring-error focus:border-error"
-                    disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -363,7 +360,6 @@ exports[`Input with text 1`] = `
                 >
                   <input
                     className="ant-input ant-input-lg border-[0.5px] rounded-[1px] h-12 focus:shadow-none disabled:border-neutral-60/40 border-neutral-60 focus:ring-neutral-100 focus:border-neutral-100"
-                    disabled={false}
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}

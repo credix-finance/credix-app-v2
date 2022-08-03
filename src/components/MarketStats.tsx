@@ -1,8 +1,8 @@
-import { Market } from "@credix/credix-client";
-import Big from "big.js";
-import React, { useCallback, useEffect, useState } from "react";
-import { useIntl } from "react-intl";
-import { toUIAmount } from "utils/format.utils";
+import { zeroTokenAmount } from "@consts";
+import { Fraction, Market } from "@credix/credix-client";
+import { TokenAmount } from "@solana/web3.js";
+import React, { useEffect, useState } from "react";
+import { defineMessages, useIntl } from "react-intl";
 import { Statistic } from "./Statistic";
 
 interface MarketStatsProps {
@@ -10,81 +10,77 @@ interface MarketStatsProps {
 }
 
 export const MarketStats = ({ market }: MarketStatsProps) => {
-	const [creditOutstanding, setCreditOutstanding] = useState<number>(0);
-	const [tvl, setTvl] = useState<number>(0);
-	const [apy, setApy] = useState<number>(0);
+	const [creditOutstanding, setCreditOutstanding] = useState<TokenAmount>(zeroTokenAmount);
+	const [tvl, setTvl] = useState<TokenAmount>(zeroTokenAmount);
+	const [weightedAverageFinancingFee, setWeightedAverageFinancingFee] = useState<Fraction>(
+		new Fraction(0, 1)
+	);
 	const intl = useIntl();
 
-	const getTVL = useCallback(async () => {
-		const tvl = await market?.calculateTVL();
-
-		if (tvl) {
-			setTvl(toUIAmount(new Big(tvl)).toNumber() || 0);
-		}
-	}, [market]);
-
-	const getAPY = useCallback(async () => {
-		const weightedAverageFinancingFee = await market?.calculateWeightedAverageFinancingFee();
-
-		if (!weightedAverageFinancingFee) {
-			return;
-		}
-
-		setApy(weightedAverageFinancingFee.apply(1).toNumber());
-	}, [market]);
-
-	const getCreditOutstanding = useCallback(async () => {
-		const totalOutstandingCredit = market?.totalOutstandingCredit;
-
-		if (totalOutstandingCredit) {
-			setCreditOutstanding(toUIAmount(new Big(totalOutstandingCredit)).toNumber());
-		}
-	}, [market]);
-
 	useEffect(() => {
+		const getTVL = async () => {
+			if (market) {
+				const tvl = await market.calculateTVL();
+				setTvl(tvl);
+			}
+		};
 		getTVL();
-	}, [getTVL]);
+	}, [market]);
 
 	useEffect(() => {
-		getAPY();
-	}, [getAPY]);
-
-	useEffect(() => {
+		const getCreditOutstanding = async () => {
+			if (market) {
+				const totalOutstandingCredit = await market.totalOutstandingCredit();
+				setCreditOutstanding(totalOutstandingCredit);
+			}
+		};
 		getCreditOutstanding();
-	}, [getCreditOutstanding]);
+	}, [market]);
 
+	useEffect(() => {
+		const getWeightedAverageFinancingFee = async () => {
+			if (market) {
+				const weightedAverageFinancingFee = await market.calculateWeightedAverageFinancingFee();
+				setWeightedAverageFinancingFee(weightedAverageFinancingFee);
+			}
+		};
+
+		getWeightedAverageFinancingFee();
+	}, [market]);
 	return (
 		<div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 md:gap-x-14 md:gap-y-12">
 			<div className="w-full flex justify-center">
-				<Statistic
-					label={intl.formatMessage({
-						defaultMessage: "TVL",
-						description: "MarketStats: total value locked",
-					})}
-					currency="USDC"
-					value={tvl}
-				/>
+				<Statistic label={intl.formatMessage(MESSAGES.tvl)} currency="USDC" value={tvl.uiAmount} />
 			</div>
 			<div className="w-full flex justify-center">
 				<Statistic
-					label={intl.formatMessage({
-						defaultMessage: "Average financing fee",
-						description: "MarketStats: average financing fee",
-					})}
+					label={intl.formatMessage(MESSAGES.averageFinancingFee)}
 					isPercentage={true}
-					value={apy}
+					value={weightedAverageFinancingFee.toNumber()}
 				/>
 			</div>
 			<div className="w-full flex justify-center">
 				<Statistic
-					label={intl.formatMessage({
-						defaultMessage: "Credit outstanding",
-						description: "MarketStats: credit outstanding",
-					})}
+					label={intl.formatMessage(MESSAGES.creditOutstanding)}
 					currency="USDC"
-					value={creditOutstanding}
+					value={creditOutstanding.uiAmount}
 				/>
 			</div>
 		</div>
 	);
 };
+
+const MESSAGES = defineMessages({
+	creditOutstanding: {
+		defaultMessage: "Credit outstanding",
+		description: "MarketStats: credit outstanding",
+	},
+	averageFinancingFee: {
+		defaultMessage: "Average financing fee",
+		description: "MarketStats: average financing fee",
+	},
+	tvl: {
+		defaultMessage: "TVL",
+		description: "MarketStats: total value locked",
+	},
+});

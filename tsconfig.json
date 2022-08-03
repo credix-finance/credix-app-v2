@@ -5,6 +5,7 @@
 		"allowJs": true,
 		"skipLibCheck": true,
 		"strict": false,
+		// "strictNullChecks": true,
 		"forceConsistentCasingInFileNames": true,
 		"noEmit": true,
 		"incremental": true,
@@ -21,11 +22,12 @@
 			"@consts": ["consts"],
 			"@config": ["config"],
 			"@message": ["message"],
+			"@notification": ["notification"],
 			"@state/*": ["state/*"],
 			"@utils/*": ["utils/*"],
 			"@hooks/*": ["hooks/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules", "cypress"]
 }

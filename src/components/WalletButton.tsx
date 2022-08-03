@@ -4,9 +4,10 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useStore } from "@state/useStore";
 import { Button } from "@components/Button";
 import { Icon, IconDimension } from "@components/Icon";
-import message from "@message";
 import { useIntl } from "react-intl";
 import { Menu, Dropdown } from "antd";
+import { slicedBased58Key } from "@utils/format.utils";
+import notification from "@notification";
 
 interface WalletButtonProps {
 	className?: string;
@@ -27,25 +28,26 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 			});
 		}
 
-		return base58.slice(0, 5) + ".." + base58.slice(-5);
+		return slicedBased58Key(base58);
 	}, [wallet, base58, intl]);
 
 	const copyAddress = useCallback(async () => {
 		if (base58) {
 			try {
 				await navigator.clipboard.writeText(base58);
-				message.success({
-					content: intl.formatMessage({
+				notification.success({
+					message: intl.formatMessage({
 						defaultMessage: "Copied to clipboard!",
 						description: "WalletButton: copy address success",
 					}),
 				});
-			} catch {
-				message.error({
-					content: intl.formatMessage({
+			} catch (error) {
+				notification.error({
+					message: intl.formatMessage({
 						defaultMessage: "Failed to copy address to clipboard",
 						description: "WalletButton: copy address failed",
 					}),
+					error,
 				});
 			}
 		}
@@ -54,23 +56,26 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 	const disconnectWallet = async () => {
 		try {
 			await disconnect();
-			message.success({
-				content: intl.formatMessage({
+			notification.success({
+				message: intl.formatMessage({
 					defaultMessage: "Wallet disconnected",
 					description: "WalletButton: disconnect wallet success",
 				}),
 			});
-		} catch {
-			message.error({
-				content: intl.formatMessage({
+		} catch (error) {
+			notification.error({
+				message: intl.formatMessage({
 					defaultMessage: "Failed to disconnect wallet",
 					description: "WalletButton: disconnect wallet failed",
 				}),
+				error,
 			});
 		}
 	};
 
-	useEffect(() => setIsAdmin(publicKey), [setIsAdmin, publicKey]);
+	useEffect(() => {
+		setIsAdmin(publicKey), [setIsAdmin, publicKey];
+	});
 
 	if (!wallet && !publicKey) {
 		return (
@@ -78,6 +83,7 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 				onClick={() => setVisible(true)}
 				icon={<Icon name="wallet" size={IconDimension.MIDDLE} />}
 				className={className}
+				data-cy="wallet-button"
 			>
 				<span className="text-lg font-semibold capitalize">
 					{intl.formatMessage({
@@ -91,19 +97,31 @@ export const WalletButton = ({ className = "" }: WalletButtonProps) => {
 
 	const menu = (
 		<Menu className="bg-credix-primary shadow-none border-solid border-[1px]">
-			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={copyAddress}>
+			<Menu.Item
+				key="copy-address"
+				className="bg-credix-primary hover:bg-neutral-10"
+				onClick={copyAddress}
+			>
 				{intl.formatMessage({
 					defaultMessage: "copy address",
 					description: "WalletButton: copy address button",
 				})}
 			</Menu.Item>
-			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={() => setVisible(true)}>
+			<Menu.Item
+				key="change-wallet"
+				className="bg-credix-primary hover:bg-neutral-10"
+				onClick={() => setVisible(true)}
+			>
 				{intl.formatMessage({
 					defaultMessage: "change wallet",
 					description: "WalletButton: change wallet button",
 				})}
 			</Menu.Item>
-			<Menu.Item className="bg-credix-primary hover:bg-neutral-10" onClick={disconnectWallet}>
+			<Menu.Item
+				key="disconnect-wallet"
+				className="bg-credix-primary hover:bg-neutral-10"
+				onClick={disconnectWallet}
+			>
 				{intl.formatMessage({
 					defaultMessage: "disconnect",
 					description: "WalletButton: disconnect button",

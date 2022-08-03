@@ -5,7 +5,7 @@ import { Statistic } from "@components/Statistic";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: "Components/Statistic",
+	title: "Statistic",
 	component: Statistic,
 } as ComponentMeta<typeof Statistic>;
 
