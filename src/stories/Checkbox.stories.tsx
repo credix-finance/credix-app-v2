@@ -2,7 +2,6 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Checkbox } from "@components/Checkbox";
 import Form from "antd/lib/form/Form";
-import { Button } from "@components/Button";
 
 export default {
 	title: "Checkbox",
