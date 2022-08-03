@@ -86,7 +86,7 @@ export const RepaymentScheduleTable: FunctionComponent<RepaymentScheduleTablePro
 
 	return (
 		<>
-			<Table dataSource={dataSource} columns={columns} rowkey="date" />
+			<Table dataSource={dataSource} columns={columns} rowKey="date" />
 			<div className="flex justify-end">
 				<Button type="text">
 					{intl.formatMessage({
