@@ -4,7 +4,6 @@ import { FunctionComponent } from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { DealFormField } from "./DealForm";
 import { RepaymentSchedule } from "./RepaymentSchedule";
-import { logScaleGraphConfig } from "./RepaymentScheduleGraph";
 import { SelectorCard } from "./SelectorCard";
 
 interface CustomRepaymentScheduleProps {
@@ -31,23 +30,11 @@ export const CustomRepaymentSchedule: FunctionComponent<CustomRepaymentScheduleP
 	}
 
 	const { graphData, dataSource } = generateGraphAndTableData(schedule);
-	let graphConfig = null;
-
-	// Set graph config to log scale if the schedule is a bullet loan
-	if (schedule[schedule.length - 2].cumulativePrincipal === 0) {
-		graphConfig = logScaleGraphConfig;
-	}
 
 	return (
 		<SelectorCard
 			isInteractive={isInteractive}
-			content={
-				<RepaymentSchedule
-					dataSource={dataSource}
-					graphData={graphData}
-					graphConfig={graphConfig}
-				/>
-			}
+			content={<RepaymentSchedule dataSource={dataSource} graphData={graphData} />}
 			value={DealFormField.CustomRepaymentSchedule}
 			title={intl.formatMessage(MESSAGES.title)}
 			subtitle={subtitle}

@@ -9,10 +9,18 @@ import {
 import { defineMessages, useIntl } from "react-intl";
 import { ColumnConfig } from "@ant-design/charts";
 
+const logScaleGraphConfig = {
+	yAxis: {
+		type: "log",
+		base: 10,
+	},
+} as Partial<ColumnConfig>;
+
 interface RepaymentScheduleProps {
 	graphData: RepaymentScheduleGraphDataPoint[];
 	dataSource: RepaymentScheduleTableDataPoint[];
 }
+
 export const RepaymentSchedule: FunctionComponent<RepaymentScheduleProps> = ({
 	graphData,
 	dataSource,
@@ -31,12 +39,7 @@ export const RepaymentSchedule: FunctionComponent<RepaymentScheduleProps> = ({
 	// pop the last period as it will contain the principal if the loan is of type bullet
 	periods.pop();
 	if (periods.every((dataPoint) => dataPoint.principal === 0)) {
-		graphConfig = {
-			yAxis: {
-				type: "log",
-				base: 10,
-			},
-		};
+		graphConfig = logScaleGraphConfig;
 	}
 
 	return (
