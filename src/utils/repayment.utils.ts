@@ -9,6 +9,8 @@ import {
 	RepaymentScheduleGraphDataPoint,
 	RepaymentScheduleTableDataPoint,
 } from "@credix_types/repaymentschedule.types";
+import { parse } from "csv-parse/browser/esm/sync";
+import { parseCSV } from "./file.utils";
 
 export const generateGraphAndTableData = (schedule: RepaymentSchedulePeriod[]) => {
 	const principal = schedule[schedule.length - 1].cumulativePrincipal;
@@ -61,20 +63,19 @@ export const repaymentScheduleType = (repaymentSchedule: RepaymentSchedule) => {
 	return RepaymentScheduleType.AMORTIZATION;
 };
 
-export const parseScheduleCSV = (text: string): RepaymentSchedulePeriod[] => {
-	if (typeof text === "string") {
-		const lines = text.trim().split("\n");
+interface RepaymentScheduleCSVRecord {
+	Principal: string;
+	Interest: string;
+}
 
-		const _headers = lines[0].split(",");
+export const parseScheduleCSV = (input: string): RepaymentSchedulePeriod[] => {
+	const headers = ["Principal", "Interest"];
 
-		// Remove headers
-		lines.shift();
-
-		const scheduleData = lines
-			.map((line) => line.trim().split(","))
-			.map(([principal, interest]) => ({
-				principal: Number(principal),
-				interest: Number(interest),
+	return parseCSV(input, headers, (records: RepaymentScheduleCSVRecord[]) => {
+		const scheduleData = records
+			.map(({ Principal, Interest }) => ({
+				principal: Number(Principal),
+				interest: Number(Interest),
 			}))
 			.reduce(
 				(acc, { principal, interest }) => {
@@ -100,5 +101,5 @@ export const parseScheduleCSV = (text: string): RepaymentSchedulePeriod[] => {
 			);
 
 		return scheduleData.periods;
-	}
+	});
 };

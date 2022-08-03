@@ -6,6 +6,7 @@ import Big from "big.js";
 import { round } from "./format.utils";
 import { parse } from "csv-parse/browser/esm/sync";
 import { capitalize } from "lodash";
+import { parseCSV } from "./file.utils";
 
 export const calculateTotalInterest = (
 	timeToMaturity: number,
@@ -503,15 +504,8 @@ interface TrancheCSVRecord {
  * @throws if the CSV string headers are not valid
  */
 export const parseTrancheCSV = (input: string): DefaultTranche => {
-	const trancheCSVHeaders = [`"Tranche"`, `"Size"`, `"Return"`];
-	let records: TrancheCSVRecord[] = null;
-	records = parse(input, {
-		skip_empty_lines: true,
-		trim: true,
-		columns: true, // Parse the first line as the headers
-	});
-
-	try {
+	const headers = ["Tranche", "Size", "Return"];
+	return parseCSV(input, headers, (records: TrancheCSVRecord[]) => {
 		const trancheData = records
 			// Reject empty tranches
 			.filter((tranche) => !Big(tranche.Size).eq(0))
@@ -541,10 +535,5 @@ export const parseTrancheCSV = (input: string): DefaultTranche => {
 			value: TrancheFormValue.CustomTranche,
 			trancheData,
 		};
-	} catch {
-		// The mapping failed, meaning the headers were not valid or not present
-		throw new Error(
-			`Expected headers: ${trancheCSVHeaders.join(", ")} to be present in that order`
-		);
-	}
+	});
 };
