@@ -11,6 +11,8 @@ import { DealWithNestedResources } from "@state/dealSlice";
 import { DAYS_IN_REPAYMENT_PERIOD } from "@consts";
 import { useLocales } from "@hooks/useLocales";
 import dayjs from "dayjs";
+import { RepaymentScheduleType } from "@credix_types/repaymentschedule.types";
+import { ColumnConfig } from "@ant-design/charts";
 
 interface DealRepaymentScheduleProps {
 	className?: string;
@@ -25,6 +27,7 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 	const locales = useLocales();
 	const [showDetails, setShowDetails] = useState(false);
 	const goLiveAt = deal.goLiveAt * 1000;
+	const scheduleType = repaymentScheduleType(deal.repaymentSchedule);
 
 	className = classNames([className, "space-y-6"]);
 
@@ -46,7 +49,17 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 			}))
 		);
 
-		return <Schedule graphData={graphData} dataSource={dataSource} />;
+		let graphConfig = null;
+		if (scheduleType === RepaymentScheduleType.BULLET) {
+			graphConfig = {
+				yAxis: {
+					type: "log",
+					base: 10,
+				},
+			} as Partial<ColumnConfig>;
+		}
+
+		return <Schedule graphData={graphData} dataSource={dataSource} graphConfig={graphConfig} />;
 	};
 
 	return (
@@ -67,7 +80,7 @@ export const DealRepaymentSchedule: FunctionComponent<DealRepaymentScheduleProps
 							})}
 						</div>
 						<div className="font-mono font-bold text-lg">
-							<span className="capitalize">{repaymentScheduleType(deal.repaymentSchedule)}</span>{" "}
+							<span className="capitalize">{scheduleType}</span>{" "}
 							{intl.formatMessage({
 								defaultMessage: "loan",
 								description: "Deal repayment schedule: loan",
